@@ -1,0 +1,594 @@
+'use client';
+
+import React from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Service, ServiceTranslation, Image, FAQ, BeforeAfterImage } from '@prisma/client';
+import { Tab } from '@headlessui/react';
+import { RiImageLine, RiTranslate2, RiInformationLine, RiQuestionLine } from 'react-icons/ri';
+
+type ServiceWithRelations = Service & {
+  translations: ServiceTranslation[];
+  images: Image[];
+  faqs: (FAQ & { translations: any[] })[];
+  beforeAfterImages: BeforeAfterImage[];
+};
+
+const languages = [
+  { code: 'en', name: 'English' },
+  { code: 'tr', name: 'Türkçe' },
+  { code: 'es', name: 'Español' },
+  { code: 'pt', name: 'Português' },
+  { code: 'de', name: 'Deutsch' },
+  { code: 'fr', name: 'Français' },
+  { code: 'ru', name: 'Русский' },
+  { code: 'ro', name: 'Română' },
+  { code: 'it', name: 'Italiano' },
+  { code: 'pl', name: 'Polski' },
+  { code: 'ar', name: 'العربية', dir: 'rtl' },
+];
+
+const categories = [
+  'Dental Aesthetics',
+  'Facial Aesthetics',
+  'Body Aesthetics',
+];
+
+interface ServiceFormProps {
+  service: ServiceWithRelations | null;
+}
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
+
+export function ServiceForm({ service }: ServiceFormProps) {
+  const formTitle = service ? 'Edit Service' : 'Create Service';
+
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
+  const [formData, setFormData] = useState<Partial<ServiceWithRelations>>(() => {
+    if (service) {
+      return {
+        id: service.id,
+        categoryId: service.categoryId,
+        price: service.price || 0,
+        duration: service.duration || '',
+        translations: (service.translations ?? []).map(t => ({
+          language: t.language,
+          title: t.title,
+          description: t.description,
+          serviceId: t.serviceId,
+          id: t.id,
+          createdAt: t.createdAt,
+          updatedAt: t.updatedAt,
+        })),
+        images: (service.images ?? []).map(img => ({
+          id: img.id,
+          url: img.url,
+          alt: img.alt || '',
+          type: img.type || 'gallery',
+          serviceId: service.id,
+          createdAt: img.createdAt,
+          updatedAt: img.updatedAt,
+        })),
+        faqs: (service.faqs ?? []).map(f => ({
+          id: f.id,
+          question: f.question,
+          answer: f.answer,
+          serviceId: service.id,
+          translations: f.translations,
+          createdAt: f.createdAt,
+          updatedAt: f.updatedAt,
+        })),
+        beforeAfterImages: (service.beforeAfterImages ?? []).map(img => ({
+          id: img.id,
+          beforeImage: img.beforeImage,
+          afterImage: img.afterImage,
+          description: img.description || '',
+          serviceId: service.id,
+          createdAt: img.createdAt,
+          updatedAt: img.updatedAt,
+        })),
+      };
+    }
+    return {
+      categoryId: '',
+      price: 0,
+      duration: '',
+      translations: languages.map(lang => ({
+        language: lang.code,
+        title: '',
+        description: '',
+        serviceId: '',
+        id: '',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })),
+      images: [],
+      faqs: [],
+      beforeAfterImages: [],
+    };
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.categoryId) newErrors.categoryId = 'Category is required';
+    if (!formData.price) newErrors.price = 'Price is required';
+    if (!formData.duration) newErrors.duration = 'Duration is required';
+    
+    const englishTranslation = formData.translations?.find(t => t.language === 'en');
+    if (!englishTranslation?.title) newErrors.englishTitle = 'English title is required';
+    if (!englishTranslation?.description) newErrors.englishDescription = 'English description is required';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const englishTitle = formData.translations?.find(t => t.language === 'en')?.title || '';
+      const slug = service?.slug || englishTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+      const submitData = {
+        id: service?.id,
+        slug,
+        categoryId: formData.categoryId,
+        price: formData.price,
+        duration: formData.duration,
+        translations: formData.translations?.map(t => ({
+          language: t.language,
+          title: t.title,
+          description: t.description,
+          id: t.id,
+        })),
+        images: formData.images?.map(img => ({
+          url: img.url,
+          alt: img.alt || '',
+          type: img.type || 'gallery',
+          id: img.id,
+        })),
+        faqs: formData.faqs?.map(f => ({
+          question: f.question,
+          answer: f.answer,
+          id: f.id,
+          translations: f.translations?.map(t => ({
+            language: t.language,
+            question: t.question,
+            answer: t.answer,
+            id: t.id,
+          })),
+        })),
+        beforeAfterImages: formData.beforeAfterImages?.map(img => ({
+          beforeImage: img.beforeImage,
+          afterImage: img.afterImage,
+          description: img.description || '',
+          id: img.id,
+        })),
+      };
+
+      const response = await fetch('/api/services', {
+        method: service ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(submitData),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to save service');
+      }
+
+      router.push('/admin/services');
+      router.refresh();
+    } catch (error) {
+      console.error('Error:', error);
+      alert(error instanceof Error ? error.message : 'Failed to save service. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTranslationChange = (
+    language: string,
+    field: 'title' | 'description',
+    value: string
+  ) => {
+    setFormData((prev) => {
+      const existingTranslation = prev.translations?.find(t => t.language === language);
+      return {
+        ...prev,
+        translations: [
+          ...(prev.translations || []).filter((t) => t.language !== language),
+          {
+            ...(existingTranslation || {
+              language,
+              title: '',
+              description: '',
+              serviceId: service?.id || '',
+              id: service?.translations?.find((t) => t.language === language)?.id || '',
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            }),
+            [field]: value,
+          },
+        ],
+      };
+    });
+  };
+
+  function getSlug(service: ServiceWithRelations | null, formData: Partial<ServiceWithRelations>) {
+    const englishTitle = formData.translations?.find(t => t.language === 'en')?.title || '';
+    return service?.slug || englishTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  }
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.length) return;
+    const file = e.target.files[0];
+    setUploadingImage(true);
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Image size should be less than 5MB');
+      setUploadingImage(false);
+      return;
+    }
+
+    const form = new FormData();
+    form.append('file', file);
+    form.append('slug', getSlug(service, formData));
+
+    try {
+      const response = await fetch('/api/admin/services/upload', {
+        method: 'POST',
+        body: form,
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to upload image');
+      }
+
+      const { url } = await response.json();
+      setFormData((prev: Partial<ServiceWithRelations>) => ({
+        ...prev,
+        images: [
+          ...(prev.images || []),
+          {
+            url,
+            alt: '',
+            id: '',
+            serviceId: service?.id || '',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            type: 'gallery',
+          },
+        ],
+      }));
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const tabs = [
+    { name: 'Basic Info', icon: RiInformationLine },
+    { name: 'Translations', icon: RiTranslate2 },
+    { name: 'Images', icon: RiImageLine },
+    { name: 'FAQ', icon: RiQuestionLine },
+  ];
+
+  return (
+    <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8 mt-8 mb-12 border border-gray-100">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 tracking-tight">{formTitle}</h2>
+      <form onSubmit={handleSubmit} className="space-y-8 divide-y divide-gray-200">
+        <div className="pb-8">
+          <Tab.Group selectedIndex={activeTab} onChange={setActiveTab}>
+            <Tab.List className="flex space-x-1 rounded-xl bg-gray-100 p-1 mb-6">
+              {tabs.map((tab, idx) => (
+                <Tab
+                  key={tab.name}
+                  className={({ selected }) =>
+                    classNames(
+                      'w-full py-2.5 text-sm leading-5 font-semibold rounded-lg',
+                      selected
+                        ? 'bg-amber-100 text-amber-700 shadow'
+                        : 'text-gray-600 hover:bg-white/[0.12] hover:text-amber-700',
+                      'focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-opacity-60 transition-colors'
+                    )
+                  }
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <tab.icon className="h-5 w-5" />
+                    {tab.name}
+                  </span>
+                </Tab>
+              ))}
+            </Tab.List>
+            <Tab.Panels className="mt-4">
+              <Tab.Panel className="rounded-xl bg-white p-6">
+                <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                  <div className="sm:col-span-3">
+                    <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700">
+                      Category *
+                    </label>
+                    <select
+                      id="categoryId"
+                      name="categoryId"
+                      value={formData.categoryId || ''}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, categoryId: e.target.value }))}
+                      className={classNames(
+                        "mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm",
+                        errors.categoryId
+                          ? "border-red-300 focus:border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:border-amber-500 focus:ring-amber-500"
+                      )}
+                    >
+                      <option value="">Select a category</option>
+                      {categories.map((cat) => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
+                    </select>
+                    {errors.categoryId && (
+                      <p className="mt-1 text-sm text-red-600">{errors.categoryId}</p>
+                    )}
+                  </div>
+                  <div className="sm:col-span-3">
+                    <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+                      Price (USD) *
+                    </label>
+                    <div className="mt-1 relative rounded-md shadow-sm">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span className="text-gray-500 sm:text-sm">$</span>
+                      </div>
+                      <input
+                        type="number"
+                        name="price"
+                        id="price"
+                        value={formData.price || ''}
+                        onChange={(e) => setFormData((prev) => ({ ...prev, price: Number(e.target.value) }))}
+                        className={classNames(
+                          "block w-full pl-7 pr-12 sm:text-sm rounded-md",
+                          errors.price
+                            ? "border-red-300 focus:border-red-500 focus:ring-red-500"
+                            : "border-gray-300 focus:border-amber-500 focus:ring-amber-500"
+                        )}
+                        placeholder="0.00"
+                      />
+                    </div>
+                    {errors.price && (
+                      <p className="mt-1 text-sm text-red-600">{errors.price}</p>
+                    )}
+                  </div>
+                  <div className="sm:col-span-3">
+                    <label htmlFor="duration" className="block text-sm font-medium text-gray-700">
+                      Duration *
+                    </label>
+                    <input
+                      type="text"
+                      name="duration"
+                      id="duration"
+                      value={formData.duration || ''}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, duration: e.target.value }))}
+                      placeholder="e.g., 2 hours"
+                      className={classNames(
+                        "mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm",
+                        errors.duration
+                          ? "border-red-300 focus:border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:border-amber-500 focus:ring-amber-500"
+                      )}
+                    />
+                    {errors.duration && (
+                      <p className="mt-1 text-sm text-red-600">{errors.duration}</p>
+                    )}
+                  </div>
+                </div>
+              </Tab.Panel>
+
+              <Tab.Panel className="rounded-xl bg-white p-6">
+                <div className="space-y-8">
+                  {languages.map((language) => (
+                    <div
+                      key={language.code}
+                      className="border-t border-gray-200 pt-8 first:border-0 first:pt-0"
+                    >
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-medium text-gray-900">
+                          {language.name}
+                        </h4>
+                        {language.code === 'en' && (
+                          <span className="text-xs text-amber-600 font-medium">Required</span>
+                        )}
+                      </div>
+                      <div className="mt-4 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                        <div className="sm:col-span-4">
+                          <label
+                            htmlFor={`title-${language.code}`}
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Title
+                          </label>
+                          <input
+                            type="text"
+                            name={`title-${language.code}`}
+                            id={`title-${language.code}`}
+                            value={formData.translations?.find(t => t.language === language.code)?.title || ''}
+                            onChange={(e) => handleTranslationChange(language.code, 'title', e.target.value)}
+                            className="mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm"
+                          />
+                        </div>
+                        <div className="sm:col-span-4">
+                          <label
+                            htmlFor={`description-${language.code}`}
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Description
+                          </label>
+                          <textarea
+                            name={`description-${language.code}`}
+                            id={`description-${language.code}`}
+                            value={formData.translations?.find(t => t.language === language.code)?.description || ''}
+                            onChange={(e) => handleTranslationChange(language.code, 'description', e.target.value)}
+                            className="mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Tab.Panel>
+
+              <Tab.Panel className="rounded-xl bg-white p-6">
+                <div className="space-y-8">
+                  {formData.images?.map((image, index) => (
+                    <div key={index} className="relative group">
+                      <img
+                        src={image.url}
+                        alt={image.alt || ''}
+                        className="h-40 w-full rounded-lg object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              images: prev.images?.filter((_, i) => i !== index),
+                            }))
+                          }
+                          className="text-white hover:text-red-500 transition-colors"
+                        >
+                          <svg
+                            className="h-6 w-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  <label className={`flex h-40 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 hover:border-amber-500 transition-colors${uploadingImage ? ' opacity-50 cursor-not-allowed' : ''}`}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      disabled={uploadingImage}
+                    />
+                    <div className="text-center">
+                      {uploadingImage ? (
+                        <>
+                          <svg className="mx-auto h-12 w-12 text-gray-400 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          <span className="mt-2 block text-sm font-medium text-gray-900">
+                            Uploading...
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <RiImageLine className="mx-auto h-12 w-12 text-gray-400" />
+                          <span className="mt-2 block text-sm font-medium text-gray-900">
+                            Add Image
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </label>
+              </div>
+            </Tab.Panel>
+
+            <Tab.Panel className="rounded-xl bg-white p-6">
+              <div className="text-center py-8">
+                <RiQuestionLine className="mx-auto h-12 w-12 text-gray-400" />
+                <h3 className="mt-2 text-sm font-semibold text-gray-900">No FAQs</h3>
+                <p className="mt-1 text-sm text-gray-500">Get started by adding a new FAQ.</p>
+                <div className="mt-6">
+                  <button
+                    type="button"
+                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+                  >
+                    <RiQuestionLine className="-ml-1 mr-2 h-5 w-5" />
+                    Add FAQ
+                  </button>
+                </div>
+              </div>
+            </Tab.Panel>
+              </Tab.Panels>
+            </Tab.Group>
+        </div>
+
+            <div className="sticky bottom-0 left-0 z-10 bg-white flex justify-end space-x-4 pt-6 border-t border-gray-100 pb-4">
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className={classNames(
+                  "inline-flex justify-center px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors",
+                  loading
+                    ? "bg-amber-400 cursor-not-allowed"
+                    : "bg-amber-600 hover:bg-amber-700"
+                )}
+              >
+                {loading ? (
+                  <>
+                    <svg
+                      className="w-5 h-5 mr-3 -ml-1 text-white animate-spin"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                    Saving...
+                  </>
+                ) : service ? (
+                  'Update Service'
+                ) : (
+                  'Create Service'
+                )}
+              </button>
+          </div>
+        </form>
+      </div>
+    );
+  }

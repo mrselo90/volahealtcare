@@ -1,0 +1,203 @@
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user || session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const categories = await (prisma as any).category.findMany({
+      orderBy: { orderIndex: 'asc' },
+    });
+
+    return NextResponse.json(categories);
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch categories' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user || session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const formData = await request.formData();
+    const name = formData.get('name');
+    const slug = formData.get('slug');
+    const description = formData.get('description') || null;
+    const imageFile = formData.get('image') as File | null;
+
+    if (!name || !slug) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // Handle image upload if present
+    let imageUrl = null;
+    if (imageFile && imageFile.size > 0) {
+      // In a real app, you would upload to a storage service like S3 or Cloudinary
+      // This is a simplified example that just stores the file name
+      imageUrl = `/uploads/categories/${Date.now()}-${imageFile.name}`;
+      // You would typically save the file to your storage here
+    }
+
+    // Parse name if it's a stringified JSON
+    let nameData;
+    try {
+      nameData = typeof name === 'string' && name.startsWith('{') ? JSON.parse(name) : name;
+    } catch (e) {
+      console.error('Error parsing name:', e);
+      nameData = { en: String(name) }; // Fallback to English
+    }
+
+    // Get the highest orderIndex
+    const lastCategory = await (prisma as any).category.findFirst({
+      orderBy: { orderIndex: 'desc' },
+    });
+    const orderIndex = lastCategory ? lastCategory.orderIndex + 1 : 0;
+
+    const category = await (prisma as any).category.create({
+      data: {
+        name: nameData,
+        description,
+        slug,
+        orderIndex,
+        ...(imageUrl && { imageUrl })
+      },
+    });
+
+    return NextResponse.json(category);
+  } catch (error) {
+    console.error('Error creating category:', error);
+    return NextResponse.json(
+      { error: 'Failed to create category' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user || session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Get ID from URL search params
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Category ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const formData = await request.formData();
+    const name = formData.get('name');
+    const slug = formData.get('slug');
+    const description = formData.get('description') || null;
+    const imageFile = formData.get('image') as File | null;
+
+    if (!name || !slug) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // Handle image upload if present
+    let imageUrl = null;
+    if (imageFile && imageFile.size > 0) {
+      // In a real app, you would upload to a storage service like S3 or Cloudinary
+      // This is a simplified example that just stores the file name
+      imageUrl = `/uploads/categories/${Date.now()}-${imageFile.name}`;
+      // You would typically save the file to your storage here
+    }
+
+    // Parse name if it's a stringified JSON
+    let nameData;
+    try {
+      nameData = typeof name === 'string' && name.startsWith('{') ? JSON.parse(name) : name;
+    } catch (e) {
+      console.error('Error parsing name:', e);
+      nameData = { en: String(name) }; // Fallback to English
+    }
+
+    const updateData: any = {
+      name: nameData,
+      slug,
+      ...(description && { description }),
+      ...(imageUrl && { imageUrl })
+    };
+
+    const category = await (prisma as any).category.update({
+      where: { id },
+      data: updateData,
+    });
+
+    return NextResponse.json(category);
+  } catch (error) {
+    console.error('Error updating category:', error);
+    return NextResponse.json(
+      { error: 'Failed to update category' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user || session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Category ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Check if category has services
+    const servicesCount = await (prisma as any).service.count({
+      where: { categoryId: id },
+    });
+
+    if (servicesCount > 0) {
+      return NextResponse.json(
+        { error: 'Cannot delete category with existing services' },
+        { status: 400 }
+      );
+    }
+
+    await (prisma as any).category.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting category:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete category' },
+      { status: 500 }
+    );
+  }
+} 

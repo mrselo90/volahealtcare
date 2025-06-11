@@ -1,0 +1,113 @@
+PROJECT: Luxury Medical Tourism Website Design
+
+1. PURPOSE:
+Create a luxurious, modern, and trustworthy medical tourism website that supports 10+ languages and allows potential patients to:
+- Discover 33 high-end aesthetic services with detailed explanations
+- Communicate via WhatsApp and live chatbot
+- Book appointments online
+- Browse content in their native language with localized tone and SEO
+
+2. BRAND DIRECTION:
+- Visual Style: Elegant, light-themed, white/gold/ivory/soft gray tones
+- Typography: Luxury serif-sans combination, clean and readable
+- Tone: Trustworthy, premium, international
+- Layout: Minimalist but rich in feel, smooth transitions, mobile-first responsive design
+
+3. LANGUAGE SUPPORT:
+The site must be available in 11 languages:
+- English, Turkish, Spanish, Portuguese, German, French, Russian, Romanian, Italian, Polish, Arabic (with RTL support)
+
+4. FEATURES & FUNCTIONALITY:
+
+✔️ Admin Panel:
+- Manage all services and pages in multiple languages
+- View chatbot messages in real time
+- See and export appointment requests
+- Edit WhatsApp call-to-actions
+- SEO tools for each language (meta title, description, slugs)
+- Manage patient testimonials (video/text/star)
+
+✔️ Chatbot Integration:
+- Bottom-right screen chatbot
+- Collects name, treatment of interest, preferred date, country, email/phone
+- Admin can see and reply from dashboard
+
+✔️ WhatsApp Integration:
+- Sticky "WhatsApp Now" button on all pages
+- Device-aware: opens WhatsApp mobile or web
+
+✔️ Appointment Booking:
+- Online form with:
+  - Full name
+  - Country & contact
+  - Service of interest
+  - Preferred date
+  - Additional notes
+- Appointments saved in admin panel
+
+✔️ Patient Testimonials Page:
+- Dedicated page showcasing real patient experiences
+- Filter by treatment or country
+- Includes text reviews, star ratings, video embeds
+- Admin can moderate reviews and feature them on homepage or service pages
+
+✔️ 33 Aesthetic Services Included:
+Grouped under:
+- **Dental Aesthetics**: Digital Smile Design, Dental Veneers, Hollywood Smile, Gum Aesthetics, Teeth Whitening  
+- **Facial Aesthetics**: Rhinoplasty, Facelift Surgery, Eyelid Surgery, Forehead Lifting, Neck Lift, Botox  
+- **Body Aesthetics**: Brazilian Butt Lift (BBL), Breast Augmentation, Thigh Lift, Tummy Tuck, Six Pack Surgery
+
+Each treatment page includes:
+- High-quality visuals (before/after)
+- Detailed description (taken from your PDFs)
+- FAQ and recovery information
+- Appointment CTA
+
+5. SITE STRUCTURE (SITEMAP):
+
+1. **Homepage**
+   - Hero image/video
+   - Highlighted services
+   - Why choose us
+   - Patient testimonials (carousel)
+   - WhatsApp & Appointment CTA
+
+2. **About Us**
+   - Clinic overview
+   - Accreditation & team
+   - Mission & vision
+
+3. **Services (33 Total)**
+   - Categorized under Dental, Facial, Body Aesthetics
+   - Each with SEO-optimized landing pages
+
+4. **Appointment**
+   - Booking form and chatbot
+
+5. **Patient Testimonials**
+   - Video and text-based reviews with filters
+
+6. **FAQ**
+
+7. **Blog / Insights**
+   - SEO-focused content on procedures and country-specific info
+
+8. **Contact**
+   - Map, phone, WhatsApp, form
+
+6. TECH STACK:
+
+- Framework: React (Next.js preferred for SEO)
+- Admin Panel: Headless CMS (Strapi or Sanity)
+- Database: PostgreSQL or MongoDB
+- Hosting: Vercel / Netlify / DigitalOcean
+- Multilingual SEO: hreflang, slug per language, language-specific meta data
+- Security: GDPR + KVKK compliance
+- Performance: Optimized images, Core Web Vitals focus
+
+7. INDUSTRY BEST PRACTICES:
+- Trust signals: Before/After galleries, patient reviews, certifications
+- Multilingual, localized landing pages (e.g., "Dental Implants in Turkey for Germans")
+- WhatsApp + Chatbot always visible
+- Conversion-focused CTAs throughout the journey
+- Mobile-first experience with high-performance code
