@@ -236,16 +236,26 @@ model SiteConfig {
 }
 
 model Consultation {
-  id        String   @id @default(cuid())
-  firstName String
-  lastName  String
-  email     String
-  phone     String
-  message   String
-  treatment String
-  status    String   @default("PENDING")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String    @id @default(cuid())
+  firstName           String
+  lastName            String
+  email               String
+  phone               String
+  country             String
+  age                 String?
+  gender              String?
+  interestedServices  String    // JSON array of service names
+  preferredDate       DateTime?
+  preferredTime       String?
+  medicalHistory      String?
+  currentMedications  String?
+  budget              String?
+  additionalInfo      String?
+  contactMethod       String    @default("email")
+  status              String    @default("pending")
+  notes               String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 }
 
 // Enhanced Before/After Gallery Management

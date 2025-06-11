@@ -1,0 +1,170 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
+import { XMarkIcon, PhoneIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
+
+interface MobileMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+  const menuItems = [
+    { href: '/', label: 'Home' },
+    { href: '/services', label: 'Services' },
+    { href: '/about', label: 'About Us' },
+    { href: '/before-after', label: 'Before & After' },
+    { href: '/testimonials', label: 'Testimonials' },
+    { href: '/blog', label: 'Blog' },
+    { href: '/contact', label: 'Contact' },
+  ];
+
+  const ctaButtons = [
+    {
+      href: '/consultation',
+      label: 'Free Consultation',
+      icon: CalendarDaysIcon,
+      primary: true
+    },
+    {
+      href: 'tel:+905551234567',
+      label: '+90 555 123 45 67',
+      icon: PhoneIcon,
+      primary: false
+    }
+  ];
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+            onClick={onClose}
+          />
+
+          {/* Menu Panel */}
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-black/95 backdrop-blur-lg border-l border-white/20 z-50 lg:hidden"
+          >
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-white/20">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                    <span className="text-black font-bold text-xs">ACI</span>
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-white font-semibold text-sm">AESTHETIC CARE</p>
+                    <p className="text-white/60 text-xs">ISTANBUL</p>
+                  </div>
+                </div>
+                <button
+                  onClick={onClose}
+                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+                >
+                  <XMarkIcon className="h-5 w-5 text-white" />
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <nav className="flex-1 py-6">
+                <div className="space-y-1 px-6">
+                  {menuItems.map((item, index) => (
+                    <motion.div
+                      key={item.href}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={onClose}
+                        className="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-medium"
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Divider */}
+                <div className="mx-6 my-6 border-t border-white/20" />
+
+                {/* Quick Services */}
+                <div className="px-6">
+                  <p className="text-white/60 text-xs font-medium tracking-widest mb-4">POPULAR SERVICES</p>
+                  <div className="space-y-2">
+                    {[
+                      'Hollywood Smile',
+                      'Dental Veneers',
+                      'Rhinoplasty',
+                      'Hair Transplant',
+                      'Facelift'
+                    ].map((service, index) => (
+                      <motion.div
+                        key={service}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.8 + index * 0.1 }}
+                      >
+                        <Link
+                          href={`/services/${service.toLowerCase().replace(/\s+/g, '-')}`}
+                          onClick={onClose}
+                          className="block px-4 py-2 text-white/80 hover:bg-white/5 rounded text-sm transition-colors"
+                        >
+                          {service}
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </nav>
+
+              {/* CTA Buttons */}
+              <div className="p-6 space-y-3 border-t border-white/20">
+                {ctaButtons.map((button, index) => (
+                  <motion.div
+                    key={button.href}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.3 + index * 0.1 }}
+                  >
+                    <Link
+                      href={button.href}
+                      onClick={onClose}
+                      className={`flex items-center justify-center gap-3 px-6 py-3 rounded-full font-medium transition-colors ${
+                        button.primary
+                          ? 'bg-white text-black hover:bg-white/90'
+                          : 'border border-white/30 text-white hover:bg-white/10'
+                      }`}
+                    >
+                      <button.icon className="h-5 w-5" />
+                      {button.label}
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Footer Info */}
+              <div className="p-6 bg-white/5 text-center">
+                <p className="text-white/60 text-xs mb-2">Istanbul, Turkey</p>
+                <p className="text-white/80 text-sm font-medium">Premium Medical Tourism</p>
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+} 

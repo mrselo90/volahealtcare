@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import BeforeAfterGallery from '@/components/BeforeAfterGallery';
+import BeforeAfterStats from '@/components/BeforeAfterStats';
 
 export const metadata: Metadata = {
   title: 'Before & After Gallery | Patient Transformations',
@@ -50,6 +51,9 @@ export default function GalleryPage() {
           className="gallery-page"
         />
       </div>
+
+      {/* Stats Section */}
+      <BeforeAfterStats />
 
       {/* Call to Action */}
       <div className="bg-gray-900 text-white">

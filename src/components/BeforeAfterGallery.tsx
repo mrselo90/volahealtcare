@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon, ChevronLeftIcon, ChevronRightIcon, StarIcon } from '@heroicons/react/24/outline';
+import { getPlaceholderImage } from '@/lib/placeholders';
+import SafeImage from './SafeImage';
 
 interface BeforeAfterCase {
   id: string;
@@ -153,33 +155,92 @@ export default function BeforeAfterGallery({
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      <div className="flex flex-col justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
+        <p className="text-gray-600 text-lg font-medium">Loading transformations...</p>
+        <p className="text-gray-400 text-sm mt-1">Please wait while we fetch the latest results</p>
       </div>
     );
   }
 
   return (
     <div className={`before-after-gallery ${className}`}>
-      {/* Filters */}
+      {/* Enhanced Filters */}
       {showFilters && categories.length > 0 && (
-        <div className="mb-8 flex flex-wrap gap-4 items-center">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Filter by Category
-            </label>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">All Categories</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
+        <div className="mb-12">
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+              <div className="flex items-center gap-3">
+                <div className="bg-blue-500 text-white p-2 rounded-lg">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.707A1 1 0 013 7V4z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">Filter Cases</h3>
+                  <p className="text-sm text-gray-500">Find specific transformations</p>
+                </div>
+              </div>
+              
+              <div className="flex flex-wrap gap-4 flex-1">
+                <div className="min-w-[200px]">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Category
+                  </label>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm transition-all duration-200"
+                  >
+                    <option value="all">All Categories</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                {/* Results counter */}
+                <div className="flex items-end">
+                  <div className="bg-gray-50 px-4 py-2.5 rounded-lg border">
+                    <span className="text-sm font-medium text-gray-600">
+                      {filteredCases.length} {filteredCases.length === 1 ? 'Case' : 'Cases'} Found
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Quick filter chips */}
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <div className="flex flex-wrap gap-2">
+                <span className="text-sm font-medium text-gray-500 mr-2">Quick filters:</span>
+                <button
+                  onClick={() => setSelectedCategory('all')}
+                  className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${
+                    selectedCategory === 'all'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  All
+                </button>
+                {categories.slice(0, 4).map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${
+                      selectedCategory === category.id
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    {category.name}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -191,71 +252,102 @@ export default function BeforeAfterGallery({
             key={caseItem.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="group cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+            transition={{ duration: 0.5 }}
+            className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-2"
             onClick={() => openModal(caseItem)}
           >
-            <div className="relative">
-              <div className="grid grid-cols-2 gap-0">
-                <div className="relative aspect-square overflow-hidden">
-                  <Image
-                    src={caseItem.beforeImage || '/images/placeholder.svg'}
-                    alt={caseItem.beforeImageAlt || 'Before'}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute bottom-2 left-2 bg-black bg-opacity-75 text-white px-2 py-1 rounded text-xs font-medium">
-                    Before
-                  </div>
-                </div>
-                <div className="relative aspect-square overflow-hidden">
-                  <Image
-                    src={caseItem.afterImage || '/images/placeholder.svg'}
-                    alt={caseItem.afterImageAlt || 'After'}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute bottom-2 left-2 bg-black bg-opacity-75 text-white px-2 py-1 rounded text-xs font-medium">
-                    After
-                  </div>
-                </div>
+            {/* Image Section */}
+            <div className="relative aspect-square">
+              <SafeImage
+                src={caseItem.beforeImage}
+                alt={caseItem.beforeImageAlt || 'Before treatment'}
+                fill
+                className="object-cover"
+                fallbackType="before"
+                fallbackIndex={1}
+              />
+              
+              {/* Overlay gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              
+              {/* Status badges */}
+              <div className="absolute top-4 left-4 flex gap-2">
+                {caseItem.isFeatured && (
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-500 text-white shadow-lg">
+                    ⭐ Featured
+                  </span>
+                )}
+                {caseItem.isPublished && (
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-500 text-white shadow-lg">
+                    ✅ Published
+                  </span>
+                )}
               </div>
               
-              {caseItem.isFeatured && (
-                <div className="absolute top-2 right-2 bg-yellow-500 text-white p-1 rounded-full">
-                  <StarIcon className="h-4 w-4" />
+              {/* Category badge */}
+              {caseItem.category && (
+                <div className="absolute top-4 right-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500 text-white shadow-lg">
+                    {caseItem.category.name}
+                  </span>
                 </div>
               )}
+              
+              {/* Title overlay */}
+              <div className="absolute bottom-4 left-4 right-4">
+                <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">
+                  {caseItem.title}
+                </h3>
+                {caseItem.patientAge && caseItem.patientCountry && (
+                  <p className="text-white/90 text-sm">
+                    {caseItem.patientAge} years • {caseItem.patientCountry}
+                  </p>
+                )}
+              </div>
             </div>
             
-            <div className="p-4">
-              <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                {caseItem.title}
-              </h3>
-              
-              <div className="space-y-1 text-sm text-gray-600">
-                {caseItem.patientAge && caseItem.patientCountry && (
-                  <p>{caseItem.patientAge} years old, {caseItem.patientCountry}</p>
-                )}
-                {caseItem.timeframe && (
-                  <p className="text-blue-600 font-medium">Results in {caseItem.timeframe}</p>
-                )}
-                {caseItem.category && (
-                  <p className="text-gray-500">{caseItem.category.name}</p>
-                )}
+            {/* Content Section */}
+            <div className="p-6">
+              {/* Quick stats */}
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="text-center">
+                  <div className="text-lg font-bold text-blue-600">
+                    {caseItem.patientAge || 'N/A'}
+                  </div>
+                  <div className="text-xs text-gray-500">Age</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-lg font-bold text-green-600">
+                    {caseItem.timeframe || 'N/A'}
+                  </div>
+                  <div className="text-xs text-gray-500">Timeline</div>
+                </div>
               </div>
               
-              {caseItem.tags && caseItem.tags.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-1">
-                  {caseItem.tags.slice(0, 3).map((tag, index) => (
-                    <span
-                      key={index}
-                      className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+              {/* Description */}
+              {caseItem.description && (
+                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                  {caseItem.description}
+                </p>
+              )}
+              
+              {/* Service info */}
+              {caseItem.service && (
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-purple-600 text-sm">🏥</span>
+                  <span className="text-gray-700 text-sm font-medium">
+                    {caseItem.service.title}
+                  </span>
                 </div>
               )}
+              
+              {/* View details button */}
+              <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-4 rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                <span>View Details</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
             </div>
           </motion.div>
         ))}
@@ -263,7 +355,15 @@ export default function BeforeAfterGallery({
 
       {filteredCases.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No cases found matching your criteria.</p>
+          <div className="max-w-md mx-auto">
+            <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Cases Found</h3>
+            <p className="text-gray-500">No before & after cases match your current filters. Try adjusting your search criteria.</p>
+          </div>
         </div>
       )}
 
@@ -296,145 +396,197 @@ export default function BeforeAfterGallery({
               </div>
 
               {/* Modal Content */}
-              <div className="p-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                   {/* Image Section */}
-                  <div className="space-y-4">
-                    <div className="relative aspect-square rounded-lg overflow-hidden">
-                      <Image
+                  <div className="space-y-6">
+                    {/* Main Image Container */}
+                    <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-50 shadow-lg" style={{ minHeight: 300, minWidth: 300 }}>
+                      <SafeImage
                         src={showBeforeImage ? selectedCase.beforeImage : selectedCase.afterImage}
-                        alt={showBeforeImage ? 'Before' : 'After'}
+                        alt={showBeforeImage ? (selectedCase.beforeImageAlt || 'Before treatment') : (selectedCase.afterImageAlt || 'After treatment')}
                         fill
                         className="object-cover"
+                        fallbackType={showBeforeImage ? 'before' : 'after'}
+                        fallbackIndex={1}
+                        priority={true}
                       />
+                      
+                      {/* Image Overlay Badge */}
+                      <div className="absolute top-4 right-4">
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium shadow-lg ${
+                          showBeforeImage 
+                            ? 'bg-red-500 text-white' 
+                            : 'bg-green-500 text-white'
+                        }`}>
+                          {showBeforeImage ? '📷 Before' : '✨ After'}
+                        </span>
+                      </div>
                     </div>
                     
-                    <div className="flex gap-2">
+                    {/* Enhanced Toggle Buttons */}
+                    <div className="flex gap-3">
                       <button
                         onClick={() => setShowBeforeImage(true)}
-                        className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${
+                        className={`flex-1 py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
                           showBeforeImage 
-                            ? 'bg-blue-600 text-white' 
-                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-red-200' 
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                         }`}
                       >
-                        Before
+                        📷 Before Treatment
                       </button>
                       <button
                         onClick={() => setShowBeforeImage(false)}
-                        className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${
+                        className={`flex-1 py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
                           !showBeforeImage 
-                            ? 'bg-blue-600 text-white' 
-                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-green-200' 
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                         }`}
                       >
-                        After
+                        ✨ After Treatment
                       </button>
+                    </div>
+
+                    {/* Quick Stats */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-blue-50 p-4 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-blue-600">{selectedCase.patientAge || 'N/A'}</div>
+                        <div className="text-sm text-blue-800">Years Old</div>
+                      </div>
+                      <div className="bg-green-50 p-4 rounded-lg text-center">
+                        <div className="text-2xl font-bold text-green-600">{selectedCase.timeframe || 'N/A'}</div>
+                        <div className="text-sm text-green-800">Results Time</div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Details Section */}
-                  <div className="space-y-6">
-                    {/* Patient Info */}
-                    <div>
-                      <h3 className="text-lg font-semibold mb-3">Patient Information</h3>
-                      <div className="space-y-2 text-gray-600">
+                  {/* Enhanced Details Section */}
+                  <div className="space-y-8">
+                    {/* Patient Info Card */}
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl">
+                      <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span className="bg-blue-500 text-white p-2 rounded-lg mr-3">👤</span>
+                        Patient Information
+                      </h3>
+                      <div className="grid grid-cols-1 gap-3">
                         {selectedCase.patientAge && (
-                          <p><span className="font-medium">Age:</span> {selectedCase.patientAge} years</p>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600 font-medium">Age:</span>
+                            <span className="text-gray-800 font-semibold">{selectedCase.patientAge} years</span>
+                          </div>
                         )}
                         {selectedCase.patientGender && (
-                          <p><span className="font-medium">Gender:</span> {selectedCase.patientGender}</p>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600 font-medium">Gender:</span>
+                            <span className="text-gray-800 font-semibold capitalize">{selectedCase.patientGender}</span>
+                          </div>
                         )}
                         {selectedCase.patientCountry && (
-                          <p><span className="font-medium">Country:</span> {selectedCase.patientCountry}</p>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600 font-medium">Country:</span>
+                            <span className="text-gray-800 font-semibold">{selectedCase.patientCountry}</span>
+                          </div>
                         )}
                         {selectedCase.timeframe && (
-                          <p><span className="font-medium">Timeframe:</span> {selectedCase.timeframe}</p>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600 font-medium">Timeline:</span>
+                            <span className="text-green-600 font-semibold">{selectedCase.timeframe}</span>
+                          </div>
                         )}
                       </div>
                     </div>
 
-                    {/* Description */}
+                    {/* Description Card */}
                     {selectedCase.description && (
-                      <div>
-                        <h3 className="text-lg font-semibold mb-3">Description</h3>
-                        <p className="text-gray-600 leading-relaxed">{selectedCase.description}</p>
+                      <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-xl">
+                        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                          <span className="bg-amber-500 text-white p-2 rounded-lg mr-3">📝</span>
+                          Description
+                        </h3>
+                        <p className="text-gray-700 leading-relaxed">{selectedCase.description}</p>
                       </div>
                     )}
 
-                    {/* Treatment Details */}
+                    {/* Treatment Details Card */}
                     {selectedCase.treatmentDetails && (
-                      <div>
-                        <h3 className="text-lg font-semibold mb-3">Treatment Details</h3>
-                        <p className="text-gray-600 leading-relaxed">{selectedCase.treatmentDetails}</p>
+                      <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl">
+                        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                          <span className="bg-purple-500 text-white p-2 rounded-lg mr-3">🏥</span>
+                          Treatment Details
+                        </h3>
+                        <p className="text-gray-700 leading-relaxed">{selectedCase.treatmentDetails}</p>
                       </div>
                     )}
 
-                    {/* Results */}
+                    {/* Results Card */}
                     {selectedCase.results && (
-                      <div>
-                        <h3 className="text-lg font-semibold mb-3">Results</h3>
-                        <p className="text-gray-600 leading-relaxed">{selectedCase.results}</p>
+                      <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl">
+                        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                          <span className="bg-green-500 text-white p-2 rounded-lg mr-3">🎯</span>
+                          Results
+                        </h3>
+                        <p className="text-gray-700 leading-relaxed">{selectedCase.results}</p>
                       </div>
                     )}
 
-                    {/* Tags */}
-                    {selectedCase.tags && selectedCase.tags.length > 0 && (
-                      <div>
-                        <h3 className="text-lg font-semibold mb-3">Tags</h3>
-                        <div className="flex flex-wrap gap-2">
-                          {selectedCase.tags.map((tag, index) => (
-                            <span
-                              key={index}
-                              className="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Category & Service */}
-                    <div className="flex gap-4">
+                    {/* Category & Service Tags */}
+                    <div className="flex flex-wrap gap-3">
                       {selectedCase.category && (
-                        <div className="flex-1">
-                          <span className="text-sm font-medium text-gray-500">Category:</span>
-                          <p className="text-gray-900">{selectedCase.category.name}</p>
-                        </div>
+                        <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                          🏷️ {selectedCase.category.name}
+                        </span>
                       )}
                       {selectedCase.service && (
-                        <div className="flex-1">
-                          <span className="text-sm font-medium text-gray-500">Service:</span>
-                          <p className="text-gray-900">{selectedCase.service.title}</p>
-                        </div>
+                        <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                          🔧 {selectedCase.service.title}
+                        </span>
+                      )}
+                      {selectedCase.isFeatured && (
+                        <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                          ⭐ Featured Case
+                        </span>
                       )}
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Navigation */}
-                {filteredCases.length > 1 && (
-                  <div className="flex justify-between items-center mt-8 pt-6 border-t">
-                    <button
-                      onClick={prevCase}
-                      className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
-                    >
-                      <ChevronLeftIcon className="h-5 w-5" />
-                      Previous
-                    </button>
-                    <span className="text-sm text-gray-500">
-                      {filteredCases.findIndex(c => c.id === selectedCase.id) + 1} of {filteredCases.length}
-                    </span>
-                    <button
-                      onClick={nextCase}
-                      className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
-                    >
-                      Next
-                      <ChevronRightIcon className="h-5 w-5" />
-                    </button>
+              {/* Enhanced Navigation */}
+              <div className="flex justify-between items-center p-8 bg-gray-50 border-t">
+                <button
+                  onClick={prevCase}
+                  className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium shadow-sm"
+                >
+                  <ChevronLeftIcon className="h-5 w-5" />
+                  Previous Case
+                </button>
+                
+                <div className="flex items-center gap-4">
+                  <span className="text-gray-500 font-medium">
+                    {filteredCases.findIndex(c => c.id === selectedCase.id) + 1} of {filteredCases.length}
+                  </span>
+                  <div className="flex gap-2">
+                    {filteredCases.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`w-2 h-2 rounded-full ${
+                          index === filteredCases.findIndex(c => c.id === selectedCase.id)
+                            ? 'bg-blue-500'
+                            : 'bg-gray-300'
+                        }`}
+                      />
+                    ))}
                   </div>
-                )}
+                </div>
+                
+                <button
+                  onClick={nextCase}
+                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 font-medium shadow-sm"
+                >
+                  Next Case
+                  <ChevronRightIcon className="h-5 w-5" />
+                </button>
               </div>
             </motion.div>
           </motion.div>

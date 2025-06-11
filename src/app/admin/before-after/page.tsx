@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import { PlusIcon, PencilIcon, TrashIcon, EyeIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
+import ImagePickerModal from '@/components/ImagePickerModal';
 
 interface BeforeAfterCase {
   id: string;
@@ -58,6 +59,8 @@ export default function BeforeAfterAdmin() {
   const [editingCase, setEditingCase] = useState<BeforeAfterCase | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [showBeforeImagePicker, setShowBeforeImagePicker] = useState(false);
+  const [showAfterImagePicker, setShowAfterImagePicker] = useState(false);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -147,7 +150,7 @@ export default function BeforeAfterAdmin() {
         isFeatured: caseToEdit.isFeatured,
         isPublished: caseToEdit.isPublished,
         sortOrder: caseToEdit.sortOrder,
-        tags: caseToEdit.tags || [],
+        tags: Array.isArray(caseToEdit.tags) ? caseToEdit.tags : [],
         beforeImageAlt: caseToEdit.beforeImageAlt || '',
         afterImageAlt: caseToEdit.afterImageAlt || '',
       });
@@ -439,28 +442,54 @@ export default function BeforeAfterAdmin() {
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Before Image URL *
+                      Before Image *
                     </label>
-                    <input
-                      type="url"
-                      required
-                      value={formData.beforeImage}
-                      onChange={(e) => setFormData({ ...formData, beforeImage: e.target.value })}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                    <div className="space-y-2">
+                      {formData.beforeImage && (
+                        <div className="relative w-full h-32 bg-gray-100 rounded-lg overflow-hidden">
+                          <Image
+                            src={formData.beforeImage}
+                            alt="Before image preview"
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => setShowBeforeImagePicker(true)}
+                        className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <PhotoIcon className="h-5 w-5 mr-2" />
+                        {formData.beforeImage ? 'Change Before Image' : 'Select Before Image'}
+                      </button>
+                    </div>
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      After Image URL *
+                      After Image *
                     </label>
-                    <input
-                      type="url"
-                      required
-                      value={formData.afterImage}
-                      onChange={(e) => setFormData({ ...formData, afterImage: e.target.value })}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                    <div className="space-y-2">
+                      {formData.afterImage && (
+                        <div className="relative w-full h-32 bg-gray-100 rounded-lg overflow-hidden">
+                          <Image
+                            src={formData.afterImage}
+                            alt="After image preview"
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => setShowAfterImagePicker(true)}
+                        className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <PhotoIcon className="h-5 w-5 mr-2" />
+                        {formData.afterImage ? 'Change After Image' : 'Select After Image'}
+                      </button>
+                    </div>
                   </div>
                   
                   <div>
@@ -591,7 +620,7 @@ export default function BeforeAfterAdmin() {
                   </label>
                   <input
                     type="text"
-                    value={formData.tags.join(', ')}
+                    value={Array.isArray(formData.tags) ? formData.tags.join(', ') : ''}
                     onChange={(e) => handleTagInput(e.target.value)}
                     placeholder="facial, rejuvenation, botox"
                     className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -641,6 +670,38 @@ export default function BeforeAfterAdmin() {
           </div>
         </div>
       )}
+      
+      {/* Before Image Picker */}
+      <ImagePickerModal
+        isOpen={showBeforeImagePicker}
+        onClose={() => setShowBeforeImagePicker(false)}
+        onImageSelect={(imageData) => {
+          setFormData(prev => ({
+            ...prev,
+            beforeImage: imageData.url,
+            beforeImageAlt: imageData.alt && !prev.beforeImageAlt ? (imageData.alt || '') : prev.beforeImageAlt
+          }));
+          setShowBeforeImagePicker(false);
+        }}
+        title="Select Before Image"
+        searchPlaceholder="Search medical images..."
+      />
+      
+      {/* After Image Picker */}
+      <ImagePickerModal
+        isOpen={showAfterImagePicker}
+        onClose={() => setShowAfterImagePicker(false)}
+        onImageSelect={(imageData) => {
+          setFormData(prev => ({
+            ...prev,
+            afterImage: imageData.url,
+            afterImageAlt: imageData.alt && !prev.afterImageAlt ? (imageData.alt || '') : prev.afterImageAlt
+          }));
+          setShowAfterImagePicker(false);
+        }}
+        title="Select After Image"
+        searchPlaceholder="Search medical images..."
+      />
     </div>
   );
 } 

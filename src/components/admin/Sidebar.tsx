@@ -15,6 +15,7 @@ import {
   RiListCheck,
   RiImageLine,
   RiLinksLine,
+  RiUserHeartLine,
 } from 'react-icons/ri';
 
 const navigationItems = [
@@ -47,6 +48,12 @@ const navigationItems = [
     href: '/admin/appointments',
     icon: RiCalendarLine,
     description: 'View and manage appointments',
+  },
+  {
+    name: 'Consultations',
+    href: '/admin/consultations',
+    icon: RiUserHeartLine,
+    description: 'Manage consultation requests',
   },
   {
     name: 'Messages',

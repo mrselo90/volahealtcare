@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import FeaturedBeforeAfter from '@/components/FeaturedBeforeAfter';
+import MobileMenu from '@/components/MobileMenu';
 import { useState, useEffect } from 'react';
 
 interface SocialMediaUrls {
@@ -23,6 +24,7 @@ export default function Home() {
     social_pinterest: '',
     social_twitter: ''
   });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     fetchSocialUrls();
@@ -93,9 +95,32 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white flex font-sans">
-      {/* Left Sidebar */}
-      <div className="fixed left-0 top-0 h-full w-20 bg-white/10 backdrop-blur-sm border-r border-white/20 flex flex-col items-center justify-between py-8 z-50">
+    <div className="min-h-screen bg-black text-white font-sans">
+      {/* Mobile Header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-sm border-b border-white/20">
+        <div className="flex justify-between items-center px-4 py-3">
+          <Link href="/" className="flex items-center">
+            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+              <span className="text-black font-bold text-xs">ACI</span>
+            </div>
+            <span className="ml-2 text-sm font-medium">AESTHETIC CARE</span>
+          </Link>
+          
+          <button 
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="p-2"
+          >
+            <div className="flex flex-col space-y-1">
+              <div className="w-5 h-px bg-white"></div>
+              <div className="w-5 h-px bg-white"></div>
+              <div className="w-5 h-px bg-white"></div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Desktop Left Sidebar */}
+      <div className="hidden lg:flex fixed left-0 top-0 h-full w-20 bg-white/10 backdrop-blur-sm border-r border-white/20 flex-col items-center justify-between py-8 z-50">
         {/* Logo */}
         <div className="flex flex-col items-center">
           <Link href="/" className="mb-8">
@@ -151,9 +176,9 @@ export default function Home() {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 ml-20">
-        {/* Top Header */}
-        <header className="fixed top-0 right-0 left-20 z-40 bg-black/80 backdrop-blur-sm border-b border-white/10">
+      <div className="lg:ml-20">
+        {/* Desktop Top Header */}
+        <header className="hidden lg:block fixed top-0 right-0 left-20 z-40 bg-black/80 backdrop-blur-sm border-b border-white/10">
           <div className="flex justify-between items-center px-8 py-4">
             {/* Logo Text */}
             <div>
@@ -185,7 +210,7 @@ export default function Home() {
         </header>
 
         {/* Hero Section */}
-        <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 lg:pt-0">
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80"></div>
@@ -199,38 +224,54 @@ export default function Home() {
           </div>
           
           {/* Content */}
-          <div className="relative z-10 text-center px-8 max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left Side - Text Content */}
-              <div className="text-left">
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif font-light mb-6 leading-tight">
+              <div className="text-center lg:text-left">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-light mb-4 lg:mb-6 leading-tight">
                   Premium Medical Tourism
                 </h2>
-                <h3 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-8 leading-tight">
+                <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold mb-6 lg:mb-8 leading-tight">
                   In Istanbul
                 </h3>
                 
-                <p className="text-lg leading-relaxed mb-8 max-w-md">
+                <p className="text-base sm:text-lg leading-relaxed mb-8 max-w-md mx-auto lg:mx-0">
                   Experience world-class <strong>aesthetic procedures</strong> with expert care in the heart of Istanbul. From dental aesthetics to facial and body procedures, we offer comprehensive medical tourism services with <strong>premium quality at affordable prices</strong>.
                 </p>
+
+                {/* Mobile CTA Buttons */}
+                <div className="lg:hidden flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                  <Link
+                    href="/consultation"
+                    className="px-6 py-3 border border-white/30 rounded-full text-sm font-medium hover:bg-white/10 transition-colors text-center"
+                  >
+                    FREE CONSULTATION →
+                  </Link>
+                  <Link
+                    href="/services"
+                    className="px-6 py-3 bg-white/20 rounded-full text-sm font-medium hover:bg-white/30 transition-colors text-center"
+                  >
+                    VIEW SERVICES →
+                  </Link>
+                </div>
               </div>
 
               {/* Right Side - Additional Content */}
-              <div className="text-right space-y-8">
-                <div className="space-y-4">
+              <div className="text-center lg:text-right space-y-6 lg:space-y-8">
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-6 lg:space-y-4">
                   <div className="border-t border-white/30 pt-4">
-                    <p className="text-sm font-medium tracking-widest">EXPERT</p>
-                    <p className="text-sm font-medium tracking-widest">SURGEONS</p>
+                    <p className="text-xs sm:text-sm font-medium tracking-widest">EXPERT</p>
+                    <p className="text-xs sm:text-sm font-medium tracking-widest">SURGEONS</p>
                   </div>
                   <div className="border-t border-white/30 pt-4">
-                    <p className="text-sm font-medium tracking-widest">ISTANBUL,</p>
-                    <p className="text-sm font-medium tracking-widest">TURKEY</p>
-                    <p className="text-sm font-medium tracking-widest">MEDICAL TOURISM</p>
+                    <p className="text-xs sm:text-sm font-medium tracking-widest">ISTANBUL,</p>
+                    <p className="text-xs sm:text-sm font-medium tracking-widest">TURKEY</p>
+                    <p className="text-xs sm:text-sm font-medium tracking-widest">MEDICAL TOURISM</p>
                   </div>
                   <div className="border-t border-white/30 pt-4">
-                    <p className="text-sm font-medium tracking-widest">DENTAL • FACIAL</p>
-                    <p className="text-sm font-medium tracking-widest">BODY AESTHETICS</p>
-                    <p className="text-sm font-medium tracking-widest">31 SERVICES</p>
+                    <p className="text-xs sm:text-sm font-medium tracking-widest">DENTAL • FACIAL</p>
+                    <p className="text-xs sm:text-sm font-medium tracking-widest">BODY AESTHETICS</p>
+                    <p className="text-xs sm:text-sm font-medium tracking-widest">31 SERVICES</p>
                   </div>
                 </div>
               </div>
@@ -239,16 +280,16 @@ export default function Home() {
         </section>
 
         {/* About Section */}
-        <section className="py-20 bg-white text-black">
-          <div className="max-w-6xl mx-auto px-8">
+        <section className="py-12 sm:py-16 lg:py-20 bg-white text-black">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h2 className="text-4xl md:text-5xl font-serif font-light mb-8">EXCELLENCE IN MEDICAL TOURISM</h2>
-              <p className="text-xl leading-relaxed mb-12 max-w-4xl mx-auto">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light mb-6 lg:mb-8">EXCELLENCE IN MEDICAL TOURISM</h2>
+              <p className="text-lg sm:text-xl leading-relaxed mb-8 lg:mb-12 max-w-4xl mx-auto">
                 Aesthetic Care Istanbul has established itself as a premier destination for medical tourism, combining world-class expertise with cutting-edge technology. Our comprehensive approach covers dental, facial, and body aesthetics, delivering exceptional results in the beautiful city of Istanbul.
               </p>
               <Link 
                 href="/about" 
-                className="inline-block border-b-2 border-black pb-1 text-lg font-medium hover:opacity-80 transition-opacity"
+                className="inline-block border-b-2 border-black pb-1 text-base lg:text-lg font-medium hover:opacity-80 transition-opacity"
               >
                 DISCOVER OUR CLINIC
               </Link>
@@ -257,11 +298,11 @@ export default function Home() {
         </section>
 
         {/* Services Section */}
-        <section className="py-20 bg-gray-50 text-black">
-          <div className="max-w-6xl mx-auto px-8">
-            <h2 className="text-4xl md:text-5xl font-serif font-light text-center mb-16">OUR SERVICES</h2>
+        <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 text-black">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">OUR SERVICES</h2>
             
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {[
                 {
                   title: 'DENTAL AESTHETICS',
@@ -294,26 +335,26 @@ export default function Home() {
         <FeaturedBeforeAfter limit={6} />
         
         {/* Our Approach */}
-        <section className="py-20 bg-black text-white">
-          <div className="max-w-6xl mx-auto px-8">
-            <h2 className="text-4xl md:text-5xl font-serif font-light text-center mb-16">THE AESTHETIC CARE EXPERIENCE</h2>
+        <section className="py-12 sm:py-16 lg:py-20 bg-black text-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">THE AESTHETIC CARE EXPERIENCE</h2>
             
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <p className="text-xl leading-relaxed mb-8">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              <div className="order-2 lg:order-1">
+                <p className="text-lg sm:text-xl leading-relaxed mb-6 lg:mb-8">
                   At Aesthetic Care Istanbul, we combine cutting-edge medical technology with personalized patient care to deliver exceptional results in medical tourism.
                 </p>
-                <p className="text-xl leading-relaxed mb-8">
+                <p className="text-lg sm:text-xl leading-relaxed mb-6 lg:mb-8">
                   Our comprehensive approach includes pre-treatment consultation, world-class procedures, and dedicated aftercare support to ensure your complete satisfaction and safety.
                 </p>
                 <Link 
                   href="/about" 
-                  className="inline-block border-b-2 border-white pb-1 text-lg font-medium hover:opacity-80 transition-opacity"
+                  className="inline-block border-b-2 border-white pb-1 text-base lg:text-lg font-medium hover:opacity-80 transition-opacity"
                 >
                   LEARN ABOUT OUR PROCESS
                 </Link>
               </div>
-              <div className="bg-gray-900 aspect-video flex items-center justify-center rounded-lg">
+              <div className="order-1 lg:order-2 bg-gray-900 aspect-video flex items-center justify-center rounded-lg">
                 <span className="text-gray-600">[Video/Image Placeholder]</span>
               </div>
             </div>
@@ -321,13 +362,13 @@ export default function Home() {
         </section>
 
         {/* Testimonials */}
-        <section className="py-20 bg-white text-black">
-          <div className="max-w-6xl mx-auto px-8">
-            <h2 className="text-4xl md:text-5xl font-serif font-light text-center mb-16">PATIENT TESTIMONIALS</h2>
+        <section className="py-12 sm:py-16 lg:py-20 bg-white text-black">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">PATIENT TESTIMONIALS</h2>
             
-            <div className="bg-gray-50 p-12 text-center rounded-lg">
-              <div className="text-6xl mb-8 font-serif">"</div>
-              <p className="text-2xl leading-relaxed mb-8 italic font-serif">
+            <div className="bg-gray-50 p-6 sm:p-8 lg:p-12 text-center rounded-lg">
+              <div className="text-4xl sm:text-5xl lg:text-6xl mb-6 lg:mb-8 font-serif">"</div>
+              <p className="text-lg sm:text-xl lg:text-2xl leading-relaxed mb-6 lg:mb-8 italic font-serif">
                 My experience at Aesthetic Care Istanbul was exceptional. The quality of care, professionalism, and results exceeded all my expectations. I felt safe and well-cared for throughout my entire medical tourism journey.
               </p>
               <p className="font-medium">Emma Thompson</p>
@@ -347,11 +388,11 @@ export default function Home() {
         </section>
 
         {/* Contact Section */}
-        <section className="py-20 bg-gray-100 text-black">
-          <div className="max-w-6xl mx-auto px-8">
-            <h2 className="text-4xl md:text-5xl font-serif font-light text-center mb-16">CONTACT US</h2>
+        <section className="py-12 sm:py-16 lg:py-20 bg-gray-100 text-black">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">CONTACT US</h2>
             
-            <div className="grid md:grid-cols-2 gap-12">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
               <div>
                 <h3 className="text-2xl font-serif font-light mb-6">ISTANBUL CLINIC</h3>
                 <p className="mb-6 leading-relaxed">
@@ -406,21 +447,63 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="bg-black text-white py-12">
-          <div className="max-w-6xl mx-auto px-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="mb-6 md:mb-0">
-                <p>© {new Date().getFullYear()} Aesthetic Care Istanbul. All rights reserved.</p>
+        <footer className="bg-black text-white py-8 lg:py-12">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Mobile Social Media Icons */}
+            <div className="lg:hidden flex justify-center space-x-4 mb-6">
+              {socialPlatforms.map((social) => {
+                const url = socialUrls[social.key as keyof SocialMediaUrls];
+                return url ? (
+                  <a 
+                    key={social.key}
+                    href={url} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                  >
+                    {getSocialIcon(social.platform)}
+                  </a>
+                ) : null;
+              })}
+              
+              {/* Default social icons if no URLs are set */}
+              {socialPlatforms.every(s => !socialUrls[s.key as keyof SocialMediaUrls]) && (
+                <>
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+                    {getSocialIcon('instagram')}
+                  </div>
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+                    {getSocialIcon('facebook')}
+                  </div>
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+                    {getSocialIcon('linkedin')}
+                  </div>
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+                    {getSocialIcon('youtube')}
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="flex flex-col lg:flex-row justify-between items-center text-center lg:text-left">
+              <div className="mb-4 lg:mb-0">
+                <p className="text-sm sm:text-base">© {new Date().getFullYear()} Aesthetic Care Istanbul. All rights reserved.</p>
               </div>
-              <div className="flex space-x-6">
-                <a href="#" className="hover:opacity-80 transition-opacity">Privacy Policy</a>
-                <a href="#" className="hover:opacity-80 transition-opacity">Terms of Service</a>
-                <a href="#" className="hover:opacity-80 transition-opacity">Sitemap</a>
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 lg:space-x-6">
+                <a href="#" className="text-sm sm:text-base hover:opacity-80 transition-opacity">Privacy Policy</a>
+                <a href="#" className="text-sm sm:text-base hover:opacity-80 transition-opacity">Terms of Service</a>
+                <a href="#" className="text-sm sm:text-base hover:opacity-80 transition-opacity">Sitemap</a>
               </div>
             </div>
           </div>
         </footer>
       </div>
+
+      {/* Mobile Menu */}
+      <MobileMenu 
+        isOpen={isMobileMenuOpen} 
+        onClose={() => setIsMobileMenuOpen(false)} 
+      />
     </div>
   );
 }
