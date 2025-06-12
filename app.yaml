@@ -11,7 +11,7 @@ services:
   instance_size_slug: basic-xxs
   envs:
   - key: NEXTAUTH_SECRET
-    value: C7jmwqUvtIMeQf3ylL2kSU/iM6g70yh7mWWPjLIEAoQ=
+    value: onIQqrmcz0mB7FpBlluXn7Ake6hrOvXHextPsPzQ0Sk=
   - key: NEXTAUTH_URL
     value: https://your-domain.ondigitalocean.app
   - key: NODE_ENV
