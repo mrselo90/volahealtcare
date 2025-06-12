@@ -86,31 +86,43 @@ export default function NewService() {
 
     setUploading(true);
     try {
-      const formData = new FormData();
-      Array.from(files).forEach((file) => {
-        formData.append('files', file);
-      });
+      const uploadedImages = [];
+      
+      // Upload files one by one since our API expects single file uploads
+      for (const file of Array.from(files)) {
+        const formData = new FormData();
+        formData.append('file', file); // Use 'file' (singular) as expected by API
 
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
 
-      if (!response.ok) throw new Error('Upload failed');
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Upload failed');
+        }
 
-      const data = await response.json();
+        const data = await response.json();
+        uploadedImages.push({
+          url: data.url, // Use 'url' (singular) as returned by API
+          alt: '',
+        });
+      }
+
       setService({
         ...service,
         images: [
           ...service.images,
-          ...data.urls.map((url: string) => ({
-            url,
-            alt: '',
-          })),
+          ...uploadedImages,
         ],
       });
+      
+      // Clear the error if upload was successful
+      setError('');
     } catch (err) {
-      setError('Failed to upload images');
+      console.error('Upload error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to upload images');
     } finally {
       setUploading(false);
     }

@@ -4,16 +4,27 @@ import path from 'path';
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('Upload request received');
     const data = await request.formData();
     const file = data.get('file') as File;
 
+    console.log('File received:', file ? file.name : 'No file');
+
     if (!file) {
+      console.log('Error: No file received');
       return NextResponse.json({ error: 'No file received' }, { status: 400 });
     }
+
+    console.log('File details:', {
+      name: file.name,
+      type: file.type,
+      size: file.size
+    });
 
     // Validate file type
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
     if (!allowedTypes.includes(file.type)) {
+      console.log('Error: Invalid file type:', file.type);
       return NextResponse.json({ 
         error: 'Invalid file type. Only JPEG, PNG, and WebP are allowed.' 
       }, { status: 400 });
@@ -22,6 +33,7 @@ export async function POST(request: NextRequest) {
     // Validate file size (5MB limit)
     const maxSize = 5 * 1024 * 1024; // 5MB in bytes
     if (file.size > maxSize) {
+      console.log('Error: File too large:', file.size);
       return NextResponse.json({ 
         error: 'File too large. Maximum size is 5MB.' 
       }, { status: 400 });
@@ -47,6 +59,7 @@ export async function POST(request: NextRequest) {
 
     // Write file to disk
     await writeFile(filepath, buffer);
+    console.log('File saved successfully:', filename);
 
     // Return the public URL
     const url = `/uploads/${filename}`;

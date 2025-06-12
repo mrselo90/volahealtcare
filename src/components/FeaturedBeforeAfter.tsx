@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import BeforeAfterGallery from './BeforeAfterGallery';
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface BeforeAfterCase {
   id: string;
@@ -49,6 +50,7 @@ export default function FeaturedBeforeAfter({
   const [cases, setCases] = useState<BeforeAfterCase[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedCase, setSelectedCase] = useState(0);
 
   useEffect(() => {
     const fetchFeaturedCases = async () => {
@@ -59,7 +61,7 @@ export default function FeaturedBeforeAfter({
         }
         const data = await response.json();
         
-        // The API returns cases directly as an array, not wrapped in an object
+        console.log('Featured cases loaded:', data);
         setCases(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error('Error fetching featured cases:', err);
@@ -72,16 +74,38 @@ export default function FeaturedBeforeAfter({
     fetchFeaturedCases();
   }, []);
 
+  // Auto-rotate featured cases
+  useEffect(() => {
+    if (cases.length > 1) {
+      const interval = setInterval(() => {
+        setSelectedCase(prev => (prev + 1) % cases.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [cases.length]);
+
+  const currentCase = cases[selectedCase];
+
+  // Debug logging
+  useEffect(() => {
+    if (currentCase) {
+      console.log('Current case:', {
+        title: currentCase.title,
+        beforeImage: currentCase.beforeImage,
+        afterImage: currentCase.afterImage
+      });
+    }
+  }, [currentCase]);
+
   if (loading) {
     return (
-      <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-green-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
             <div className="inline-flex items-center gap-3 mb-4">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-              <p className="text-lg font-medium text-gray-600">Loading featured transformations...</p>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+              <p className="text-lg font-medium text-blue-100">Loading transformations...</p>
             </div>
-            <p className="text-gray-400">Discovering our most remarkable results</p>
           </div>
         </div>
       </section>
@@ -90,25 +114,14 @@ export default function FeaturedBeforeAfter({
 
   if (error || cases.length === 0) {
     return (
-      <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <section className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="bg-white rounded-2xl shadow-lg p-12 max-w-md mx-auto">
-              <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">No Featured Cases</h3>
-              <p className="text-gray-600 mb-6">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-12 max-w-md mx-auto">
+              <h3 className="text-2xl font-bold text-white mb-4">No Featured Cases</h3>
+              <p className="text-blue-100 mb-6">
                 {error ? 'Unable to load featured cases at the moment.' : 'No featured transformations are currently available.'}
               </p>
-              <button 
-                onClick={() => window.location.reload()}
-                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
-              >
-                Try Again
-              </button>
             </div>
           </div>
         </div>
@@ -117,92 +130,221 @@ export default function FeaturedBeforeAfter({
   }
 
   return (
-    <section className="py-24 bg-gradient-to-br from-blue-50 via-white to-green-50 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-      <div className="absolute top-0 left-0 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse delay-1000"></div>
+    <section className="py-24 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Enhanced Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-green-500 text-white px-6 py-2 rounded-full text-sm font-semibold mb-6 shadow-lg">
-            <span>⭐</span>
-            <span>Featured Transformations</span>
+        {/* Hero Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10 text-white px-8 py-3 rounded-full text-sm font-semibold mb-8 shadow-2xl">
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+            <span>REAL PATIENT TRANSFORMATIONS</span>
             <span>✨</span>
           </div>
-          <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-green-900 bg-clip-text text-transparent mb-6">
-            Remarkable Results
+          
+          <h2 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-6 leading-tight">
+            Life-Changing
+            <br />
+            <span className="text-4xl md:text-6xl font-light italic">Results</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Witness the incredible transformations of our patients who trusted us with their medical tourism journey. 
+          
+          <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+            Witness the incredible transformations of patients who trusted us with their medical tourism journey. 
             Each story represents hope, expertise, and life-changing results.
           </p>
-          
-          {/* Stats */}
-          <div className="flex justify-center gap-8 mt-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">{cases.length}+</div>
-              <div className="text-sm text-gray-500 font-medium">Featured Cases</div>
+        </motion.div>
+
+        {/* Main Featured Case Display */}
+        {currentCase && (
+          <motion.div 
+            key={selectedCase}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="mb-16"
+          >
+            <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 shadow-2xl featured-case-card">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                {/* Before/After Images */}
+                <div className="relative">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="relative group">
+                      <div className="absolute -top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-10 glow-animation">
+                        BEFORE
+                      </div>
+                      <div className="aspect-square rounded-2xl overflow-hidden shadow-xl bg-gray-800">
+                        <Image
+                          src={currentCase.beforeImage}
+                          alt={currentCase.beforeImageAlt || 'Before treatment'}
+                          width={400}
+                          height={400}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          onError={(e) => {
+                            console.error('Before image failed to load:', currentCase.beforeImage);
+                            e.currentTarget.src = '/images/placeholder-before.jpg';
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="relative group">
+                      <div className="absolute -top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-10 glow-animation">
+                        AFTER
+                      </div>
+                      <div className="aspect-square rounded-2xl overflow-hidden shadow-xl bg-gray-800">
+                        <Image
+                          src={currentCase.afterImage}
+                          alt={currentCase.afterImageAlt || 'After treatment'}
+                          width={400}
+                          height={400}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          onError={(e) => {
+                            console.error('After image failed to load:', currentCase.afterImage);
+                            e.currentTarget.src = '/images/placeholder-after.jpg';
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Transformation Arrow */}
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-500 to-purple-500 text-white p-4 rounded-full shadow-2xl transformation-arrow float-animation">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Case Details */}
+                <div className="text-white">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-sm font-bold gradient-text-accent shimmer-effect">
+                      ⭐ FEATURED
+                    </span>
+                    {currentCase.category && (
+                      <span className="bg-blue-500/20 border border-blue-400/30 text-blue-200 px-3 py-1 rounded-full text-sm">
+                        {typeof currentCase.category.name === 'string' 
+                          ? JSON.parse(currentCase.category.name).en 
+                          : currentCase.category.name}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <h3 className="text-3xl md:text-4xl font-bold mb-4 leading-tight gradient-text-primary">
+                    {currentCase.title}
+                  </h3>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-white/5 rounded-lg p-4 stats-card">
+                      <div className="text-blue-200 text-sm mb-1">Patient Age</div>
+                      <div className="text-xl font-semibold">{currentCase.patientAge} years</div>
+                    </div>
+                    <div className="bg-white/5 rounded-lg p-4 stats-card">
+                      <div className="text-blue-200 text-sm mb-1">Timeline</div>
+                      <div className="text-xl font-semibold">{currentCase.timeframe || 'N/A'}</div>
+                    </div>
+                  </div>
+                  
+                  <p className="text-lg text-blue-100 mb-6 leading-relaxed">
+                    {currentCase.description}
+                  </p>
+                  
+                  {currentCase.results && (
+                    <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-400/30 rounded-lg p-4 mb-6">
+                      <div className="text-green-200 text-sm mb-2">RESULTS ACHIEVED</div>
+                      <p className="text-white">{currentCase.results}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">98%</div>
-              <div className="text-sm text-gray-500 font-medium">Success Rate</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600">15+</div>
-              <div className="text-sm text-gray-500 font-medium">Countries</div>
-            </div>
-          </div>
+          </motion.div>
+        )}
+
+        {/* Case Navigation */}
+        <div className="flex justify-center items-center gap-4 mb-16">
+          {cases.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedCase(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === selectedCase 
+                  ? 'bg-white scale-125' 
+                  : 'bg-white/30 hover:bg-white/50'
+              }`}
+              aria-label={`View case ${index + 1}`}
+            />
+          ))}
         </div>
 
-        {/* Enhanced Gallery */}
-        <BeforeAfterGallery
-          featuredOnly={true}
-          limit={6}
-          showFilters={false}
-          gridCols={3}
-          className="featured-gallery"
-        />
-
-        {/* Enhanced CTA */}
-        <div className="text-center mt-16">
-          <div className="bg-white rounded-3xl shadow-2xl p-12 max-w-4xl mx-auto border border-gray-100">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="bg-gradient-to-r from-blue-500 to-green-500 text-white p-3 rounded-xl">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
+        {/* Stats Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16"
+        >
+          {[
+            { number: '500+', label: 'Successful Cases', icon: '🏆' },
+            { number: '98%', label: 'Satisfaction Rate', icon: '😊' },
+            { number: '25+', label: 'Countries Served', icon: '🌍' },
+            { number: '15+', label: 'Years Experience', icon: '⭐' }
+          ].map((stat, index) => (
+            <div key={index} className="text-center">
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 stats-card">
+                <div className="text-3xl mb-2">{stat.icon}</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2">{stat.number}</div>
+                <div className="text-blue-200 text-sm">{stat.label}</div>
               </div>
-              <h3 className="text-3xl font-bold text-gray-900">Ready for Your Transformation?</h3>
             </div>
-            <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
-              Join thousands of satisfied patients who chose Turkey for their medical journey. 
+          ))}
+        </motion.div>
+
+        {/* CTA Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="text-center"
+        >
+          <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-3xl p-12 border border-white/20 shadow-2xl max-w-4xl mx-auto featured-case-card">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 gradient-text-primary">
+              Ready for Your Transformation?
+            </h3>
+            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+              Join thousands of satisfied patients who chose Istanbul for their medical journey. 
               Our expert team is ready to help you achieve your desired results.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/gallery"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-xl btn-primary-gradient"
               >
-                <span>View All Cases</span>
+                <span>View All Transformations</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </Link>
               <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-white border-2 border-gray-200 text-gray-800 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-300 transition-all duration-300 shadow-md hover:shadow-lg"
+                href="/consultation"
+                className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/20 transition-all duration-300 shadow-xl stats-card"
               >
-                <span>Start Your Journey</span>
+                <span>Free Consultation</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </Link>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

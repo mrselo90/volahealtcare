@@ -24,13 +24,14 @@ import {
   InformationCircleIcon,
   UserGroupIcon,
   ShieldCheckIcon,
-  SparklesIcon
+  SparklesIcon,
+  ArrowRightIcon
 } from '@heroicons/react/24/outline';
 import { 
   StarIcon as StarIconSolid,
   HeartIcon as HeartIconSolid 
 } from '@heroicons/react/24/solid';
-import { getServiceImageUrl, getServiceImageAlt } from '@/utils/imageUtils';
+import { getServiceImageUrl, getServiceImageAlt, getFallbackImageUrl } from '@/utils/imageUtils';
 import { getTranslation } from '@/utils/translationUtils';
 
 // Enhanced Loading Component
@@ -667,69 +668,93 @@ export default function ServicePage({ params }: ServicePageProps) {
     }
   ];
 
-    return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      {/* Hero Section */}
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+      {/* Hero Section - Enhanced */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative h-[70vh] overflow-hidden"
+        className="relative h-[80vh] overflow-hidden"
       >
-        {/* Background Image */}
-        <div className="absolute inset-0">
+        {/* Background with Parallax Effect */}
+        <motion.div 
+          className="absolute inset-0"
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.2 }}
+        >
           {featuredImage ? (
             <OptimizedImage
-              src={getServiceImageUrl(featuredImage)}
-              alt={getServiceImageAlt(featuredImage, serviceTitle)}
+              src={featuredImage.url}
+              alt={featuredImage.alt || serviceTitle}
               fill
               className="object-cover"
               priority
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-blue-600 to-purple-700" />
+            <div className="w-full h-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
+          
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          </div>
+        </motion.div>
         
-        {/* Navigation Bar */}
-        <div className="absolute top-0 left-0 right-0 z-20 bg-white/10 backdrop-blur-sm">
+        {/* Enhanced Navigation Bar */}
+        <div className="absolute top-0 left-0 right-0 z-20 bg-black/20 backdrop-blur-md border-b border-white/10">
           <div className="max-w-7xl mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              <button
+              <motion.button
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
                 onClick={() => router.back()}
-                className="flex items-center gap-2 text-white hover:text-blue-200 transition-colors"
+                className="flex items-center gap-2 text-white hover:text-blue-200 transition-all duration-300 hover:scale-105 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm"
               >
                 <ArrowLeftIcon className="h-5 w-5" />
                 <span>Back to Services</span>
-              </button>
+              </motion.button>
               
               <div className="flex items-center gap-4">
-                {/* Language Selector */}
-                <div className="flex items-center bg-white/20 rounded-full p-1 backdrop-blur-sm">
+                {/* Enhanced Language Selector */}
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="flex items-center bg-white/15 rounded-full p-1 backdrop-blur-sm border border-white/20"
+                >
                   {LANGUAGES.map(l => (
                     <button
                       key={l.code}
                       onClick={() => setLang(l.code)}
-                      className={`px-3 py-1 text-sm font-medium rounded-full transition-all ${
+                      className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
                         lang === l.code 
-                          ? 'bg-white text-gray-900 shadow-sm' 
-                          : 'text-white hover:bg-white/20'
+                          ? 'bg-white text-gray-900 shadow-lg transform scale-105' 
+                          : 'text-white hover:bg-white/20 hover:scale-105'
                       }`}
                     >
                       {l.flag} {l.label}
                     </button>
                   ))}
-                </div>
+                </motion.div>
 
-                {/* Action Buttons */}
-                <div className="flex items-center gap-2">
+                {/* Enhanced Action Buttons */}
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="flex items-center gap-2"
+                >
                   <button
                     onClick={() => setIsFavorited(!isFavorited)}
-                    className={`p-2 rounded-full backdrop-blur-sm transition-all hover:scale-105 ${
+                    className={`p-3 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-110 border ${
                       isFavorited 
-                        ? 'bg-red-500 text-white' 
-                        : 'bg-white/20 text-white hover:bg-white/30'
+                        ? 'bg-red-500 text-white border-red-400 shadow-lg shadow-red-500/25' 
+                        : 'bg-white/15 text-white hover:bg-white/25 border-white/20'
                     }`}
                   >
                     {isFavorited ? (
@@ -739,109 +764,148 @@ export default function ServicePage({ params }: ServicePageProps) {
                     )}
                   </button>
                   
-                  <button className="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm transition-all hover:scale-105">
+                  <button className="p-3 rounded-full bg-white/15 text-white hover:bg-white/25 backdrop-blur-sm transition-all duration-300 hover:scale-110 border border-white/20">
                     <ShareIcon className="h-5 w-5" />
                   </button>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Hero Content */}
-        <div className="absolute inset-0 flex items-end">
-          <div className="max-w-7xl mx-auto px-4 pb-16 w-full">
+        {/* Enhanced Hero Content */}
+        <div className="absolute inset-0 flex items-center">
+          <div className="max-w-7xl mx-auto px-4 w-full">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="max-w-4xl"
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="max-w-5xl"
             >
-              {/* Breadcrumb */}
-              <nav className="text-blue-200 mb-4 text-sm">
+              {/* Enhanced Breadcrumb */}
+              <motion.nav 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6 }}
+                className="text-blue-200 mb-6 text-sm flex items-center gap-2 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full w-fit"
+              >
                 <Link href="/" className="hover:text-white transition-colors">Home</Link>
-                <span className="mx-2">/</span>
+                <ChevronRightIcon className="h-4 w-4" />
                 <Link href="/services" className="hover:text-white transition-colors">Services</Link>
-                <span className="mx-2">/</span>
-                <span className="text-white">{serviceTitle}</span>
-          </nav>
+                <ChevronRightIcon className="h-4 w-4" />
+                <span className="text-white font-medium">{serviceTitle}</span>
+              </motion.nav>
           
-              {/* Service Category & Features */}
-              <div className="flex items-center gap-3 mb-4">
-                <span className="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+              {/* Enhanced Service Category & Features */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+                className="flex flex-wrap items-center gap-3 mb-6"
+              >
+                <span className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg backdrop-blur-sm border border-blue-400/30">
                   {data.category}
                 </span>
                 {data.featured && (
-                  <span className="bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-1">
+                  <span className="bg-gradient-to-r from-amber-400 to-orange-500 text-white px-6 py-3 rounded-full text-sm font-bold flex items-center gap-2 shadow-lg animate-pulse">
                     <StarIconSolid className="h-4 w-4" />
-                    Featured
+                    Featured Treatment
                   </span>
                 )}
-                <span className="bg-white/20 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm">
-                  <ClockIcon className="h-4 w-4 inline mr-1" />
+                <span className="bg-white/20 text-white px-6 py-3 rounded-full text-sm font-medium backdrop-blur-sm border border-white/30 flex items-center gap-2">
+                  <ClockIcon className="h-4 w-4" />
                   {data.duration || 'Consult for timing'}
                 </span>
-              </div>
+              </motion.div>
 
-              {/* Title */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
-              {serviceTitle}
-            </h1>
+              {/* Enhanced Title with Gradient */}
+              <motion.h1 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-8"
+              >
+                <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+                  {serviceTitle}
+                </span>
+              </motion.h1>
 
-              {/* Description */}
-              <p className="text-xl text-blue-100 max-w-3xl mb-8 leading-relaxed">
-              {serviceDescription}
-            </p>
+              {/* Enhanced Description */}
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9 }}
+                className="text-xl md:text-2xl text-blue-100 max-w-4xl mb-10 leading-relaxed font-light"
+              >
+                {serviceDescription?.substring(0, 200)}...
+              </motion.p>
 
-              {/* Price & CTA */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                <div className="text-white">
-                  <div className="text-sm text-blue-200 mb-1">Starting from</div>
-                  <div className="text-4xl font-bold">
-                    {data.price ? `${data.price} ${data.currency || 'USD'}` : 'Contact for pricing'}
+              {/* Enhanced Price & CTA Section */}
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1 }}
+                className="flex flex-col lg:flex-row items-start lg:items-center gap-8"
+              >
+                {/* Price Card */}
+                <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-2xl">
+                  <div className="text-blue-200 text-sm font-medium mb-2">Starting from</div>
+                  <div className="text-4xl md:text-5xl font-black text-white">
+                    {data.price ? `$${data.price.toLocaleString()}` : 'Contact'}
                   </div>
+                  <div className="text-blue-200 text-sm mt-1">{data.currency || 'USD'}</div>
                 </div>
                 
+                {/* Enhanced CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => setShowBookingModal(true)}
-                    className="bg-white text-blue-700 hover:bg-blue-50 px-8 py-4 rounded-2xl font-bold text-lg transition-all shadow-2xl hover:shadow-3xl hover:scale-105 flex items-center gap-2"
+                    className="bg-gradient-to-r from-white to-blue-50 text-blue-700 hover:from-blue-50 hover:to-white px-8 py-4 rounded-2xl font-bold text-lg transition-all shadow-2xl hover:shadow-3xl flex items-center gap-3 group"
                   >
-                    <CalendarIcon className="h-6 w-6" />
-                Book Free Consultation
-                  </button>
+                    <CalendarIcon className="h-6 w-6 group-hover:scale-110 transition-transform" />
+                    Book Free Consultation
+                    <ArrowRightIcon className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </motion.button>
                   
-              <button 
-                onClick={() => scrollToSection('procedure')}
-                    className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 rounded-2xl font-bold text-lg transition-all backdrop-blur-sm"
-              >
-                Learn More
-              </button>
-            </div>
-          </div>
+                  <motion.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => scrollToSection('procedure')}
+                    className="border-2 border-white/50 text-white hover:bg-white/10 px-8 py-4 rounded-2xl font-bold text-lg transition-all backdrop-blur-sm hover:border-white group flex items-center gap-2"
+                  >
+                    Learn More
+                    <ChevronDownIcon className="h-5 w-5 group-hover:translate-y-1 transition-transform" />
+                  </motion.button>
+                </div>
+              </motion.div>
             </motion.div>
-        </div>
+          </div>
         </div>
 
-        {/* Scroll Indicator */}
+        {/* Enhanced Scroll Indicator */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1, repeat: Infinity, repeatType: 'reverse' }}
+          transition={{ duration: 0.8, delay: 1.5, repeat: Infinity, repeatType: 'reverse' }}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white"
         >
-          <ChevronDownIcon className="h-8 w-8" />
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-sm font-medium">Scroll to explore</span>
+            <ChevronDownIcon className="h-8 w-8 animate-bounce" />
+          </div>
         </motion.div>
       </motion.section>
 
-      {/* Sticky Navigation */}
+      {/* Enhanced Sticky Navigation */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`sticky top-0 z-30 transition-all duration-300 ${
+        className={`sticky top-0 z-30 transition-all duration-500 ${
           isScrolled 
-            ? 'bg-white/95 backdrop-blur-lg shadow-lg border-b border-gray-100' 
+            ? 'bg-white/95 backdrop-blur-xl shadow-2xl border-b border-gray-200/50' 
             : 'bg-transparent'
         }`}
       >
@@ -886,16 +950,16 @@ export default function ServicePage({ params }: ServicePageProps) {
 
             {/* Quick Actions */}
             <div className="flex items-center gap-2">
-                  <button
+              <button
                 onClick={() => setShowBookingModal(true)}
                 className="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 transition-colors font-semibold flex items-center gap-2"
               >
                 <PhoneIcon className="h-4 w-4" />
                 <span className="hidden sm:inline">Book Now</span>
-                  </button>
-              </div>
+              </button>
             </div>
           </div>
+        </div>
       </motion.div>
 
       {/* Main Content */}
@@ -904,7 +968,7 @@ export default function ServicePage({ params }: ServicePageProps) {
           {/* Main Content Column */}
           <div className="lg:col-span-2 space-y-16">
             
-        {/* Overview Section */}
+        {/* Enhanced Overview Section */}
             <motion.section
               id="overview"
               initial={{ opacity: 0, y: 20 }}
@@ -913,61 +977,73 @@ export default function ServicePage({ params }: ServicePageProps) {
               transition={{ duration: 0.6 }}
               className="scroll-mt-24"
             >
-              <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="p-3 bg-blue-100 rounded-2xl">
-                    <InformationCircleIcon className="h-8 w-8 text-blue-600" />
-              </div>
-                  <div>
-                    <h2 className="text-3xl font-bold text-gray-900">About This Treatment</h2>
-                    <p className="text-gray-600">Comprehensive information about your procedure</p>
+              <div className="bg-gradient-to-br from-white to-blue-50/30 rounded-3xl shadow-2xl p-8 md:p-12 border border-blue-100/50 backdrop-blur-sm">
+                <div className="flex items-center gap-4 mb-10">
+                  <div className="p-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg">
+                    <InformationCircleIcon className="h-8 w-8 text-white" />
                   </div>
-                      </div>
+                  <div>
+                    <h2 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">About This Treatment</h2>
+                    <p className="text-gray-600 text-lg">Comprehensive information about your procedure</p>
+                  </div>
+                </div>
 
                 <div className="prose prose-lg max-w-none text-gray-700 mb-12">
                   <ReactMarkdown>{serviceDescription}</ReactMarkdown>
                   </div>
 
-                {/* Key Information Grid */}
-                <div className="grid md:grid-cols-2 gap-6 mb-12">
-                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl">
+                {/* Enhanced Key Information Grid */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                  <motion.div 
+                    whileHover={{ scale: 1.02, y: -5 }}
+                    className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl shadow-lg text-white"
+                  >
                     <div className="flex items-center gap-3 mb-3">
-                      <ClockIcon className="h-6 w-6 text-blue-600" />
-                      <h4 className="font-semibold text-blue-900">Duration</h4>
-                </div>
-                    <p className="text-blue-800 text-lg font-medium">{data.duration || 'Varies by case'}</p>
-              </div>
+                      <ClockIcon className="h-6 w-6" />
+                      <h4 className="font-semibold">Duration</h4>
+                    </div>
+                    <p className="text-lg font-medium">{data.duration || 'Varies by case'}</p>
+                  </motion.div>
               
-                  <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl">
+                  <motion.div 
+                    whileHover={{ scale: 1.02, y: -5 }}
+                    className="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-2xl shadow-lg text-white"
+                  >
                     <div className="flex items-center gap-3 mb-3">
-                      <CurrencyDollarIcon className="h-6 w-6 text-green-600" />
-                      <h4 className="font-semibold text-green-900">Starting Price</h4>
-                </div>
-                    <p className="text-green-800 text-lg font-medium">
-                      {data.price ? `${data.price} ${data.currency || 'USD'}` : 'Contact for pricing'}
+                      <CurrencyDollarIcon className="h-6 w-6" />
+                      <h4 className="font-semibold">Starting Price</h4>
+                    </div>
+                    <p className="text-lg font-medium">
+                      {data.price ? `$${data.price.toLocaleString()}` : 'Contact for pricing'}
                     </p>
+                  </motion.div>
+
+                  {data.anesthesia && (
+                    <motion.div 
+                      whileHover={{ scale: 1.02, y: -5 }}
+                      className="bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-2xl shadow-lg text-white"
+                    >
+                      <div className="flex items-center gap-3 mb-3">
+                        <ShieldCheckIcon className="h-6 w-6" />
+                        <h4 className="font-semibold">Anesthesia</h4>
+                      </div>
+                      <p className="text-lg font-medium">{data.anesthesia}</p>
+                    </motion.div>
+                  )}
+
+                  {data.recovery && (
+                    <motion.div 
+                      whileHover={{ scale: 1.02, y: -5 }}
+                      className="bg-gradient-to-br from-orange-500 to-orange-600 p-6 rounded-2xl shadow-lg text-white"
+                    >
+                      <div className="flex items-center gap-3 mb-3">
+                        <SparklesIcon className="h-6 w-6" />
+                        <h4 className="font-semibold">Recovery Time</h4>
+                      </div>
+                      <p className="text-lg font-medium">{data.recovery}</p>
+                    </motion.div>
+                  )}
                 </div>
-
-                {data.anesthesia && (
-                    <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl">
-                      <div className="flex items-center gap-3 mb-3">
-                        <ShieldCheckIcon className="h-6 w-6 text-purple-600" />
-                        <h4 className="font-semibold text-purple-900">Anesthesia</h4>
-                      </div>
-                      <p className="text-purple-800 text-lg font-medium">{data.anesthesia}</p>
-                  </div>
-                )}
-
-                {data.recovery && (
-                    <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-2xl">
-                      <div className="flex items-center gap-3 mb-3">
-                        <SparklesIcon className="h-6 w-6 text-orange-600" />
-                        <h4 className="font-semibold text-orange-900">Recovery Time</h4>
-                      </div>
-                      <p className="text-orange-800 text-lg font-medium">{data.recovery}</p>
-                  </div>
-                )}
-            </div>
             
                 {/* Age Requirements */}
                 {(data.minAge || data.maxAge) && (
@@ -982,30 +1058,45 @@ export default function ServicePage({ params }: ServicePageProps) {
                   </div>
                 )}
 
-                {/* What to Expect */}
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
-                  <h4 className="text-2xl font-bold mb-4">What to Expect</h4>
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <span className="text-2xl font-bold">1</span>
-              </div>
-                      <h5 className="font-semibold mb-2">Consultation</h5>
-                      <p className="text-blue-100 text-sm">Initial assessment and treatment planning</p>
-            </div>
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <span className="text-2xl font-bold">2</span>
-          </div>
-                      <h5 className="font-semibold mb-2">Procedure</h5>
-                      <p className="text-blue-100 text-sm">Professional treatment by expert team</p>
-                    </div>
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <span className="text-2xl font-bold">3</span>
-                      </div>
-                      <h5 className="font-semibold mb-2">Recovery</h5>
-                      <p className="text-blue-100 text-sm">Follow-up care and support</p>
+                {/* Enhanced What to Expect */}
+                <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-3xl p-10 text-white shadow-2xl relative overflow-hidden">
+                  {/* Background decoration */}
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full blur-2xl"></div>
+                  
+                  <div className="relative z-10">
+                    <h4 className="text-3xl font-bold mb-8 text-center">What to Expect</h4>
+                    <div className="grid md:grid-cols-3 gap-8">
+                      <motion.div 
+                        whileHover={{ scale: 1.05, y: -5 }}
+                        className="text-center group"
+                      >
+                        <div className="w-20 h-20 bg-gradient-to-br from-white/20 to-white/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg transition-all duration-300 border border-white/20">
+                          <span className="text-3xl font-bold">1</span>
+                        </div>
+                        <h5 className="font-bold mb-3 text-lg">Consultation</h5>
+                        <p className="text-blue-100 leading-relaxed">Initial assessment and personalized treatment planning</p>
+                      </motion.div>
+                      <motion.div 
+                        whileHover={{ scale: 1.05, y: -5 }}
+                        className="text-center group"
+                      >
+                        <div className="w-20 h-20 bg-gradient-to-br from-white/20 to-white/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg transition-all duration-300 border border-white/20">
+                          <span className="text-3xl font-bold">2</span>
+                        </div>
+                        <h5 className="font-bold mb-3 text-lg">Procedure</h5>
+                        <p className="text-blue-100 leading-relaxed">Professional treatment by our expert medical team</p>
+                      </motion.div>
+                      <motion.div 
+                        whileHover={{ scale: 1.05, y: -5 }}
+                        className="text-center group"
+                      >
+                        <div className="w-20 h-20 bg-gradient-to-br from-white/20 to-white/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg transition-all duration-300 border border-white/20">
+                          <span className="text-3xl font-bold">3</span>
+                        </div>
+                        <h5 className="font-bold mb-3 text-lg">Recovery</h5>
+                        <p className="text-blue-100 leading-relaxed">Comprehensive follow-up care and support</p>
+                      </motion.div>
                     </div>
                   </div>
                 </div>
@@ -1025,8 +1116,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                 <div className="flex items-center gap-3 mb-8">
                   <div className="p-3 bg-green-100 rounded-2xl">
                     <CheckCircleIcon className="h-8 w-8 text-green-600" />
-            </div>
-                <div>
+                  </div>
+                  <div>
                     <h2 className="text-3xl font-bold text-gray-900">Benefits & Considerations</h2>
                     <p className="text-gray-600">Understanding the advantages and important factors</p>
                   </div>
@@ -1085,8 +1176,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                       </div>
                   )}
                 </div>
+                </div>
               </div>
-            </div>
             </motion.section>
 
             {/* Procedure Details Section */}
@@ -1107,7 +1198,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                     <h2 className="text-3xl font-bold text-gray-900">Procedure Process</h2>
                     <p className="text-gray-600">Step-by-step guide through your treatment journey</p>
                   </div>
-            </div>
+                </div>
             
                 <div className="space-y-8">
                   {/* Pre-procedure */}
@@ -1176,7 +1267,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                 </div>
               )}
             </div>
-          </div>
+              </div>
             </motion.section>
 
             {/* Gallery Section */}
@@ -1215,14 +1306,14 @@ export default function ServicePage({ params }: ServicePageProps) {
                               transition={{ duration: 0.4, delay: index * 0.1 }}
                               className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer bg-gray-100"
                               onClick={() => openLightbox(
-                                getServiceImageUrl(image), 
-                                getServiceImageAlt(image, serviceTitle), 
+                                image.url, 
+                                image.alt || serviceTitle, 
                                 index
                               )}
                             >
                               <OptimizedImage
-                                src={getServiceImageUrl(image)}
-                                alt={getServiceImageAlt(image, serviceTitle)}
+                                src={image.url}
+                                alt={image.alt || serviceTitle}
                                 fill
                                 className="object-cover transition-transform duration-500 group-hover:scale-110"
                               />
@@ -1249,14 +1340,14 @@ export default function ServicePage({ params }: ServicePageProps) {
                               transition={{ duration: 0.4, delay: index * 0.1 }}
                               className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer bg-gray-100"
                               onClick={() => openLightbox(
-                                getServiceImageUrl(image), 
-                                getServiceImageAlt(image, `${serviceTitle} Before/After`), 
+                                image.url, 
+                                image.alt || `${serviceTitle} Before/After`, 
                                 data.images.length + index
                               )}
                             >
                               <OptimizedImage
-                                src={getServiceImageUrl(image)}
-                                alt={getServiceImageAlt(image, `${serviceTitle} Before/After`)}
+                                src={image.url}
+                                alt={image.alt || `${serviceTitle} Before/After`}
                                 fill
                                 className="object-cover transition-transform duration-500 group-hover:scale-110"
                               />
@@ -1652,8 +1743,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                       const prevIndex = currentImageIndex === 0 ? allImages.length - 1 : currentImageIndex - 1;
                       setCurrentImageIndex(prevIndex);
                       openLightbox(
-                        getServiceImageUrl(allImages[prevIndex]),
-                        getServiceImageAlt(allImages[prevIndex], serviceTitle),
+                        allImages[prevIndex]?.url || getFallbackImageUrl(),
+                        allImages[prevIndex]?.alt || 'Previous image',
                         prevIndex
                       );
                     }}
@@ -1668,8 +1759,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                       const nextIndex = currentImageIndex === allImages.length - 1 ? 0 : currentImageIndex + 1;
                       setCurrentImageIndex(nextIndex);
                       openLightbox(
-                        getServiceImageUrl(allImages[nextIndex]),
-                        getServiceImageAlt(allImages[nextIndex], serviceTitle),
+                        allImages[nextIndex]?.url || getFallbackImageUrl(),
+                        allImages[nextIndex]?.alt || 'Next image',
                         nextIndex
                       );
                     }}
@@ -1694,8 +1785,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                             e.stopPropagation();
                             setCurrentImageIndex(actualIndex);
                             openLightbox(
-                              getServiceImageUrl(image),
-                              getServiceImageAlt(image, serviceTitle),
+                              image.url,
+                              image.alt || serviceTitle,
                               actualIndex
                             );
                           }}
@@ -1706,10 +1797,9 @@ export default function ServicePage({ params }: ServicePageProps) {
                           }`}
                         >
                           <OptimizedImage
-                            src={getServiceImageUrl(image)}
-                            alt=""
-                            width={48}
-                            height={48}
+                            src={image.url}
+                            alt={image.alt || serviceTitle}
+                            fill
                             className="object-cover w-full h-full"
                           />
                   </button>
@@ -1727,6 +1817,25 @@ export default function ServicePage({ params }: ServicePageProps) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Floating Action Button */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 2, duration: 0.5 }}
+        className="fixed bottom-8 right-8 z-40"
+      >
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setShowBookingModal(true)}
+          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center gap-3 group"
+        >
+          <CalendarIcon className="h-6 w-6" />
+          <span className="hidden lg:block font-semibold">Book Consultation</span>
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+        </motion.button>
+      </motion.div>
 
       {/* Booking Modal */}
       <BookingModal 

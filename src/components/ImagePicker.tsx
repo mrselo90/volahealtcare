@@ -150,15 +150,23 @@ export default function ImagePicker({
       // Create FormData
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('type', 'service-image');
 
-      // In a real app, you'd upload to your server or cloud storage
-      // For now, we'll create a local object URL
-      const objectUrl = URL.createObjectURL(file);
+      // Upload to server
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to upload file');
+      }
+
+      const result = await response.json();
       
       const uploadedImage: UploadedImage = {
         id: Date.now().toString(),
-        url: objectUrl,
+        url: result.url,
         name: file.name,
         size: file.size,
         type: file.type,
@@ -167,16 +175,8 @@ export default function ImagePicker({
       };
 
       setRecentUploads(prev => [uploadedImage, ...prev.slice(0, 9)]);
-      onChange(objectUrl, uploadedImage.altText);
+      onChange(result.url, uploadedImage.altText);
       setIsOpen(false);
-
-      // Here you would normally upload to your server:
-      // const response = await fetch('/api/upload', {
-      //   method: 'POST',
-      //   body: formData
-      // });
-      // const result = await response.json();
-      // onChange(result.url, result.altText);
 
     } catch (error) {
       console.error('Upload error:', error);

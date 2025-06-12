@@ -155,21 +155,45 @@ export default function Home() {
             ) : null;
           })}
           
-          {/* Default social icons if no URLs are set */}
+          {/* Default functional social icons */}
           {socialPlatforms.every(s => !socialUrls[s.key as keyof SocialMediaUrls]) && (
             <>
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+              <a 
+                href="https://instagram.com/aestheticcareistanbul" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                title="Follow us on Instagram"
+              >
                 {getSocialIcon('instagram')}
-              </div>
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+              </a>
+              <a 
+                href="https://facebook.com/aestheticcareistanbul" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                title="Follow us on Facebook"
+              >
                 {getSocialIcon('facebook')}
-              </div>
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+              </a>
+              <a 
+                href="https://linkedin.com/company/aesthetic-care-istanbul" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                title="Connect on LinkedIn"
+              >
                 {getSocialIcon('linkedin')}
-              </div>
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+              </a>
+              <a 
+                href="https://youtube.com/@aestheticcareistanbul" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                title="Subscribe to our YouTube"
+              >
                 {getSocialIcon('youtube')}
-              </div>
+              </a>
             </>
           )}
         </div>
@@ -297,6 +321,9 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Before & After Gallery - REAL PATIENT TRANSFORMATIONS */}
+        <FeaturedBeforeAfter limit={6} />
+
         {/* Services Section */}
         <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 text-black">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -330,9 +357,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-        
-        {/* Before & After Gallery */}
-        <FeaturedBeforeAfter limit={6} />
         
         {/* Our Approach */}
         <section className="py-12 sm:py-16 lg:py-20 bg-black text-white">
@@ -466,21 +490,45 @@ export default function Home() {
                 ) : null;
               })}
               
-              {/* Default social icons if no URLs are set */}
+              {/* Default functional social icons for mobile */}
               {socialPlatforms.every(s => !socialUrls[s.key as keyof SocialMediaUrls]) && (
                 <>
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+                  <a 
+                    href="https://instagram.com/aestheticcareistanbul" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                    title="Follow us on Instagram"
+                  >
                     {getSocialIcon('instagram')}
-                  </div>
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+                  </a>
+                  <a 
+                    href="https://facebook.com/aestheticcareistanbul" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                    title="Follow us on Facebook"
+                  >
                     {getSocialIcon('facebook')}
-                  </div>
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+                  </a>
+                  <a 
+                    href="https://linkedin.com/company/aesthetic-care-istanbul" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                    title="Connect on LinkedIn"
+                  >
                     {getSocialIcon('linkedin')}
-                  </div>
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-50">
+                  </a>
+                  <a 
+                    href="https://youtube.com/@aestheticcareistanbul" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                    title="Subscribe to our YouTube"
+                  >
                     {getSocialIcon('youtube')}
-                  </div>
+                  </a>
                 </>
               )}
             </div>

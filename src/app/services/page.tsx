@@ -53,8 +53,8 @@ const ServiceCard = ({ service, onToggleFavorite, onToggleCompare, isFavorited, 
       <div className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="aspect-[4/3] relative">
           <Image
-            src={service.imageUrl || '/images/services/default-service.jpg'}
-            alt={service.title}
+            src={getServiceImageUrl(service) || '/images/services/default-service.jpg'}
+            alt={getServiceImageAlt(service, service.title)}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"
           />
@@ -99,7 +99,7 @@ const ServiceCard = ({ service, onToggleFavorite, onToggleCompare, isFavorited, 
           <div className="absolute bottom-4 left-4">
             <div className="bg-white/95 backdrop-blur-sm rounded-lg px-3 py-1 shadow-lg">
               <p className="text-sm font-semibold text-gray-900">
-                From ${service.priceFrom?.toLocaleString() || 'Contact'}
+                From ${(service.price || service.priceFrom)?.toLocaleString() || 'Contact'}
               </p>
             </div>
           </div>
@@ -393,10 +393,29 @@ export default function ServicesPage() {
     }
   };
 
-  // Helper functions
-  const getCategoryName = (category: any) => {
-    if (!category) return '';
-    return typeof category.name === 'object' ? category.name.en || category.name.tr : category.name;
+  // Helper functions - using imported getCategoryName from utils
+  const getCategoryDescription = (category: any, lang: string = 'en') => {
+    if (!category?.description) return '';
+    
+    // If it's already an object, use it directly
+    if (typeof category.description === 'object') {
+      return category.description[lang] || category.description.en || category.description.tr || '';
+    }
+    
+    // If it's a JSON string, parse it
+    if (typeof category.description === 'string') {
+      try {
+        const parsed = JSON.parse(category.description);
+        if (typeof parsed === 'object' && parsed !== null) {
+          return parsed[lang] || parsed.en || parsed.tr || '';
+        }
+        return category.description; // If not a valid JSON object, return as-is
+      } catch {
+        return category.description; // If parsing fails, return as-is
+      }
+    }
+    
+    return String(category.description || '');
   };
 
   // Filter and sort services
@@ -567,9 +586,7 @@ export default function ServicesPage() {
                       </h2>
                       {category.description && (
                         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                          {typeof category.description === 'object' 
-                            ? (category.description.en || category.description.tr) 
-                            : category.description}
+                          {getCategoryDescription(category)}
                         </p>
                       )}
                       <div className="mt-4 flex items-center justify-center">

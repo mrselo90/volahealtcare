@@ -1,5 +1,6 @@
 import { DefaultSession, NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { compare } from 'bcryptjs';
 import { prisma } from './prisma';
 
 declare module 'next-auth' {
@@ -56,13 +57,22 @@ export const authOptions: NextAuthOptions = {
           throw new Error('No user found with this email');
         }
 
-        // Compare the provided password with stored hashedPassword
-        // In production, use proper password hashing comparison
-        if (credentials.password !== user.hashedPassword) {
+        // Compare the provided password with stored hashedPassword using bcrypt
+        if (!user.hashedPassword) {
+          throw new Error('User has no password configured');
+        }
+
+        const isPasswordValid = await compare(credentials.password, user.hashedPassword);
+        if (!isPasswordValid) {
           throw new Error('Invalid password');
         }
 
-        return user;
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        };
       },
     }),
   ],

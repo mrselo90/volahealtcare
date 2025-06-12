@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon, ChevronLeftIcon, ChevronRightIcon, StarIcon } from '@heroicons/react/24/outline';
@@ -61,21 +61,27 @@ export default function BeforeAfterGallery({
 }: BeforeAfterGalleryProps) {
   const [cases, setCases] = useState<BeforeAfterCase[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedCase, setSelectedCase] = useState<BeforeAfterCase | null>(null);
   const [showBeforeImage, setShowBeforeImage] = useState(true);
   const [categories, setCategories] = useState<Array<{id: string, name: string}>>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedService, setSelectedService] = useState<string>('all');
+  const [retryCount, setRetryCount] = useState(0);
 
-  useEffect(() => {
-    fetchCases();
-    if (showFilters) {
-      fetchCategories();
-    }
-  }, [categoryFilter, serviceFilter, featuredOnly, limit]);
+  // Memoize expensive operations
+  const filteredCases = useMemo(() => {
+    return cases.filter(caseItem => {
+      if (selectedCategory !== 'all' && caseItem.categoryId !== selectedCategory) return false;
+      if (selectedService !== 'all' && caseItem.serviceId !== selectedService) return false;
+      return true;
+    });
+  }, [cases, selectedCategory, selectedService]);
 
-  const fetchCases = async () => {
+  // Debounced fetch to prevent excessive API calls
+  const fetchCases = useCallback(async () => {
     try {
+      setError(null);
       const params = new URLSearchParams();
       if (categoryFilter) params.append('category', categoryFilter);
       if (serviceFilter) params.append('service', serviceFilter);
@@ -83,16 +89,34 @@ export default function BeforeAfterGallery({
       if (limit) params.append('limit', limit.toString());
 
       const response = await fetch(`/api/before-after?${params.toString()}`);
-      if (response.ok) {
-        const data = await response.json();
-        setCases(data);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch cases: ${response.status} ${response.statusText}`);
       }
+      const data = await response.json();
+      setCases(data);
+      setRetryCount(0); // Reset retry count on success
     } catch (error) {
       console.error('Error fetching cases:', error);
+      setError(error instanceof Error ? error.message : 'Failed to load cases');
     } finally {
       setLoading(false);
     }
-  };
+  }, [categoryFilter, serviceFilter, featuredOnly, limit]);
+
+  const handleRetry = useCallback(() => {
+    if (retryCount < 3) {
+      setRetryCount(prev => prev + 1);
+      setLoading(true);
+      fetchCases();
+    }
+  }, [retryCount, fetchCases]);
+
+  useEffect(() => {
+    fetchCases();
+    if (showFilters) {
+      fetchCategories();
+    }
+  }, [categoryFilter, serviceFilter, featuredOnly, limit]);
 
   const fetchCategories = async () => {
     try {
@@ -108,12 +132,6 @@ export default function BeforeAfterGallery({
       console.error('Error fetching categories:', error);
     }
   };
-
-  const filteredCases = cases.filter(caseItem => {
-    if (selectedCategory !== 'all' && caseItem.categoryId !== selectedCategory) return false;
-    if (selectedService !== 'all' && caseItem.serviceId !== selectedService) return false;
-    return true;
-  });
 
   const openModal = (caseItem: BeforeAfterCase) => {
     setSelectedCase(caseItem);
@@ -153,6 +171,18 @@ export default function BeforeAfterGallery({
     }
   };
 
+  // Add minimal badge styles
+  const badgeStyle = {
+    display: 'inline-block',
+    padding: '2px 8px',
+    borderRadius: '6px',
+    fontSize: '0.8em',
+    fontWeight: 600,
+    marginRight: '6px',
+  };
+  const featuredBadge = { ...badgeStyle, background: '#facc15', color: '#fff' };
+  const publishedBadge = { ...badgeStyle, background: '#22c55e', color: '#fff' };
+
   if (loading) {
     return (
       <div className="flex flex-col justify-center items-center h-64">
@@ -163,10 +193,43 @@ export default function BeforeAfterGallery({
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex flex-col justify-center items-center h-64 bg-gray-50 rounded-lg p-8">
+        <div className="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+          <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">Unable to Load Cases</h3>
+        <p className="text-gray-600 text-center mb-4 max-w-md">{error}</p>
+        <div className="flex gap-3">
+          <button
+            onClick={handleRetry}
+            disabled={retryCount >= 3}
+            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+              retryCount >= 3
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            {retryCount >= 3 ? 'Max Retries Reached' : `Retry ${retryCount > 0 ? `(${retryCount}/3)` : ''}`}
+          </button>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+          >
+            Refresh Page
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`before-after-gallery ${className}`}>
       {/* Enhanced Filters */}
-      {showFilters && categories.length > 0 && (
+      {showFilters && categories.length > 0 && !featuredOnly && (
         <div className="mb-12">
           <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
             <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
@@ -246,110 +309,118 @@ export default function BeforeAfterGallery({
       )}
 
       {/* Gallery Grid */}
-      <div className={`grid ${getGridClass()} gap-6`}>
-        {filteredCases.map((caseItem) => (
-          <motion.div
-            key={caseItem.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer transform hover:-translate-y-2"
-            onClick={() => openModal(caseItem)}
+      <div className={`grid ${getGridClass()} gap-6`} role="grid" aria-label="Before and after transformation gallery">
+        {filteredCases.map((caseItem, index) => (
+          <div 
+            key={caseItem.id} 
+            className="bg-white rounded-lg shadow-md overflow-hidden"
+            role="gridcell"
+            aria-rowindex={Math.floor(index / gridCols) + 1}
+            aria-colindex={(index % gridCols) + 1}
           >
-            {/* Image Section */}
-            <div className="relative aspect-square">
-              <SafeImage
-                src={caseItem.beforeImage}
-                alt={caseItem.beforeImageAlt || 'Before treatment'}
-                fill
-                className="object-cover"
-                fallbackType="before"
-                fallbackIndex={1}
-              />
-              
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              
-              {/* Status badges */}
-              <div className="absolute top-4 left-4 flex gap-2">
+            <div className="relative">
+              <div className="relative aspect-square">
+                <SafeImage
+                  src={caseItem.beforeImage}
+                  alt={caseItem.beforeImageAlt || `Before treatment for ${caseItem.title}`}
+                  fill
+                  className="object-cover"
+                  fallbackType="before"
+                  fallbackIndex={1}
+                />
+                
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                
+                {/* Status badges */}
+                <div className="absolute top-4 left-4 flex gap-2" role="group" aria-label="Case status">
+                  {caseItem.isFeatured && (
+                    <span style={featuredBadge} role="status" aria-label="Featured case">Featured</span>
+                  )}
+                  {caseItem.isPublished && (
+                    <span style={publishedBadge} role="status" aria-label="Published case">Published</span>
+                  )}
+                </div>
+                
+                {/* Category badge */}
+                {caseItem.category && (
+                  <div className="absolute top-4 right-4">
+                    <span 
+                      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500 text-white shadow-lg"
+                      role="tag"
+                      aria-label={`Category: ${caseItem.category.name}`}
+                    >
+                      {caseItem.category.name}
+                    </span>
+                  </div>
+                )}
+                
+                {/* Title overlay */}
+                <div className="absolute bottom-4 left-4 right-4">
+                  <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">
+                    {caseItem.title}
+                  </h3>
+                  {caseItem.patientAge && caseItem.patientCountry && (
+                    <p className="text-white/90 text-sm" aria-label={`Patient details: ${caseItem.patientAge} years old from ${caseItem.patientCountry}`}>
+                      {caseItem.patientAge} years • {caseItem.patientCountry}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="p-4">
+              <div className="flex flex-wrap gap-2 mb-2" role="group" aria-label="Case badges">
                 {caseItem.isFeatured && (
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-500 text-white shadow-lg">
-                    ⭐ Featured
-                  </span>
+                  <span style={featuredBadge} role="status">Featured</span>
                 )}
                 {caseItem.isPublished && (
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-500 text-white shadow-lg">
-                    ✅ Published
-                  </span>
+                  <span style={publishedBadge} role="status">Published</span>
                 )}
               </div>
-              
-              {/* Category badge */}
-              {caseItem.category && (
-                <div className="absolute top-4 right-4">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500 text-white shadow-lg">
-                    {caseItem.category.name}
-                  </span>
-                </div>
-              )}
-              
-              {/* Title overlay */}
-              <div className="absolute bottom-4 left-4 right-4">
-                <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">
-                  {caseItem.title}
-                </h3>
-                {caseItem.patientAge && caseItem.patientCountry && (
-                  <p className="text-white/90 text-sm">
-                    {caseItem.patientAge} years • {caseItem.patientCountry}
+              <div className="mb-1 text-sm text-gray-700">
+                <span>Age: {caseItem.patientAge}</span>
+                {caseItem.patientCountry && <> | <span>{caseItem.patientCountry}</span></>}
+              </div>
+              <div className="mb-1 text-sm text-gray-700">
+                <span>
+                  Category: {(() => {
+                    try {
+                      const name = typeof caseItem.category?.name === 'string'
+                        ? JSON.parse(caseItem.category.name).en
+                        : caseItem.category?.name?.en;
+                      return name || caseItem.category?.name;
+                    } catch {
+                      return caseItem.category?.name;
+                    }
+                  })()}
+                </span>
+              </div>
+              <div className="mb-1 text-sm text-gray-700">
+                <span>Timeline: {caseItem.timeframe || '-'}</span>
+              </div>
+              <div className="space-y-2 text-sm text-gray-600 mt-2">
+                {caseItem.description && <p>{caseItem.description}</p>}
+                {caseItem.service && (
+                  <p className="flex items-center gap-1">
+                    <span role="img" aria-label="service">🦷</span> {caseItem.service.title}
                   </p>
                 )}
               </div>
-            </div>
-            
-            {/* Content Section */}
-            <div className="p-6">
-              {/* Quick stats */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="text-center">
-                  <div className="text-lg font-bold text-blue-600">
-                    {caseItem.patientAge || 'N/A'}
-                  </div>
-                  <div className="text-xs text-gray-500">Age</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-green-600">
-                    {caseItem.timeframe || 'N/A'}
-                  </div>
-                  <div className="text-xs text-gray-500">Timeline</div>
-                </div>
+              <div className="mt-4 flex justify-between items-center">
+                <button
+                  onClick={() => openModal(caseItem)}
+                  className="text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
+                  title="View Details"
+                  aria-label={`View detailed information for ${caseItem.title}`}
+                >
+                  View Details
+                </button>
+                <span className="text-xs text-gray-500" aria-label={`Created on ${new Date(caseItem.createdAt).toLocaleDateString()}`}>
+                  {new Date(caseItem.createdAt).toLocaleDateString()}
+                </span>
               </div>
-              
-              {/* Description */}
-              {caseItem.description && (
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                  {caseItem.description}
-                </p>
-              )}
-              
-              {/* Service info */}
-              {caseItem.service && (
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-purple-600 text-sm">🏥</span>
-                  <span className="text-gray-700 text-sm font-medium">
-                    {caseItem.service.title}
-                  </span>
-                </div>
-              )}
-              
-              {/* View details button */}
-              <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-4 rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-                <span>View Details</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
