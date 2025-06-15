@@ -55,7 +55,13 @@ export function ServiceForm({ service }: ServiceFormProps) {
         id: service.id,
         categoryId: service.categoryId,
         price: service.price || 0,
-        duration: service.duration || '',
+        // Package Details
+        timeInTurkey: service.timeInTurkey || '',
+        operationTime: service.operationTime || '',
+        hospitalStay: service.hospitalStay || '',
+        recovery: service.recovery || '',
+        accommodation: service.accommodation || '',
+        transportation: service.transportation || '',
         translations: (service.translations ?? []).map(t => ({
           language: t.language,
           title: t.title,
@@ -97,7 +103,13 @@ export function ServiceForm({ service }: ServiceFormProps) {
     return {
       categoryId: '',
       price: 0,
-      duration: '',
+      // Package Details
+      timeInTurkey: '',
+      operationTime: '',
+      hospitalStay: '',
+      recovery: '',
+      accommodation: '',
+      transportation: '',
       translations: languages.map(lang => ({
         language: lang.code,
         title: '',
@@ -119,7 +131,6 @@ export function ServiceForm({ service }: ServiceFormProps) {
 
     if (!formData.categoryId) newErrors.categoryId = 'Category is required';
     if (!formData.price) newErrors.price = 'Price is required';
-    if (!formData.duration) newErrors.duration = 'Duration is required';
     
     const englishTranslation = formData.translations?.find(t => t.language === 'en');
     if (!englishTranslation?.title) newErrors.englishTitle = 'English title is required';
@@ -148,7 +159,13 @@ export function ServiceForm({ service }: ServiceFormProps) {
         slug,
         categoryId: formData.categoryId,
         price: formData.price,
-        duration: formData.duration,
+        // Package Details
+        timeInTurkey: formData.timeInTurkey,
+        operationTime: formData.operationTime,
+        hospitalStay: formData.hospitalStay,
+        recovery: formData.recovery,
+        accommodation: formData.accommodation,
+        transportation: formData.transportation,
         translations: formData.translations?.map(t => ({
           language: t.language,
           title: t.title,
@@ -372,27 +389,103 @@ export function ServiceForm({ service }: ServiceFormProps) {
                       <p className="mt-1 text-sm text-red-600">{errors.price}</p>
                     )}
                   </div>
-                  <div className="sm:col-span-3">
-                    <label htmlFor="duration" className="block text-sm font-medium text-gray-700">
-                      Duration *
-                    </label>
-                    <input
-                      type="text"
-                      name="duration"
-                      id="duration"
-                      value={formData.duration || ''}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, duration: e.target.value }))}
-                      placeholder="e.g., 2 hours"
-                      className={classNames(
-                        "mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm",
-                        errors.duration
-                          ? "border-red-300 focus:border-red-500 focus:ring-red-500"
-                          : "border-gray-300 focus:border-amber-500 focus:ring-amber-500"
-                      )}
-                    />
-                    {errors.duration && (
-                      <p className="mt-1 text-sm text-red-600">{errors.duration}</p>
-                    )}
+                  
+                  {/* Package Details Section */}
+                  <div className="sm:col-span-6">
+                    <h3 className="text-lg font-medium text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                      Paket Detayları
+                    </h3>
+                    <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                      <div>
+                        <label htmlFor="timeInTurkey" className="block text-sm font-medium text-gray-700">
+                          Türkiye'de Kalış Süresi
+                        </label>
+                        <input
+                          type="text"
+                          name="timeInTurkey"
+                          id="timeInTurkey"
+                          value={formData.timeInTurkey || ''}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, timeInTurkey: e.target.value }))}
+                          placeholder="örn: 1-3 Gün"
+                          className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="operationTime" className="block text-sm font-medium text-gray-700">
+                          Operasyon Süresi
+                        </label>
+                        <input
+                          type="text"
+                          name="operationTime"
+                          id="operationTime"
+                          value={formData.operationTime || ''}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, operationTime: e.target.value }))}
+                          placeholder="örn: 1 Saat"
+                          className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="hospitalStay" className="block text-sm font-medium text-gray-700">
+                          Hastane Kalışı
+                        </label>
+                        <input
+                          type="text"
+                          name="hospitalStay"
+                          id="hospitalStay"
+                          value={formData.hospitalStay || ''}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, hospitalStay: e.target.value }))}
+                          placeholder="örn: Günübirlik"
+                          className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="recovery" className="block text-sm font-medium text-gray-700">
+                          İyileşme Süresi
+                        </label>
+                        <input
+                          type="text"
+                          name="recovery"
+                          id="recovery"
+                          value={formData.recovery || ''}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, recovery: e.target.value }))}
+                          placeholder="e.g., 1-2 Weeks"
+                          className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="accommodation" className="block text-sm font-medium text-gray-700">
+                          Accommodation
+                        </label>
+                        <input
+                          type="text"
+                          name="accommodation"
+                          id="accommodation"
+                          value={formData.accommodation || ''}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, accommodation: e.target.value }))}
+                          placeholder="e.g., 5* Hotel"
+                          className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="transportation" className="block text-sm font-medium text-gray-700">
+                          Transportation
+                        </label>
+                        <input
+                          type="text"
+                          name="transportation"
+                          id="transportation"
+                          value={formData.transportation || ''}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, transportation: e.target.value }))}
+                          placeholder="e.g., VIP Car & Driver"
+                          className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Tab.Panel>

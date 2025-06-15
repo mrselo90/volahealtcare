@@ -7,7 +7,6 @@ export const ServiceSchema = z.object({
   description: z.string().optional(),
   categoryId: z.string().min(1, 'Category is required'),
   price: z.number().positive('Price must be positive'),
-  duration: z.string().min(1, 'Duration is required'),
   currency: z.string().default('USD'),
   featured: z.boolean().default(false),
   availability: z.string().default('always'),
@@ -17,6 +16,13 @@ export const ServiceSchema = z.object({
   aftercare: z.string().optional(),
   benefits: z.string().optional(),
   risks: z.string().optional(),
+  // Package Details
+  timeInTurkey: z.string().optional(),
+  operationTime: z.string().optional(),
+  hospitalStay: z.string().optional(),
+  recovery: z.string().optional(),
+  accommodation: z.string().optional(),
+  transportation: z.string().optional(),
 });
 
 // Service translation schema

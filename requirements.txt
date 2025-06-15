@@ -89,10 +89,7 @@ Each treatment page includes:
 
 6. **FAQ**
 
-7. **Blog / Insights**
-   - SEO-focused content on procedures and country-specific info
-
-8. **Contact**
+7. **Contact**
    - Map, phone, WhatsApp, form
 
 6. TECH STACK:

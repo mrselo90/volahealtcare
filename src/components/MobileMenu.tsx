@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon, PhoneIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -28,12 +29,21 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       icon: CalendarDaysIcon,
       primary: true
     },
-    {
-      href: 'tel:+905551234567',
-      label: '+90 555 123 45 67',
+          {
+        href: 'tel:+905444749881',
+        label: '+90 544 474 98 81',
       icon: PhoneIcon,
       primary: false
     }
+  ];
+
+  const navigation = [
+    { name: 'Home', href: '/' },
+    { name: 'Services', href: '/services' },
+    { name: 'About', href: '/about' },
+    { name: 'Why Choose Us?', href: '/why-choose-us' },
+    { name: 'Results', href: '/gallery' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   return (
@@ -60,12 +70,10 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-white/20">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                    <span className="text-black font-bold text-xs">ACI</span>
-                  </div>
+                <div className="flex items-center gap-3">
+                  <Image src="/Vola_edited.jpg" alt="Vola Health Logo" width={32} height={32} className="rounded-none" />
                   <div className="ml-3">
-                    <p className="text-white font-semibold text-sm">AESTHETIC CARE</p>
+                    <p className="text-white font-semibold text-sm">VOLA HEALTH</p>
                     <p className="text-white/60 text-xs">ISTANBUL</p>
                   </div>
                 </div>
@@ -80,19 +88,19 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               {/* Navigation Links */}
               <nav className="flex-1 py-6">
                 <div className="space-y-1 px-6">
-                  {menuItems.map((item, index) => (
+                  {navigation.map((item) => (
                     <motion.div
-                      key={item.href}
+                      key={item.name}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
+                      transition={{ delay: 0.1 * navigation.indexOf(item) }}
                     >
                       <Link
                         href={item.href}
                         onClick={onClose}
                         className="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-medium"
                       >
-                        {item.label}
+                        {item.name}
                       </Link>
                     </motion.div>
                   ))}
@@ -159,7 +167,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               {/* Footer Info */}
               <div className="p-6 bg-white/5 text-center">
                 <p className="text-white/60 text-xs mb-2">Istanbul, Turkey</p>
-                <p className="text-white/80 text-sm font-medium">Premium Medical Tourism</p>
+                <p className="text-white/80 text-sm font-medium">Vola Health Istanbul</p>
               </div>
             </div>
           </motion.div>

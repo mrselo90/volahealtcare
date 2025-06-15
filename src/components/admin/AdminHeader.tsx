@@ -4,6 +4,7 @@ import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { signOut, useSession } from 'next-auth/react';
 import { RiGlobalLine, RiLogoutBoxRLine, RiUserLine } from 'react-icons/ri';
+import Image from 'next/image';
 
 const languages = [
   { code: 'en', name: 'English' },
@@ -28,7 +29,10 @@ export function AdminHeader() {
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center gap-4">
             {/* Logo Placeholder */}
-            <span className="text-xl font-bold text-amber-500">LUXMED</span>
+            <div className="flex items-center gap-2">
+              <Image src="/Vola_edited.jpg" alt="Vola Health Logo" width={32} height={32} className="rounded-none" />
+              <span className="text-lg font-bold text-primary">Vola Health</span>
+            </div>
           </div>
           <div className="flex items-center space-x-4">
             {/* Language Selector */}

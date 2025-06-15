@@ -1,45 +1,126 @@
 'use client';
 
-import { useState } from 'react';
-import { RiSaveLine } from 'react-icons/ri';
+import { useState, useEffect } from 'react';
+import { RiSaveLine, RiCheckLine, RiErrorWarningLine } from 'react-icons/ri';
+
+interface Settings {
+  siteName: string;
+  description: string;
+  contactEmail: string;
+  contactPhone: string;
+  address: string;
+  socialMedia: {
+    facebook: string;
+    instagram: string;
+    twitter: string;
+    youtube: string;
+  };
+}
 
 export default function SettingsPage() {
   const [saving, setSaving] = useState(false);
-  const [settings, setSettings] = useState({
-    siteName: 'Aesthetic Care Istanbul',
-    contactEmail: 'contact@aestheticcare.com',
-    phoneNumber: '+90 555 123 4567',
-    address: 'Istanbul, Turkey',
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [settings, setSettings] = useState<Settings>({
+    siteName: '',
+    description: '',
+    contactEmail: '',
+    contactPhone: '',
+    address: '',
     socialMedia: {
-      facebook: 'https://facebook.com/aestheticcare',
-      instagram: 'https://instagram.com/aestheticcare',
-      youtube: 'https://youtube.com/aestheticcare',
-      tiktok: 'https://tiktok.com/@aestheticcare',
-      twitter: 'https://twitter.com/aestheticcare',
+      facebook: '',
+      instagram: '',
+      twitter: '',
+      youtube: '',
     },
   });
+
+  // Load settings on component mount
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const response = await fetch('/api/settings');
+      if (!response.ok) throw new Error('Failed to load settings');
+      const data = await response.json();
+      setSettings(data);
+    } catch (error) {
+      console.error('Error loading settings:', error);
+      setMessage({ type: 'error', text: 'Failed to load settings' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
+    setMessage(null);
     
     try {
-      // TODO: Implement settings update API
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated API call
-      // Show success message
+      const response = await fetch('/api/settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings),
+      });
+
+      if (!response.ok) throw new Error('Failed to save settings');
+      
+      setMessage({ type: 'success', text: 'Settings saved successfully!' });
+      
+      // Clear message after 3 seconds
+      setTimeout(() => setMessage(null), 3000);
     } catch (error) {
       console.error('Error saving settings:', error);
-      // Show error message
+      setMessage({ type: 'error', text: 'Failed to save settings. Please try again.' });
     } finally {
       setSaving(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
       </div>
+
+      {/* Success/Error Message */}
+      {message && (
+        <div className={`rounded-md p-4 ${
+          message.type === 'success' 
+            ? 'bg-green-50 border border-green-200' 
+            : 'bg-red-50 border border-red-200'
+        }`}>
+          <div className="flex">
+            <div className="flex-shrink-0">
+              {message.type === 'success' ? (
+                <RiCheckLine className="h-5 w-5 text-green-400" />
+              ) : (
+                <RiErrorWarningLine className="h-5 w-5 text-red-400" />
+              )}
+            </div>
+            <div className="ml-3">
+              <p className={`text-sm font-medium ${
+                message.type === 'success' ? 'text-green-800' : 'text-red-800'
+              }`}>
+                {message.text}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-6">
@@ -78,15 +159,15 @@ export default function SettingsPage() {
             </div>
 
             <div>
-              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-900">
+              <label htmlFor="contactPhone" className="block text-sm font-medium text-gray-900">
                 Phone Number
               </label>
               <input
                 type="tel"
-                name="phoneNumber"
-                id="phoneNumber"
-                value={settings.phoneNumber}
-                onChange={(e) => setSettings({ ...settings, phoneNumber: e.target.value })}
+                name="contactPhone"
+                id="contactPhone"
+                value={settings.contactPhone}
+                onChange={(e) => setSettings({ ...settings, contactPhone: e.target.value })}
                 className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
               />
             </div>
@@ -102,6 +183,21 @@ export default function SettingsPage() {
                 value={settings.address}
                 onChange={(e) => setSettings({ ...settings, address: e.target.value })}
                 className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label htmlFor="description" className="block text-sm font-medium text-gray-900">
+                Site Description
+              </label>
+              <textarea
+                name="description"
+                id="description"
+                rows={3}
+                value={settings.description}
+                onChange={(e) => setSettings({ ...settings, description: e.target.value })}
+                className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
+                placeholder="Brief description of your medical tourism services..."
               />
             </div>
           </div>
@@ -129,6 +225,7 @@ export default function SettingsPage() {
                     socialMedia: { ...settings.socialMedia, facebook: e.target.value },
                   })
                 }
+                placeholder="https://facebook.com/volahealthistanbul"
                 className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
               />
             </div>
@@ -148,6 +245,7 @@ export default function SettingsPage() {
                     socialMedia: { ...settings.socialMedia, instagram: e.target.value },
                   })
                 }
+                placeholder="https://instagram.com/volahealthistanbul"
                 className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
               />
             </div>
@@ -167,25 +265,7 @@ export default function SettingsPage() {
                     socialMedia: { ...settings.socialMedia, youtube: e.target.value },
                   })
                 }
-                className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="tiktok" className="block text-sm font-medium text-gray-900">
-                TikTok URL
-              </label>
-              <input
-                type="url"
-                name="tiktok"
-                id="tiktok"
-                value={settings.socialMedia.tiktok}
-                onChange={(e) =>
-                  setSettings({
-                    ...settings,
-                    socialMedia: { ...settings.socialMedia, tiktok: e.target.value },
-                  })
-                }
+                placeholder="https://youtube.com/@volahealthistanbul"
                 className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
               />
             </div>
@@ -205,6 +285,7 @@ export default function SettingsPage() {
                     socialMedia: { ...settings.socialMedia, twitter: e.target.value },
                   })
                 }
+                placeholder="https://twitter.com/volahealthistanbul"
                 className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
               />
             </div>
@@ -215,7 +296,7 @@ export default function SettingsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="flex items-center gap-2 rounded-md bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 disabled:opacity-50"
+            className="flex items-center gap-2 rounded-md bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <RiSaveLine className="h-4 w-4" />
             {saving ? 'Saving...' : 'Save Changes'}

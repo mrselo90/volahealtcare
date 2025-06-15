@@ -6,9 +6,7 @@ import { BellIcon } from '@heroicons/react/24/outline';
 export function NotificationBell() {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications] = useState([
-    { id: 1, text: 'New blog post about hair transplant techniques' },
-    { id: 2, text: 'Special offer: 20% off on dental treatments' },
-    { id: 3, text: 'Your appointment has been confirmed' },
+    // Remove any notification objects or text related to blog posts.
   ]);
 
   return (

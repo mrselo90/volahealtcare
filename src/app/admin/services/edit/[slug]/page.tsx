@@ -49,7 +49,6 @@ export default function EditServicePage({ params }: { params: { slug: string } }
     description: '',
     category: '',
     price: 0,
-    duration: '',
     currency: 'USD',
     translations: defaultTranslations,
     images: [] as Array<{ id?: string; url: string; alt: string }>,
@@ -61,6 +60,13 @@ export default function EditServicePage({ params }: { params: { slug: string } }
     aftercare: '',
     benefits: '',
     risks: '',
+    // Package Details
+    timeInTurkey: '',
+    operationTime: '',
+    hospitalStay: '',
+    recovery: '',
+    accommodation: '',
+    transportation: '',
   });
 
   useEffect(() => {
@@ -106,7 +112,6 @@ export default function EditServicePage({ params }: { params: { slug: string } }
           description: data.translations?.find((t: any) => t.language === 'en')?.description || '',
           category: data.categoryId || '',
           price: data.price || 0,
-          duration: data.duration || '',
           currency: data.currency || 'USD',
           translations: data.translations?.length > 0 ? data.translations.map((t: any) => ({
             language: t.language,
@@ -126,6 +131,13 @@ export default function EditServicePage({ params }: { params: { slug: string } }
           aftercare: data.aftercare || '',
           benefits: data.benefits || '',
           risks: data.risks || '',
+          // Package Details
+          timeInTurkey: data.timeInTurkey || '',
+          operationTime: data.operationTime || '',
+          hospitalStay: data.hospitalStay || '',
+          recovery: data.recovery || '',
+          accommodation: data.accommodation || '',
+          transportation: data.transportation || '',
         };
 
         console.log('Mapped service data:', mappedService); // Debug log
@@ -349,18 +361,7 @@ export default function EditServicePage({ params }: { params: { slug: string } }
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Duration *</label>
-              <input
-                type="text"
-                name="duration"
-                value={service.duration}
-                onChange={handleInputChange}
-                placeholder="e.g., 2 hours"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-                required
-              />
-            </div>
+
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Currency</label>
@@ -477,6 +478,84 @@ export default function EditServicePage({ params }: { params: { slug: string } }
                 rows={3}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
                 placeholder="Potential risks and important considerations..."
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Package Details */}
+        <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Package Details</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Türkiye'de Kalış Süresi</label>
+              <input
+                type="text"
+                name="timeInTurkey"
+                value={service.timeInTurkey}
+                onChange={handleInputChange}
+                                  placeholder="örn: 1-3 Gün"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Operasyon Süresi</label>
+              <input
+                type="text"
+                name="operationTime"
+                value={service.operationTime}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                placeholder="örn: 1 Saat"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Hastane Kalışı</label>
+              <input
+                type="text"
+                name="hospitalStay"
+                value={service.hospitalStay}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                placeholder="örn: Günübirlik"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">İyileşme Süresi</label>
+              <input
+                type="text"
+                name="recovery"
+                value={service.recovery}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                placeholder="örn: 1-2 Hafta"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Konaklama</label>
+              <input
+                type="text"
+                name="accommodation"
+                value={service.accommodation}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                placeholder="örn: 5* Otel"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Ulaşım</label>
+              <input
+                type="text"
+                name="transportation"
+                value={service.transportation}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                placeholder="örn: VIP Araç ve Şoför"
               />
             </div>
           </div>

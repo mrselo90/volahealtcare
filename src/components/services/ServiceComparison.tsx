@@ -70,18 +70,6 @@ export function ServiceComparison({ services, onRemoveService }: ServiceComparis
             ))}
           </tr>
 
-          {/* Price Row */}
-          <tr>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              Price Range
-            </td>
-            {services.map((service) => (
-              <td key={service.slug} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {service.priceRange ? `$${service.priceRange[0]} - $${service.priceRange[1]}` : 'Contact for pricing'}
-              </td>
-            ))}
-          </tr>
-
           {/* Duration Row */}
           <tr>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

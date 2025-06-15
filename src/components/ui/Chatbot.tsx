@@ -17,7 +17,7 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: uuidv4(),
-      text: 'Hello! How can I help you with your medical tourism needs today?',
+      text: 'Hello! How can I help you with your medical tourism needs at Vola Health Istanbul today?',
       sender: 'bot',
       timestamp: new Date(),
     },
@@ -144,7 +144,7 @@ Country: ${userCountry}`,
     setTimeout(() => {
       const botMessage: Message = {
         id: uuidv4(),
-        text: 'Thank you for providing your contact information. How else can I assist you with your medical tourism needs?',
+        text: 'Thank you for providing your contact information. How else can I assist you with your medical tourism needs at Vola Health Istanbul?',
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -194,7 +194,7 @@ Country: ${userCountry}`,
             className="fixed bottom-24 right-24 z-40 w-96 rounded-lg bg-white shadow-xl"
           >
             <div className="flex items-center justify-between border-b p-4">
-              <h3 className="text-lg font-semibold">Medical Tourism Chat</h3>
+              <h3 className="text-lg font-semibold">Vola Health Istanbul Chat</h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-gray-500 hover:text-gray-700"

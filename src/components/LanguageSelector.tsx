@@ -2,17 +2,19 @@
 
 import { useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-
-const languages = [
-  { code: 'en', name: 'English' },
-  { code: 'tr', name: 'Türkçe' },
-  { code: 'ar', name: 'العربية' },
-  { code: 'ru', name: 'Русский' },
-];
+import { useTranslation } from '@/lib/i18n/hooks';
+import { languages, Language } from '@/lib/i18n/config';
 
 export function LanguageSelector() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState(languages[0]);
+  const { language, setLanguage } = useTranslation();
+
+  const selectedLang = languages.find(lang => lang.code === language) || languages[0];
+
+  const handleLanguageChange = (langCode: Language) => {
+    setLanguage(langCode);
+    setIsOpen(false);
+  };
 
   return (
     <div className="relative">
@@ -21,6 +23,7 @@ export function LanguageSelector() {
         className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
         onClick={() => setIsOpen(!isOpen)}
       >
+        <span className="mr-1">{selectedLang.flag}</span>
         {selectedLang.name}
         <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
       </button>
@@ -28,16 +31,16 @@ export function LanguageSelector() {
       {isOpen && (
         <div className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            {languages.map((language) => (
+            {languages.map((lang) => (
               <button
-                key={language.code}
-                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                onClick={() => {
-                  setSelectedLang(language);
-                  setIsOpen(false);
-                }}
+                key={lang.code}
+                className={`block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 ${
+                  lang.code === language ? 'bg-gray-50 text-gray-900' : 'text-gray-700'
+                }`}
+                onClick={() => handleLanguageChange(lang.code as Language)}
               >
-                {language.name}
+                <span className="mr-2">{lang.flag}</span>
+                {lang.name}
               </button>
             ))}
           </div>

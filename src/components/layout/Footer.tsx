@@ -1,13 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-
+import { PhoneIcon, EnvelopeIcon, MapPinIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const defaultSocial = [
   {
     name: 'Facebook',
     key: 'facebook',
+    href: 'https://www.facebook.com/VolaHealth/',
     icon: (props: any) => (
       <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
         <path
@@ -21,6 +23,7 @@ const defaultSocial = [
   {
     name: 'Instagram',
     key: 'instagram',
+    href: 'https://www.instagram.com/volahealth/',
     icon: (props: any) => (
       <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
         <path
@@ -31,45 +34,19 @@ const defaultSocial = [
       </svg>
     ),
   },
-  {
-    name: 'YouTube',
-    key: 'youtube',
-    icon: (props: any) => (
-      <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-        <path d="M21.8 8.001s-.2-1.4-.8-2c-.8-.8-1.7-.8-2.1-.9C15.2 5 12 5 12 5h0s-3.2 0-6.9.1c-.4 0-1.3.1-2.1.9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.6c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.9.8 2.4.9C8.8 19 12 19 12 19s3.2 0 6.9-.1c.4 0 1.3-.1 2.1-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.6c0-1.6-.2-3.2-.2-3.2zM9.8 15.3V8.7l6.4 3.3-6.4 3.3z" />
-      </svg>
-    ),
-  },
-  {
-    name: 'TikTok',
-    key: 'tiktok',
-    icon: (props: any) => (
-      <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-        <path d="M12.75 2v12.25c0 1.24-.99 2.25-2.25 2.25s-2.25-1.01-2.25-2.25 1.01-2.25 2.25-2.25c.41 0 .75.34.75.75s-.34.75-.75.75a.75.75 0 100 1.5c1.24 0 2.25-1.01 2.25-2.25V2h1.5v2.25c0 .41.34.75.75.75h2.25v1.5h-2.25a2.25 2.25 0 01-2.25-2.25V2h1.5z" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Twitter',
-    key: 'twitter',
-    icon: (props: any) => (
-      <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-        <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-      </svg>
-    ),
-  },
 ];
 
 const navigation = {
   services: [
     { name: 'Dental Services', href: '/services/dental' },
-            { name: 'Facial Services', href: '/services/face' },
+    { name: 'Facial Services', href: '/services/face' },
     { name: 'Body Services', href: '/services/body' },
   ],
   company: [
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
-    { name: 'Blog', href: '/blog' },
+    { name: 'Why Choose Us?', href: '/why-choose-us' },
+    { name: 'Results', href: '/gallery' },
   ],
   legal: [
     { name: 'Privacy', href: '/privacy' },
@@ -77,18 +54,7 @@ const navigation = {
   ],
 };
 
-
 export default function Footer() {
-  const [socialUrls, setSocialUrls] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    fetch('/api/settings')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data.socialMedia) setSocialUrls(data.socialMedia);
-      });
-  }, []);
-
   return (
     <footer className="bg-gray-900" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
@@ -97,17 +63,18 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8">
-            <Link href="/" className="text-2xl font-serif font-bold text-white">
-              MedTour
+            <Link href="/" className="flex items-center gap-2 text-2xl font-serif font-bold text-white">
+              <Image src="/Vola_edited.jpg" alt="Vola Health Logo" width={36} height={36} className="rounded-none" />
+              Vola Health Istanbul
             </Link>
             <p className="text-sm leading-6 text-gray-300">
-              Premium medical tourism services offering world-class healthcare solutions.
+              Premium medical tourism services offering world-class healthcare solutions in Istanbul, Turkey.
             </p>
             <div className="flex space-x-6">
               {defaultSocial.map((item) => (
                 <a
                   key={item.name}
-                  href={socialUrls[item.key] || '#'}
+                  href={item.href}
                   className="text-gray-500 hover:text-gray-400"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -162,13 +129,26 @@ export default function Footer() {
                 <h3 className="text-sm font-semibold leading-6 text-white">Contact</h3>
                 <ul role="list" className="mt-6 space-y-4">
                   <li>
-                    <a href="tel:+1234567890" className="text-sm leading-6 text-gray-300 hover:text-white">
-                      +1 (234) 567-890
+                    <a href="tel:+905444749881" className="text-sm leading-6 text-gray-300 hover:text-white flex items-center gap-2">
+                      <PhoneIcon className="h-4 w-4" />
+                      +90 544 474 98 81
                     </a>
                   </li>
                   <li>
-                    <a href="mailto:info@medtour.com" className="text-sm leading-6 text-gray-300 hover:text-white">
-                      info@medtour.com
+                    <a href="mailto:info@volahealthistanbul.com" className="text-sm leading-6 text-gray-300 hover:text-white flex items-center gap-2">
+                      <EnvelopeIcon className="h-4 w-4" />
+                      info@volahealthistanbul.com
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://maps.app.goo.gl/wdZhMAjRpBS4xrCf9" className="text-sm leading-6 text-gray-300 hover:text-white flex items-center gap-2" target="_blank" rel="noopener noreferrer">
+                      <MapPinIcon className="h-4 w-4" />
+                      Veliefendi, Prof. Dr. Turan Güneş Cd. No:103 Zeytinburnu/Istanbul
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.trustpilot.com/review/volahealthistanbul.com" className="text-sm leading-6 text-gray-300 hover:text-white" target="_blank" rel="noopener noreferrer">
+                      Trustpilot Reviews
                     </a>
                   </li>
                 </ul>
@@ -178,7 +158,7 @@ export default function Footer() {
         </div>
         <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-24">
           <p className="text-xs leading-5 text-gray-400">
-            &copy; {new Date().getFullYear()} MedTour. All rights reserved.
+            &copy; {new Date().getFullYear()} Vola Health Istanbul. All rights reserved.
           </p>
         </div>
       </div>

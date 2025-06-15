@@ -5,10 +5,9 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import Chatbot from '@/components/ui/Chatbot';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
-import { TranslationProvider } from '@/contexts/TranslationContext';
+import { LanguageProvider } from '@/lib/i18n/hooks';
 import CookieConsent from '@/components/ui/CookieConsent';
 import { Providers } from './providers';
-import { TranslationLoader } from '@/components/TranslationLoader';
 import PerformanceMonitor from '@/components/PerformanceMonitor';
 
 const montserrat = Montserrat({
@@ -24,36 +23,32 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'Aesthetic Care Istanbul - Premium Medical Tourism',
-  description: 'Experience world-class aesthetic procedures in Istanbul. 31 services including dental aesthetics, facial procedures, and body contouring. Expert surgeons, affordable prices.',
-  keywords: 'medical tourism, aesthetic surgery, dental tourism, Istanbul, Turkey, cosmetic procedures, plastic surgery, dental veneers, rhinoplasty, hair transplant',
-  authors: [{ name: 'Aesthetic Care Istanbul' }],
-  creator: 'Aesthetic Care Istanbul',
-  publisher: 'Aesthetic Care Istanbul',
+  title: 'Vola Health Istanbul - Premium Medical Tourism',
+  description: 'Experience world-class medical treatments in Istanbul, Turkey. Premium medical tourism services offering dental, aesthetic, and cosmetic procedures with exceptional care.',
+  keywords: 'medical tourism, aesthetic surgery, dental tourism, Istanbul, Turkey, cosmetic procedures, plastic surgery, dental veneers, rhinoplasty, hair transplant, Vola Health',
+  authors: [{ name: 'Vola Health Istanbul' }],
+  creator: 'Vola Health Istanbul',
+  publisher: 'Vola Health Istanbul',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://aestheticcare-istanbul.com'),
+  metadataBase: new URL('https://volahealthistanbul.com'),
   alternates: {
     canonical: '/',
-    languages: {
-      'en-US': '/en',
-      'tr-TR': '/tr',
-    },
   },
   openGraph: {
-    title: 'Aesthetic Care Istanbul - Premium Medical Tourism',
-    description: 'Experience world-class aesthetic procedures in Istanbul. Expert surgeons, modern facilities, affordable prices.',
-    url: 'https://aestheticcare-istanbul.com',
-    siteName: 'Aesthetic Care Istanbul',
+    title: 'Vola Health Istanbul - Premium Medical Tourism',
+    description: 'Experience world-class medical treatments in Istanbul, Turkey. Premium medical tourism services offering dental, aesthetic, and cosmetic procedures.',
+    url: 'https://volahealthistanbul.com',
+    siteName: 'Vola Health Istanbul',
     images: [
       {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Aesthetic Care Istanbul - Medical Tourism',
+        alt: 'Vola Health Istanbul - Medical Tourism',
       },
     ],
     locale: 'en_US',
@@ -61,10 +56,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Aesthetic Care Istanbul - Premium Medical Tourism',
-    description: 'Experience world-class aesthetic procedures in Istanbul. Expert surgeons, modern facilities, affordable prices.',
+    title: 'Vola Health Istanbul - Premium Medical Tourism',
+    description: 'Experience world-class medical treatments in Istanbul, Turkey.',
     images: ['/images/twitter-image.jpg'],
-    creator: '@aestheticcare_ist',
   },
   robots: {
     index: true,
@@ -92,19 +86,17 @@ export default function RootLayout({
     <html lang="en" className={`${montserrat.variable} ${playfairDisplay.variable}`}>
       <body className="min-h-screen flex flex-col">
         <Providers>
-          <PerformanceMonitor />
-          <Header />
-          <main className="flex-grow pt-24">
-            <TranslationProvider>
-              <TranslationLoader>
-                {children}
-              </TranslationLoader>
-            </TranslationProvider>
-          </main>
-          <Footer />
-          <Chatbot />
-          <WhatsAppButton phoneNumber="905551234567" />
-          <CookieConsent />
+          <LanguageProvider>
+            <PerformanceMonitor />
+            <Header />
+            <main className="flex-grow pt-24">
+              {children}
+            </main>
+            <Footer />
+            <Chatbot />
+            <WhatsAppButton phoneNumber="905444749881" />
+            <CookieConsent />
+          </LanguageProvider>
         </Providers>
       </body>
     </html>

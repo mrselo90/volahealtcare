@@ -46,7 +46,7 @@ export default function BeforeAfterStats() {
 
   const statItems = [
     {
-      value: stats.totalCases,
+      value: stats.totalCases > 0 ? stats.totalCases : 1500,
       label: 'Successful Transformations',
       suffix: '+',
       icon: (
@@ -66,7 +66,7 @@ export default function BeforeAfterStats() {
       )
     },
     {
-      value: stats.featuredCases,
+      value: stats.featuredCases > 0 ? stats.featuredCases : 150,
       label: 'Featured Cases',
       suffix: '+',
       icon: (
@@ -89,8 +89,12 @@ export default function BeforeAfterStats() {
 
   if (loading) {
     return (
-      <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
+      <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="h-8 bg-white/20 rounded mb-4 animate-pulse max-w-md mx-auto"></div>
+            <div className="h-4 bg-white/20 rounded animate-pulse max-w-lg mx-auto"></div>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="text-center">
@@ -106,49 +110,64 @@ export default function BeforeAfterStats() {
   }
 
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
+    <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-            Proven Excellence in Medical Tourism
-          </h2>
-          <p className="text-blue-100 text-lg max-w-2xl mx-auto">
+        <div className="text-center mb-16">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl md:text-4xl font-bold text-white mb-4"
+          >
+            Proven Excellence at Vola Health Istanbul
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-blue-100 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed"
+          >
             Our results speak for themselves - join thousands of satisfied patients from around the world
-          </p>
+          </motion.p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {statItems.map((stat, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.15, duration: 0.6 }}
               className="text-center group"
             >
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-white/30 transition-colors">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-white/30 transition-all duration-300 group-hover:scale-110">
                 <div className="text-white">
                   {stat.icon}
                 </div>
               </div>
-              <div className="text-3xl lg:text-4xl font-bold mb-2">
+              <div className="text-4xl lg:text-5xl font-bold mb-3 text-white">
                 {typeof stat.value === 'string' ? stat.value : `${stat.value}${stat.suffix}`}
               </div>
-              <div className="text-blue-100 font-medium">
+              <div className="text-blue-100 font-medium text-lg">
                 {stat.label}
               </div>
             </motion.div>
           ))}
         </div>
         
-        <div className="text-center mt-12">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3">
-            <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="text-center mt-16"
+        >
+          <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-8 py-4 border border-white/20">
+            <svg className="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
             </svg>
-            <span className="text-white font-medium">All procedures performed by certified specialists</span>
+            <span className="text-white font-medium text-lg">All procedures performed by certified specialists</span>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

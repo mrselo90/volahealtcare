@@ -94,15 +94,6 @@ const ServiceCard = ({ service, onToggleFavorite, onToggleCompare, isFavorited, 
               <ScaleIcon className="h-4 w-4" />
             </button>
           </div>
-
-          {/* Price Badge */}
-          <div className="absolute bottom-4 left-4">
-            <div className="bg-white/95 backdrop-blur-sm rounded-lg px-3 py-1 shadow-lg">
-              <p className="text-sm font-semibold text-gray-900">
-                From ${(service.price || service.priceFrom)?.toLocaleString() || 'Contact'}
-              </p>
-            </div>
-          </div>
         </div>
       </div>
 

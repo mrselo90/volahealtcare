@@ -1014,5 +1014,321 @@ Benefits:
         ],
       }
     ],
+  },
+  {
+    name: 'Hair Transplant',
+    slug: 'hair-transplant',
+    description: 'Restore your natural hairline with our advanced hair transplant techniques',
+    services: [
+      {
+        name: 'FUE Hair Transplant',
+        slug: 'fue-hair-transplant',
+        description: 'FUE (Follicular Unit Extraction) is a minimally invasive hair transplant technique that extracts individual hair follicles for natural-looking results.',
+        longDescription: 'FUE Hair Transplant at Vola Health Istanbul is a state-of-the-art hair restoration technique that provides natural-looking results with minimal scarring. This advanced method involves extracting individual hair follicles from the donor area and transplanting them to areas experiencing hair loss. Our experienced surgeons use precision techniques to ensure optimal graft survival and natural hair growth patterns.',
+        priceRange: [2000, 4000],
+        duration: '6-8 hours',
+        benefits: [
+          'Minimally invasive procedure',
+          'No linear scarring',
+          'Natural-looking results',
+          'Quick recovery time',
+          'Permanent solution'
+        ],
+        process: [
+          'Initial consultation and hair analysis',
+          'Donor area preparation',
+          'Individual follicle extraction',
+          'Recipient site creation',
+          'Follicle implantation'
+        ],
+        images: ['/images/services/hair-transplant/fue/1.svg'],
+        thumbnail: '/images/services/hair-transplant/fue/thumb.svg',
+        faqs: [
+          {
+            question: 'How long does FUE hair transplant take?',
+            answer: 'The procedure typically takes 6-8 hours, depending on the number of grafts needed.'
+          },
+          {
+            question: 'When will I see results?',
+            answer: 'Initial growth begins at 3-4 months, with full results visible after 12-18 months.'
+          }
+        ]
+      },
+      {
+        name: 'DHI Hair Transplant',
+        slug: 'dhi-hair-transplant',
+        description: 'DHI (Direct Hair Implantation) is an advanced hair transplant technique that implants hair follicles directly without creating incisions.',
+        longDescription: 'DHI Hair Transplant at Vola Health Istanbul represents the latest advancement in hair restoration technology. This technique uses a specialized Choi Implanter Pen to directly implant hair follicles without the need for creating recipient site incisions beforehand. This results in higher graft survival rates, more precise placement, and faster healing.',
+        priceRange: [2500, 5000],
+        duration: '6-8 hours',
+        benefits: [
+          'Higher graft survival rate',
+          'More precise implantation',
+          'Faster healing process',
+          'No need for incisions',
+          'Natural hair direction'
+        ],
+        process: [
+          'Comprehensive hair analysis',
+          'Donor area extraction',
+          'Direct implantation with Choi pen',
+          'Post-procedure care',
+          'Follow-up monitoring'
+        ],
+        images: ['/images/services/hair-transplant/dhi/1.svg'],
+        thumbnail: '/images/services/hair-transplant/dhi/thumb.svg',
+        faqs: [
+          {
+            question: 'What makes DHI different from FUE?',
+            answer: 'DHI uses a specialized pen for direct implantation, eliminating the need for creating recipient sites separately.'
+          },
+          {
+            question: 'Is DHI more expensive than FUE?',
+            answer: 'DHI typically costs more due to the advanced technology and specialized equipment used.'
+          }
+        ]
+      },
+      {
+        name: 'Unshaven Hair Transplant',
+        slug: 'unshaven-hair-transplant',
+        description: 'Unshaven hair transplant allows you to maintain your existing hairstyle while undergoing hair restoration treatment.',
+        longDescription: 'Unshaven Hair Transplant at Vola Health Istanbul is perfect for patients who want to maintain their privacy and continue their daily activities without anyone knowing they had a hair transplant. This technique allows the procedure to be performed without shaving the entire head, making it ideal for professionals and those with active social lives.',
+        priceRange: [3000, 6000],
+        duration: '8-10 hours',
+        benefits: [
+          'Maintain existing hairstyle',
+          'Complete privacy',
+          'No visible signs of procedure',
+          'Continue normal activities',
+          'Natural appearance throughout'
+        ],
+        process: [
+          'Detailed consultation',
+          'Selective area trimming',
+          'Careful follicle extraction',
+          'Precise implantation',
+          'Styling and finishing'
+        ],
+        images: ['/images/services/hair-transplant/unshaven/1.svg'],
+        thumbnail: '/images/services/hair-transplant/unshaven/thumb.svg',
+        faqs: [
+          {
+            question: 'Can I go back to work immediately?',
+            answer: 'Yes, the unshaven technique allows you to return to work and social activities immediately.'
+          },
+          {
+            question: 'Is the procedure more complex?',
+            answer: 'Yes, it requires more skill and time, but provides the benefit of complete discretion.'
+          }
+        ]
+      },
+      {
+        name: 'Stem Cell Hair Transplant',
+        slug: 'stem-cell-hair-transplant',
+        description: 'Stem cell hair transplant combines traditional hair transplant techniques with regenerative stem cell therapy for enhanced results.',
+        longDescription: 'Stem Cell Hair Transplant at Vola Health Istanbul represents the cutting edge of hair restoration technology. This innovative treatment combines traditional hair transplant methods with stem cell therapy to enhance graft survival, promote faster healing, and stimulate natural hair growth. The stem cells help regenerate damaged hair follicles and improve overall scalp health.',
+        priceRange: [3500, 7000],
+        duration: '8-10 hours',
+        benefits: [
+          'Enhanced graft survival',
+          'Faster healing process',
+          'Improved hair density',
+          'Regenerative properties',
+          'Long-lasting results'
+        ],
+        process: [
+          'Comprehensive evaluation',
+          'Stem cell extraction',
+          'Hair follicle harvesting',
+          'Stem cell preparation',
+          'Combined implantation'
+        ],
+        images: ['/images/services/hair-transplant/stem-cell/1.svg'],
+        thumbnail: '/images/services/hair-transplant/stem-cell/thumb.svg',
+        faqs: [
+          {
+            question: 'How do stem cells help hair growth?',
+            answer: 'Stem cells promote healing, increase blood flow, and stimulate dormant hair follicles to grow.'
+          },
+          {
+            question: 'Is this treatment safe?',
+            answer: 'Yes, we use your own stem cells, making the treatment completely safe and natural.'
+          }
+        ]
+      },
+      {
+        name: 'FUE Sapphire Hair Transplant',
+        slug: 'fue-sapphire-hair-transplant',
+        description: 'FUE Sapphire uses sapphire blades for creating recipient sites, resulting in faster healing and more natural results.',
+        longDescription: 'FUE Sapphire Hair Transplant at Vola Health Istanbul utilizes sapphire blades instead of traditional steel blades for creating recipient sites. This advanced technique results in smaller, more precise incisions, faster healing, reduced scarring, and more natural-looking results. The sapphire blades are sharper and smoother, causing less trauma to the scalp.',
+        priceRange: [2500, 5000],
+        duration: '6-8 hours',
+        benefits: [
+          'Faster healing process',
+          'Minimal scarring',
+          'More precise incisions',
+          'Reduced tissue trauma',
+          'Natural hair direction'
+        ],
+        process: [
+          'Hair analysis and planning',
+          'Donor area extraction',
+          'Sapphire blade site creation',
+          'Follicle implantation',
+          'Post-operative care'
+        ],
+        images: ['/images/services/hair-transplant/sapphire/1.svg'],
+        thumbnail: '/images/services/hair-transplant/sapphire/thumb.svg',
+        faqs: [
+          {
+            question: 'What are the advantages of sapphire blades?',
+            answer: 'Sapphire blades create smaller, more precise incisions with less tissue damage and faster healing.'
+          },
+          {
+            question: 'Is the recovery time shorter?',
+            answer: 'Yes, the precise sapphire incisions typically heal faster than traditional methods.'
+          }
+        ]
+      },
+      {
+        name: 'FUT Hair Transplant',
+        slug: 'fut-hair-transplant',
+        description: 'FUT (Follicular Unit Transplantation) is a traditional hair transplant method that removes a strip of scalp for maximum graft yield.',
+        longDescription: 'FUT Hair Transplant at Vola Health Istanbul, also known as the strip method, involves removing a strip of scalp from the donor area and dissecting it into individual follicular units. This method allows for the transplantation of a large number of grafts in a single session, making it ideal for patients with extensive hair loss who need maximum coverage.',
+        priceRange: [1500, 3500],
+        duration: '4-6 hours',
+        benefits: [
+          'Maximum graft yield',
+          'Cost-effective option',
+          'Suitable for extensive hair loss',
+          'Single session treatment',
+          'Proven technique'
+        ],
+        process: [
+          'Initial consultation',
+          'Donor strip removal',
+          'Follicle dissection',
+          'Recipient site preparation',
+          'Graft implantation'
+        ],
+        images: ['/images/services/hair-transplant/fut/1.svg'],
+        thumbnail: '/images/services/hair-transplant/fut/thumb.svg',
+        faqs: [
+          {
+            question: 'Will there be a visible scar?',
+            answer: 'There will be a linear scar in the donor area, but it can be hidden by surrounding hair.'
+          },
+          {
+            question: 'How many grafts can be transplanted?',
+            answer: 'FUT can typically transplant 2000-4000 grafts in a single session.'
+          }
+        ]
+      },
+      {
+        name: 'Beard Transplant',
+        slug: 'beard-transplant',
+        description: 'Beard transplant creates a fuller, more defined beard using hair follicles from the donor area.',
+        longDescription: 'Beard Transplant at Vola Health Istanbul helps men achieve their desired facial hair density and shape. Using advanced FUE techniques, hair follicles are carefully extracted from the donor area and transplanted to create natural-looking beard growth. This procedure is perfect for men with patchy beards, scarring, or those who want to enhance their facial hair density.',
+        priceRange: [2000, 4000],
+        duration: '4-6 hours',
+        benefits: [
+          'Natural-looking beard growth',
+          'Permanent results',
+          'Customizable beard shape',
+          'Minimal scarring',
+          'Quick recovery'
+        ],
+        process: [
+          'Consultation and design',
+          'Donor area preparation',
+          'Follicle extraction',
+          'Recipient site creation',
+          'Graft implantation',
+          'Post-operative care'
+        ],
+        images: ['/images/services/hair-transplant/beard/1.svg'],
+        thumbnail: '/images/services/hair-transplant/beard/thumb.svg',
+        faqs: [
+          {
+            question: 'How long until I see full beard results?',
+            answer: 'Initial growth begins at 2-3 months, with full results visible at 8-12 months.'
+          },
+          {
+            question: 'Can I shave after beard transplant?',
+            answer: 'You should wait 10-14 days before gentle shaving, and avoid aggressive shaving for the first month.'
+          }
+        ]
+      },
+      {
+        name: 'Eyebrow Transplant',
+        slug: 'eyebrow-transplant',
+        description: 'Eyebrow transplant restores natural-looking eyebrows using hair follicles from the scalp.',
+        longDescription: 'Eyebrow Transplant at Vola Health Istanbul provides a permanent solution for thin, sparse, or missing eyebrows. Using microsurgical techniques, hair follicles are carefully transplanted to create natural-looking eyebrow shape and density. This procedure is ideal for those with over-plucked eyebrows, genetic hair loss, or eyebrow scarring.',
+        priceRange: [1500, 3000],
+        duration: '3-4 hours',
+        benefits: [
+          'Natural eyebrow restoration',
+          'Permanent results',
+          'Customizable shape',
+          'Minimal downtime',
+          'Enhanced facial aesthetics'
+        ],
+        process: [
+          'Consultation and design',
+          'Donor area preparation',
+          'Follicle extraction',
+          'Recipient site preparation',
+          'Precise graft placement',
+          'Post-operative care'
+        ],
+        images: ['/images/services/hair-transplant/eyebrow/1.svg'],
+        thumbnail: '/images/services/hair-transplant/eyebrow/thumb.svg',
+        faqs: [
+          {
+            question: 'Will transplanted eyebrow hair grow like regular hair?',
+            answer: 'Yes, transplanted hair will grow continuously and need regular trimming to maintain the desired eyebrow length.'
+          },
+          {
+            question: 'How soon can I wear makeup after eyebrow transplant?',
+            answer: 'You should avoid makeup on the eyebrow area for at least 7-10 days to prevent infection.'
+          }
+        ]
+      },
+      {
+        name: 'Mustache Transplant',
+        slug: 'mustache-transplant',
+        description: 'Mustache transplant creates a fuller, more defined mustache using advanced hair transplant techniques.',
+        longDescription: 'Mustache Transplant at Vola Health Istanbul helps men achieve their desired mustache density and style. Using precise FUE techniques, hair follicles are carefully extracted and transplanted to create natural-looking mustache growth. This procedure is perfect for men with sparse mustaches, scarring, or those who want to enhance their facial hair appearance.',
+        priceRange: [1500, 2500],
+        duration: '2-3 hours',
+        benefits: [
+          'Natural mustache growth',
+          'Permanent results',
+          'Customizable style',
+          'Minimal scarring',
+          'Quick procedure'
+        ],
+        process: [
+          'Consultation and design',
+          'Donor area preparation',
+          'Follicle extraction',
+          'Recipient site creation',
+          'Precise graft placement',
+          'Post-operative care'
+        ],
+        images: ['/images/services/hair-transplant/mustache/1.svg'],
+        thumbnail: '/images/services/hair-transplant/mustache/thumb.svg',
+        faqs: [
+          {
+            question: 'How many grafts are needed for mustache transplant?',
+            answer: 'Typically 200-600 grafts are needed, depending on the desired density and coverage area.'
+          },
+          {
+            question: 'When can I trim my new mustache?',
+            answer: 'You should wait at least 2-3 weeks before any trimming to allow proper healing and graft establishment.'
+          }
+        ]
+      }
+    ]
   }
 ]; 

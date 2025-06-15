@@ -16,7 +16,40 @@ export async function GET(request: Request) {
     };
 
     if (category) {
-      where.categoryId = category;
+      // Handle both category ID and category slug/name
+      if (category.length > 10) {
+        // Looks like a database ID
+        where.categoryId = category;
+      } else {
+        // First try exact slug match
+        let categoryRecord = await prisma.category.findFirst({
+          where: { slug: category }
+        });
+        
+        if (!categoryRecord) {
+          // Try with -treatments suffix
+          categoryRecord = await prisma.category.findFirst({
+            where: { slug: `${category}-treatments` }
+          });
+        }
+        
+        if (!categoryRecord) {
+          // Try partial matches
+          const allCategories = await prisma.category.findMany();
+          categoryRecord = allCategories.find(cat => 
+            cat.slug.includes(category) || 
+            category.includes(cat.slug.split('-')[0]) ||
+            cat.name.toLowerCase().includes(category.toLowerCase())
+          );
+        }
+        
+        if (categoryRecord) {
+          where.categoryId = categoryRecord.id;
+        } else {
+          // If no category found, return empty results
+          return NextResponse.json([]);
+        }
+      }
     }
 
     if (service) {

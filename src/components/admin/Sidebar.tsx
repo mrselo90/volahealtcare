@@ -17,6 +17,7 @@ import {
   RiLinksLine,
   RiUserHeartLine,
 } from 'react-icons/ri';
+import Image from 'next/image';
 
 const navigationItems = [
   {
@@ -74,12 +75,6 @@ const navigationItems = [
     description: 'Manage site languages',
   },
   {
-    name: 'Social Media',
-    href: '/admin/settings/social-media',
-    icon: RiLinksLine,
-    description: 'Manage social media links',
-  },
-  {
     name: 'Settings',
     href: '/admin/settings',
     icon: RiSettings3Line,
@@ -94,8 +89,9 @@ export default function Sidebar() {
     <aside className="hidden md:flex md:flex-shrink-0 bg-gradient-to-b from-white via-gray-50 to-amber-50 border-r border-gray-200 min-h-screen shadow-lg w-72">
       <div className="flex flex-col w-64 h-full">
         {/* Logo Section */}
-        <div className="flex items-center justify-center h-24 border-b border-gray-100 bg-white">
-          <span className="text-4xl font-extrabold text-amber-500 tracking-tight">LUXMED</span>
+        <div className="flex items-center gap-2 mb-8">
+          <Image src="/Vola_edited.jpg" alt="Vola Health Logo" width={36} height={36} className="rounded-none" />
+          <span className="text-xl font-bold text-primary">Vola Health</span>
         </div>
         <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
           {navigationItems.map((item) => {

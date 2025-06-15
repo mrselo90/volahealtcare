@@ -1,13 +1,14 @@
 {
-  "siteName": "Aesthetic Care Istanbul",
-  "contactEmail": "contact@aestheticcare.com",
-  "phoneNumber": "+90 555 123 4567",
-  "address": "Istanbul, Turkey",
+  "siteName": "Vola Health Istanbul",
+  "description": "Premium medical tourism services in Istanbul, Turkey",
+  "contactEmail": "info@volahealthistanbul.com",
+  "contactPhone": "+90 544 474 98 81",
+  "address": "Veliefendi, Prof. Dr. Turan Güneş Cd. No:103 Zeytinburnu/Istanbul",
   "socialMedia": {
-    "facebook": "https://facebook.com/aestheticcare",
-    "instagram": "https://instagram.com/aestheticcare",
-    "youtube": "https://youtube.com/aestheticcare",
-    "tiktok": "https://tiktok.com/@aestheticcare",
-    "twitter": "https://twitter.com/aestheticcare"
+    "facebook": "https://www.facebook.com/VolaHealth/",
+    "instagram": "https://www.instagram.com/volahealth/",
+    "twitter": "https://www.facebook.com/VolaHealth/",
+    "youtube": "https://www.facebook.com/VolaHealth/",
+    "linkedin": ""
   }
 }

@@ -23,16 +23,15 @@ const durationOptions = [
 
 export function ServiceFilters({ categories, onFilterChange }: ServiceFiltersProps) {
   const [search, setSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
+  const [category, setCategory] = useState('');
   const [duration, setDuration] = useState('any');
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   const handleFilterChange = () => {
     onFilterChange({
       search,
-      category: selectedCategory,
-      priceRange,
+      category,
+      priceRange: [0, 10000],
       duration,
     });
   };
@@ -71,49 +70,20 @@ export function ServiceFilters({ categories, onFilterChange }: ServiceFiltersPro
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
               <select
-                value={selectedCategory}
+                value={category}
                 onChange={(e) => {
-                  setSelectedCategory(e.target.value);
+                  setCategory(e.target.value);
                   handleFilterChange();
                 }}
                 className="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
               >
-                <option value="all">All Categories</option>
-                {categories.map((category) => (
-                  <option key={category.slug} value={category.slug}>
-                    {category.name}
+                <option value="">All Categories</option>
+                {categories.map((cat) => (
+                  <option key={cat.slug} value={cat.slug}>
+                    {cat.name}
                   </option>
                 ))}
               </select>
-            </div>
-
-            {/* Price Range Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Price Range</label>
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  min="0"
-                  max={priceRange[1]}
-                  value={priceRange[0]}
-                  onChange={(e) => {
-                    setPriceRange([Number(e.target.value), priceRange[1]]);
-                    handleFilterChange();
-                  }}
-                  className="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
-                />
-                <span>-</span>
-                <input
-                  type="number"
-                  min={priceRange[0]}
-                  value={priceRange[1]}
-                  onChange={(e) => {
-                    setPriceRange([priceRange[0], Number(e.target.value)]);
-                    handleFilterChange();
-                  }}
-                  className="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
-                />
-              </div>
             </div>
 
             {/* Duration Filter */}

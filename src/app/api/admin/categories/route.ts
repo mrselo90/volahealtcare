@@ -299,16 +299,13 @@ export async function DELETE(request: Request) {
           { 
             error: 'Cannot delete category with linked services.',
             services,
-            message: 'Use ?force=true to delete anyway and unlink services',
+            message: 'Use ?force=true to delete anyway and remove all services',
           },
           { status: 400 }
         );
       } else {
-        // If force=true, unlink all services from this category
-        await (prisma as any).service.updateMany({
-          where: { categoryId: id },
-          data: { categoryId: null },
-        });
+        // If force=true, the cascade delete will automatically remove all services and related data
+        // when we delete the category below
       }
     }
 
@@ -318,7 +315,7 @@ export async function DELETE(request: Request) {
     
     return NextResponse.json({ 
       success: true,
-      message: force ? 'Category and linked services unlinked' : 'Category deleted'
+      message: force ? 'Category and all linked services deleted' : 'Category deleted'
     });
   } catch (error: unknown) {
     console.error('Error deleting category:', error);

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import CounterAnimation from '@/components/CounterAnimation';
 
 interface BeforeAfterCase {
   id: string;
@@ -157,9 +158,8 @@ export default function FeaturedBeforeAfter({
             <span className="text-4xl md:text-6xl font-light italic">Results</span>
           </h2>
           
-          <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-            Witness the incredible transformations of patients who trusted us with their medical tourism journey. 
-            Each story represents hope, expertise, and life-changing results.
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Witness the incredible transformations of patients who trusted us with their medical tourism journey at Vola Health Istanbul.
           </p>
         </motion.div>
 
@@ -174,52 +174,25 @@ export default function FeaturedBeforeAfter({
           >
             <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 shadow-2xl featured-case-card">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
-                {/* Before/After Images */}
+                {/* Result Image */}
                 <div className="relative">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="relative group">
-                      <div className="absolute -top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-10 glow-animation">
-                        BEFORE
-                      </div>
-                      <div className="aspect-square rounded-2xl overflow-hidden shadow-xl bg-gray-800">
-                        <Image
-                          src={currentCase.beforeImage}
-                          alt={currentCase.beforeImageAlt || 'Before treatment'}
-                          width={400}
-                          height={400}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          onError={(e) => {
-                            console.error('Before image failed to load:', currentCase.beforeImage);
-                            e.currentTarget.src = '/images/placeholder-before.jpg';
-                          }}
-                        />
-                      </div>
+                  <div className="relative group max-w-md mx-auto">
+                    <div className="absolute -top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-10 glow-animation">
+                      ✨ RESULT
                     </div>
-                    <div className="relative group">
-                      <div className="absolute -top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-10 glow-animation">
-                        AFTER
-                      </div>
-                      <div className="aspect-square rounded-2xl overflow-hidden shadow-xl bg-gray-800">
-                        <Image
-                          src={currentCase.afterImage}
-                          alt={currentCase.afterImageAlt || 'After treatment'}
-                          width={400}
-                          height={400}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          onError={(e) => {
-                            console.error('After image failed to load:', currentCase.afterImage);
-                            e.currentTarget.src = '/images/placeholder-after.jpg';
-                          }}
-                        />
-                      </div>
+                    <div className="aspect-square rounded-2xl overflow-hidden shadow-xl bg-gray-800">
+                      <Image
+                        src={currentCase.afterImage}
+                        alt={currentCase.afterImageAlt || 'Treatment result'}
+                        width={500}
+                        height={500}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => {
+                          console.error('Result image failed to load:', currentCase.afterImage);
+                          e.currentTarget.src = '/images/placeholder-result.jpg';
+                        }}
+                      />
                     </div>
-                  </div>
-                  
-                  {/* Transformation Arrow */}
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-500 to-purple-500 text-white p-4 rounded-full shadow-2xl transformation-arrow float-animation">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
                   </div>
                 </div>
 
@@ -293,15 +266,21 @@ export default function FeaturedBeforeAfter({
           className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16"
         >
           {[
-            { number: '500+', label: 'Successful Cases', icon: '🏆' },
-            { number: '98%', label: 'Satisfaction Rate', icon: '😊' },
-            { number: '25+', label: 'Countries Served', icon: '🌍' },
-            { number: '15+', label: 'Years Experience', icon: '⭐' }
+            { number: 1500, suffix: '+', label: 'Successful Cases', icon: '🏆' },
+            { number: 98, suffix: '%', label: 'Satisfaction Rate', icon: '😊' },
+            { number: 25, suffix: '+', label: 'Countries Served', icon: '🌍' },
+            { number: 15, suffix: '+', label: 'Years Experience', icon: '⭐' }
           ].map((stat, index) => (
             <div key={index} className="text-center">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 stats-card">
                 <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2">{stat.number}</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  <CounterAnimation 
+                    end={stat.number} 
+                    suffix={stat.suffix}
+                    duration={2}
+                  />
+                </div>
                 <div className="text-blue-200 text-sm">{stat.label}</div>
               </div>
             </div>

@@ -53,15 +53,6 @@ const services = [
   'Other'
 ];
 
-const budgetRanges = [
-  'Under $2,000',
-  '$2,000 - $5,000',
-  '$5,000 - $10,000',
-  '$10,000 - $20,000',
-  'Over $20,000',
-  'I need guidance'
-];
-
 export default function ConsultationPage() {
   const [formData, setFormData] = useState<ConsultationForm>({
     firstName: '',
@@ -334,22 +325,6 @@ export default function ConsultationPage() {
                 <p className="mt-2 text-sm text-red-600">{errors.interestedServices}</p>
               )}
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Estimated Budget Range
-              </label>
-              <select
-                value={formData.budget}
-                onChange={(e) => handleInputChange('budget', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="">Select your budget range</option>
-                {budgetRanges.map((range) => (
-                  <option key={range} value={range}>{range}</option>
-                ))}
-              </select>
-            </div>
           </div>
         );
 
@@ -389,11 +364,38 @@ export default function ConsultationPage() {
                   >
                     <option value="">Select preferred time</option>
                     <option value="09:00">9:00 AM</option>
+                    <option value="09:15">9:15 AM</option>
+                    <option value="09:30">9:30 AM</option>
+                    <option value="09:45">9:45 AM</option>
                     <option value="10:00">10:00 AM</option>
+                    <option value="10:15">10:15 AM</option>
+                    <option value="10:30">10:30 AM</option>
+                    <option value="10:45">10:45 AM</option>
                     <option value="11:00">11:00 AM</option>
+                    <option value="11:15">11:15 AM</option>
+                    <option value="11:30">11:30 AM</option>
+                    <option value="11:45">11:45 AM</option>
+                    <option value="12:00">12:00 PM</option>
+                    <option value="12:15">12:15 PM</option>
+                    <option value="12:30">12:30 PM</option>
+                    <option value="12:45">12:45 PM</option>
+                    <option value="13:00">1:00 PM</option>
+                    <option value="13:15">1:15 PM</option>
+                    <option value="13:30">1:30 PM</option>
+                    <option value="13:45">1:45 PM</option>
                     <option value="14:00">2:00 PM</option>
+                    <option value="14:15">2:15 PM</option>
+                    <option value="14:30">2:30 PM</option>
+                    <option value="14:45">2:45 PM</option>
                     <option value="15:00">3:00 PM</option>
+                    <option value="15:15">3:15 PM</option>
+                    <option value="15:30">3:30 PM</option>
+                    <option value="15:45">3:45 PM</option>
                     <option value="16:00">4:00 PM</option>
+                    <option value="16:15">4:15 PM</option>
+                    <option value="16:30">4:30 PM</option>
+                    <option value="16:45">4:45 PM</option>
+                    <option value="17:00">5:00 PM</option>
                   </select>
                 </div>
               </div>
@@ -498,7 +500,7 @@ export default function ConsultationPage() {
               Consultation Request Submitted!
             </h2>
             <p className="text-gray-600 mb-8">
-              Thank you for your interest in Aesthetic Care Istanbul. We've received your consultation request and our team will contact you within 24 hours to schedule your free consultation.
+                              Thank you for your interest in Vola Health Istanbul. We've received your consultation request and our team will contact you within 24 hours to schedule your free consultation.
             </p>
             <div className="space-y-4">
               <Link
@@ -508,7 +510,7 @@ export default function ConsultationPage() {
                 Return to Homepage
               </Link>
               <div className="text-sm text-gray-500">
-                <p>Questions? Call us at <strong>+90 555 123 45 67</strong></p>
+                <p>Questions? Call us at <strong>+90 544 474 98 81</strong></p>
               </div>
             </div>
           </motion.div>
@@ -645,18 +647,18 @@ export default function ConsultationPage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a
-              href="tel:+905551234567"
+              href="tel:+905444749881"
               className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
               <PhoneIcon className="h-5 w-5 mr-2" />
-              +90 555 123 45 67
+                                +90 544 474 98 81
             </a>
             <a
-              href="mailto:info@aestheticcareistanbul.com"
+              href="mailto:info@volahealthistanbul.com"
               className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
               <EnvelopeIcon className="h-5 w-5 mr-2" />
-              info@aestheticcareistanbul.com
+                              info@volahealthistanbul.com
             </a>
           </div>
         </div>

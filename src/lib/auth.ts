@@ -36,8 +36,9 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Please provide both email and password');
         }
 
-        // Allow admin login with test credentials (for both dev and production)
-        if (credentials.email === 'admin@example.com' && 
+        // For testing purposes, allow admin login with test credentials
+        if (process.env.NODE_ENV === 'development' && 
+            credentials.email === 'admin@example.com' && 
             credentials.password === 'admin123') {
           return {
             id: '1',

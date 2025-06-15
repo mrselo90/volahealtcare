@@ -25,7 +25,11 @@ import {
   UserGroupIcon,
   ShieldCheckIcon,
   SparklesIcon,
-  ArrowRightIcon
+  ArrowRightIcon,
+  ChatBubbleLeftIcon,
+  BuildingOffice2Icon,
+  HomeIcon,
+  TruckIcon
 } from '@heroicons/react/24/outline';
 import { 
   StarIcon as StarIconSolid,
@@ -33,6 +37,7 @@ import {
 } from '@heroicons/react/24/solid';
 import { getServiceImageUrl, getServiceImageAlt, getFallbackImageUrl } from '@/utils/imageUtils';
 import { getTranslation } from '@/utils/translationUtils';
+import settings from '@/data/settings.json';
 
 // Enhanced Loading Component
 const LoadingSkeleton = () => (
@@ -123,6 +128,7 @@ const BookingModal = ({ isOpen, onClose, service }: {
     phone: '',
     country: '',
     preferredDate: '',
+    preferredTime: '',
     notes: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -175,6 +181,7 @@ const BookingModal = ({ isOpen, onClose, service }: {
           phone: '',
           country: '',
           preferredDate: '',
+          preferredTime: '',
           notes: ''
         });
         setSubmitStatus('idle');
@@ -352,16 +359,63 @@ const BookingModal = ({ isOpen, onClose, service }: {
 
               <div>
                 <label htmlFor="preferredDate" className="block text-sm font-medium text-gray-700 mb-2">
-                  Preferred Date & Time
+                  Preferred Date
                 </label>
                 <input
-                  type="datetime-local"
+                  type="date"
                   id="preferredDate"
                   name="preferredDate"
                   value={formData.preferredDate}
                   onChange={handleInputChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                 />
+              </div>
+              <div>
+                <label htmlFor="preferredTime" className="block text-sm font-medium text-gray-700 mb-2">
+                  Preferred Time
+                </label>
+                <select
+                  id="preferredTime"
+                  name="preferredTime"
+                  value={formData.preferredTime || ''}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                >
+                  <option value="">Select preferred time</option>
+                  <option value="09:00">09:00</option>
+                  <option value="09:15">09:15</option>
+                  <option value="09:30">09:30</option>
+                  <option value="09:45">09:45</option>
+                  <option value="10:00">10:00</option>
+                  <option value="10:15">10:15</option>
+                  <option value="10:30">10:30</option>
+                  <option value="10:45">10:45</option>
+                  <option value="11:00">11:00</option>
+                  <option value="11:15">11:15</option>
+                  <option value="11:30">11:30</option>
+                  <option value="11:45">11:45</option>
+                  <option value="12:00">12:00</option>
+                  <option value="12:15">12:15</option>
+                  <option value="12:30">12:30</option>
+                  <option value="12:45">12:45</option>
+                  <option value="13:00">13:00</option>
+                  <option value="13:15">13:15</option>
+                  <option value="13:30">13:30</option>
+                  <option value="13:45">13:45</option>
+                  <option value="14:00">14:00</option>
+                  <option value="14:15">14:15</option>
+                  <option value="14:30">14:30</option>
+                  <option value="14:45">14:45</option>
+                  <option value="15:00">15:00</option>
+                  <option value="15:15">15:15</option>
+                  <option value="15:30">15:30</option>
+                  <option value="15:45">15:45</option>
+                  <option value="16:00">16:00</option>
+                  <option value="16:15">16:15</option>
+                  <option value="16:30">16:30</option>
+                  <option value="16:45">16:45</option>
+                  <option value="17:00">17:00</option>
+                </select>
               </div>
 
               <div>
@@ -435,7 +489,6 @@ interface Service {
   description: string;
   category: string;
   price: number;
-  duration: string;
   currency?: string;
   benefits?: string;
   risks?: string;
@@ -447,6 +500,12 @@ interface Service {
   minAge?: number;
   maxAge?: number;
   availability?: string;
+  // Package Details
+  timeInTurkey?: string;
+  operationTime?: string;
+  hospitalStay?: string;
+  accommodation?: string;
+  transportation?: string;
   translations: Array<{
     id: string;
     language: string;
@@ -668,6 +727,10 @@ export default function ServicePage({ params }: ServicePageProps) {
     }
   ];
 
+  const whatsappNumber = settings.contactPhone.replace(/[^\d]/g, '');
+  const whatsappMessage = encodeURIComponent("Hello! I am interested in your services.");
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       {/* Hero Section - Enhanced */}
@@ -675,7 +738,7 @@ export default function ServicePage({ params }: ServicePageProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative h-[80vh] overflow-hidden"
+        className="relative h-[50vh] overflow-hidden"
       >
         {/* Background with Parallax Effect */}
         <motion.div 
@@ -704,74 +767,7 @@ export default function ServicePage({ params }: ServicePageProps) {
           </div>
         </motion.div>
         
-        {/* Enhanced Navigation Bar */}
-        <div className="absolute top-0 left-0 right-0 z-20 bg-black/20 backdrop-blur-md border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <motion.button
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-                onClick={() => router.back()}
-                className="flex items-center gap-2 text-white hover:text-blue-200 transition-all duration-300 hover:scale-105 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm"
-              >
-                <ArrowLeftIcon className="h-5 w-5" />
-                <span>Back to Services</span>
-              </motion.button>
-              
-              <div className="flex items-center gap-4">
-                {/* Enhanced Language Selector */}
-                <motion.div 
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="flex items-center bg-white/15 rounded-full p-1 backdrop-blur-sm border border-white/20"
-                >
-                  {LANGUAGES.map(l => (
-                    <button
-                      key={l.code}
-                      onClick={() => setLang(l.code)}
-                      className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
-                        lang === l.code 
-                          ? 'bg-white text-gray-900 shadow-lg transform scale-105' 
-                          : 'text-white hover:bg-white/20 hover:scale-105'
-                      }`}
-                    >
-                      {l.flag} {l.label}
-                    </button>
-                  ))}
-                </motion.div>
 
-                {/* Enhanced Action Buttons */}
-                <motion.div 
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="flex items-center gap-2"
-                >
-                  <button
-                    onClick={() => setIsFavorited(!isFavorited)}
-                    className={`p-3 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-110 border ${
-                      isFavorited 
-                        ? 'bg-red-500 text-white border-red-400 shadow-lg shadow-red-500/25' 
-                        : 'bg-white/15 text-white hover:bg-white/25 border-white/20'
-                    }`}
-                  >
-                    {isFavorited ? (
-                      <HeartIconSolid className="h-5 w-5" />
-                    ) : (
-                      <HeartIcon className="h-5 w-5" />
-                    )}
-                  </button>
-                  
-                  <button className="p-3 rounded-full bg-white/15 text-white hover:bg-white/25 backdrop-blur-sm transition-all duration-300 hover:scale-110 border border-white/20">
-                    <ShareIcon className="h-5 w-5" />
-                  </button>
-                </motion.div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Enhanced Hero Content */}
         <div className="absolute inset-0 flex items-center">
@@ -812,10 +808,12 @@ export default function ServicePage({ params }: ServicePageProps) {
                     Featured Treatment
                   </span>
                 )}
-                <span className="bg-white/20 text-white px-6 py-3 rounded-full text-sm font-medium backdrop-blur-sm border border-white/30 flex items-center gap-2">
-                  <ClockIcon className="h-4 w-4" />
-                  {data.duration || 'Consult for timing'}
-                </span>
+                {data.operationTime && (
+                  <span className="bg-white/20 text-white px-6 py-3 rounded-full text-sm font-medium backdrop-blur-sm border border-white/30 flex items-center gap-2">
+                    <ClockIcon className="h-4 w-4" />
+                    {data.operationTime}
+                  </span>
+                )}
               </motion.div>
 
               {/* Enhanced Title with Gradient */}
@@ -840,44 +838,29 @@ export default function ServicePage({ params }: ServicePageProps) {
                 {serviceDescription?.substring(0, 200)}...
               </motion.p>
 
-              {/* Enhanced Price & CTA Section */}
+              {/* Enhanced CTA Section */}
               <motion.div 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 }}
                 className="flex flex-col lg:flex-row items-start lg:items-center gap-8"
               >
-                {/* Price Card */}
-                <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-2xl">
-                  <div className="text-blue-200 text-sm font-medium mb-2">Starting from</div>
-                  <div className="text-4xl md:text-5xl font-black text-white">
-                    {data.price ? `$${data.price.toLocaleString()}` : 'Contact'}
-                  </div>
-                  <div className="text-blue-200 text-sm mt-1">{data.currency || 'USD'}</div>
-                </div>
-                
                 {/* Enhanced CTA Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setShowBookingModal(true)}
-                    className="bg-gradient-to-r from-white to-blue-50 text-blue-700 hover:from-blue-50 hover:to-white px-8 py-4 rounded-2xl font-bold text-lg transition-all shadow-2xl hover:shadow-3xl flex items-center gap-3 group"
+                  <Link
+                    href="#booking"
+                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl"
                   >
-                    <CalendarIcon className="h-6 w-6 group-hover:scale-110 transition-transform" />
-                    Book Free Consultation
-                    <ArrowRightIcon className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </motion.button>
-                  
-                  <motion.button 
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => scrollToSection('procedure')}
-                    className="border-2 border-white/50 text-white hover:bg-white/10 px-8 py-4 rounded-2xl font-bold text-lg transition-all backdrop-blur-sm hover:border-white group flex items-center gap-2"
+                    Book Consultation
+                    <ArrowRightIcon className="w-5 h-5 ml-2" />
+                  </Link>
+                  <Link
+                    href="#contact"
+                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
                   >
-                    Learn More
-                    <ChevronDownIcon className="h-5 w-5 group-hover:translate-y-1 transition-transform" />
-                  </motion.button>
+                    Contact Us
+                    <ChatBubbleLeftIcon className="w-5 h-5 ml-2" />
+                  </Link>
                 </div>
               </motion.div>
             </motion.div>
@@ -898,69 +881,7 @@ export default function ServicePage({ params }: ServicePageProps) {
         </motion.div>
       </motion.section>
 
-      {/* Enhanced Sticky Navigation */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className={`sticky top-0 z-30 transition-all duration-500 ${
-          isScrolled 
-            ? 'bg-white/95 backdrop-blur-xl shadow-2xl border-b border-gray-200/50' 
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between py-4">
-            {/* Navigation Items */}
-            <nav className="hidden md:flex items-center space-x-1">
-              {navigationItems.map((item) => {
-                const isActive = activeSection === item.id;
-                const Icon = item.icon;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => scrollToSection(item.id)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${
-                      isActive 
-                        ? 'bg-blue-600 text-white shadow-lg' 
-                        : isScrolled
-                          ? 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
-                          : 'text-white hover:bg-white/20'
-                    }`}
-                  >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
-                  </button>
-                );
-              })}
-            </nav>
 
-            {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <select 
-                value={activeSection}
-                onChange={(e) => scrollToSection(e.target.value)}
-                className="bg-white/90 text-gray-900 px-4 py-2 rounded-xl border border-gray-200 font-medium"
-              >
-                {navigationItems.map(item => (
-                  <option key={item.id} value={item.id}>{item.label}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Quick Actions */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setShowBookingModal(true)}
-                className="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 transition-colors font-semibold flex items-center gap-2"
-              >
-                <PhoneIcon className="h-4 w-4" />
-                <span className="hidden sm:inline">Book Now</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </motion.div>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-16">
@@ -992,33 +913,160 @@ export default function ServicePage({ params }: ServicePageProps) {
                   <ReactMarkdown>{serviceDescription}</ReactMarkdown>
                   </div>
 
-                {/* Enhanced Key Information Grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                  <motion.div 
-                    whileHover={{ scale: 1.02, y: -5 }}
-                    className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-2xl shadow-lg text-white"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <ClockIcon className="h-6 w-6" />
-                      <h4 className="font-semibold">Duration</h4>
+                {/* Premium Package Details Section */}
+                {(data.timeInTurkey || data.operationTime || data.hospitalStay || data.recovery || data.accommodation || data.transportation) && (
+                  <div className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 rounded-3xl p-8 md:p-12 mb-12 shadow-2xl border border-white/20">
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-5">
+                      <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full blur-3xl"></div>
+                      <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-indigo-400 to-pink-600 rounded-full blur-3xl"></div>
                     </div>
-                    <p className="text-lg font-medium">{data.duration || 'Varies by case'}</p>
-                  </motion.div>
-              
-                  <motion.div 
-                    whileHover={{ scale: 1.02, y: -5 }}
-                    className="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-2xl shadow-lg text-white"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <CurrencyDollarIcon className="h-6 w-6" />
-                      <h4 className="font-semibold">Starting Price</h4>
-                    </div>
-                    <p className="text-lg font-medium">
-                      {data.price ? `$${data.price.toLocaleString()}` : 'Contact for pricing'}
-                    </p>
-                  </motion.div>
 
-                  {data.anesthesia && (
+                    {/* Header */}
+                    <div className="relative z-10 text-center mb-12">
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-700 rounded-3xl mb-6 shadow-2xl"
+                      >
+                        <InformationCircleIcon className="h-10 w-10 text-white" />
+                      </motion.div>
+                      <motion.h3 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="text-4xl md:text-5xl font-black bg-gradient-to-r from-slate-800 via-blue-800 to-indigo-900 bg-clip-text text-transparent mb-4"
+                      >
+                        Tedavi Paketi Detayları
+                      </motion.h3>
+                      <motion.p 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed"
+                      >
+                        Türkiye'deki premium medikal turizm yolculuğunuz hakkında bilmeniz gereken her şey
+                      </motion.p>
+                    </div>
+
+                                         {/* Cards Grid */}
+                     <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+                      {data.timeInTurkey && (
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+                              <CalendarIcon className="h-5 w-5 text-blue-600" />
+                            </div>
+                            <div>
+                              <div className="text-base font-semibold text-blue-700">Türkiye'de Kalış Süresi</div>
+                              <div className="text-xs text-gray-500">Konaklama süresi</div>
+                            </div>
+                          </div>
+                          <div className="mt-auto text-2xl font-bold text-blue-900">{data.timeInTurkey}</div>
+                        </div>
+                      )}
+                      {data.operationTime && (
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+                              <ClockIcon className="h-5 w-5 text-blue-600" />
+                            </div>
+                            <div>
+                              <div className="text-base font-semibold text-blue-700">Operasyon Süresi</div>
+                              <div className="text-xs text-gray-500">İşlem süresi</div>
+                            </div>
+                          </div>
+                          <div className="mt-auto text-2xl font-bold text-blue-900">{data.operationTime}</div>
+                        </div>
+                      )}
+                      {data.hospitalStay && (
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+                              <BuildingOffice2Icon className="h-5 w-5 text-blue-600" />
+                            </div>
+                            <div>
+                              <div className="text-base font-semibold text-blue-700">Hastane Kalışı</div>
+                              <div className="text-xs text-gray-500">Yatış süresi</div>
+                            </div>
+                          </div>
+                          <div className="mt-auto text-2xl font-bold text-blue-900">{data.hospitalStay}</div>
+                        </div>
+                      )}
+                      {data.recovery && (
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+                              <HeartIcon className="h-5 w-5 text-blue-600" />
+                            </div>
+                            <div>
+                              <div className="text-base font-semibold text-blue-700">İyileşme Süresi</div>
+                              <div className="text-xs text-gray-500">Toparlanma dönemi</div>
+                            </div>
+                          </div>
+                          <div className="mt-auto text-2xl font-bold text-blue-900">{data.recovery}</div>
+                        </div>
+                      )}
+                      {data.accommodation && (
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+                              <HomeIcon className="h-5 w-5 text-blue-600" />
+                            </div>
+                            <div>
+                              <div className="text-base font-semibold text-blue-700">Konaklama</div>
+                              <div className="text-xs text-gray-500">Otel konaklaması</div>
+                            </div>
+                          </div>
+                          <div className="mt-auto text-2xl font-bold text-blue-900">{data.accommodation}</div>
+                        </div>
+                      )}
+                      {data.transportation && (
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+                              <TruckIcon className="h-5 w-5 text-blue-600" />
+                            </div>
+                            <div>
+                              <div className="text-base font-semibold text-blue-700">Ulaşım</div>
+                              <div className="text-xs text-gray-500">Transfer hizmeti</div>
+                            </div>
+                          </div>
+                          <div className="mt-auto text-2xl font-bold text-blue-900">{data.transportation}</div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Premium CTA Banner */}
+                    <div className="relative z-10 bg-gradient-to-r from-slate-800 via-blue-900 to-indigo-900 rounded-2xl p-8 text-center shadow-2xl border border-white/10">
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-2xl"></div>
+                      <div className="relative z-10">
+                        <h4 className="text-2xl md:text-3xl font-bold text-white mb-3">
+                          Hepsi Dahil Premium Paket
+                        </h4>
+                        <p className="text-blue-100 text-lg">Lüks konaklama ile eksiksiz medikal turizm deneyimi</p>
+                        <div className="mt-6">
+                          <Link
+                            href="/consultation"
+                            className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                          >
+                            <SparklesIcon className="h-6 w-6" />
+                            Yolculuğunuzu Rezerve Edin
+                            <ArrowRightIcon className="h-5 w-5" />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Additional Key Information for other fields */}
+                {data.anesthesia && (
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                     <motion.div 
                       whileHover={{ scale: 1.02, y: -5 }}
                       className="bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-2xl shadow-lg text-white"
@@ -1029,77 +1077,10 @@ export default function ServicePage({ params }: ServicePageProps) {
                       </div>
                       <p className="text-lg font-medium">{data.anesthesia}</p>
                     </motion.div>
-                  )}
-
-                  {data.recovery && (
-                    <motion.div 
-                      whileHover={{ scale: 1.02, y: -5 }}
-                      className="bg-gradient-to-br from-orange-500 to-orange-600 p-6 rounded-2xl shadow-lg text-white"
-                    >
-                      <div className="flex items-center gap-3 mb-3">
-                        <SparklesIcon className="h-6 w-6" />
-                        <h4 className="font-semibold">Recovery Time</h4>
-                      </div>
-                      <p className="text-lg font-medium">{data.recovery}</p>
-                    </motion.div>
-                  )}
-                </div>
-            
-                {/* Age Requirements */}
-                {(data.minAge || data.maxAge) && (
-                  <div className="bg-gray-50 rounded-2xl p-6 mb-8">
-                    <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                      <UserGroupIcon className="h-5 w-5 text-gray-600" />
-                      Age Requirements
-                    </h4>
-                    <p className="text-gray-700">
-                      Suitable for ages {data.minAge || 'Any'} to {data.maxAge || 'Any'}
-                    </p>
                   </div>
                 )}
+            
 
-                {/* Enhanced What to Expect */}
-                <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-3xl p-10 text-white shadow-2xl relative overflow-hidden">
-                  {/* Background decoration */}
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full blur-2xl"></div>
-                  
-                  <div className="relative z-10">
-                    <h4 className="text-3xl font-bold mb-8 text-center">What to Expect</h4>
-                    <div className="grid md:grid-cols-3 gap-8">
-                      <motion.div 
-                        whileHover={{ scale: 1.05, y: -5 }}
-                        className="text-center group"
-                      >
-                        <div className="w-20 h-20 bg-gradient-to-br from-white/20 to-white/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg transition-all duration-300 border border-white/20">
-                          <span className="text-3xl font-bold">1</span>
-                        </div>
-                        <h5 className="font-bold mb-3 text-lg">Consultation</h5>
-                        <p className="text-blue-100 leading-relaxed">Initial assessment and personalized treatment planning</p>
-                      </motion.div>
-                      <motion.div 
-                        whileHover={{ scale: 1.05, y: -5 }}
-                        className="text-center group"
-                      >
-                        <div className="w-20 h-20 bg-gradient-to-br from-white/20 to-white/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg transition-all duration-300 border border-white/20">
-                          <span className="text-3xl font-bold">2</span>
-                        </div>
-                        <h5 className="font-bold mb-3 text-lg">Procedure</h5>
-                        <p className="text-blue-100 leading-relaxed">Professional treatment by our expert medical team</p>
-                      </motion.div>
-                      <motion.div 
-                        whileHover={{ scale: 1.05, y: -5 }}
-                        className="text-center group"
-                      >
-                        <div className="w-20 h-20 bg-gradient-to-br from-white/20 to-white/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-lg transition-all duration-300 border border-white/20">
-                          <span className="text-3xl font-bold">3</span>
-                        </div>
-                        <h5 className="font-bold mb-3 text-lg">Recovery</h5>
-                        <p className="text-blue-100 leading-relaxed">Comprehensive follow-up care and support</p>
-                      </motion.div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </motion.section>
 
@@ -1165,13 +1146,13 @@ export default function ServicePage({ params }: ServicePageProps) {
                   ) : (
                       <div className="text-amber-700">
                         <p className="mb-4">
-                          As with any medical procedure, there are potential considerations and risks that will be thoroughly discussed during your consultation.
+                          Herhangi bir tıbbi prosedürde olduğu gibi, konsültasyonunuz sırasında ayrıntılı olarak tartışılacak potansiyel hususlar ve riskler bulunmaktadır.
                         </p>
                         <ul className="space-y-2 text-sm">
-                          <li>• Individual results may vary</li>
-                          <li>• Recovery time depends on personal factors</li>
-                          <li>• Pre-existing conditions may affect suitability</li>
-                          <li>• All risks will be explained in detail</li>
+                          <li>• Bireysel sonuçlar değişiklik gösterebilir</li>
+                          <li>• İyileşme süresi kişisel faktörlere bağlıdır</li>
+                          <li>• Mevcut sağlık durumları uygunluğu etkileyebilir</li>
+                          <li>• Tüm riskler detaylı olarak açıklanacaktır</li>
                         </ul>
                       </div>
                   )}
@@ -1181,196 +1162,7 @@ export default function ServicePage({ params }: ServicePageProps) {
             </motion.section>
 
             {/* Procedure Details Section */}
-            <motion.section
-              id="procedure"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="scroll-mt-24"
-            >
-              <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="p-3 bg-purple-100 rounded-2xl">
-                    <ClockIcon className="h-8 w-8 text-purple-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-3xl font-bold text-gray-900">Procedure Process</h2>
-                    <p className="text-gray-600">Step-by-step guide through your treatment journey</p>
-                  </div>
-                </div>
-            
-                <div className="space-y-8">
-                  {/* Pre-procedure */}
-              {data.prerequisites && (
-                    <div className="relative">
-                      <div className="flex items-start gap-6">
-                        <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                          <span className="text-blue-600 font-bold">1</span>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="text-xl font-semibold text-gray-900 mb-3">Before Your Procedure</h4>
-                          <div className="bg-blue-50 rounded-2xl p-6">
-                            <div className="prose max-w-none text-gray-700">
-                    <ReactMarkdown>{data.prerequisites}</ReactMarkdown>
-                            </div>
-                          </div>
-                        </div>
-                  </div>
-                </div>
-              )}
-              
-                  {/* During procedure */}
-                  <div className="relative">
-                    <div className="flex items-start gap-6">
-                      <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                        <span className="text-green-600 font-bold">2</span>
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-xl font-semibold text-gray-900 mb-3">During Your Treatment</h4>
-                        <div className="bg-green-50 rounded-2xl p-6">
-                          <div className="grid md:grid-cols-2 gap-6">
-                            <div>
-                              <h5 className="font-semibold text-green-800 mb-2">Comfort & Safety</h5>
-                              <p className="text-gray-700 text-sm">
-                                Your comfort and safety are our top priorities. Our experienced medical team will ensure you're well-informed and comfortable throughout the entire process.
-                              </p>
-                            </div>
-                            <div>
-                              <h5 className="font-semibold text-green-800 mb-2">Duration</h5>
-                              <p className="text-gray-700 text-sm">
-                                The procedure typically takes {data.duration || 'varies based on individual needs'}. Our team will keep you informed of progress throughout.
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                </div>
-              </div>
-              
-                  {/* Post-procedure */}
-              {data.aftercare && (
-                    <div className="relative">
-                      <div className="flex items-start gap-6">
-                        <div className="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                          <span className="text-purple-600 font-bold">3</span>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="text-xl font-semibold text-gray-900 mb-3">Aftercare & Recovery</h4>
-                          <div className="bg-purple-50 rounded-2xl p-6">
-                            <div className="prose max-w-none text-gray-700">
-                    <ReactMarkdown>{data.aftercare}</ReactMarkdown>
-                            </div>
-                          </div>
-                        </div>
-                  </div>
-                </div>
-              )}
-            </div>
-              </div>
-            </motion.section>
 
-            {/* Gallery Section */}
-            <motion.section
-              id="gallery"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="scroll-mt-24"
-            >
-              <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="p-3 bg-indigo-100 rounded-2xl">
-                    <PlayCircleIcon className="h-8 w-8 text-indigo-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-3xl font-bold text-gray-900">Gallery</h2>
-                    <p className="text-gray-600">View our gallery and results</p>
-                  </div>
-                </div>
-
-                {allImages.length > 0 ? (
-                  <div className="space-y-12">
-                    {/* Main Gallery */}
-                    {data.images && data.images.length > 0 && (
-                      <div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-6">Service Gallery</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                          {data.images.map((image, index) => (
-                            <motion.div
-                              key={image.id}
-                              initial={{ opacity: 0, scale: 0.9 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 0.4, delay: index * 0.1 }}
-                              className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer bg-gray-100"
-                              onClick={() => openLightbox(
-                                image.url, 
-                                image.alt || serviceTitle, 
-                                index
-                              )}
-                            >
-                              <OptimizedImage
-                                src={image.url}
-                                alt={image.alt || serviceTitle}
-                                fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                              />
-                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
-                                <MagnifyingGlassIcon className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                              </div>
-                            </motion.div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Before & After Gallery */}
-                    {data.beforeAfterImages && data.beforeAfterImages.length > 0 && (
-                      <div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-6">Before & After Results</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                          {data.beforeAfterImages.map((image, index) => (
-                            <motion.div
-                              key={image.id}
-                              initial={{ opacity: 0, scale: 0.9 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 0.4, delay: index * 0.1 }}
-                              className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer bg-gray-100"
-                              onClick={() => openLightbox(
-                                image.url, 
-                                image.alt || `${serviceTitle} Before/After`, 
-                                data.images.length + index
-                              )}
-                            >
-                              <OptimizedImage
-                                src={image.url}
-                                alt={image.alt || `${serviceTitle} Before/After`}
-                                fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                              />
-                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
-                                <MagnifyingGlassIcon className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                              </div>
-                              <div className="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                                Before/After
-                              </div>
-                            </motion.div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="text-center py-12 text-gray-500">
-                    <PlayCircleIcon className="h-16 w-16 mx-auto mb-4 text-gray-300" />
-                    <p>Gallery images coming soon</p>
-                  </div>
-                )}
-              </div>
-            </motion.section>
 
         {/* FAQ Section */}
         {data.faqs && data.faqs.length > 0 && (
@@ -1466,23 +1258,8 @@ export default function ServicePage({ params }: ServicePageProps) {
             </div>
             
                 <div className="space-y-4 mb-6">
-                  <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-sm">
-                    <div className="flex items-center gap-3 mb-2">
-                      <CurrencyDollarIcon className="h-5 w-5 text-yellow-300" />
-                      <span className="font-semibold">Starting Price</span>
-                    </div>
-                    <div className="text-2xl font-bold">
-                      {data.price ? `${data.price} ${data.currency || 'USD'}` : 'Contact for pricing'}
-                    </div>
-                  </div>
-
-                  <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-sm">
-                    <div className="flex items-center gap-3 mb-2">
-                      <ClockIcon className="h-5 w-5 text-green-300" />
-                      <span className="font-semibold">Duration</span>
-                    </div>
-                    <div className="text-lg">{data.duration || 'Varies'}</div>
-                  </div>
+                  {/* Package Details */}
+                  {/* Package Details block removed as requested */}
                 </div>
 
                 <div className="space-y-3">
@@ -1494,10 +1271,10 @@ export default function ServicePage({ params }: ServicePageProps) {
                     Book Free Consultation
                   </button>
                   
-                  <button className="w-full border-2 border-white/30 text-white hover:bg-white/10 py-3 rounded-2xl font-semibold transition-all flex items-center justify-center gap-2">
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="w-full border-2 border-white/30 text-white hover:bg-white/10 py-3 rounded-2xl font-semibold transition-all flex items-center justify-center gap-2">
                     <PhoneIcon className="h-5 w-5" />
-                    Call Now: +1 (555) 123-4567
-                  </button>
+                    Message Now: {settings.contactPhone}
+                  </a>
                       </div>
 
                 <div className="mt-6 pt-6 border-t border-white/20">
@@ -1529,7 +1306,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                       <UserGroupIcon className="h-6 w-6 text-blue-600" />
                       </div>
                     <div>
-                      <div className="text-2xl font-bold text-gray-900">500+</div>
+                      <div className="text-2xl font-bold text-gray-900">1500+</div>
                       <div className="text-gray-600 text-sm">Happy Patients</div>
                     </div>
                   </div>

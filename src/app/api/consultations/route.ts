@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
         country: data.country,
         age: data.age,
         gender: data.gender,
-        interestedServices: data.interestedServices,
+        interestedServices: JSON.stringify(data.interestedServices),
         preferredDate: data.preferredDate ? new Date(data.preferredDate) : null,
         preferredTime: data.preferredTime,
         medicalHistory: data.medicalHistory,

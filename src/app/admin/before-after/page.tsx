@@ -59,16 +59,16 @@ export default function BeforeAfterAdmin() {
   const [editingCase, setEditingCase] = useState<BeforeAfterCase | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [showBeforeImagePicker, setShowBeforeImagePicker] = useState(false);
-  const [showAfterImagePicker, setShowAfterImagePicker] = useState(false);
+  const [showImagePicker, setShowImagePicker] = useState(false);
+  const [currentImageField, setCurrentImageField] = useState<'beforeImage' | 'afterImage'>('beforeImage');
 
   const [formData, setFormData] = useState({
     title: '',
     patientAge: '',
     patientGender: '',
     patientCountry: '',
-    beforeImage: '',
-    afterImage: '',
+    beforeImage: '', // Ana resim olarak kullanılacak
+    afterImage: '', // Boş bırakılacak veya aynı resim
     description: '',
     treatmentDetails: '',
     results: '',
@@ -196,6 +196,8 @@ export default function BeforeAfterAdmin() {
       const payload = {
         ...(editingCase && { id: editingCase.id }),
         ...formData,
+        afterImage: formData.beforeImage, // Tek resim olduğu için aynı resmi kullan
+        afterImageAlt: formData.beforeImageAlt, // Alt text'i de aynı yap
       };
 
       const response = await fetch(url, {
@@ -260,8 +262,8 @@ export default function BeforeAfterAdmin() {
       <div className="mb-8">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Before & After Gallery</h1>
-            <p className="mt-2 text-gray-600">Manage patient transformation cases</p>
+            <h1 className="text-3xl font-bold text-gray-900">Case Gallery</h1>
+            <p className="mt-2 text-gray-600">Manage patient cases</p>
           </div>
           <button
             onClick={() => openModal()}
@@ -278,29 +280,13 @@ export default function BeforeAfterAdmin() {
         {cases.map((caseItem) => (
           <div key={caseItem.id} className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="relative">
-              <div className="grid grid-cols-2 gap-1">
-                <div className="relative aspect-square">
-                  <Image
-                    src={caseItem.beforeImage || '/images/placeholder.svg'}
-                    alt={caseItem.beforeImageAlt || 'Before'}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute bottom-2 left-2 bg-black bg-opacity-75 text-white px-2 py-1 rounded text-xs">
-                    Before
-                  </div>
-                </div>
-                <div className="relative aspect-square">
-                  <Image
-                    src={caseItem.afterImage || '/images/placeholder.svg'}
-                    alt={caseItem.afterImageAlt || 'After'}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute bottom-2 left-2 bg-black bg-opacity-75 text-white px-2 py-1 rounded text-xs">
-                    After
-                  </div>
-                </div>
+              <div className="relative aspect-video">
+                <Image
+                  src={caseItem.beforeImage || '/images/placeholder.svg'}
+                  alt={caseItem.beforeImageAlt || 'Case image'}
+                  fill
+                  className="object-cover"
+                />
               </div>
               
               {caseItem.isFeatured && (
@@ -364,7 +350,7 @@ export default function BeforeAfterAdmin() {
         <div className="text-center py-12">
           <PhotoIcon className="mx-auto h-12 w-12 text-gray-400" />
           <h3 className="mt-2 text-sm font-medium text-gray-900">No cases</h3>
-          <p className="mt-1 text-sm text-gray-500">Get started by creating a new before & after case.</p>
+          <p className="mt-1 text-sm text-gray-500">Get started by creating a new case.</p>
           <div className="mt-6">
             <button
               onClick={() => openModal()}
@@ -442,76 +428,60 @@ export default function BeforeAfterAdmin() {
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Before Image *
+                      Case Image *
                     </label>
-                    <div className="space-y-2">
-                      {formData.beforeImage && (
-                        <div className="relative w-full h-32 bg-gray-100 rounded-lg overflow-hidden">
+                    <div className="space-y-4">
+                      {/* Image Preview */}
+                      {formData.beforeImage ? (
+                        <div className="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
                           <Image
                             src={formData.beforeImage}
-                            alt="Before image preview"
+                            alt="Case image preview"
                             fill
                             className="object-cover"
                           />
+                          <div className="absolute top-2 right-2">
+                            <button
+                              type="button"
+                              onClick={() => setFormData(prev => ({ ...prev, beforeImage: '', beforeImageAlt: '' }))}
+                              className="bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="w-full h-48 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                          <span className="text-gray-500 text-sm">No image selected</span>
                         </div>
                       )}
+                      
+                      {/* Image Picker Button */}
                       <button
                         type="button"
-                        onClick={() => setShowBeforeImagePicker(true)}
-                        className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onClick={() => {
+                          setCurrentImageField('beforeImage');
+                          setShowImagePicker(true);
+                        }}
+                        className="w-full flex items-center justify-center px-4 py-3 border border-blue-300 rounded-lg text-sm font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       >
                         <PhotoIcon className="h-5 w-5 mr-2" />
-                        {formData.beforeImage ? 'Change Before Image' : 'Select Before Image'}
+                        {formData.beforeImage ? 'Change Image' : 'Select Image'}
                       </button>
                     </div>
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      After Image *
-                    </label>
-                    <div className="space-y-2">
-                      {formData.afterImage && (
-                        <div className="relative w-full h-32 bg-gray-100 rounded-lg overflow-hidden">
-                          <Image
-                            src={formData.afterImage}
-                            alt="After image preview"
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => setShowAfterImagePicker(true)}
-                        className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      >
-                        <PhotoIcon className="h-5 w-5 mr-2" />
-                        {formData.afterImage ? 'Change After Image' : 'Select After Image'}
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Before Image Alt Text
+                      Image Alt Text
                     </label>
                     <input
                       type="text"
                       value={formData.beforeImageAlt}
                       onChange={(e) => setFormData({ ...formData, beforeImageAlt: e.target.value })}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      After Image Alt Text
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.afterImageAlt}
-                      onChange={(e) => setFormData({ ...formData, afterImageAlt: e.target.value })}
+                      placeholder="Describe the image for accessibility"
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
@@ -671,35 +641,19 @@ export default function BeforeAfterAdmin() {
         </div>
       )}
       
-      {/* Before Image Picker */}
+      {/* Image Picker */}
       <ImagePickerModal
-        isOpen={showBeforeImagePicker}
-        onClose={() => setShowBeforeImagePicker(false)}
+        isOpen={showImagePicker}
+        onClose={() => setShowImagePicker(false)}
         onImageSelect={(imageData) => {
           setFormData(prev => ({
             ...prev,
-            beforeImage: imageData.url,
-            beforeImageAlt: imageData.alt && !prev.beforeImageAlt ? (imageData.alt || '') : prev.beforeImageAlt
+            [currentImageField]: imageData.url,
+            [`${currentImageField}Alt`]: imageData.alt && !prev[`${currentImageField}Alt` as keyof typeof prev] ? (imageData.alt || '') : prev[`${currentImageField}Alt` as keyof typeof prev]
           }));
-          setShowBeforeImagePicker(false);
+          setShowImagePicker(false);
         }}
-        title="Select Before Image"
-        searchPlaceholder="Search medical images..."
-      />
-      
-      {/* After Image Picker */}
-      <ImagePickerModal
-        isOpen={showAfterImagePicker}
-        onClose={() => setShowAfterImagePicker(false)}
-        onImageSelect={(imageData) => {
-          setFormData(prev => ({
-            ...prev,
-            afterImage: imageData.url,
-            afterImageAlt: imageData.alt && !prev.afterImageAlt ? (imageData.alt || '') : prev.afterImageAlt
-          }));
-          setShowAfterImagePicker(false);
-        }}
-        title="Select After Image"
+        title="Select Case Image"
         searchPlaceholder="Search medical images..."
       />
     </div>

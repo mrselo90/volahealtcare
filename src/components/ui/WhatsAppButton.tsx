@@ -8,7 +8,7 @@ interface WhatsAppButtonProps {
   message?: string;
 }
 
-export default function WhatsAppButton({ phoneNumber, message = 'Hello! I\'m interested in your medical tourism services.' }: WhatsAppButtonProps) {
+export default function WhatsAppButton({ phoneNumber, message = 'Hello! I\'m interested in your medical tourism services at Vola Health Istanbul.' }: WhatsAppButtonProps) {
   const encodedMessage = encodeURIComponent(message);
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 

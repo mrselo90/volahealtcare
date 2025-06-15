@@ -25,13 +25,13 @@ export default function SuccessPage() {
                 </p>
                 <ul className="mt-4 space-y-2 text-base text-gray-600">
                   <li>
-                    <a href="tel:+905551234567" className="text-primary hover:text-primary-600">
-                      +90 555 123 4567
+                    <a href="tel:+905444749881" className="text-primary hover:text-primary-600">
+                                              +90 544 474 98 81
                     </a>
                   </li>
                   <li>
-                    <a href="mailto:info@medtour.com" className="text-primary hover:text-primary-600">
-                      info@medtour.com
+                    <a href="mailto:info@volahealthistanbul.com" className="text-primary hover:text-primary-600">
+                      info@volahealthistanbul.com
                     </a>
                   </li>
                 </ul>

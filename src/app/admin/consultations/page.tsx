@@ -46,6 +46,7 @@ export default function ConsultationsPage() {
   const [filter, setFilter] = useState<'all' | 'pending' | 'contacted' | 'scheduled' | 'completed' | 'cancelled'>('all');
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchConsultations();
@@ -53,12 +54,24 @@ export default function ConsultationsPage() {
 
   const fetchConsultations = async () => {
     try {
+      setLoading(true);
       const response = await fetch('/api/admin/consultations');
-      if (!response.ok) throw new Error('Failed to fetch consultations');
-      const data = await response.json();
-      setConsultations(data);
+      if (response.ok) {
+        const data = await response.json();
+        // Parse interestedServices JSON strings to arrays
+        const parsedData = data.map((consultation: any) => ({
+          ...consultation,
+          interestedServices: typeof consultation.interestedServices === 'string' 
+            ? JSON.parse(consultation.interestedServices) 
+            : consultation.interestedServices || []
+        }));
+        setConsultations(parsedData);
+      } else {
+        setError('Failed to fetch consultations');
+      }
     } catch (error) {
       console.error('Error fetching consultations:', error);
+      setError('Failed to fetch consultations');
     } finally {
       setLoading(false);
     }

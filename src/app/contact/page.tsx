@@ -7,15 +7,9 @@ import { useRouter } from 'next/navigation';
 const offices = [
   {
     city: 'Istanbul',
-    address: ['Levent', 'Büyükdere Caddesi', '34330 Istanbul, Turkey'],
-    phone: '+90 555 123 4567',
-    email: 'istanbul@medtour.com',
-  },
-  {
-    city: 'Antalya',
-    address: ['Lara', 'Güzeloba Mahallesi', '07230 Antalya, Turkey'],
-    phone: '+90 555 765 4321',
-    email: 'antalya@medtour.com',
+    address: ['Veliefendi, Prof. Dr. Turan Güneş Cd. No:103 Zeytinburnu/Istanbul'],
+    phone: '+90 544 474 98 81',
+    email: 'info@volahealthistanbul.com',
   },
 ];
 
@@ -108,7 +102,7 @@ export default function ContactPage() {
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-y-8 lg:grid-cols-2 lg:gap-x-8">
           <div className="relative px-4 pb-12 pt-16 sm:px-6 sm:pb-16 sm:pt-24 lg:static lg:px-8 lg:py-32">
             <div className="mx-auto max-w-xl lg:mx-0 lg:max-w-lg">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">Get in Touch</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">Contact Vola Health Istanbul</h1>
               <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-7 sm:leading-8 text-gray-600">
                 We're here to help you start your medical tourism journey. Contact us for a free consultation or to learn more about our services.
               </p>
