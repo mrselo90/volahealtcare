@@ -135,7 +135,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
       {/* Floating Social Media Sidebar */}
-      <div className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 flex-col space-y-3">
+      <div className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-30 flex-col space-y-3">
         <div className="bg-white/90 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-gray-200/50">
           {socialPlatforms.map((social) => {
             const url = socialUrls[social.key as keyof SocialMediaUrls];
@@ -196,20 +196,20 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {/* Hero Section - Mobile Optimized */}
+      <section className="relative min-h-[calc(100vh-80px)] sm:min-h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden pt-20 sm:pt-24">
         {/* Background Elements */}
         <div className="absolute inset-0 z-0">
           {/* Gradient Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-blue-600/10"></div>
           
-          {/* Animated Background Shapes */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-purple-400/10 to-blue-400/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+          {/* Animated Background Shapes - Optimized for mobile */}
+          <div className="absolute top-10 sm:top-20 left-5 sm:left-10 w-32 sm:w-72 h-32 sm:h-72 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-2xl sm:blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 sm:bottom-20 right-5 sm:right-10 w-48 sm:w-96 h-48 sm:h-96 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full blur-2xl sm:blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-gradient-to-r from-purple-400/10 to-blue-400/10 rounded-full blur-2xl sm:blur-3xl animate-pulse delay-500"></div>
           
-          {/* Optional Background Image with Overlay */}
-          <div className="absolute inset-0 opacity-30">
+          {/* Optional Background Image with Overlay - Hidden on small mobile */}
+          <div className="absolute inset-0 opacity-20 sm:opacity-30 hidden sm:block">
             <Image
               src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
               alt="Professional medical facility"
@@ -221,32 +221,32 @@ export default function Home() {
           </div>
         </div>
           
-        {/* Content */}
-        <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center">
+        {/* Content - Mobile-first approach */}
+        <div className="relative z-10 section-padding-mobile max-w-7xl mx-auto w-full">
+          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-20 items-center">
             {/* Left Side - Text Content */}
-            <div className="text-center lg:text-left space-y-6 lg:space-y-10 order-2 lg:order-1">
-              <div className="space-y-4 lg:space-y-6">
-                <div className="inline-block px-4 lg:px-6 py-2 lg:py-3 bg-gradient-to-r from-blue-100 to-purple-100 backdrop-blur-sm rounded-full border border-blue-200/50 shadow-lg">
-                  <span className="text-xs lg:text-sm text-professional-bold text-blue-800 tracking-wide">✨ PREMIUM MEDICAL TOURISM</span>
+            <div className="text-center lg:text-left space-y-4 sm:space-y-6 lg:space-y-10 order-2 lg:order-1">
+              <div className="space-y-3 sm:space-y-4 lg:space-y-6">
+                <div className="inline-block px-3 sm:px-4 lg:px-6 py-2 lg:py-3 bg-gradient-to-r from-blue-100 to-purple-100 backdrop-blur-sm rounded-full border border-blue-200/50 shadow-lg">
+                  <span className="text-[10px] sm:text-xs lg:text-sm text-professional-bold text-blue-800 tracking-wide">✨ PREMIUM MEDICAL TOURISM</span>
                 </div>
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold tracking-tight leading-tight">
+                <h1 className="text-mobile-hero font-serif font-bold tracking-tight leading-[1.1] sm:leading-tight">
                   <span className="block text-gray-900">{t('home.hero.title') || 'Transform Your Life'}</span>
-                  <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                  <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mt-1 sm:mt-0">
                     with Premium Care
                   </span>
                 </h1>
               </div>
               
-              <p className="text-base sm:text-lg lg:text-xl leading-relaxed text-gray-600 max-w-2xl mx-auto lg:mx-0">
+              <p className="text-sm sm:text-base lg:text-xl leading-relaxed text-gray-600 max-w-xl lg:max-w-2xl mx-auto lg:mx-0">
                 {t('home.hero.subtitle') || 'Experience world-class healthcare with our expert team and luxury accommodations in beautiful Istanbul.'}
               </p>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 justify-center lg:justify-start pt-4 lg:pt-6">
+              {/* CTA Buttons - Mobile optimized */}
+              <div className="flex flex-col gap-3 sm:gap-4 justify-center lg:justify-start pt-4 lg:pt-6">
                 <Link
                   href="/consultation"
-                  className="group relative px-6 lg:px-8 py-3 lg:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl lg:rounded-2xl text-white text-professional-bold text-base lg:text-lg transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl overflow-hidden"
+                  className="group relative btn-touch px-6 lg:px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl lg:rounded-2xl text-white text-professional-bold text-base lg:text-lg transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <span className="relative flex items-center justify-center gap-2">
@@ -261,7 +261,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/gallery"
-                  className="group px-6 lg:px-8 py-3 lg:py-4 bg-white/80 hover:bg-white border-2 border-gray-200 hover:border-blue-300 rounded-xl lg:rounded-2xl text-gray-700 hover:text-blue-700 text-professional-bold text-base lg:text-lg transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-xl"
+                  className="group btn-touch px-6 lg:px-8 py-4 bg-white/80 hover:bg-white border-2 border-gray-200 hover:border-blue-300 rounded-xl lg:rounded-2xl text-gray-700 hover:text-blue-700 text-professional-bold text-base lg:text-lg transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-xl"
                 >
                   <span className="flex items-center justify-center gap-2">
                     <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -272,25 +272,25 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Trust Indicators */}
-              <div className="flex flex-wrap justify-center lg:justify-start gap-4 lg:gap-8 pt-6 lg:pt-8">
-                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md">
-                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse"></div>
-                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700">1500+ Successful Cases</span>
+              {/* Trust Indicators - Mobile responsive */}
+              <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-2 sm:gap-4 lg:gap-8 pt-4 sm:pt-6 lg:pt-8">
+                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md mx-2 sm:mx-0">
+                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse flex-shrink-0"></div>
+                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700 whitespace-nowrap">1500+ Successful Cases</span>
                 </div>
-                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md">
-                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full animate-pulse delay-200"></div>
-                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700">98% Satisfaction Rate</span>
+                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md mx-2 sm:mx-0">
+                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full animate-pulse delay-200 flex-shrink-0"></div>
+                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700 whitespace-nowrap">98% Satisfaction Rate</span>
                 </div>
-                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md">
-                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-purple-400 to-purple-500 rounded-full animate-pulse delay-400"></div>
-                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700">15+ Years Experience</span>
+                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md mx-2 sm:mx-0">
+                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-purple-400 to-purple-500 rounded-full animate-pulse delay-400 flex-shrink-0"></div>
+                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700 whitespace-nowrap">15+ Years Experience</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Side - Hero Slider */}
-            <div className="relative h-[400px] sm:h-[500px] lg:h-[600px] order-1 lg:order-2">
+            {/* Right Side - Hero Slider - Mobile optimized height */}
+            <div className="relative h-[250px] sm:h-[350px] md:h-[450px] lg:h-[600px] order-1 lg:order-2">
               <HeroSlider />
             </div>
           </div>

@@ -67,7 +67,7 @@ export default function HeroSlider() {
   };
 
   return (
-    <div className="relative w-full h-full overflow-hidden rounded-3xl shadow-2xl">
+    <div className="relative w-full h-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-lg sm:shadow-2xl">
       {/* Slides Container */}
       <div className="relative w-full h-full">
         {slides.map((slide, index) => (
@@ -87,38 +87,43 @@ export default function HeroSlider() {
                 fill
                 className="object-cover"
                 priority={index === 0}
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, 50vw"
               />
               
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/70"></div>
+              {/* Gradient Overlay - Enhanced for mobile readability */}
+              <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-black/80 sm:from-black/60 sm:via-black/40 sm:to-black/70"></div>
               
-              {/* Content Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center p-8">
-                <div className="text-center text-white space-y-4 max-w-lg">
-                  {/* Category Badge */}
-                  <div className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
-                    <span className="text-sm text-professional-bold tracking-wide">
+              {/* Content Overlay - Mobile optimized */}
+              <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-6 lg:p-8">
+                <div className="text-center text-white space-y-2 sm:space-y-4 max-w-xs sm:max-w-lg">
+                  {/* Category Badge - Mobile responsive */}
+                  <div className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
+                    <span className="text-xs sm:text-sm text-professional-bold tracking-wide">
                       {slide.category}
                     </span>
                   </div>
                   
-                  {/* Title */}
-                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold leading-tight">
+                  {/* Title - Mobile responsive typography */}
+                  <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-serif font-bold leading-tight">
                     {slide.title}
                   </h3>
                   
-                  {/* Subtitle */}
-                  <p className="text-lg md:text-xl text-gray-200 leading-relaxed">
+                  {/* Subtitle - Mobile responsive */}
+                  <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-200 leading-relaxed hidden sm:block">
                     {slide.subtitle}
                   </p>
                   
-                  {/* Learn More Button */}
-                  <div className="pt-4">
-                    <button className="group px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 hover:border-white/50 rounded-xl text-white text-professional-bold transition-all duration-300 transform hover:scale-105">
-                      <span className="flex items-center gap-2">
+                  {/* Mobile subtitle - shorter version */}
+                  <p className="text-sm text-gray-200 leading-relaxed sm:hidden">
+                    {slide.subtitle.split(' ').slice(0, 4).join(' ')}...
+                  </p>
+                  
+                  {/* Learn More Button - Mobile optimized */}
+                  <div className="pt-2 sm:pt-4">
+                    <button className="group px-4 sm:px-6 py-2.5 sm:py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 hover:border-white/50 rounded-lg sm:rounded-xl text-white text-professional-bold transition-all duration-300 transform hover:scale-105 min-h-[44px] flex items-center justify-center">
+                      <span className="flex items-center gap-2 text-sm sm:text-base">
                         Learn More
-                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
                       </span>
@@ -131,36 +136,40 @@ export default function HeroSlider() {
         ))}
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation Arrows - Mobile optimized */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full border border-white/30 hover:border-white/50 text-white transition-all duration-300 transform hover:scale-110 group"
+        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full border border-white/30 hover:border-white/50 text-white transition-all duration-300 transform hover:scale-110 group min-w-[44px] min-h-[44px] flex items-center justify-center"
         aria-label="Previous slide"
       >
-        <ChevronLeftIcon className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
+        <ChevronLeftIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform" />
       </button>
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full border border-white/30 hover:border-white/50 text-white transition-all duration-300 transform hover:scale-110 group"
+        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full border border-white/30 hover:border-white/50 text-white transition-all duration-300 transform hover:scale-110 group min-w-[44px] min-h-[44px] flex items-center justify-center"
         aria-label="Next slide"
       >
-        <ChevronRightIcon className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
+        <ChevronRightIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3">
+      {/* Slide Indicators - Mobile responsive */}
+      <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-300 min-w-[44px] min-h-[44px] flex items-center justify-center ${
               index === currentSlide
                 ? 'bg-white scale-125'
                 : 'bg-white/50 hover:bg-white/75'
             }`}
             aria-label={`Go to slide ${index + 1}`}
-          />
+          >
+            <div className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${
+              index === currentSlide ? 'bg-white' : 'bg-white/50'
+            }`}></div>
+          </button>
         ))}
       </div>
 
@@ -174,18 +183,18 @@ export default function HeroSlider() {
         />
       </div>
 
-      {/* Auto-play Toggle */}
+      {/* Auto-play Toggle - Mobile optimized */}
       <button
         onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-        className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg border border-white/30 text-white transition-all duration-300"
+        className="absolute top-2 sm:top-4 right-2 sm:right-4 p-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg border border-white/30 text-white transition-all duration-300 min-w-[44px] min-h-[44px] flex items-center justify-center"
         aria-label={isAutoPlaying ? 'Pause slideshow' : 'Play slideshow'}
       >
         {isAutoPlaying ? (
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
             <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
           </svg>
         ) : (
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
             <path d="M8 5v14l11-7z"/>
           </svg>
         )}

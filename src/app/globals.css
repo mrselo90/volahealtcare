@@ -5,6 +5,11 @@
 /* Import Google Fonts - Removed Inter, using Montserrat from layout.tsx */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
 
+html, body, #__next {
+  height: 100%;
+  min-height: 100%;
+}
+
 @layer base {
   :root {
     /* Brand Colors - Blue-Purple Theme */
@@ -212,6 +217,76 @@
   
   .input {
     @apply block w-full rounded-md border-border bg-background py-2.5 px-3 text-foreground shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring sm:text-sm;
+  }
+
+  /* Touch-friendly buttons */
+  .btn-touch {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 16px;
+  }
+
+  /* Mobile-optimized text sizes */
+  .text-mobile-hero {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl;
+  }
+  
+  .text-mobile-heading {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+  }
+  
+  .text-mobile-subheading {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+
+  /* Safe area handling for mobile devices */
+  .pb-safe {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
+  
+  .pt-safe {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  /* Mobile-optimized spacing */
+  .section-padding-mobile {
+    @apply px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16;
+  }
+
+  /* Mobile container with consistent max-width */
+  .container-mobile {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Mobile-friendly grid layouts */
+  .grid-mobile-auto {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6;
+  }
+
+  /* Mobile-optimized card spacing */
+  .card-spacing-mobile {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+
+  /* Improved mobile scrolling */
+  .mobile-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Mobile-friendly cards */
+  .card-mobile {
+    @apply p-4 sm:p-6 rounded-xl shadow-lg border border-gray-200/50 bg-white;
+  }
+
+  /* Responsive images */
+  .img-responsive {
+    @apply w-full h-auto object-cover;
+  }
+
+  /* Mobile navigation improvements */
+  .mobile-nav-item {
+    @apply block w-full text-left px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors duration-200 min-h-[48px] flex items-center;
   }
 }
 
@@ -911,5 +986,132 @@ html {
   
   .stats-card {
     padding: 1rem;
+  }
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 640px) {
+  /* Reduce motion for better mobile performance */
+  .reduce-motion * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Mobile hero sections */
+  .hero-mobile {
+    min-height: calc(100vh - 64px);
+    padding-top: 80px;
+  }
+
+  /* Mobile form improvements */
+  input, textarea, select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 12px 16px;
+    min-height: 44px;
+  }
+
+  /* Mobile button improvements */
+  button {
+    min-height: 44px;
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+
+  /* Improve tap targets */
+  a, button, input, select, textarea {
+    min-height: 44px;
+  }
+
+  /* Mobile-specific typography */
+  h1 {
+    @apply text-2xl leading-tight;
+  }
+  
+  h2 {
+    @apply text-xl leading-tight;
+  }
+  
+  h3 {
+    @apply text-lg leading-tight;
+  }
+
+  /* Mobile-optimized spacing */
+  .container {
+    @apply px-4;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Tablet-specific adjustments */
+  .section-padding {
+    @apply px-6 py-8;
+  }
+
+  /* Improve mobile menu */
+  .mobile-menu {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  /* Mobile-friendly grid */
+  .grid-mobile {
+    @apply grid-cols-1 gap-4;
+  }
+  
+  .grid-mobile-2 {
+    @apply grid-cols-1 sm:grid-cols-2 gap-4;
+  }
+}
+
+/* Landscape mobile optimizations */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-mobile {
+    min-height: 100vh;
+    padding-top: 60px;
+  }
+  
+  .mobile-menu {
+    padding-top: 60px;
+  }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .high-dpi-optimized {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Dark mode mobile improvements */
+@media (prefers-color-scheme: dark) {
+  .mobile-dark {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+}
+
+/* Accessibility improvements for mobile */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* iOS-specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .ios-fix {
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+  }
+  
+  input[type="submit"], input[type="button"], button {
+    -webkit-appearance: none;
+    border-radius: 0.75rem;
   }
 } 

@@ -520,17 +520,17 @@ export default function ConsultationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 lg:py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-20 sm:py-24">
+      <div className="container-mobile">
         {/* Header */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-4">
+        <div className="text-center mb-6 sm:mb-8">
+          <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-4 text-sm sm:text-base">
             ← Back to Home
           </Link>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
             Free Medical Consultation
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
             Get personalized advice from our expert medical team. Complete this form to schedule your complimentary consultation.
           </p>
         </div>

@@ -167,9 +167,9 @@ const SearchAndFilters = ({
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 mb-8 overflow-hidden">
       {/* Main Filter Bar */}
       <div className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          {/* Search */}
-          <div className="md:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+          {/* Search - Full width on mobile */}
+          <div className="lg:col-span-2">
             <div className="relative">
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
@@ -177,12 +177,12 @@ const SearchAndFilters = ({
                 placeholder="Search treatments, procedures..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 placeholder-gray-400 min-h-[48px]"
               />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm('')}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 min-w-[44px] min-h-[44px] flex items-center justify-center"
                 >
                   ✕
                 </button>
@@ -190,12 +190,12 @@ const SearchAndFilters = ({
             </div>
           </div>
 
-          {/* Category Filter */}
+          {/* Category Filter - Mobile optimized */}
           <div>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white text-gray-700"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white text-gray-700 min-h-[48px]"
             >
               <option value="">All Categories</option>
               {categories.map((category: any) => (

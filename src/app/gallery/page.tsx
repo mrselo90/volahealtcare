@@ -13,24 +13,24 @@ export default function GalleryPage() {
       {/* Hero Section */}
       <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-700/10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="relative container-mobile py-12 sm:py-16 lg:py-20">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent leading-tight">
               {t('gallery.hero.title') || 'Before & After Gallery'}
             </h1>
-            <p className="text-lg md:text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed mb-6">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-200 max-w-4xl mx-auto leading-relaxed mb-6 px-4">
               {t('gallery.hero.subtitle') || 'Witness real transformations from our satisfied patients. Each story represents a journey of confidence and renewed self-esteem.'}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
               <a
                 href="/consultation"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl"
+                className="btn-touch bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl text-center"
               >
                 {t('gallery.hero.consultation_btn') || 'Free Consultation'}
               </a>
               <a
                 href="/contact"
-                className="border-2 border-white/40 hover:border-white text-white hover:bg-white hover:text-black px-8 py-3 rounded-xl font-semibold transition-all duration-300"
+                className="btn-touch border-2 border-white/40 hover:border-white text-white hover:bg-white hover:text-black px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-300 text-center"
               >
                 {t('gallery.hero.contact_btn') || 'Contact Us'}
               </a>

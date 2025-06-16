@@ -131,31 +131,31 @@ export default function FeaturedBeforeAfter({
   }
 
   return (
-    <section className="py-24 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+    <section className="py-12 sm:py-16 lg:py-24 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Hero Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
+              <div className="container-mobile relative">
+          {/* Hero Header */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-8 sm:mb-12 lg:mb-16"
+          >
           <div className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10 text-white px-8 py-3 rounded-full text-sm text-professional-bold mb-8 shadow-2xl">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
             <span>REAL PATIENT TRANSFORMATIONS</span>
             <span>✨</span>
           </div>
           
-          <h2 className="text-5xl md:text-7xl font-serif font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-4 sm:mb-6 leading-tight">
             Life-Changing
             <br />
-            <span className="text-4xl md:text-6xl font-serif font-light italic">Results</span>
+            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-serif font-light italic">Results</span>
           </h2>
           
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
