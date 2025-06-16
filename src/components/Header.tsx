@@ -21,19 +21,7 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    
-    // Cleanup on unmount
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [mobileMenuOpen]);
+
 
   const navigation = [
     { name: t('nav.home') || 'Home', href: '/' },
@@ -149,107 +137,65 @@ export function Header() {
         </div>
       </nav>
 
-      {/* Enhanced Mobile Menu - Web Consistent Design */}
+      {/* Simple Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="xl:hidden" style={{ display: 'block !important' }}>
-          {/* Menu Panel */}
-          <div className="fixed top-0 left-0 right-0 bottom-0 bg-white backdrop-blur-xl shadow-2xl z-[9999] overflow-y-auto">
-            {/* Gradient accent bar */}
-            <div className="h-1 bg-gradient-to-r from-blue-600 to-purple-600"></div>
-            
-            <div className="p-4 sm:p-6 space-y-1 min-h-screen pb-safe">
-              {/* Header */}
-              <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center space-x-3">
-                  <div className="relative">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl blur opacity-25"></div>
-                    <Image 
-                      src="/Vola_edited.jpg" 
-                      alt="Vola Health Logo" 
-                      width={32}
-                      height={32}
-                      className="relative rounded-xl shadow-lg"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-lg font-serif font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                      Menu
-                    </span>
-                    <span className="text-xs text-gray-500">Vola Health Istanbul</span>
-                  </div>
-                </div>
-                <button 
+        <>
+          {/* Backdrop to close menu */}
+          <div 
+            className="xl:hidden fixed inset-0 z-40" 
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div className="xl:hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+            <div className="p-4 space-y-2">
+              {/* Close button */}
+              <div className="flex justify-end mb-2">
+                <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="relative p-2.5 text-gray-600 hover:text-gray-900 rounded-xl hover:bg-gray-50 group min-w-[44px] min-h-[44px] flex items-center justify-center transition-all duration-300"
+                  className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg"
                   aria-label="Close menu"
                 >
-                  <XMarkIcon className="h-6 w-6 transition-transform duration-200 group-active:scale-95" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <XMarkIcon className="h-5 w-5" />
                 </button>
               </div>
+
               
-              {/* Navigation Links */}
+            {/* Navigation Links */}
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="block px-4 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+            
+            <div className="border-t border-gray-200 pt-4 mt-4">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-medium text-gray-700">Language</span>
+                <LanguageSelector />
+              </div>
+              
               <div className="space-y-2">
-                {navigation.map((item, index) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="group relative block text-base font-medium text-gray-900 hover:text-blue-600 active:text-blue-700 p-4 rounded-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 active:from-blue-100 active:to-purple-100 transition-all duration-300 transform hover:translate-x-1 active:translate-x-0 min-h-[56px] flex items-center"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span className="relative z-10">{item.name}</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    
-                    {/* Touch feedback ripple */}
-                    <div className="absolute inset-0 rounded-xl opacity-0 group-active:opacity-20 bg-blue-500 transition-opacity duration-100"></div>
-                  </Link>
-                ))}
-              </div>
-              
-              {/* Language Selector */}
-              <div className="pt-4 mt-6 border-t border-gray-200/50">
-                <div className="bg-gradient-to-r from-blue-50/80 to-purple-50/80 rounded-xl p-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700">Language / Dil</span>
-                    <div className="bg-white rounded-lg p-1 shadow-sm">
-                      <LanguageSelector />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* CTA Buttons */}
-              <div className="pt-6 space-y-3">
                 <a
                   href="tel:+905444749881"
-                  className="group relative flex items-center justify-center space-x-2 w-full px-4 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 active:from-blue-800 active:to-purple-800 text-white rounded-xl font-medium shadow-lg hover:shadow-xl active:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 min-h-[56px]"
+                  className="block w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white text-center rounded-lg font-medium transition-colors duration-200"
                 >
-                  <ChatBubbleLeftRightIcon className="w-5 h-5 group-active:scale-95 transition-transform duration-100" />
-                  <span>{t('common.messageNow') || 'Message Now'}</span>
-                  <div className="absolute inset-0 bg-white/10 rounded-xl opacity-0 group-active:opacity-100 transition-opacity duration-100"></div>
+                  {t('common.messageNow') || 'Message Now'}
                 </a>
                 
                 <Link
                   href="/consultation"
-                  className="group relative flex items-center justify-center space-x-2 w-full px-4 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:from-emerald-800 active:to-teal-800 text-white rounded-xl font-medium shadow-lg hover:shadow-xl active:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 min-h-[56px]"
+                  className="block w-full px-4 py-3 bg-green-600 hover:bg-green-700 text-white text-center rounded-lg font-medium transition-colors duration-200"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <SparklesIcon className="w-5 h-5 group-active:scale-95 transition-transform duration-100" />
-                  <span>{t('nav.consultation') || 'Free Consultation'}</span>
-                  <div className="absolute inset-0 bg-white/10 rounded-xl opacity-0 group-active:opacity-100 transition-opacity duration-100"></div>
+                  {t('nav.consultation') || 'Free Consultation'}
                 </Link>
-              </div>
-              
-              {/* Contact Info */}
-              <div className="pt-4 mt-4 border-t border-gray-200/30">
-                <div className="text-center">
-                  <p className="text-xs text-gray-500 mb-1">Premium Medical Tourism</p>
-                  <p className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Istanbul, Turkey</p>
-                </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </header>
   );
