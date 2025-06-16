@@ -61,10 +61,7 @@ export default function HeroSlider() {
     setIsAutoPlaying(false);
   };
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-    setIsAutoPlaying(false);
-  };
+
 
   return (
     <div className="relative w-full h-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-lg sm:shadow-2xl">
@@ -153,25 +150,7 @@ export default function HeroSlider() {
         <ChevronRightIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
-      {/* Slide Indicators - Mobile responsive */}
-      <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 sm:space-x-3">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-300 min-w-[44px] min-h-[44px] flex items-center justify-center ${
-              index === currentSlide
-                ? 'bg-white scale-125'
-                : 'bg-white/50 hover:bg-white/75'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          >
-            <div className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full ${
-              index === currentSlide ? 'bg-white' : 'bg-white/50'
-            }`}></div>
-          </button>
-        ))}
-      </div>
+
 
       {/* Progress Bar */}
       <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20">
