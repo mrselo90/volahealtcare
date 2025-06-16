@@ -152,18 +152,12 @@ export function Header() {
       {/* Enhanced Mobile Menu - Web Consistent Design */}
       {mobileMenuOpen && (
         <div className="xl:hidden">
-          {/* Backdrop with blur */}
-          <div 
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-          
           {/* Menu Panel */}
-          <div className="relative bg-white/95 backdrop-blur-xl border-t border-gray-200/50 shadow-2xl z-50">
+          <div className="fixed top-0 left-0 right-0 bottom-0 bg-white/95 backdrop-blur-xl shadow-2xl z-50 overflow-y-auto">
             {/* Gradient accent bar */}
             <div className="h-1 bg-gradient-to-r from-blue-600 to-purple-600"></div>
             
-            <div className="p-6 space-y-1">
+            <div className="p-4 sm:p-6 space-y-1 min-h-screen pb-safe">
               {/* Header */}
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center space-x-3">
