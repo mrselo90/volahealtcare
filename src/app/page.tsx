@@ -134,9 +134,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
-      {/* Floating Social Media Sidebar */}
-      <div className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-30 flex-col space-y-3">
-        <div className="bg-white/90 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-gray-200/50">
+      {/* Floating Social Media Sidebar - Mobile & Desktop Optimized */}
+      <div className="fixed right-3 sm:right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col space-y-2 sm:space-y-3">
+        <div className="bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-2 sm:p-3 shadow-lg border border-gray-200/50">
           {socialPlatforms.map((social) => {
             const url = socialUrls[social.key as keyof SocialMediaUrls];
             return url ? (
@@ -145,9 +145,11 @@ export default function Home() {
                 href={url} 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-10 h-10 bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-2 last:mb-0"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 last:mb-0 touch-manipulation"
               >
-                {getSocialIcon(social.platform)}
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon(social.platform)}
+                </div>
               </a>
             ) : null;
           })}
@@ -159,37 +161,45 @@ export default function Home() {
                 href="https://instagram.com/volahealthistanbul" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-10 h-10 bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-2"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 touch-manipulation"
                 title="Follow us on Instagram"
               >
-                {getSocialIcon('instagram')}
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon('instagram')}
+                </div>
               </a>
               <a 
                 href="https://facebook.com/volahealthistanbul" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-10 h-10 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-2"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 touch-manipulation"
                 title="Follow us on Facebook"
               >
-                {getSocialIcon('facebook')}
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon('facebook')}
+                </div>
               </a>
               <a 
                 href="https://linkedin.com/company/volahealthistanbul" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-10 h-10 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-2"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 touch-manipulation"
                 title="Connect on LinkedIn"
               >
-                {getSocialIcon('linkedin')}
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon('linkedin')}
+                </div>
               </a>
               <a 
                 href="https://youtube.com/@volahealthistanbul" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-10 h-10 bg-gradient-to-r from-red-50 to-pink-50 hover:from-red-100 hover:to-pink-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-red-50 to-pink-50 hover:from-red-100 hover:to-pink-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 touch-manipulation"
                 title="Subscribe to our YouTube"
               >
-                {getSocialIcon('youtube')}
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon('youtube')}
+                </div>
               </a>
             </>
           )}

@@ -158,40 +158,40 @@ export function Header() {
                 </button>
               </div>
 
-              
-            {/* Navigation Links */}
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="block px-4 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
-            
-            <div className="border-t border-gray-200 pt-4 mt-4">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-sm font-medium text-gray-700">Language</span>
-                <LanguageSelector />
-              </div>
-              
-              <div className="space-y-2">
-                <a
-                  href="tel:+905444749881"
-                  className="block w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white text-center rounded-lg font-medium transition-colors duration-200"
-                >
-                  {t('common.messageNow') || 'Message Now'}
-                </a>
-                
+              {/* Navigation Links */}
+              {navigation.map((item) => (
                 <Link
-                  href="/consultation"
-                  className="block w-full px-4 py-3 bg-green-600 hover:bg-green-700 text-white text-center rounded-lg font-medium transition-colors duration-200"
+                  key={item.name}
+                  href={item.href}
+                  className="block px-4 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 hover:text-blue-600 transition-colors duration-200"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {t('nav.consultation') || 'Free Consultation'}
+                  {item.name}
                 </Link>
+              ))}
+              
+              <div className="border-t border-gray-200 pt-4 mt-4">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-medium text-gray-700">Language</span>
+                  <LanguageSelector />
+                </div>
+                
+                <div className="space-y-2">
+                  <a
+                    href="tel:+905444749881"
+                    className="block w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white text-center rounded-lg font-medium transition-colors duration-200"
+                  >
+                    {t('common.messageNow') || 'Message Now'}
+                  </a>
+                  
+                  <Link
+                    href="/consultation"
+                    className="block w-full px-4 py-3 bg-green-600 hover:bg-green-700 text-white text-center rounded-lg font-medium transition-colors duration-200"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {t('nav.consultation') || 'Free Consultation'}
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -199,4 +199,4 @@ export function Header() {
       )}
     </header>
   );
-} 
+}
