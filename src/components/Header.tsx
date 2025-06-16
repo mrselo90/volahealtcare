@@ -151,9 +151,9 @@ export function Header() {
 
       {/* Enhanced Mobile Menu - Web Consistent Design */}
       {mobileMenuOpen && (
-        <div className="xl:hidden">
+        <div className="xl:hidden" style={{ display: 'block !important' }}>
           {/* Menu Panel */}
-          <div className="fixed top-0 left-0 right-0 bottom-0 bg-white/95 backdrop-blur-xl shadow-2xl z-50 overflow-y-auto">
+          <div className="fixed top-0 left-0 right-0 bottom-0 bg-white backdrop-blur-xl shadow-2xl z-[9999] overflow-y-auto">
             {/* Gradient accent bar */}
             <div className="h-1 bg-gradient-to-r from-blue-600 to-purple-600"></div>
             
