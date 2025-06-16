@@ -29,13 +29,13 @@ export default function WhatsAppButton({ phoneNumber, message = 'Hello! I\'m int
     >
       <Link
         href={whatsappUrl}
-        className="fixed bottom-4 right-4 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-green-500 text-white shadow-lg hover:bg-green-600 transition-colors"
+        className="fixed bottom-20 sm:bottom-24 left-4 z-30 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-green-500 text-white shadow-lg hover:bg-green-600 transition-all duration-300 transform hover:scale-105"
         target="_blank"
         rel="noopener noreferrer"
       >
         <span className="sr-only">Contact us on WhatsApp</span>
         <svg
-          className="h-8 w-8"
+          className="h-6 w-6 sm:h-8 sm:w-8"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
