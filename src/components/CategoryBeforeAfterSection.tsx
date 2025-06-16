@@ -168,7 +168,7 @@ export default function CategoryBeforeAfterSection({
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className={`inline-block bg-gradient-to-r ${gradientFrom} ${gradientTo} text-white px-8 py-3 rounded-full text-lg font-semibold mb-6`}
+          className={`inline-block bg-gradient-to-r ${gradientFrom} ${gradientTo} text-white px-8 py-3 rounded-full text-lg text-professional-bold mb-6`}
         >
           {title}
         </motion.div>
@@ -189,7 +189,7 @@ export default function CategoryBeforeAfterSection({
         >
           <Link
             href={`/results/${resultRoute}`}
-            className={`inline-flex items-center gap-2 bg-gradient-to-r ${gradientFrom} ${gradientTo} text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105`}
+            className={`inline-flex items-center gap-2 bg-gradient-to-r ${gradientFrom} ${gradientTo} text-white px-6 py-3 rounded-xl text-professional-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105`}
           >
             {t('results.cta.viewAllResults')}
             <ArrowRightIcon className="w-4 h-4" />
@@ -277,7 +277,7 @@ export default function CategoryBeforeAfterSection({
 
                   {/* Card Content */}
                   <div className="p-6">
-                    <h3 className="font-bold text-lg text-gray-900 mb-2">
+                    <h3 className="font-serif font-bold text-lg text-gray-900 mb-2">
                       {caseItem.title}
                     </h3>
                     

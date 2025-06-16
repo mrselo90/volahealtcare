@@ -3,9 +3,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import FeaturedBeforeAfter from '@/components/FeaturedBeforeAfter';
-import MobileMenu from '@/components/MobileMenu';
 import { useState, useEffect } from 'react';
 import { useTranslation } from '@/lib/i18n/hooks';
+import HeroSlider from '@/components/HeroSlider';
 
 interface SocialMediaUrls {
   social_instagram: string;
@@ -26,11 +26,40 @@ export default function Home() {
     social_pinterest: '',
     social_twitter: ''
   });
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [testimonials, setTestimonials] = useState([]);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   useEffect(() => {
     fetchSocialUrls();
+    fetchTestimonials();
   }, []);
+
+  // Auto-rotate testimonials every 5 seconds
+  useEffect(() => {
+    if (testimonials.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentTestimonial((prev) => 
+          prev === testimonials.length - 1 ? 0 : prev + 1
+        );
+      }, 5000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [testimonials.length]);
+
+  const fetchTestimonials = async () => {
+    try {
+      const response = await fetch('/api/testimonials');
+      if (response.ok) {
+        const data = await response.json();
+        // Get all testimonials and limit to 3 for homepage (API already filters approved ones)
+        const homeTestimonials = data.slice(0, 3);
+        setTestimonials(homeTestimonials);
+      }
+    } catch (error) {
+      console.error('Error fetching testimonials:', error);
+    }
+  };
 
   const fetchSocialUrls = async () => {
     try {
@@ -104,38 +133,10 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans">
-      {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
-        <div className="flex justify-between items-center px-4 py-3">
-          <Link href="/" className="flex items-center">
-            <Image src="/Vola_edited.jpg" alt="Vola Health Logo" width={32} height={32} className="rounded-none" />
-            <span className="ml-2 text-sm font-medium text-gray-900">VOLA HEALTH</span>
-          </Link>
-          
-          <button 
-            onClick={() => setIsMobileMenuOpen(true)}
-            className="p-2"
-          >
-            <div className="flex flex-col space-y-1">
-              <div className="w-5 h-px bg-gray-900"></div>
-              <div className="w-5 h-px bg-gray-900"></div>
-              <div className="w-5 h-px bg-gray-900"></div>
-            </div>
-          </button>
-        </div>
-      </div>
-
-      {/* Desktop Left Sidebar */}
-      <div className="hidden lg:flex fixed left-0 top-0 h-full w-20 bg-gray-50/90 backdrop-blur-sm border-r border-gray-200 flex-col items-center justify-between py-8 z-50">
-        {/* Logo */}
-        <div className="flex flex-col items-center">
-          
-
-        </div>
-
-        {/* Social Media Icons */}
-        <div className="flex flex-col space-y-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
+      {/* Floating Social Media Sidebar */}
+      <div className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 flex-col space-y-3">
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-gray-200/50">
           {socialPlatforms.map((social) => {
             const url = socialUrls[social.key as keyof SocialMediaUrls];
             return url ? (
@@ -144,7 +145,7 @@ export default function Home() {
                 href={url} 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors"
+                className="block w-10 h-10 bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-2 last:mb-0"
               >
                 {getSocialIcon(social.platform)}
               </a>
@@ -155,19 +156,19 @@ export default function Home() {
           {socialPlatforms.every(s => !socialUrls[s.key as keyof SocialMediaUrls]) && (
             <>
               <a 
-                                    href="https://instagram.com/volahealthistanbul" 
+                href="https://instagram.com/volahealthistanbul" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors"
+                className="block w-10 h-10 bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-2"
                 title="Follow us on Instagram"
               >
                 {getSocialIcon('instagram')}
               </a>
               <a 
-                                  href="https://facebook.com/volahealthistanbul" 
+                href="https://facebook.com/volahealthistanbul" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors"
+                className="block w-10 h-10 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-2"
                 title="Follow us on Facebook"
               >
                 {getSocialIcon('facebook')}
@@ -176,7 +177,7 @@ export default function Home() {
                 href="https://linkedin.com/company/volahealthistanbul" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors"
+                className="block w-10 h-10 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-2"
                 title="Connect on LinkedIn"
               >
                 {getSocialIcon('linkedin')}
@@ -185,7 +186,7 @@ export default function Home() {
                 href="https://youtube.com/@volahealthistanbul" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors"
+                className="block w-10 h-10 bg-gradient-to-r from-red-50 to-pink-50 hover:from-red-100 hover:to-pink-100 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
                 title="Subscribe to our YouTube"
               >
                 {getSocialIcon('youtube')}
@@ -195,409 +196,342 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Main Content Area */}
-      <div className="lg:ml-20">
-        {/* Desktop Top Header */}
-        <header className="hidden lg:block fixed top-0 right-0 left-20 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-200">
-          <div className="flex justify-between items-center px-8 py-4">
-            {/* Logo Text */}
-            <div>
-                              <h1 className="text-xl font-light tracking-widest text-gray-900">VOLA HEALTH ISTANBUL</h1>
-            </div>
-
-            {/* Navigation */}
-            <div className="flex items-center space-x-4">
-              <Link
-                href="/consultation"
-                className="px-6 py-2 border border-gray-300 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors text-gray-900"
-              >
-                FREE CONSULTATION →
-              </Link>
-              <Link
-                href="/services"
-                className="px-6 py-2 border border-gray-300 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors text-gray-900"
-              >
-                VIEW SERVICES →
-              </Link>
-              <a
-                href="tel:+905444749881"
-                className="px-6 py-2 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition-colors flex items-center"
-              >
-                📞 +90 544 474 98 81
-              </a>
-            </div>
-          </div>
-        </header>
-
-        {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          {/* Background Image */}
-          <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80"></div>
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        {/* Background Elements */}
+        <div className="absolute inset-0 z-0">
+          {/* Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-blue-600/10"></div>
+          
+          {/* Animated Background Shapes */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-purple-400/10 to-blue-400/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+          
+          {/* Optional Background Image with Overlay */}
+          <div className="absolute inset-0 opacity-30">
             <Image
               src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-              alt="Professional dental practice"
+              alt="Professional medical facility"
               fill
               className="object-cover"
               priority
             />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/80 to-white/70"></div>
           </div>
+        </div>
           
-          {/* Content */}
-          <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-              {/* Left Side - Text Content */}
-              <div className="text-center lg:text-left space-y-6 lg:space-y-8">
-                <div className="space-y-4">
-                  <div className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                    <span className="text-sm font-medium text-white tracking-wide">PREMIUM MEDICAL TOURISM</span>
-                  </div>
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-tight">
-                    <span className="block">{t('home.hero.title') || 'Transform Your Life'}</span>
-                    <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                      with Premium Care
-                    </span>
-                  </h1>
+        {/* Content */}
+        <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center">
+            {/* Left Side - Text Content */}
+            <div className="text-center lg:text-left space-y-6 lg:space-y-10 order-2 lg:order-1">
+              <div className="space-y-4 lg:space-y-6">
+                <div className="inline-block px-4 lg:px-6 py-2 lg:py-3 bg-gradient-to-r from-blue-100 to-purple-100 backdrop-blur-sm rounded-full border border-blue-200/50 shadow-lg">
+                  <span className="text-xs lg:text-sm text-professional-bold text-blue-800 tracking-wide">✨ PREMIUM MEDICAL TOURISM</span>
                 </div>
-                
-                <p className="text-lg sm:text-xl lg:text-2xl leading-relaxed text-gray-200 max-w-2xl mx-auto lg:mx-0">
-                  {t('home.hero.subtitle') || 'Experience world-class healthcare with our expert team and luxury accommodations in beautiful Istanbul.'}
-                </p>
-
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
-                  <Link
-                    href="/consultation"
-                    className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl text-white font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl"
-                  >
-                    <span className="flex items-center justify-center gap-2">
-                      {t('nav.consultation') || 'Free Consultation'}
-                      <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </span>
-                  </Link>
-                  <Link
-                    href="/gallery"
-                    className="px-8 py-4 border-2 border-white/40 hover:border-white hover:bg-white/10 rounded-xl text-white font-semibold text-lg transition-all duration-300 backdrop-blur-sm"
-                  >
-                    {t('nav.gallery') || 'View Results'}
-                  </Link>
-                </div>
-
-                {/* Trust Indicators */}
-                <div className="flex flex-wrap justify-center lg:justify-start gap-6 pt-6 text-sm text-gray-300">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                    <span>1500+ Successful Cases</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                    <span>98% Satisfaction Rate</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                    <span>15+ Years Experience</span>
-                  </div>
-                </div>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold tracking-tight leading-tight">
+                  <span className="block text-gray-900">{t('home.hero.title') || 'Transform Your Life'}</span>
+                  <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                    with Premium Care
+                  </span>
+                </h1>
               </div>
-
-              {/* Right Side - Enhanced Info Cards */}
-              <div className="text-center lg:text-right space-y-6">
-                <div className="grid grid-cols-1 gap-6">
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300">
-                    <div className="flex items-center justify-center lg:justify-end mb-3">
-                      <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
-                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                      </div>
-                    </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Expert Surgeons</h3>
-                    <p className="text-gray-300 text-sm">Board-certified specialists with international training</p>
-                  </div>
-                  
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300">
-                    <div className="flex items-center justify-center lg:justify-end mb-3">
-                      <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
-                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                      </div>
-                    </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Istanbul, Turkey</h3>
-                    <p className="text-gray-300 text-sm">Premium medical tourism destination</p>
-                  </div>
-                  
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300">
-                    <div className="flex items-center justify-center lg:justify-end mb-3">
-                      <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                        </svg>
-                      </div>
-                    </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Comprehensive Care</h3>
-                    <p className="text-gray-300 text-sm">Dental • Hair • Aesthetic • 38+ Services</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* About Section */}
-        <section className="py-12 sm:py-16 lg:py-20 bg-white text-black">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light mb-6 lg:mb-8">EXCELLENCE IN MEDICAL TOURISM</h2>
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-8 lg:mb-12">
-                Vola Health Istanbul has established itself as a premier destination for medical tourism, combining world-class expertise with cutting-edge technology. Our comprehensive approach covers dental treatments, hair transplant procedures, and plastic surgery, delivering exceptional results in the beautiful city of Istanbul.
+              
+              <p className="text-base sm:text-lg lg:text-xl leading-relaxed text-gray-600 max-w-2xl mx-auto lg:mx-0">
+                {t('home.hero.subtitle') || 'Experience world-class healthcare with our expert team and luxury accommodations in beautiful Istanbul.'}
               </p>
-              <Link 
-                href="/about" 
-                className="inline-block border-b-2 border-black pb-1 text-base lg:text-lg font-medium hover:opacity-80 transition-opacity"
-              >
-                DISCOVER OUR CLINIC
-              </Link>
-            </div>
-          </div>
-        </section>
 
-        {/* Before & After Gallery - REAL PATIENT TRANSFORMATIONS */}
-        <FeaturedBeforeAfter limit={6} />
-
-        {/* Services Section */}
-        <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 text-black">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">OUR SERVICES</h2>
-            
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {[
-                {
-                  title: 'DENTAL TREATMENTS',
-                  description: 'Transform your smile with advanced dental procedures including veneers, implants, and Hollywood smile treatments.',
-                  count: '8 Services',
-                  href: '/services'
-                },
-                {
-                  title: 'HAIR TRANSPLANT',
-                  description: 'Restore your natural hairline with cutting-edge FUE, DHI, and Sapphire techniques for permanent results.',
-                  count: '9 Services',
-                  href: '/services'
-                },
-                {
-                  title: 'PLASTIC SURGERY',
-                  description: 'Enhance your natural beauty with rhinoplasty, facelifts, and comprehensive facial aesthetic procedures.',
-                  count: '21 Services',
-                  href: '/services'
-                }
-              ].map((service, index) => (
-                <div key={index} className="p-8 bg-white shadow-professional card-hover">
-                  <h3 className="text-2xl font-serif font-light mb-4 heading-professional">{service.title}</h3>
-                  <p className="text-gray-600 mb-4 text-professional">{service.description}</p>
-                  <p className="text-sm font-medium text-yellow-600 mb-6">{service.count}</p>
-                  <Link href={service.href} className="text-sm font-medium hover:underline transition-colors duration-300">VIEW ALL SERVICES</Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-        
-        {/* Our Approach */}
-        <section className="py-12 sm:py-16 lg:py-20 bg-black text-white">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">THE VOLA HEALTH EXPERIENCE</h2>
-            
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              <div className="order-2 lg:order-1">
-                <p className="text-lg sm:text-xl leading-relaxed mb-6 lg:mb-8">
-                  At Vola Health Istanbul, we combine cutting-edge medical technology with personalized patient care to deliver exceptional results in medical tourism.
-                </p>
-                <p className="text-lg sm:text-xl leading-relaxed mb-6 lg:mb-8">
-                  Our comprehensive approach includes pre-treatment consultation, world-class procedures, and dedicated aftercare support to ensure your complete satisfaction and safety.
-                </p>
-                <Link 
-                  href="/about" 
-                  className="inline-block border-b-2 border-white pb-1 text-base lg:text-lg font-medium hover:opacity-80 transition-opacity"
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 justify-center lg:justify-start pt-4 lg:pt-6">
+                <Link
+                  href="/consultation"
+                  className="group relative px-6 lg:px-8 py-3 lg:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl lg:rounded-2xl text-white text-professional-bold text-base lg:text-lg transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl overflow-hidden"
                 >
-                  LEARN ABOUT OUR PROCESS
+                  <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    {t('nav.consultation') || 'Free Consultation'}
+                    <svg className="w-4 h-4 lg:w-5 lg:h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </span>
+                </Link>
+                <Link
+                  href="/gallery"
+                  className="group px-6 lg:px-8 py-3 lg:py-4 bg-white/80 hover:bg-white border-2 border-gray-200 hover:border-blue-300 rounded-xl lg:rounded-2xl text-gray-700 hover:text-blue-700 text-professional-bold text-base lg:text-lg transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-xl"
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {t('nav.gallery') || 'View Results'}
+                  </span>
                 </Link>
               </div>
-              <div className="order-1 lg:order-2 bg-gray-900 aspect-video flex items-center justify-center rounded-lg">
-                <span className="text-gray-600">[Video/Image Placeholder]</span>
+
+              {/* Trust Indicators */}
+              <div className="flex flex-wrap justify-center lg:justify-start gap-4 lg:gap-8 pt-6 lg:pt-8">
+                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md">
+                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700">1500+ Successful Cases</span>
+                </div>
+                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md">
+                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full animate-pulse delay-200"></div>
+                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700">98% Satisfaction Rate</span>
+                </div>
+                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md">
+                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-purple-400 to-purple-500 rounded-full animate-pulse delay-400"></div>
+                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700">15+ Years Experience</span>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* Testimonials */}
-        <section className="py-12 sm:py-16 lg:py-20 bg-white text-black">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">PATIENT TESTIMONIALS</h2>
+            {/* Right Side - Hero Slider */}
+            <div className="relative h-[400px] sm:h-[500px] lg:h-[600px] order-1 lg:order-2">
+              <HeroSlider />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white text-black">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light mb-6 lg:mb-8">EXCELLENCE IN MEDICAL TOURISM</h2>
+            <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-8 lg:mb-12">
+              Vola Health Istanbul has established itself as a premier destination for medical tourism, combining world-class expertise with cutting-edge technology. Our comprehensive approach covers dental treatments, hair transplant procedures, and plastic surgery, delivering exceptional results in the beautiful city of Istanbul.
+            </p>
+            <Link 
+              href="/about" 
+              className="inline-block border-b-2 border-black pb-1 text-base lg:text-lg text-professional hover:opacity-80 transition-opacity"
+            >
+              DISCOVER OUR CLINIC
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Before & After Gallery - REAL PATIENT TRANSFORMATIONS */}
+      <FeaturedBeforeAfter limit={6} />
+
+      {/* Services Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 text-black">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">OUR SERVICES</h2>
+          
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {[
+              {
+                title: 'DENTAL TREATMENTS',
+                description: 'Transform your smile with advanced dental procedures including veneers, implants, and Hollywood smile treatments.',
+                count: '8 Services',
+                href: '/services'
+              },
+              {
+                title: 'HAIR TRANSPLANT',
+                description: 'Restore your natural hairline with cutting-edge FUE, DHI, and Sapphire techniques for permanent results.',
+                count: '9 Services',
+                href: '/services'
+              },
+              {
+                title: 'PLASTIC SURGERY',
+                description: 'Enhance your natural beauty with rhinoplasty, facelifts, and comprehensive facial aesthetic procedures.',
+                count: '21 Services',
+                href: '/services'
+              }
+            ].map((service, index) => (
+              <div key={index} className="p-8 bg-white shadow-professional card-hover">
+                <h3 className="text-2xl font-serif font-light mb-4 heading-professional">{service.title}</h3>
+                <p className="text-gray-600 mb-4 text-professional">{service.description}</p>
+                <p className="text-sm text-professional text-blue-600 mb-6">{service.count}</p>
+                <Link href={service.href} className="text-sm text-professional hover:underline transition-colors duration-300">VIEW ALL SERVICES</Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Our Approach */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
+        {/* Background Pattern for Better Visual Hierarchy */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"></div>
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-center mb-8 lg:mb-16 text-white drop-shadow-lg">THE VOLA HEALTH EXPERIENCE</h2>
+          
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="order-2 lg:order-1 space-y-6">
+              {/* Enhanced readability with better spacing and contrast */}
+              <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                <p className="text-lg sm:text-xl leading-relaxed text-gray-100 font-light">
+                  At Vola Health Istanbul, we combine cutting-edge medical technology with personalized patient care to deliver exceptional results in medical tourism.
+                </p>
+              </div>
+              
+              <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                <p className="text-lg sm:text-xl leading-relaxed text-gray-100 font-light">
+                  Our comprehensive approach includes pre-treatment consultation, world-class procedures, and dedicated aftercare support to ensure your complete satisfaction and safety.
+                </p>
+              </div>
+              
+              <div className="pt-4">
+                <Link 
+                  href="/about" 
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-professional-bold transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  <span>LEARN ABOUT OUR PROCESS</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
             
-            <div className="bg-gray-50 p-6 sm:p-8 lg:p-12 text-center rounded-lg">
-              <div className="text-4xl sm:text-5xl lg:text-6xl mb-6 lg:mb-8 font-serif">"</div>
-              <p className="text-lg sm:text-xl lg:text-2xl leading-relaxed mb-6 lg:mb-8 italic font-serif">
-                My experience at Vola Health Istanbul was exceptional. The quality of care, professionalism, and results exceeded all my expectations. I felt safe and well-cared for throughout my entire medical tourism journey.
+            <div className="order-1 lg:order-2 relative">
+              <div className="bg-gradient-to-br from-gray-800 to-gray-900 aspect-video flex items-center justify-center rounded-2xl border border-white/20 shadow-2xl">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <span className="text-gray-400 text-sm">[Video/Image Placeholder]</span>
+                </div>
+              </div>
+              {/* Decorative Elements */}
+              <div className="absolute -top-4 -right-4 w-8 h-8 bg-blue-500/20 rounded-full blur-sm"></div>
+              <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-purple-500/20 rounded-full blur-sm"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white text-black">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">PATIENT TESTIMONIALS</h2>
+          
+          <div className="bg-gray-50 p-6 sm:p-8 lg:p-12 text-center rounded-lg">
+            <div className="text-4xl sm:text-5xl lg:text-6xl mb-6 lg:mb-8 font-serif">"</div>
+            
+            {testimonials.length > 0 ? (
+              <>
+                <p className="text-lg sm:text-xl lg:text-2xl leading-relaxed mb-6 lg:mb-8 italic font-serif">
+                  {testimonials[currentTestimonial]?.content}
+                </p>
+                <p className="text-professional">
+                  {testimonials[currentTestimonial]?.author}
+                </p>
+                <p className="text-gray-600">{testimonials[currentTestimonial]?.country}</p>
+                
+                <div className="flex justify-center mt-8 space-x-2">
+                  {testimonials.map((_, index) => (
+                    <button 
+                      key={index} 
+                      onClick={() => setCurrentTestimonial(index)}
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        index === currentTestimonial ? 'bg-blue-600 w-8' : 'bg-gray-300 hover:bg-gray-400'
+                      }`}
+                      aria-label={`Testimonial ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-lg sm:text-xl lg:text-2xl leading-relaxed mb-6 lg:mb-8 italic font-serif">
+                  My experience at Vola Health Istanbul was exceptional. The quality of care, professionalism, and results exceeded all my expectations. I felt safe and well-cared for throughout my entire medical tourism journey.
+                </p>
+                <p className="text-professional">Emma Thompson</p>
+                <p className="text-gray-600">London, UK</p>
+                
+                <div className="flex justify-center mt-8 space-x-2">
+                  {[1, 2, 3].map((dot) => (
+                    <button 
+                      key={dot} 
+                      className={`w-3 h-3 rounded-full ${dot === 1 ? 'bg-black' : 'bg-gray-300'}`}
+                      aria-label={`Testimonial ${dot}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+          
+          {/* View All Testimonials Link */}
+          <div className="text-center mt-8">
+            <Link 
+              href="/testimonials" 
+              className="inline-block border-b-2 border-blue-600 pb-1 text-base lg:text-lg text-blue-600 hover:opacity-80 transition-opacity"
+            >
+              VIEW ALL TESTIMONIALS
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gray-100 text-black">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">CONTACT US</h2>
+          
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+            <div>
+              <h3 className="text-2xl font-serif font-light mb-6">VOLA HEALTH ISTANBUL</h3>
+              <p className="mb-6 leading-relaxed">
+                <strong>Address:</strong> Veliefendi, Prof. Dr. Turan Güneş Cd. No:103 Zeytinburnu/Istanbul
               </p>
-              <p className="font-medium">Emma Thompson</p>
-              <p className="text-gray-600">London, UK</p>
-              
-              <div className="flex justify-center mt-8 space-x-2">
-                {[1, 2, 3].map((dot) => (
-                  <button 
-                    key={dot} 
-                    className={`w-3 h-3 rounded-full ${dot === 1 ? 'bg-black' : 'bg-gray-300'}`}
-                    aria-label={`Testimonial ${dot}`}
-                  />
-                ))}
-              </div>
+              <p className="mb-6 leading-relaxed">
+                <strong>Phone:</strong> +90 544 474 98 81<br />
+                <strong>Email:</strong> info@volahealthistanbul.com
+              </p>
+              <p className="leading-relaxed">
+                <strong>Hours:</strong><br />
+                Monday - Friday: 9:00 AM - 7:00 PM<br />
+                Saturday: 10:00 AM - 5:00 PM
+              </p>
             </div>
-          </div>
-        </section>
-
-        {/* Contact Section */}
-        <section className="py-12 sm:py-16 lg:py-20 bg-gray-100 text-black">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">CONTACT US</h2>
             
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-              <div>
-                <h3 className="text-2xl font-serif font-light mb-6">VOLA HEALTH ISTANBUL</h3>
-                <p className="mb-6 leading-relaxed">
-                  <strong>Address:</strong> Veliefendi, Prof. Dr. Turan Güneş Cd. No:103 Zeytinburnu/Istanbul
-                </p>
-                <p className="mb-6 leading-relaxed">
-                  <strong>Phone:</strong> +90 544 474 98 81<br />
-                  <strong>Email:</strong> info@volahealthistanbul.com
-                </p>
-                <p className="leading-relaxed">
-                  <strong>Hours:</strong><br />
-                  Monday - Friday: 9:00 AM - 7:00 PM<br />
-                  Saturday: 10:00 AM - 5:00 PM
-                </p>
-              </div>
-              
-              <div>
-                <h3 className="text-2xl font-serif font-light mb-6">SEND US A MESSAGE</h3>
-                <form className="space-y-4">
-                  <div>
-                    <input 
-                      type="text" 
-                      placeholder="Your Name" 
-                      className="w-full px-4 py-3 border border-gray-300 form-input focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <input 
-                      type="email" 
-                      placeholder="Your Email" 
-                      className="w-full px-4 py-3 border border-gray-300 form-input focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <textarea 
-                      rows={5}
-                      placeholder="Your Message" 
-                      className="w-full px-4 py-3 border border-gray-300 form-input focus:outline-none resize-none"
-                    ></textarea>
-                  </div>
-                  <button 
-                    type="submit" 
-                    className="bg-black text-white px-8 py-3 text-sm font-medium hover:bg-gray-800 transition-colors btn-professional"
-                  >
-                    SEND MESSAGE
-                  </button>
-                </form>
-              </div>
+            <div>
+              <h3 className="text-2xl font-serif font-light mb-6">SEND US A MESSAGE</h3>
+              <form className="space-y-4">
+                <div>
+                  <input 
+                    type="text" 
+                    placeholder="Your Name" 
+                    className="w-full px-4 py-3 border border-gray-300 form-input focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <input 
+                    type="email" 
+                    placeholder="Your Email" 
+                    className="w-full px-4 py-3 border border-gray-300 form-input focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <textarea 
+                    rows={5}
+                    placeholder="Your Message" 
+                    className="w-full px-4 py-3 border border-gray-300 form-input focus:outline-none resize-none"
+                  ></textarea>
+                </div>
+                <button 
+                  type="submit" 
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 text-sm text-professional transition-all duration-300 transform hover:scale-105 shadow-lg btn-professional"
+                >
+                  SEND MESSAGE
+                </button>
+              </form>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Footer */}
-        <footer className="bg-black text-white py-8 lg:py-12">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Mobile Social Media Icons */}
-            <div className="lg:hidden flex justify-center space-x-4 mb-6">
-              {socialPlatforms.map((social) => {
-                const url = socialUrls[social.key as keyof SocialMediaUrls];
-                return url ? (
-                  <a 
-                    key={social.key}
-                    href={url} 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-                  >
-                    {getSocialIcon(social.platform)}
-                  </a>
-                ) : null;
-              })}
-              
-              {/* Default functional social icons for mobile */}
-              {socialPlatforms.every(s => !socialUrls[s.key as keyof SocialMediaUrls]) && (
-                <>
-                  <a 
-                    href="https://instagram.com/volahealthistanbul" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-                    title="Follow us on Instagram"
-                  >
-                    {getSocialIcon('instagram')}
-                  </a>
-                  <a 
-                    href="https://facebook.com/volahealthistanbul" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-                    title="Follow us on Facebook"
-                  >
-                    {getSocialIcon('facebook')}
-                  </a>
-                  <a 
-                    href="https://linkedin.com/company/volahealthistanbul" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-                    title="Connect on LinkedIn"
-                  >
-                    {getSocialIcon('linkedin')}
-                  </a>
-                  <a 
-                    href="https://youtube.com/@volahealthistanbul" 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-                    title="Subscribe to our YouTube"
-                  >
-                    {getSocialIcon('youtube')}
-                  </a>
-                </>
-              )}
-            </div>
 
-            <div className="flex flex-col lg:flex-row justify-between items-center text-center lg:text-left">
-              <div className="mb-4 lg:mb-0">
-                <p className="text-sm sm:text-base">© {new Date().getFullYear()} Vola Health Istanbul. All rights reserved.</p>
-              </div>
-              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 lg:space-x-6">
-                <a href="#" className="text-sm sm:text-base hover:opacity-80 transition-opacity">Privacy Policy</a>
-                <a href="#" className="text-sm sm:text-base hover:opacity-80 transition-opacity">Terms of Service</a>
-                <a href="#" className="text-sm sm:text-base hover:opacity-80 transition-opacity">Sitemap</a>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </div>
-
-      {/* Mobile Menu */}
-      <MobileMenu 
-        isOpen={isMobileMenuOpen} 
-        onClose={() => setIsMobileMenuOpen(false)} 
-      />
     </div>
   );
 }

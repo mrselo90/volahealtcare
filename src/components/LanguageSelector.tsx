@@ -20,7 +20,7 @@ export function LanguageSelector() {
     <div className="relative">
       <button
         type="button"
-        className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
+        className="inline-flex items-center gap-x-1 text-sm text-professional-bold leading-6 text-gray-900"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="mr-1">{selectedLang.flag}</span>

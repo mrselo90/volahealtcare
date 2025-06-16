@@ -105,7 +105,7 @@ export default function FeaturedBeforeAfter({
           <div className="text-center">
             <div className="inline-flex items-center gap-3 mb-4">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
-              <p className="text-lg font-medium text-blue-100">Loading transformations...</p>
+              <p className="text-lg text-professional text-blue-100">Loading transformations...</p>
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function FeaturedBeforeAfter({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-12 max-w-md mx-auto">
-              <h3 className="text-2xl font-bold text-white mb-4">No Featured Cases</h3>
+              <h3 className="text-2xl font-serif font-bold text-white mb-4">No Featured Cases</h3>
               <p className="text-blue-100 mb-6">
                 {error ? 'Unable to load featured cases at the moment.' : 'No featured transformations are currently available.'}
               </p>
@@ -146,16 +146,16 @@ export default function FeaturedBeforeAfter({
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10 text-white px-8 py-3 rounded-full text-sm font-semibold mb-8 shadow-2xl">
+          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10 text-white px-8 py-3 rounded-full text-sm text-professional-bold mb-8 shadow-2xl">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
             <span>REAL PATIENT TRANSFORMATIONS</span>
             <span>✨</span>
           </div>
           
-          <h2 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-6 leading-tight">
+          <h2 className="text-5xl md:text-7xl font-serif font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-6 leading-tight">
             Life-Changing
             <br />
-            <span className="text-4xl md:text-6xl font-light italic">Results</span>
+            <span className="text-4xl md:text-6xl font-serif font-light italic">Results</span>
           </h2>
           
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -177,7 +177,7 @@ export default function FeaturedBeforeAfter({
                 {/* Result Image */}
                 <div className="relative">
                   <div className="relative group max-w-md mx-auto">
-                    <div className="absolute -top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold z-10 glow-animation">
+                    <div className="absolute -top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm text-professional-bold z-10 glow-animation">
                       ✨ RESULT
                     </div>
                     <div className="aspect-square rounded-2xl overflow-hidden shadow-xl bg-gray-800">
@@ -199,7 +199,7 @@ export default function FeaturedBeforeAfter({
                 {/* Case Details */}
                 <div className="text-white">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-sm font-bold gradient-text-accent shimmer-effect">
+                    <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 rounded-full text-sm text-professional-bold gradient-text-accent shimmer-effect">
                       ⭐ FEATURED
                     </span>
                     {currentCase.category && (
@@ -211,18 +211,18 @@ export default function FeaturedBeforeAfter({
                     )}
                   </div>
                   
-                  <h3 className="text-3xl md:text-4xl font-bold mb-4 leading-tight gradient-text-primary">
+                  <h3 className="text-3xl md:text-4xl font-serif font-bold mb-4 leading-tight gradient-text-primary">
                     {currentCase.title}
                   </h3>
                   
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="bg-white/5 rounded-lg p-4 stats-card">
                       <div className="text-blue-200 text-sm mb-1">Patient Age</div>
-                      <div className="text-xl font-semibold">{currentCase.patientAge} years</div>
+                      <div className="text-xl text-professional-bold">{currentCase.patientAge} years</div>
                     </div>
                     <div className="bg-white/5 rounded-lg p-4 stats-card">
                       <div className="text-blue-200 text-sm mb-1">Timeline</div>
-                      <div className="text-xl font-semibold">{currentCase.timeframe || 'N/A'}</div>
+                      <div className="text-xl text-professional-bold">{currentCase.timeframe || 'N/A'}</div>
                     </div>
                   </div>
                   
@@ -231,7 +231,7 @@ export default function FeaturedBeforeAfter({
                   </p>
                   
                   {currentCase.results && (
-                    <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-400/30 rounded-lg p-4 mb-6">
+                    <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 rounded-lg p-4 mb-6">
                       <div className="text-green-200 text-sm mb-2">RESULTS ACHIEVED</div>
                       <p className="text-white">{currentCase.results}</p>
                     </div>
@@ -295,7 +295,7 @@ export default function FeaturedBeforeAfter({
           className="text-center"
         >
           <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-3xl p-12 border border-white/20 shadow-2xl max-w-4xl mx-auto featured-case-card">
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 gradient-text-primary">
+            <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-6 gradient-text-primary">
               Ready for Your Transformation?
             </h3>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
@@ -305,7 +305,7 @@ export default function FeaturedBeforeAfter({
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/gallery"
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-xl btn-primary-gradient"
+                className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-professional-bold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-xl btn-primary-gradient"
               >
                 <span>View All Transformations</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -314,7 +314,7 @@ export default function FeaturedBeforeAfter({
               </Link>
               <Link
                 href="/consultation"
-                className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/20 transition-all duration-300 shadow-xl stats-card"
+                className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white px-8 py-4 rounded-xl text-professional-bold hover:bg-white/20 transition-all duration-300 shadow-xl stats-card"
               >
                 <span>Free Consultation</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -73,7 +73,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 <div className="flex items-center gap-3">
                   <Image src="/Vola_edited.jpg" alt="Vola Health Logo" width={32} height={32} className="rounded-none" />
                   <div className="ml-3">
-                    <p className="text-white font-semibold text-sm">VOLA HEALTH</p>
+                    <p className="text-white text-professional-bold text-sm">VOLA HEALTH</p>
                     <p className="text-white/60 text-xs">ISTANBUL</p>
                   </div>
                 </div>
@@ -98,7 +98,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       <Link
                         href={item.href}
                         onClick={onClose}
-                        className="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors font-medium"
+                        className="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors text-professional"
                       >
                         {item.name}
                       </Link>
@@ -111,7 +111,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
                 {/* Quick Services */}
                 <div className="px-6">
-                  <p className="text-white/60 text-xs font-medium tracking-widest mb-4">POPULAR SERVICES</p>
+                  <p className="text-white/60 text-xs text-professional tracking-widest mb-4">POPULAR SERVICES</p>
                   <div className="space-y-2">
                     {[
                       'Hollywood Smile',
@@ -151,7 +151,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     <Link
                       href={button.href}
                       onClick={onClose}
-                      className={`flex items-center justify-center gap-3 px-6 py-3 rounded-full font-medium transition-colors ${
+                      className={`flex items-center justify-center gap-3 px-6 py-3 rounded-full text-professional transition-colors ${
                         button.primary
                           ? 'bg-white text-black hover:bg-white/90'
                           : 'border border-white/30 text-white hover:bg-white/10'
@@ -167,7 +167,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               {/* Footer Info */}
               <div className="p-6 bg-white/5 text-center">
                 <p className="text-white/60 text-xs mb-2">Istanbul, Turkey</p>
-                <p className="text-white/80 text-sm font-medium">Vola Health Istanbul</p>
+                <p className="text-white/80 text-sm text-professional">Vola Health Istanbul</p>
               </div>
             </div>
           </motion.div>

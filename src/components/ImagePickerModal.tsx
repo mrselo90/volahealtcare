@@ -253,7 +253,7 @@ export default function ImagePickerModal({
         >
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+            <h2 className="text-xl font-serif font-bold text-gray-900">{title}</h2>
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -274,7 +274,7 @@ export default function ImagePickerModal({
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium transition-colors ${
+                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 text-sm text-professional transition-colors ${
                     activeTab === tab.id
                       ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
                       : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
@@ -306,7 +306,7 @@ export default function ImagePickerModal({
                 {/* Recent Uploads */}
                 {recentUploads.length > 0 && (
                   <div className="space-y-3">
-                    <h3 className="text-sm font-medium text-gray-700">Recent Uploads</h3>
+                    <h3 className="text-sm text-professional text-gray-700">Recent Uploads</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {recentUploads.map((img) => (
                         <div
@@ -329,7 +329,7 @@ export default function ImagePickerModal({
 
                 {/* Gallery Grid */}
                 <div className="space-y-3">
-                  <h3 className="text-sm font-medium text-gray-700">Medical Stock Images</h3>
+                  <h3 className="text-sm text-professional text-gray-700">Medical Stock Images</h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {filteredImages.map((img) => (
                       <div
@@ -348,7 +348,7 @@ export default function ImagePickerModal({
                         />
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2">
-                          <p className="text-white text-xs font-medium truncate">{img.name}</p>
+                          <p className="text-white text-xs text-professional truncate">{img.name}</p>
                         </div>
                       </div>
                     ))}
@@ -387,7 +387,7 @@ export default function ImagePickerModal({
                   ) : (
                     <>
                       <ArrowUpTrayIcon className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                      <p className="text-lg font-medium text-gray-900 mb-2">
+                      <p className="text-lg text-professional text-gray-900 mb-2">
                         Drop your image here, or{' '}
                         <button
                           onClick={() => fileInputRef.current?.click()}
@@ -405,7 +405,7 @@ export default function ImagePickerModal({
 
                 {/* Alt Text Input */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm text-professional text-gray-700 mb-2">
                     Alt Text (Optional)
                   </label>
                   <input
@@ -430,7 +430,7 @@ export default function ImagePickerModal({
             {activeTab === 'url' && (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm text-professional text-gray-700 mb-2">
                     Image URL
                   </label>
                   <input
@@ -443,7 +443,7 @@ export default function ImagePickerModal({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm text-professional text-gray-700 mb-2">
                     Alt Text (Optional)
                   </label>
                   <input
@@ -471,7 +471,7 @@ export default function ImagePickerModal({
                 <button
                   onClick={handleUrlSubmit}
                   disabled={!urlInput.trim()}
-                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white py-2 px-4 rounded-lg font-medium transition-colors"
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white py-2 px-4 rounded-lg text-professional transition-colors"
                 >
                   Use This URL
                 </button>

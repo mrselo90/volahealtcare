@@ -37,6 +37,7 @@ import {
 } from '@heroicons/react/24/solid';
 import { getServiceImageUrl, getServiceImageAlt, getFallbackImageUrl } from '@/utils/imageUtils';
 import { getTranslation } from '@/utils/translationUtils';
+import { useTranslation } from '@/lib/i18n/hooks';
 import settings from '@/data/settings.json';
 
 // Enhanced Loading Component
@@ -656,11 +657,12 @@ export default function ServicePage({ params }: ServicePageProps) {
   const { data, loading, error } = useServiceData(params.service);
   const { selectedImage, selectedImageAlt, currentImageIndex, setCurrentImageIndex, openLightbox, closeLightbox } = useImageLightbox();
   const { activeSection, isScrolled, scrollToSection } = useStickyNavigation();
+  const { t, language } = useTranslation();
   
-  const [lang, setLang] = useState('en');
+  const [lang, setLang] = useState(language);
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const [isFavorited, setIsFavorited] = useState(false);
-  const [showBookingModal, setShowBookingModal] = useState(false);
+
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   const router = useRouter();
@@ -759,12 +761,6 @@ export default function ServicePage({ params }: ServicePageProps) {
             <div className="w-full h-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800" />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
-          
-          {/* Animated Background Elements */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-          </div>
         </motion.div>
         
 
@@ -778,107 +774,64 @@ export default function ServicePage({ params }: ServicePageProps) {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="max-w-5xl"
             >
-              {/* Enhanced Breadcrumb */}
-              <motion.nav 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 }}
-                className="text-blue-200 mb-6 text-sm flex items-center gap-2 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full w-fit"
-              >
+              {/* Breadcrumb - Simplified */}
+              <nav className="text-blue-200 mb-6 text-sm flex items-center gap-2 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full w-fit">
                 <Link href="/" className="hover:text-white transition-colors">Home</Link>
                 <ChevronRightIcon className="h-4 w-4" />
                 <Link href="/services" className="hover:text-white transition-colors">Services</Link>
                 <ChevronRightIcon className="h-4 w-4" />
                 <span className="text-white font-medium">{serviceTitle}</span>
-              </motion.nav>
+              </nav>
           
-              {/* Enhanced Service Category & Features */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 }}
-                className="flex flex-wrap items-center gap-3 mb-6"
-              >
-                <span className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-full text-sm font-bold shadow-lg backdrop-blur-sm border border-blue-400/30">
-                  {data.category}
-                </span>
-                {data.featured && (
-                  <span className="bg-gradient-to-r from-amber-400 to-orange-500 text-white px-6 py-3 rounded-full text-sm font-bold flex items-center gap-2 shadow-lg animate-pulse">
-                    <StarIconSolid className="h-4 w-4" />
-                    Featured Treatment
-                  </span>
-                )}
-                {data.operationTime && (
-                  <span className="bg-white/20 text-white px-6 py-3 rounded-full text-sm font-medium backdrop-blur-sm border border-white/30 flex items-center gap-2">
-                    <ClockIcon className="h-4 w-4" />
-                    {data.operationTime}
-                  </span>
-                )}
-              </motion.div>
 
-              {/* Enhanced Title with Gradient */}
+
+              {/* Professional Title */}
               <motion.h1 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
-                className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-8"
+                className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-8"
               >
                 <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
                   {serviceTitle}
                 </span>
               </motion.h1>
 
-              {/* Enhanced Description */}
+              {/* Professional Description */}
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 }}
-                className="text-xl md:text-2xl text-blue-100 max-w-4xl mb-10 leading-relaxed font-light"
+                className="text-xl md:text-2xl text-blue-100 max-w-4xl mb-10 text-professional-light"
               >
                 {serviceDescription?.substring(0, 200)}...
               </motion.p>
 
-              {/* Enhanced CTA Section */}
+              {/* CTA Section - Contact Only */}
               <motion.div 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 }}
-                className="flex flex-col lg:flex-row items-start lg:items-center gap-8"
+                className="flex justify-start"
               >
-                {/* Enhanced CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Link
-                    href="#booking"
-                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl"
-                  >
-                    Book Consultation
-                    <ArrowRightIcon className="w-5 h-5 ml-2" />
-                  </Link>
-                  <Link
-                    href="#contact"
-                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
-                  >
-                    Contact Us
-                    <ChatBubbleLeftIcon className="w-5 h-5 ml-2" />
-                  </Link>
-                </div>
+                <Link
+                  href="#contact"
+                  className="inline-flex items-center justify-center px-8 py-4 text-lg text-professional-bold text-blue-600 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
+                >
+                  Contact Us
+                  <ChatBubbleLeftIcon className="w-5 h-5 ml-2" />
+                </Link>
               </motion.div>
             </motion.div>
           </div>
         </div>
 
-        {/* Enhanced Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.5, repeat: Infinity, repeatType: 'reverse' }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white"
-        >
+        {/* Scroll Indicator - Simplified */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/80">
           <div className="flex flex-col items-center gap-2">
-            <span className="text-sm font-medium">Scroll to explore</span>
-            <ChevronDownIcon className="h-8 w-8 animate-bounce" />
+            <ChevronDownIcon className="h-6 w-6 animate-bounce" />
           </div>
-        </motion.div>
+        </div>
       </motion.section>
 
 
@@ -904,8 +857,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                     <InformationCircleIcon className="h-8 w-8 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">About This Treatment</h2>
-                    <p className="text-gray-600 text-lg">Comprehensive information about your procedure</p>
+                    <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">About This Treatment</h2>
+                    <p className="text-professional text-lg">Comprehensive information about your procedure</p>
                   </div>
                 </div>
 
@@ -938,18 +891,18 @@ export default function ServicePage({ params }: ServicePageProps) {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="text-4xl md:text-5xl font-black bg-gradient-to-r from-slate-800 via-blue-800 to-indigo-900 bg-clip-text text-transparent mb-4"
+                        className="text-4xl md:text-5xl font-serif font-bold bg-gradient-to-r from-slate-800 via-blue-800 to-indigo-900 bg-clip-text text-transparent mb-4"
                       >
-                        Tedavi Paketi Detayları
+                        {t('services.packageDetails.title')}
                       </motion.h3>
                       <motion.p 
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.3 }}
-                        className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed"
+                        className="text-xl text-professional max-w-2xl mx-auto"
                       >
-                        Türkiye'deki premium medikal turizm yolculuğunuz hakkında bilmeniz gereken her şey
+                        {t('services.packageDetails.subtitle')}
                       </motion.p>
                     </div>
 
@@ -962,11 +915,11 @@ export default function ServicePage({ params }: ServicePageProps) {
                               <CalendarIcon className="h-5 w-5 text-blue-600" />
                             </div>
                             <div>
-                              <div className="text-base font-semibold text-blue-700">Türkiye'de Kalış Süresi</div>
-                              <div className="text-xs text-gray-500">Konaklama süresi</div>
+                              <div className="text-base text-professional-bold text-blue-700">{t('services.packageDetails.timeInTurkey')}</div>
+                              <div className="text-xs text-professional-light text-gray-500">{t('services.packageDetails.timeInTurkeySubtitle')}</div>
                             </div>
                           </div>
-                          <div className="mt-auto text-2xl font-bold text-blue-900">{data.timeInTurkey}</div>
+                          <div className="mt-auto text-2xl font-serif font-bold text-blue-900">{data.timeInTurkey}</div>
                         </div>
                       )}
                       {data.operationTime && (
@@ -976,11 +929,11 @@ export default function ServicePage({ params }: ServicePageProps) {
                               <ClockIcon className="h-5 w-5 text-blue-600" />
                             </div>
                             <div>
-                              <div className="text-base font-semibold text-blue-700">Operasyon Süresi</div>
-                              <div className="text-xs text-gray-500">İşlem süresi</div>
+                              <div className="text-base text-professional-bold text-blue-700">{t('services.packageDetails.operationTime')}</div>
+                              <div className="text-xs text-professional-light text-gray-500">{t('services.packageDetails.operationTimeSubtitle')}</div>
                             </div>
                           </div>
-                          <div className="mt-auto text-2xl font-bold text-blue-900">{data.operationTime}</div>
+                          <div className="mt-auto text-2xl font-serif font-bold text-blue-900">{data.operationTime}</div>
                         </div>
                       )}
                       {data.hospitalStay && (
@@ -990,8 +943,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                               <BuildingOffice2Icon className="h-5 w-5 text-blue-600" />
                             </div>
                             <div>
-                              <div className="text-base font-semibold text-blue-700">Hastane Kalışı</div>
-                              <div className="text-xs text-gray-500">Yatış süresi</div>
+                              <div className="text-base font-semibold text-blue-700">{t('services.packageDetails.hospitalStay')}</div>
+                              <div className="text-xs text-gray-500">{t('services.packageDetails.hospitalStaySubtitle')}</div>
                             </div>
                           </div>
                           <div className="mt-auto text-2xl font-bold text-blue-900">{data.hospitalStay}</div>
@@ -1004,8 +957,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                               <HeartIcon className="h-5 w-5 text-blue-600" />
                             </div>
                             <div>
-                              <div className="text-base font-semibold text-blue-700">İyileşme Süresi</div>
-                              <div className="text-xs text-gray-500">Toparlanma dönemi</div>
+                              <div className="text-base font-semibold text-blue-700">{t('services.packageDetails.recovery')}</div>
+                              <div className="text-xs text-gray-500">{t('services.packageDetails.recoverySubtitle')}</div>
                             </div>
                           </div>
                           <div className="mt-auto text-2xl font-bold text-blue-900">{data.recovery}</div>
@@ -1018,8 +971,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                               <HomeIcon className="h-5 w-5 text-blue-600" />
                             </div>
                             <div>
-                              <div className="text-base font-semibold text-blue-700">Konaklama</div>
-                              <div className="text-xs text-gray-500">Otel konaklaması</div>
+                              <div className="text-base font-semibold text-blue-700">{t('services.packageDetails.accommodation')}</div>
+                              <div className="text-xs text-gray-500">{t('services.packageDetails.accommodationSubtitle')}</div>
                             </div>
                           </div>
                           <div className="mt-auto text-2xl font-bold text-blue-900">{data.accommodation}</div>
@@ -1032,8 +985,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                               <TruckIcon className="h-5 w-5 text-blue-600" />
                             </div>
                             <div>
-                              <div className="text-base font-semibold text-blue-700">Ulaşım</div>
-                              <div className="text-xs text-gray-500">Transfer hizmeti</div>
+                              <div className="text-base font-semibold text-blue-700">{t('services.packageDetails.transportation')}</div>
+                              <div className="text-xs text-gray-500">{t('services.packageDetails.transportationSubtitle')}</div>
                             </div>
                           </div>
                           <div className="mt-auto text-2xl font-bold text-blue-900">{data.transportation}</div>
@@ -1045,17 +998,17 @@ export default function ServicePage({ params }: ServicePageProps) {
                     <div className="relative z-10 bg-gradient-to-r from-slate-800 via-blue-900 to-indigo-900 rounded-2xl p-8 text-center shadow-2xl border border-white/10">
                       <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-2xl"></div>
                       <div className="relative z-10">
-                        <h4 className="text-2xl md:text-3xl font-bold text-white mb-3">
-                          Hepsi Dahil Premium Paket
+                        <h4 className="text-2xl md:text-3xl font-serif font-bold text-white mb-3">
+                          {t('services.packageDetails.premiumPackageTitle')}
                         </h4>
-                        <p className="text-blue-100 text-lg">Lüks konaklama ile eksiksiz medikal turizm deneyimi</p>
+                        <p className="text-blue-100 text-lg text-professional-light">{t('services.packageDetails.premiumPackageDescription')}</p>
                         <div className="mt-6">
-                          <Link
-                            href="/consultation"
-                            className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
-                          >
+                                                      <Link
+                              href="/consultation"
+                              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-professional-bold text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                            >
                             <SparklesIcon className="h-6 w-6" />
-                            Yolculuğunuzu Rezerve Edin
+                            {t('services.packageDetails.reserveJourney')}
                             <ArrowRightIcon className="h-5 w-5" />
                           </Link>
                         </div>
@@ -1106,7 +1059,7 @@ export default function ServicePage({ params }: ServicePageProps) {
 
                 <div className="grid md:grid-cols-2 gap-8">
                   {/* Benefits */}
-                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8">
+                  <div className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl p-8">
                     <h3 className="text-2xl font-bold text-green-800 mb-6 flex items-center gap-2">
                       <CheckCircleIcon className="h-6 w-6" />
                       Benefits
@@ -1134,7 +1087,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                 </div>
 
                   {/* Risks & Considerations */}
-                  <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-8">
+                  <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8">
                     <h3 className="text-2xl font-bold text-amber-800 mb-6 flex items-center gap-2">
                       <InformationCircleIcon className="h-6 w-6" />
                       Important Considerations
@@ -1459,19 +1412,7 @@ export default function ServicePage({ params }: ServicePageProps) {
         </div>
       </main>
 
-      {/* Floating Action Button - Mobile */}
-      <div className="fixed bottom-6 right-6 z-40 lg:hidden">
-        <motion.button
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.3, delay: 1 }}
-          onClick={() => setShowBookingModal(true)}
-          className="bg-blue-600 text-white rounded-full p-4 shadow-2xl hover:bg-blue-700 transition-colors flex items-center justify-center group"
-        >
-          <span className="absolute w-full h-full rounded-full animate-ping bg-blue-400 opacity-30"></span>
-          <CalendarIcon className="h-6 w-6 relative z-10" />
-        </motion.button>
-      </div>
+
 
       {/* Enhanced Image Lightbox */}
       <AnimatePresence>
@@ -1595,31 +1536,9 @@ export default function ServicePage({ params }: ServicePageProps) {
         )}
       </AnimatePresence>
 
-      {/* Floating Action Button */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 2, duration: 0.5 }}
-        className="fixed bottom-8 right-8 z-40"
-      >
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => setShowBookingModal(true)}
-          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center gap-3 group"
-        >
-          <CalendarIcon className="h-6 w-6" />
-          <span className="hidden lg:block font-semibold">Book Consultation</span>
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
-        </motion.button>
-      </motion.div>
 
-      {/* Booking Modal */}
-      <BookingModal 
-        isOpen={showBookingModal} 
-        onClose={() => setShowBookingModal(false)} 
-        service={data} 
-      />
+
+
 
     </div>
   );

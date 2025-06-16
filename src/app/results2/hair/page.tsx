@@ -14,8 +14,8 @@ export default function HairResults2Page() {
       title="Saç Ekimi Sonuçları 2"
       subtitle="Doğal Görünümlü Saç Ekimi Sonuçlarımız"
       description="Saç ekimi ve tedavilerimizde doğal görünüm ön plandadır. FUE tekniği ile yapılan işlemlerimizde hastalarımız 6-12 ay içerisinde kalıcı ve doğal sonuçlar elde etmektedir."
-      gradientFrom="from-green-500"
-      gradientTo="to-emerald-500"
+      gradientFrom="from-blue-500"
+              gradientTo="to-purple-500"
       treatments={[
         'FUE Saç Ekimi',
         'DHI Saç Ekimi',

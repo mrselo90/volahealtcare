@@ -48,8 +48,8 @@ export default function GalleryPage() {
             title={t('gallery.dental.title') || 'Dental Treatment Results'}
             categoryId="cmbxi8jym00006qsy4b8dagzk"
             description={t('gallery.dental.description') || 'Discover the impressive results of our dental treatments that transform your smile. From aesthetic dentistry to implant applications, achieving perfect results.'}
-            gradientFrom="from-blue-500"
-            gradientTo="to-cyan-500"
+            gradientFrom="from-blue-600"
+            gradientTo="to-blue-700"
           />
 
           {/* Hair Before/After Section */}
@@ -57,8 +57,8 @@ export default function GalleryPage() {
             title={t('gallery.hair.title') || 'Hair Transplant Results'}
             categoryId="cmbxiawkb0000uxvzc1in2i7v"
             description={t('gallery.hair.description') || 'See the natural results achieved with our hair transplant and treatments. Permanent and natural-looking hair with FUE technique.'}
-            gradientFrom="from-green-500"
-            gradientTo="to-emerald-500"
+            gradientFrom="from-blue-500"
+            gradientTo="to-purple-500"
           />
 
           {/* Aesthetic Before/After Section */}
@@ -66,15 +66,12 @@ export default function GalleryPage() {
             title={t('gallery.aesthetic.title') || 'Plastic Surgery Results'}
             categoryId="cmbxi8jzv001j6qsyv769abfx"
             description={t('gallery.aesthetic.description') || 'Impressive results of our plastic surgery operations. Perfect transformations with our priority on natural appearance and patient safety.'}
-            gradientFrom="from-purple-500"
-            gradientTo="to-pink-500"
+            gradientFrom="from-purple-600"
+            gradientTo="to-purple-700"
           />
 
         </div>
       </div>
-
-      {/* Stats Section */}
-      <BeforeAfterStats />
 
       {/* Testimonials Section */}
       <div className="bg-gray-900/50 py-16">
@@ -91,7 +88,7 @@ export default function GalleryPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
               <div className="flex items-center mb-4">
-                <div className="flex text-yellow-400">
+                <div className="flex text-blue-400">
                   {[...Array(5)].map((_, i) => (
                     <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
@@ -108,7 +105,7 @@ export default function GalleryPage() {
             
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
               <div className="flex items-center mb-4">
-                <div className="flex text-yellow-400">
+                <div className="flex text-purple-400">
                   {[...Array(5)].map((_, i) => (
                     <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
@@ -125,7 +122,7 @@ export default function GalleryPage() {
             
             <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
               <div className="flex items-center mb-4">
-                <div className="flex text-yellow-400">
+                <div className="flex text-blue-500">
                   {[...Array(5)].map((_, i) => (
                     <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
@@ -185,12 +182,12 @@ export default function GalleryPage() {
               <div className="text-gray-300 font-medium">{t('gallery.stats.transformations') || 'Successful Transformations'}</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-green-600/20 rounded-full flex items-center justify-center mb-4 border border-green-500/30">
-                <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center mb-4 border border-purple-500/30">
+                <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
               </div>
-              <div className="text-3xl font-bold text-green-400 mb-2">98%</div>
+              <div className="text-3xl font-bold text-purple-400 mb-2">98%</div>
               <div className="text-gray-300 font-medium">{t('gallery.stats.satisfaction') || 'Patient Satisfaction Rate'}</div>
             </div>
             <div className="flex flex-col items-center">
@@ -203,12 +200,12 @@ export default function GalleryPage() {
               <div className="text-gray-300 font-medium">{t('gallery.stats.experience') || 'Years of Excellence'}</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-orange-600/20 rounded-full flex items-center justify-center mb-4 border border-orange-500/30">
-                <svg className="w-8 h-8 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-16 h-16 bg-blue-600/20 rounded-full flex items-center justify-center mb-4 border border-blue-500/30">
+                <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
                 </svg>
               </div>
-              <div className="text-3xl font-bold text-orange-400 mb-2">50+</div>
+              <div className="text-3xl font-bold text-blue-400 mb-2">50+</div>
               <div className="text-gray-300 font-medium">{t('gallery.stats.countries') || 'Countries Served'}</div>
             </div>
           </div>

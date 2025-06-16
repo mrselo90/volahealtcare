@@ -117,7 +117,7 @@ export default function BeforeAfterStats() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-bold text-white mb-4"
+            className="text-3xl md:text-4xl font-serif font-bold text-white mb-4"
           >
             Proven Excellence at Vola Health Istanbul
           </motion.h2>
@@ -145,10 +145,10 @@ export default function BeforeAfterStats() {
                   {stat.icon}
                 </div>
               </div>
-              <div className="text-4xl lg:text-5xl font-bold mb-3 text-white">
+              <div className="text-4xl lg:text-5xl font-serif font-bold mb-3 text-white">
                 {typeof stat.value === 'string' ? stat.value : `${stat.value}${stat.suffix}`}
               </div>
-              <div className="text-blue-100 font-medium text-lg">
+              <div className="text-blue-100 text-professional text-lg">
                 {stat.label}
               </div>
             </motion.div>
@@ -165,7 +165,7 @@ export default function BeforeAfterStats() {
             <svg className="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
             </svg>
-            <span className="text-white font-medium text-lg">All procedures performed by certified specialists</span>
+            <span className="text-white text-professional text-lg">All procedures performed by certified specialists</span>
           </div>
         </motion.div>
       </div>

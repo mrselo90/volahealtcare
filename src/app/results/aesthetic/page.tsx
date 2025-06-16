@@ -12,8 +12,8 @@ export default function AestheticResultsPage() {
       title={t('results.aesthetic.title') || 'Aesthetic Surgery Results'}
       subtitle={t('results.aesthetic.subtitle') || 'Our Safe and Natural Aesthetic Surgery Results'}
       description={t('results.treatments.aesthetic')}
-      gradientFrom="from-purple-500"
-      gradientTo="to-pink-500"
+      gradientFrom="from-purple-600"
+              gradientTo="to-purple-700"
       treatments={[
         t('results.aesthetic.treatments.rhinoplasty') || 'Rhinoplasty (Nose Job)',
         t('results.aesthetic.treatments.liposuction') || 'Liposuction (Fat Removal)',

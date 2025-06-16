@@ -157,7 +157,7 @@ export default function ResultsPageTemplate({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl md:text-5xl font-bold mb-4"
+              className="text-4xl md:text-5xl font-serif font-bold mb-4"
             >
               {title}
             </motion.h1>
@@ -195,17 +195,15 @@ export default function ResultsPageTemplate({
                 transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
                 className="text-center"
               >
-                <div className={`text-3xl md:text-4xl font-bold bg-gradient-to-r ${gradientFrom} ${gradientTo} bg-clip-text text-transparent mb-2`}>
+                <div className={`text-3xl md:text-4xl font-serif font-bold bg-gradient-to-r ${gradientFrom} ${gradientTo} bg-clip-text text-transparent mb-2`}>
                   {stat.number}
                 </div>
-                <div className="text-gray-600 font-medium">{stat.label}</div>
+                <div className="text-gray-600 text-professional">{stat.label}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </div>
-
-
 
       {/* Gallery Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -215,7 +213,7 @@ export default function ResultsPageTemplate({
           transition={{ duration: 0.6, delay: 0.7 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('results.beforeAfterResults') || 'Before & After Results'}</h2>
+          <h2 className="text-3xl font-serif font-bold text-gray-900 mb-4">{t('results.beforeAfterResults') || 'Before & After Results'}</h2>
           <p className="text-lg text-gray-600">{t('results.discoverResults') || 'Discover our real patient results'}</p>
         </motion.div>
 
@@ -255,14 +253,14 @@ export default function ResultsPageTemplate({
                         e.currentTarget.src = '/images/placeholder.svg';
                       }}
                     />
-                    <div className="absolute bottom-2 right-2 bg-green-500 text-white px-2 py-1 rounded text-xs font-semibold">
+                    <div className="absolute bottom-2 right-2 bg-green-500 text-white px-2 py-1 rounded text-xs text-professional-bold">
                       RESULT
                     </div>
                   </div>
 
                   {/* Card Content */}
                   <div className="p-4">
-                    <h3 className="font-bold text-lg text-gray-900 mb-2">
+                    <h3 className="font-serif font-bold text-lg text-gray-900 mb-2">
                       {caseItem.title}
                     </h3>
                     
@@ -334,7 +332,7 @@ export default function ResultsPageTemplate({
             >
               {/* Modal Header */}
               <div className="flex justify-between items-center p-6 border-b">
-                <h2 className="text-2xl font-bold">{selectedCase.title}</h2>
+                <h2 className="text-2xl font-serif font-bold">{selectedCase.title}</h2>
                 <div className="flex items-center gap-4">
                   <button
                     onClick={prevCase}
@@ -383,7 +381,7 @@ export default function ResultsPageTemplate({
                         </div>
                       )}
                       <div className="absolute top-4 right-4">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium shadow-lg bg-green-500 text-white">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm text-professional shadow-lg bg-green-500 text-white">
                           ✨ Result
                         </span>
                       </div>
@@ -394,32 +392,32 @@ export default function ResultsPageTemplate({
                   <div className="space-y-6">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-blue-50 p-4 rounded-lg text-center">
-                        <div className="text-2xl font-bold text-blue-600">{selectedCase.patientAge || 'N/A'}</div>
+                        <div className="text-2xl font-serif font-bold text-blue-600">{selectedCase.patientAge || 'N/A'}</div>
                         <div className="text-sm text-blue-800">{t('results.beforeAfter.age') || 'Age'}</div>
                       </div>
                       <div className="bg-green-50 p-4 rounded-lg text-center">
-                        <div className="text-2xl font-bold text-green-600">{selectedCase.timeframe || 'N/A'}</div>
+                        <div className="text-2xl font-serif font-bold text-green-600">{selectedCase.timeframe || 'N/A'}</div>
                         <div className="text-sm text-green-800">{t('results.resultTime') || 'Result Time'}</div>
                       </div>
                     </div>
 
                     {selectedCase.description && (
                       <div>
-                        <h3 className="text-lg font-semibold mb-2">{t('results.description') || 'Description'}</h3>
+                        <h3 className="text-lg font-serif font-bold mb-2">{t('results.description') || 'Description'}</h3>
                         <p className="text-gray-600">{selectedCase.description}</p>
                       </div>
                     )}
 
                     {selectedCase.treatmentDetails && (
                       <div>
-                        <h3 className="text-lg font-semibold mb-2">{t('results.treatmentDetails') || 'Treatment Details'}</h3>
+                        <h3 className="text-lg font-serif font-bold mb-2">{t('results.treatmentDetails') || 'Treatment Details'}</h3>
                         <p className="text-gray-600">{selectedCase.treatmentDetails}</p>
                       </div>
                     )}
 
                     {selectedCase.results && (
                       <div>
-                        <h3 className="text-lg font-semibold mb-2">{t('results.results') || 'Results'}</h3>
+                        <h3 className="text-lg font-serif font-bold mb-2">{t('results.results') || 'Results'}</h3>
                         <p className="text-gray-600">{selectedCase.results}</p>
                       </div>
                     )}
@@ -435,7 +433,7 @@ export default function ResultsPageTemplate({
       <div className={`bg-gradient-to-r ${gradientFrom} ${gradientTo} text-white`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
-            <h2 className="text-3xl font-bold mb-4">
+            <h2 className="text-3xl font-serif font-bold mb-4">
               {t('results.cta.title') || 'Would You Like to Achieve These Results Too?'}
             </h2>
             <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
@@ -444,13 +442,13 @@ export default function ResultsPageTemplate({
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/consultation"
-                className="bg-white text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200"
+                className="bg-white text-gray-900 px-8 py-3 rounded-lg text-professional-bold hover:bg-gray-100 transition-colors duration-200"
               >
                 {t('results.cta.consultation') || 'Free Consultation'}
               </Link>
               <Link
                 href="/contact"
-                className="border border-white/30 text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors duration-200"
+                className="border border-white/30 text-white px-8 py-3 rounded-lg text-professional-bold hover:bg-white/10 transition-colors duration-200"
               >
                 {t('results.cta.contact') || 'Contact Us'}
               </Link>

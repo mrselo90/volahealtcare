@@ -33,7 +33,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
       return this.props.fallback || (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
           <div className="text-red-500 text-2xl mb-2">⚠️</div>
-          <h3 className="text-red-800 font-semibold mb-1">Something went wrong</h3>
+          <h3 className="text-red-800 font-serif font-bold mb-1">Something went wrong</h3>
           <p className="text-red-600 text-sm">
               {this.state.error?.message || 'An unexpected error occurred'}
             </p>

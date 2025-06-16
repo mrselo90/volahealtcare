@@ -28,6 +28,16 @@ interface Testimonial {
 export default function TestimonialsPage() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newTestimonial, setNewTestimonial] = useState({
+    rating: 5,
+    review: '',
+    country: '',
+    videoUrl: '',
+    userName: '',
+    userEmail: '',
+    serviceTitle: ''
+  });
 
   useEffect(() => {
     fetchTestimonials();
@@ -111,6 +121,39 @@ export default function TestimonialsPage() {
     }
   };
 
+  const handleAddTestimonial = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch('/api/admin/testimonials', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTestimonial),
+      });
+
+      if (!response.ok) throw new Error('Failed to add testimonial');
+      
+      const addedTestimonial = await response.json();
+      setTestimonials(prev => [addedTestimonial, ...prev]);
+      setShowAddModal(false);
+      setNewTestimonial({
+        rating: 5,
+        review: '',
+        country: '',
+        videoUrl: '',
+        userName: '',
+        userEmail: '',
+        serviceTitle: ''
+      });
+      toast.success('Testimonial added successfully');
+    } catch (error) {
+      console.error('Error adding testimonial:', error);
+      toast.error('Failed to add testimonial');
+    }
+  };
+
   const renderStars = (rating: number) => {
     return [...Array(5)].map((_, index) => (
       index < rating ? (
@@ -125,7 +168,10 @@ export default function TestimonialsPage() {
     <div className="relative space-y-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-extrabold text-gray-800">Testimonials</h1>
-        <button className="inline-flex items-center gap-2 bg-amber-500 text-white px-5 py-2 rounded-lg shadow hover:bg-amber-600 transition-all text-lg font-semibold">
+        <button 
+          onClick={() => setShowAddModal(true)}
+          className="inline-flex items-center gap-2 bg-amber-500 text-white px-5 py-2 rounded-lg shadow hover:bg-amber-600 transition-all text-lg font-semibold"
+        >
           <RiAddLine className="h-5 w-5" /> Add Testimonial
         </button>
       </div>
@@ -250,6 +296,133 @@ export default function TestimonialsPage() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Add Testimonial Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-gray-800">Add New Testimonial</h2>
+              <button
+                onClick={() => setShowAddModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <RiCloseLine className="h-6 w-6" />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddTestimonial} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  User Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={newTestimonial.userName}
+                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, userName: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  User Email
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={newTestimonial.userEmail}
+                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, userEmail: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Service Title
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={newTestimonial.serviceTitle}
+                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, serviceTitle: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Country
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={newTestimonial.country}
+                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, country: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Rating
+                </label>
+                <select
+                  value={newTestimonial.rating}
+                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, rating: parseInt(e.target.value) }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                >
+                  {[1, 2, 3, 4, 5].map(num => (
+                    <option key={num} value={num}>{num} Star{num > 1 ? 's' : ''}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Review
+                </label>
+                <textarea
+                  required
+                  rows={4}
+                  value={newTestimonial.review}
+                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, review: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Video URL (optional)
+                </label>
+                <input
+                  type="url"
+                  value={newTestimonial.videoUrl}
+                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, videoUrl: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowAddModal(false)}
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-4 py-2 bg-amber-500 text-white rounded-md hover:bg-amber-600"
+                >
+                  Add Testimonial
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </div>

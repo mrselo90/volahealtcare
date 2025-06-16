@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRightIcon, PlusIcon, MagnifyingGlassIcon, StarIcon, ClockIcon, CurrencyDollarIcon, AdjustmentsHorizontalIcon, HeartIcon, ScaleIcon, CalendarDaysIcon, ChatBubbleLeftIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, PlusIcon, MagnifyingGlassIcon, StarIcon, CurrencyDollarIcon, AdjustmentsHorizontalIcon, HeartIcon, CalendarDaysIcon, ChatBubbleLeftIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import { useState, useEffect, useMemo } from 'react';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -17,8 +17,6 @@ interface ServiceCardProps {
     title: string;
     slug: string;
     description: string;
-    price: number;
-    currency: string;
     duration: string;
     featured: boolean;
     images: any[];
@@ -27,14 +25,12 @@ interface ServiceCardProps {
     };
   };
   categorySlug: string;
-  onCompare?: (service: any) => void;
-  isInComparison?: boolean;
   onToggleFavorite?: (service: any) => void;
   isFavorited?: boolean;
 }
 
 // Service Card Component
-const ServiceCard = ({ service, onToggleFavorite, onToggleCompare, isFavorited, isInComparison }: any) => {
+const ServiceCard = ({ service, onToggleFavorite, isFavorited }: any) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -65,7 +61,7 @@ const ServiceCard = ({ service, onToggleFavorite, onToggleCompare, isFavorited, 
           {/* Featured Badge */}
           {service.featured && (
             <div className="absolute top-4 left-4">
-              <span className="bg-gradient-to-r from-yellow-400 to-amber-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                              <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
                 ⭐ Featured
               </span>
             </div>
@@ -82,16 +78,6 @@ const ServiceCard = ({ service, onToggleFavorite, onToggleCompare, isFavorited, 
               }`}
             >
               <HeartIcon className={`h-4 w-4 ${isFavorited ? 'fill-current' : ''}`} />
-            </button>
-            <button
-              onClick={() => onToggleCompare(service)}
-              className={`p-2 rounded-full backdrop-blur-sm border transition-all duration-200 ${
-                isInComparison 
-                  ? 'bg-blue-500 text-white border-blue-500 shadow-lg' 
-                  : 'bg-white/90 text-gray-600 border-white/20 hover:bg-blue-50 hover:text-blue-500'
-              }`}
-            >
-              <ScaleIcon className="h-4 w-4" />
             </button>
           </div>
         </div>
@@ -118,19 +104,15 @@ const ServiceCard = ({ service, onToggleFavorite, onToggleCompare, isFavorited, 
 
         {/* Service Details */}
         <div className="space-y-3 mb-6">
-          {/* Duration & Recovery */}
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-1 text-gray-600">
-              <ClockIcon className="h-4 w-4" />
-              <span>{service.duration || '1-2 hours'}</span>
-            </div>
-            {service.recoveryTime && (
+          {/* Recovery Time */}
+          {service.recoveryTime && (
+            <div className="flex items-center text-sm">
               <div className="flex items-center gap-1 text-gray-600">
                 <CalendarDaysIcon className="h-4 w-4" />
                 <span>{service.recoveryTime} recovery</span>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Key Benefits */}
           {service.keyBenefits && service.keyBenefits.length > 0 && (
@@ -156,13 +138,10 @@ const ServiceCard = ({ service, onToggleFavorite, onToggleCompare, isFavorited, 
         <div className="flex gap-3">
           <Link 
             href={`/services/${service.category?.slug || 'general'}/${service.slug}`}
-            className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-center py-3 px-4 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-center py-3 px-4 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             Learn More
           </Link>
-          <button className="px-4 py-3 border-2 border-gray-200 hover:border-blue-300 text-gray-700 hover:text-blue-600 rounded-xl font-medium transition-all duration-300 hover:bg-blue-50">
-            <ChatBubbleLeftIcon className="h-5 w-5" />
-          </button>
         </div>
       </div>
 
@@ -182,7 +161,6 @@ const SearchAndFilters = ({
   sortBy,
   setSortBy 
 }: any) => {
-  const [priceRange, setPriceRange] = useState([0, 10000]);
   const [showFilters, setShowFilters] = useState(false);
 
   return (
@@ -236,8 +214,6 @@ const SearchAndFilters = ({
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white text-gray-700"
             >
               <option value="name">Sort by Name</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
               <option value="featured">Featured First</option>
               <option value="duration">Duration</option>
             </select>
@@ -264,32 +240,7 @@ const SearchAndFilters = ({
           exit={{ opacity: 0, height: 0 }}
           className="border-t border-gray-100 bg-gray-50 p-6"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Price Range */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Price Range: ${priceRange[0]} - ${priceRange[1]}
-              </label>
-              <div className="flex items-center gap-4">
-                <input
-                  type="range"
-                  min="0"
-                  max="10000"
-                  value={priceRange[0]}
-                  onChange={(e) => setPriceRange([parseInt(e.target.value), priceRange[1]])}
-                  className="flex-1"
-                />
-                <input
-                  type="range"
-                  min="0"
-                  max="10000"
-                  value={priceRange[1]}
-                  onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                  className="flex-1"
-                />
-              </div>
-            </div>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Duration Filter */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Duration</label>
@@ -315,7 +266,7 @@ const SearchAndFilters = ({
           <div className="mt-4 pt-4 border-t border-gray-200">
             <p className="text-sm font-medium text-gray-700 mb-2">Quick Filters:</p>
             <div className="flex flex-wrap gap-2">
-              {['Most Popular', 'Under $1000', 'Quick Procedures', 'Premium Services', 'Non-Invasive'].map((tag) => (
+              {['Most Popular', 'Quick Procedures', 'Premium Services', 'Non-Invasive'].map((tag) => (
                 <button
                   key={tag}
                   className="px-3 py-1 bg-white border border-gray-200 rounded-full text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all duration-200"
@@ -340,7 +291,7 @@ export default function ServicesPage() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [sortBy, setSortBy] = useState('featured');
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
-  const [comparisonServices, setComparisonServices] = useState<any[]>([]);
+
   const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
@@ -430,12 +381,10 @@ export default function ServicesPage() {
         switch (sortBy) {
           case 'name':
             return a.title.localeCompare(b.title);
-          case 'price-low':
-            return (a.priceFrom || 0) - (b.priceFrom || 0);
-          case 'price-high':
-            return (b.priceFrom || 0) - (a.priceFrom || 0);
           case 'featured':
             return b.featured ? 1 : a.featured ? -1 : 0;
+          case 'duration':
+            return (a.duration || '').localeCompare(b.duration || '');
           default:
             return 0;
         }
@@ -609,15 +558,7 @@ export default function ServicesPage() {
                                 }
                                 setFavorites(newFavorites);
                               }}
-                              onToggleCompare={(service: any) => {
-                                if (comparisonServices.find((s: any) => s.id === service.id)) {
-                                  setComparisonServices(comparisonServices.filter((s: any) => s.id !== service.id));
-                                } else if (comparisonServices.length < 3) {
-                                  setComparisonServices([...comparisonServices, service]);
-                                }
-                              }}
                               isFavorited={favorites.has(service.id)}
-                              isInComparison={comparisonServices.some((s: any) => s.id === service.id)}
                             />
                           </ErrorBoundary>
                         </motion.div>
@@ -667,64 +608,7 @@ export default function ServicesPage() {
           </>
         )}
 
-        {/* Floating Comparison Panel */}
-        <AnimatePresence>
-          {comparisonServices.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 100 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 100 }}
-              className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50"
-            >
-              <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 max-w-md w-full mx-4">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    Compare Services ({comparisonServices.length}/3)
-                  </h3>
-                  <button
-                    onClick={() => setComparisonServices([])}
-                    className="text-gray-400 hover:text-gray-600 transition-colors"
-                  >
-                    ✕
-                  </button>
-                </div>
-                
-                <div className="space-y-2 mb-4">
-                  {comparisonServices.map((service: any) => (
-                    <div key={service.id} className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg">
-                      <span className="text-sm font-medium text-gray-700">{service.title}</span>
-                      <button
-                        onClick={() => setComparisonServices(comparisonServices.filter((s: any) => s.id !== service.id))}
-                        className="text-red-400 hover:text-red-600 text-sm"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => {
-                      // Here you would typically navigate to a comparison page
-                      console.log('Compare services:', comparisonServices);
-                    }}
-                    disabled={comparisonServices.length < 2}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-3 px-4 rounded-xl font-medium transition-colors duration-200"
-                  >
-                    Compare {comparisonServices.length < 2 ? '(min 2)' : ''}
-                  </button>
-                  <button
-                    onClick={() => setComparisonServices([])}
-                    className="px-4 py-3 border border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 rounded-xl font-medium transition-colors duration-200"
-                  >
-                    Clear
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+
 
         {/* Floating Action Button for Favorites */}
         <AnimatePresence>

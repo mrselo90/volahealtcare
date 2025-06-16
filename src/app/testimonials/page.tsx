@@ -4,14 +4,13 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { StarIcon, PlayIcon, UserIcon, MapPinIcon, CalendarIcon } from '@heroicons/react/24/solid';
-import CounterAnimation from '../../components/CounterAnimation';
-import MobileMenu from '../../components/MobileMenu';
+import { StarIcon, PlayIcon, UserIcon, MapPinIcon, CalendarIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
+import { useTranslation } from '@/lib/i18n/hooks';
 
-const testimonials = [
+const hardcodedTestimonials = [
   {
     id: 1,
-    content: 'I traveled from London for my FUE hair transplant at Vola Health Istanbul. The results after 8 months are incredible! Dr. Mehmet and his team were professional, caring, and the clinic exceeded all my expectations. The aftercare support was outstanding.',
+    content: 'I traveled from London for my FUE hair transplant at Vola Health Istanbul. The results after 8 months are incredible! Dr. Mehmet and his team were professional, caring, and the clinic exceeded all my expectations.',
     author: 'James Mitchell',
     role: 'FUE Hair Transplant Patient',
     image: '/images/testimonials/testimonial-1.svg',
@@ -26,7 +25,7 @@ const testimonials = [
   },
   {
     id: 2,
-    content: 'My DHI hair transplant experience was life-changing. The precision and attention to detail were remarkable. 6 months later, I have natural-looking, thick hair. The team made me feel comfortable throughout the entire process.',
+    content: 'My DHI hair transplant experience was life-changing. The precision and attention to detail were remarkable. 6 months later, I have natural-looking, thick hair.',
     author: 'Michael Rodriguez',
     role: 'DHI Hair Transplant Patient',
     image: '/images/testimonials/testimonial-2.svg',
@@ -41,7 +40,7 @@ const testimonials = [
   },
   {
     id: 3,
-    content: 'I got my Hollywood Smile at Vola Health Istanbul and couldn\'t be happier! The veneers look completely natural and the transformation is amazing. The dental team was incredibly skilled and professional.',
+    content: 'I got my Hollywood Smile at Vola Health Istanbul and couldn\'t be happier! The veneers look completely natural and the transformation is amazing.',
     author: 'Sarah Johnson',
     role: 'Hollywood Smile Patient',
     image: '/images/testimonials/testimonial-3.svg',
@@ -52,96 +51,6 @@ const testimonials = [
     procedure: 'Hollywood Smile - Porcelain Veneers',
     grafts: '16 veneers',
     videoUrl: null,
-    beforeAfter: true,
-  },
-  {
-    id: 4,
-    content: 'My beard transplant results are fantastic! As someone who couldn\'t grow a full beard naturally, this procedure gave me the confidence I was looking for. The team was patient and explained every step.',
-    author: 'Ahmed Al-Rashid',
-    role: 'Beard Transplant Patient',
-    image: '/images/testimonials/testimonial-4.svg',
-    rating: 5,
-    treatment: 'hair-transplant',
-    country: 'UAE',
-    date: '2023-12-05',
-    procedure: 'Beard Hair Transplant',
-    grafts: '1,500 grafts',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    beforeAfter: true,
-  },
-  {
-    id: 5,
-    content: 'My rhinoplasty results are perfect! Dr. Ayşe understood exactly what I wanted and delivered beyond my expectations. The recovery was smooth and the staff took excellent care of me throughout my stay.',
-    author: 'Emma Thompson',
-    role: 'Rhinoplasty Patient',
-    image: '/images/testimonials/testimonial-5.svg',
-    rating: 5,
-    treatment: 'facial',
-    country: 'Australia',
-    date: '2024-01-30',
-    procedure: 'Rhinoplasty (Nose Job)',
-    grafts: null,
-    videoUrl: null,
-    beforeAfter: true,
-  },
-  {
-    id: 6,
-    content: 'I had my eyebrow transplant done here and the results are so natural! People can\'t tell it\'s not my original eyebrows. The precision and artistry of the team is remarkable.',
-    author: 'Maria Gonzalez',
-    role: 'Eyebrow Transplant Patient',
-    image: '/images/testimonials/testimonial-6.svg',
-    rating: 5,
-    treatment: 'hair-transplant',
-    country: 'Spain',
-    date: '2023-10-15',
-    procedure: 'Eyebrow Hair Transplant',
-    grafts: '400 grafts',
-    videoUrl: null,
-    beforeAfter: true,
-  },
-  {
-    id: 7,
-    content: 'My tummy tuck and liposuction results exceeded all expectations! The surgical team was highly skilled and the recovery support was excellent. I feel confident and happy with my new body.',
-    author: 'Lisa Chen',
-    role: 'Body Contouring Patient',
-    image: '/images/testimonials/testimonial-1.svg',
-    rating: 5,
-    treatment: 'body',
-    country: 'Singapore',
-    date: '2024-03-01',
-    procedure: 'Tummy Tuck + Liposuction',
-    grafts: null,
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    beforeAfter: true,
-  },
-  {
-    id: 8,
-    content: 'The dental implants I received have completely transformed my smile and confidence. The quality of work and attention to detail was exceptional. Highly recommend Vola Health Istanbul!',
-    author: 'Robert Wilson',
-    role: 'Dental Implant Patient',
-    image: '/images/testimonials/testimonial-2.svg',
-    rating: 5,
-    treatment: 'dental',
-    country: 'Ireland',
-    date: '2023-09-20',
-    procedure: 'Full Mouth Dental Implants',
-    grafts: '8 implants',
-    videoUrl: null,
-    beforeAfter: true,
-  },
-  {
-    id: 9,
-    content: 'My Sapphire FUE hair transplant was an amazing experience. The technology and techniques used are cutting-edge. 10 months later, my hair looks completely natural and thick.',
-    author: 'David Kim',
-    role: 'Sapphire FUE Patient',
-    image: '/images/testimonials/testimonial-3.svg',
-    rating: 5,
-    treatment: 'hair-transplant',
-    country: 'South Korea',
-    date: '2023-08-10',
-    procedure: 'Sapphire FUE Hair Transplant',
-    grafts: '4,000 grafts',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     beforeAfter: true,
   },
 ];
@@ -162,195 +71,134 @@ const filters = {
     { value: 'Australia', label: 'Australia' },
     { value: 'UAE', label: 'UAE' },
     { value: 'Spain', label: 'Spain' },
-    { value: 'Singapore', label: 'Singapore' },
-    { value: 'Ireland', label: 'Ireland' },
-    { value: 'South Korea', label: 'South Korea' },
   ],
 };
 
-const stats = [
-  { name: 'Happy Patients', value: 1500, suffix: '+' },
-  { name: 'Success Rate', value: 98.5, suffix: '%' },
-  { name: 'Countries Served', value: 85, suffix: '+' },
-  { name: 'Years of Experience', value: 12, suffix: '+' },
-];
-
 export default function Testimonials() {
+  const { t } = useTranslation();
   const [selectedTreatment, setSelectedTreatment] = useState('all');
   const [selectedCountry, setSelectedCountry] = useState('all');
   const [showVideoOnly, setShowVideoOnly] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [apiTestimonials, setApiTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
-  const filteredTestimonials = testimonials.filter((testimonial) => {
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
+
+  const fetchTestimonials = async () => {
+    try {
+      const response = await fetch('/api/testimonials');
+      if (response.ok) {
+        const data = await response.json();
+        setApiTestimonials(data);
+      }
+    } catch (error) {
+      console.error('Error fetching testimonials:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const allTestimonials = [...hardcodedTestimonials, ...apiTestimonials];
+
+  const filteredTestimonials = allTestimonials.filter((testimonial) => {
     const treatmentMatch = selectedTreatment === 'all' || testimonial.treatment === selectedTreatment;
     const countryMatch = selectedCountry === 'all' || testimonial.country === selectedCountry;
     const videoMatch = !showVideoOnly || testimonial.videoUrl;
     return treatmentMatch && countryMatch && videoMatch;
   });
 
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => 
+      prev === filteredTestimonials.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => 
+      prev === 0 ? filteredTestimonials.length - 1 : prev - 1
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-white text-black font-sans">
-      {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white backdrop-blur-sm border-b border-gray-200 shadow-sm">
-        <div className="flex justify-between items-center px-4 py-3">
-          <Link href="/" className="flex items-center">
-            <Image src="/Vola_edited.jpg" alt="Vola Health Logo" width={32} height={32} className="rounded-none" />
-            <span className="ml-2 text-sm font-medium">VOLA HEALTH</span>
-          </Link>
-          
-          <button 
-            onClick={() => setIsMobileMenuOpen(true)}
-            className="p-2"
-          >
-            <div className="flex flex-col space-y-1">
-              <div className="w-5 h-px bg-black"></div>
-              <div className="w-5 h-px bg-black"></div>
-              <div className="w-5 h-px bg-black"></div>
-            </div>
-          </button>
-        </div>
-      </div>
-
-      {/* Desktop Left Sidebar */}
-      <div className="hidden lg:flex fixed left-0 top-0 h-full w-24 bg-white/95 backdrop-blur-sm border-r border-gray-200 flex-col items-center justify-between py-8 z-50 shadow-lg">
-        {/* Logo */}
-        <div className="flex flex-col items-center">
-          <Link href="/" className="mb-8">
-            <Image src="/Vola_edited.jpg" alt="Vola Health Logo" width={48} height={48} className="rounded-none" />
-          </Link>
-          
-          {/* Menu Button */}
-          <button className="text-gray-700 text-xs font-medium mb-4 tracking-widest hover:text-black transition-colors">MENU</button>
-          <div className="flex flex-col space-y-1 mb-6">
-            <div className="w-6 h-px bg-gray-700"></div>
-            <div className="w-6 h-px bg-gray-700"></div>
-            <div className="w-6 h-px bg-gray-700"></div>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-blue-600/10"></div>
+          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
 
-        {/* Navigation Links */}
-        <div className="flex flex-col space-y-3">
-          <Link href="/" className="w-12 h-12 bg-gray-100 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-200 hover:shadow-md transition-all duration-200 text-lg" title="Home">
-            🏠
-          </Link>
-          <Link href="/services" className="w-12 h-12 bg-gray-100 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-200 hover:shadow-md transition-all duration-200 text-lg" title="Services">
-            🔧
-          </Link>
-          <Link href="/gallery" className="w-12 h-12 bg-gray-100 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-200 hover:shadow-md transition-all duration-200 text-lg" title="Results">
-            📸
-          </Link>
-          <Link href="/testimonials" className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-blue-700 text-lg" title="Testimonials">
-            💬
-          </Link>
-          <Link href="/contact" className="w-12 h-12 bg-gray-100 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-200 hover:shadow-md transition-all duration-200 text-lg" title="Contact">
-            📞
-          </Link>
-        </div>
-      </div>
+        <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+          <div className="text-center space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="inline-block px-6 py-3 bg-gradient-to-r from-blue-100 to-purple-100 backdrop-blur-sm rounded-full border border-blue-200/50 shadow-lg"
+            >
+              <span className="text-sm font-medium text-blue-800">✨ PATIENT TESTIMONIALS</span>
+            </motion.div>
 
-      {/* Main Content Area */}
-      <div className="lg:ml-24">
-        {/* Desktop Top Header */}
-        <header className="hidden lg:block fixed top-0 right-0 left-24 z-40 bg-white backdrop-blur-sm border-b border-gray-200 shadow-sm">
-          <div className="flex justify-between items-center px-8 py-4">
-            {/* Logo Text */}
-            <div>
-              <h1 className="text-xl font-light tracking-widest text-black">VOLA HEALTH ISTANBUL</h1>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="space-y-4"
+            >
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif font-light text-gray-900 leading-tight">
+                Real Stories from
+                <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
+                  Real Patients
+                </span>
+              </h1>
+              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Discover authentic experiences from patients around the world who chose Vola Health Istanbul for their transformation journey.
+              </p>
+            </motion.div>
 
-            {/* Navigation */}
-            <div className="flex items-center space-x-4">
-              <Link
-                href="/consultation"
-                className="px-6 py-2 border border-gray-300 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors text-black"
-              >
-                FREE CONSULTATION →
-              </Link>
-              <Link
-                href="/services"
-                className="px-6 py-2 border border-gray-300 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors text-black"
-              >
-                VIEW SERVICES →
-              </Link>
-              <a
-                href="tel:+905444749881"
-                className="px-6 py-2 bg-blue-500 text-white rounded-full text-sm font-medium hover:bg-blue-600 transition-colors flex items-center"
-              >
-                📞 +90 544 474 98 81
-              </a>
-            </div>
-          </div>
-        </header>
-
-        {/* Mobile Menu */}
-        <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
-
-        {/* Hero Section */}
-        <div className="relative bg-gradient-to-br from-blue-50 to-indigo-100 py-24 sm:py-32 pt-16 lg:pt-24">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mx-auto max-w-2xl text-center"
-          >
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Patient <span className="text-blue-600">Testimonials</span>
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Real stories from real patients who chose Vola Health Istanbul for their transformation journey. 
-              Read and watch authentic experiences from patients around the world.
-            </p>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl"
-          >
-            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-4 lg:gap-y-16">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.3 + index * 0.1 }}
-                  className="flex flex-col gap-y-3 border-l border-gray-900/10 pl-6"
-                >
-                  <dt className="text-sm leading-6 text-gray-600">{stat.name}</dt>
-                  <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900">
-                    <CounterAnimation 
-                      end={stat.value} 
-                      suffix={stat.suffix}
-                      duration={2.5}
-                    />
-                  </dd>
-                </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-4xl mx-auto mt-16"
+            >
+              {[
+                { label: 'Happy Patients', value: '1,500+' },
+                { label: 'Success Rate', value: '98.5%' },
+                { label: 'Countries Served', value: '85+' },
+                { label: 'Years Experience', value: '12+' }
+              ].map((stat, index) => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>
+                  <div className="text-sm text-gray-600">{stat.label}</div>
+                </div>
               ))}
-            </dl>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* Filters Section */}
-      <div className="bg-white py-12">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+      <section className="py-16 bg-white/80 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-serif font-light text-gray-900 mb-4">
               Filter Testimonials
             </h2>
-            <p className="mt-4 text-lg leading-8 text-gray-600">
+            <p className="text-gray-600 max-w-2xl mx-auto">
               Find testimonials by treatment type, country, or view video testimonials only.
             </p>
           </div>
 
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-4xl mx-auto">
             <select
               value={selectedTreatment}
               onChange={(e) => setSelectedTreatment(e.target.value)}
-              className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full sm:w-auto px-6 py-3 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
             >
               {filters.treatment.map((filter) => (
                 <option key={filter.value} value={filter.value}>
@@ -362,7 +210,7 @@ export default function Testimonials() {
             <select
               value={selectedCountry}
               onChange={(e) => setSelectedCountry(e.target.value)}
-              className="rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full sm:w-auto px-6 py-3 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
             >
               {filters.country.map((filter) => (
                 <option key={filter.value} value={filter.value}>
@@ -371,196 +219,279 @@ export default function Testimonials() {
               ))}
             </select>
 
-            <label className="flex items-center space-x-2">
+            <label className="flex items-center space-x-3 cursor-pointer">
               <input
                 type="checkbox"
                 checked={showVideoOnly}
                 onChange={(e) => setShowVideoOnly(e.target.checked)}
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               />
-              <span className="text-sm font-medium text-gray-700">Video testimonials only</span>
+              <span className="text-gray-700 font-medium">Video testimonials only</span>
             </label>
           </div>
 
-          <div className="mt-4 text-center">
-            <p className="text-sm text-gray-500">
-              Showing {filteredTestimonials.length} of {testimonials.length} testimonials
+          <div className="text-center mt-6">
+            <p className="text-gray-500">
+              Showing {filteredTestimonials.length} of {allTestimonials.length} testimonials
+              {loading && <span className="ml-2">(Loading...)</span>}
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Testimonials Grid */}
-      <div className="bg-gray-50 py-16">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {filteredTestimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300"
-              >
-                {/* Video or Image Header */}
-                {testimonial.videoUrl ? (
-                  <div className="relative aspect-w-16 aspect-h-9 bg-gray-100">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="relative">
-                        <Image
-                          src={testimonial.image}
-                          alt={testimonial.author}
-                          className="h-32 w-32 rounded-full object-cover"
-                          width={128}
-                          height={128}
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <PlayIcon className="h-12 w-12 text-white bg-blue-600 rounded-full p-2 shadow-lg" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
-                        Video Testimonial
+      {/* Featured Testimonial Carousel */}
+      {filteredTestimonials.length > 0 && (
+        <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-serif font-light text-gray-900 mb-4">
+                Featured Patient Stories
+              </h2>
+              <p className="text-gray-600">
+                Hear directly from our patients about their transformation journey
+              </p>
+            </div>
+
+            <div className="relative max-w-4xl mx-auto">
+              <div className="bg-white rounded-3xl shadow-2xl p-8 lg:p-12">
+                <div className="grid lg:grid-cols-2 gap-8 items-center">
+                  <div className="space-y-6">
+                    <div className="flex items-center space-x-2">
+                      {[...Array(filteredTestimonials[currentTestimonial]?.rating || 5)].map((_, i) => (
+                        <StarIcon key={i} className="w-6 h-6 text-yellow-400" />
+                      ))}
+                      <span className="text-gray-500 ml-2">
+                        ({filteredTestimonials[currentTestimonial]?.rating || 5}/5)
                       </span>
                     </div>
-                  </div>
-                ) : (
-                  <div className="relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Image
-                        src={testimonial.image}
-                        alt={testimonial.author}
-                        className="h-24 w-24 rounded-full object-cover border-4 border-white shadow-lg"
-                        width={96}
-                        height={96}
-                      />
-                    </div>
-                  </div>
-                )}
 
-                {/* Content */}
-                <div className="flex flex-1 flex-col justify-between p-6">
-                  {/* Rating */}
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <StarIcon key={i} className="h-5 w-5 text-yellow-400" />
-                    ))}
-                    <span className="ml-2 text-sm text-gray-500">({testimonial.rating}/5)</span>
-                  </div>
+                    <blockquote className="text-lg lg:text-xl text-gray-700 leading-relaxed">
+                      "{filteredTestimonials[currentTestimonial]?.content}"
+                    </blockquote>
 
-                  {/* Testimonial Content */}
-                  <blockquote className="flex-1">
-                    <p className="text-gray-900 leading-relaxed">{testimonial.content}</p>
-                  </blockquote>
-
-                  {/* Procedure Details */}
-                  <div className="mt-6 space-y-2">
-                    <div className="flex items-center text-sm text-gray-600">
-                      <UserIcon className="h-4 w-4 mr-2 text-blue-500" />
-                      <span className="font-medium">{testimonial.procedure}</span>
-                    </div>
-                    {testimonial.grafts && (
-                      <div className="flex items-center text-sm text-gray-600">
-                        <span className="ml-6">{testimonial.grafts}</span>
+                    <div className="space-y-2">
+                      <div className="font-semibold text-gray-900 text-lg">
+                        {filteredTestimonials[currentTestimonial]?.author}
                       </div>
-                    )}
-                    <div className="flex items-center text-sm text-gray-600">
-                      <MapPinIcon className="h-4 w-4 mr-2 text-blue-500" />
-                      <span>{testimonial.country}</span>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <CalendarIcon className="h-4 w-4 mr-2 text-blue-500" />
-                      <span>{new Date(testimonial.date).toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'long' 
-                      })}</span>
+                      <div className="text-blue-600 font-medium">
+                        {filteredTestimonials[currentTestimonial]?.procedure}
+                      </div>
+                      <div className="flex items-center space-x-4 text-sm text-gray-500">
+                        <span className="flex items-center">
+                          <MapPinIcon className="w-4 h-4 mr-1" />
+                          {filteredTestimonials[currentTestimonial]?.country}
+                        </span>
+                        <span className="flex items-center">
+                          <CalendarIcon className="w-4 h-4 mr-1" />
+                          {new Date(filteredTestimonials[currentTestimonial]?.date || '').toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long' 
+                          })}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Author */}
-                  <div className="mt-6 pt-6 border-t border-gray-200">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0">
+                  <div className="relative">
+                    <div className="aspect-square bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center overflow-hidden">
+                      {filteredTestimonials[currentTestimonial]?.videoUrl ? (
+                        <div className="relative w-full h-full flex items-center justify-center">
+                          <Image
+                            src={filteredTestimonials[currentTestimonial]?.image || '/images/testimonials/testimonial-1.svg'}
+                            alt={filteredTestimonials[currentTestimonial]?.author || 'Patient'}
+                            width={200}
+                            height={200}
+                            className="rounded-full object-cover"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                              <PlayIcon className="w-8 h-8 text-white ml-1" />
+                            </div>
+                          </div>
+                          <div className="absolute top-4 left-4">
+                            <span className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-medium">
+                              Video Testimonial
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
                         <Image
-                          className="h-10 w-10 rounded-full"
-                          src={testimonial.image}
-                          alt={testimonial.author}
-                          width={40}
-                          height={40}
+                          src={filteredTestimonials[currentTestimonial]?.image || '/images/testimonials/testimonial-1.svg'}
+                          alt={filteredTestimonials[currentTestimonial]?.author || 'Patient'}
+                          width={200}
+                          height={200}
+                          className="rounded-full object-cover"
                         />
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-900">{testimonial.author}</p>
-                        <p className="text-sm text-gray-500">{testimonial.role}</p>
-                      </div>
+                      )}
                     </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="mt-4 flex space-x-3">
-                    {testimonial.videoUrl && (
-                      <button className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                        Watch Video
-                      </button>
-                    )}
-                    {testimonial.beforeAfter && (
-                      <button className="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
-                        View Results
-                      </button>
-                    )}
                   </div>
                 </div>
-              </motion.div>
-            ))}
+
+                <div className="flex items-center justify-between mt-8">
+                  <button
+                    onClick={prevTestimonial}
+                    className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                  >
+                    <ChevronLeftIcon className="w-6 h-6 text-gray-600" />
+                  </button>
+
+                  <div className="flex space-x-2">
+                    {filteredTestimonials.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentTestimonial(index)}
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                          index === currentTestimonial 
+                            ? 'bg-blue-600 w-8' 
+                            : 'bg-gray-300 hover:bg-gray-400'
+                        }`}
+                      />
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={nextTestimonial}
+                    className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                  >
+                    <ChevronRightIcon className="w-6 h-6 text-gray-600" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* All Testimonials Grid */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-serif font-light text-gray-900 mb-4">
+              All Patient Testimonials
+            </h2>
+            <p className="text-gray-600">
+              Browse through all our patient stories and experiences
+            </p>
           </div>
 
-          {filteredTestimonials.length === 0 && (
+          {filteredTestimonials.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No testimonials found matching your filters.</p>
+              <div className="text-gray-400 mb-4">
+                <UserIcon className="w-16 h-16 mx-auto" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No testimonials found</h3>
+              <p className="text-gray-500 mb-6">
+                No testimonials match your current filters.
+              </p>
               <button
                 onClick={() => {
                   setSelectedTreatment('all');
                   setSelectedCountry('all');
                   setShowVideoOnly(false);
                 }}
-                className="mt-4 text-blue-600 hover:text-blue-700 font-medium"
+                className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
               >
                 Clear all filters
               </button>
             </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredTestimonials.map((testimonial, index) => (
+                <motion.div
+                  key={testimonial.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
+                >
+                  <div className="p-6 pb-4">
+                    <div className="flex items-center space-x-4 mb-4">
+                      <div className="relative">
+                        <Image
+                          src={testimonial.image}
+                          alt={testimonial.author}
+                          width={60}
+                          height={60}
+                          className="rounded-full object-cover"
+                        />
+                        {testimonial.videoUrl && (
+                          <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+                            <PlayIcon className="w-3 h-3 text-white" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-900">{testimonial.author}</h3>
+                        <p className="text-sm text-blue-600">{testimonial.procedure}</p>
+                        <p className="text-xs text-gray-500">{testimonial.country}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center space-x-1 mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <StarIcon key={i} className="w-4 h-4 text-yellow-400" />
+                      ))}
+                      <span className="text-sm text-gray-500 ml-2">({testimonial.rating}/5)</span>
+                    </div>
+
+                    <blockquote className="text-gray-700 text-sm leading-relaxed line-clamp-4">
+                      "{testimonial.content}"
+                    </blockquote>
+                  </div>
+
+                  <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                      <span>{new Date(testimonial.date).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'short' 
+                      })}</span>
+                      {testimonial.grafts && (
+                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                          {testimonial.grafts}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           )}
         </div>
-      </div>
+      </section>
 
       {/* CTA Section */}
-      <div className="bg-blue-600 py-16">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Ready to Start Your Transformation?
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-light text-white">
+              Ready to Start Your
+              <span className="block font-medium">Transformation Journey?</span>
             </h2>
-            <p className="mt-6 text-lg leading-8 text-blue-100">
-              Join thousands of satisfied patients who chose Vola Health Istanbul for their medical tourism journey.
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+              Join thousands of satisfied patients who chose Vola Health Istanbul for their medical tourism experience.
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
                 href="/consultation"
-                className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-blue-600 shadow-sm hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors"
+                className="px-8 py-4 bg-white text-blue-600 rounded-xl font-semibold hover:bg-blue-50 transition-colors shadow-lg"
               >
                 Get Free Consultation
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/contact"
-                className="text-sm font-semibold leading-6 text-white hover:text-blue-100 transition-colors"
+                className="px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-colors"
               >
-                Contact Us <span aria-hidden="true">→</span>
-              </a>
+                Contact Us
+              </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
-      </div>
+      </section>
     </div>
   );
 } 

@@ -12,8 +12,8 @@ export default function HairResultsPage() {
       title={t('results.hair.title') || 'Hair Transplant Results'}
       subtitle={t('results.hair.subtitle') || 'Our Natural-Looking Hair Transplant Results'}
       description={t('results.treatments.hair')}
-      gradientFrom="from-green-500"
-      gradientTo="to-emerald-500"
+      gradientFrom="from-blue-500"
+              gradientTo="to-purple-500"
       treatments={[
         t('results.hair.treatments.fue') || 'FUE Hair Transplant',
         t('results.hair.treatments.dhi') || 'DHI Hair Transplant',

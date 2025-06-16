@@ -187,7 +187,7 @@ export default function BeforeAfterGallery({
     return (
       <div className="flex flex-col justify-center items-center h-64">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
-        <p className="text-gray-600 text-lg font-medium">Loading transformations...</p>
+        <p className="text-gray-600 text-lg text-professional">Loading transformations...</p>
         <p className="text-gray-400 text-sm mt-1">Please wait while we fetch the latest results</p>
       </div>
     );
@@ -201,13 +201,13 @@ export default function BeforeAfterGallery({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">Unable to Load Cases</h3>
+        <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Unable to Load Cases</h3>
         <p className="text-gray-600 text-center mb-4 max-w-md">{error}</p>
         <div className="flex gap-3">
           <button
             onClick={handleRetry}
             disabled={retryCount >= 3}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+            className={`px-6 py-2 rounded-lg text-professional transition-colors ${
               retryCount >= 3
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 : 'bg-blue-500 text-white hover:bg-blue-600'
@@ -217,7 +217,7 @@ export default function BeforeAfterGallery({
           </button>
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg text-professional hover:bg-gray-50 transition-colors"
           >
             Refresh Page
           </button>
@@ -240,14 +240,14 @@ export default function BeforeAfterGallery({
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Filter Cases</h3>
+                  <h3 className="text-lg font-serif font-bold text-gray-900">Filter Cases</h3>
                   <p className="text-sm text-gray-500">Find specific transformations</p>
                 </div>
               </div>
               
               <div className="flex flex-wrap gap-4 flex-1">
                 <div className="min-w-[200px]">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm text-professional text-gray-700 mb-2">
                     Category
                   </label>
                   <select
@@ -267,7 +267,7 @@ export default function BeforeAfterGallery({
                 {/* Results counter */}
                 <div className="flex items-end">
                   <div className="bg-gray-50 px-4 py-2.5 rounded-lg border">
-                    <span className="text-sm font-medium text-gray-600">
+                    <span className="text-sm text-professional text-gray-600">
                       {filteredCases.length} {filteredCases.length === 1 ? 'Case' : 'Cases'} Found
                     </span>
                   </div>
@@ -278,10 +278,10 @@ export default function BeforeAfterGallery({
             {/* Quick filter chips */}
             <div className="mt-4 pt-4 border-t border-gray-100">
               <div className="flex flex-wrap gap-2">
-                <span className="text-sm font-medium text-gray-500 mr-2">Quick filters:</span>
+                <span className="text-sm text-professional text-gray-500 mr-2">Quick filters:</span>
                 <button
                   onClick={() => setSelectedCategory('all')}
-                  className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${
+                  className={`px-3 py-1 rounded-full text-sm text-professional transition-all duration-200 ${
                     selectedCategory === 'all'
                       ? 'bg-blue-500 text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -293,7 +293,7 @@ export default function BeforeAfterGallery({
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${
+                    className={`px-3 py-1 rounded-full text-sm text-professional transition-all duration-200 ${
                       selectedCategory === category.id
                         ? 'bg-blue-500 text-white'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -346,7 +346,7 @@ export default function BeforeAfterGallery({
                 {caseItem.category && (
                   <div className="absolute top-4 right-4">
                     <span 
-                      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500 text-white shadow-lg"
+                      className="inline-flex items-center px-3 py-1 rounded-full text-xs text-professional bg-blue-500 text-white shadow-lg"
                       role="tag"
                       aria-label={`Category: ${caseItem.category.name}`}
                     >
@@ -357,7 +357,7 @@ export default function BeforeAfterGallery({
                 
                 {/* Title overlay */}
                 <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-white font-bold text-lg mb-1 line-clamp-2">
+                  <h3 className="text-white font-serif font-bold text-lg mb-1 line-clamp-2">
                     {caseItem.title}
                   </h3>
                   {caseItem.patientAge && caseItem.patientCountry && (
@@ -432,7 +432,7 @@ export default function BeforeAfterGallery({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Cases Found</h3>
+            <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">No Cases Found</h3>
             <p className="text-gray-500">No before & after cases match your current filters. Try adjusting your search criteria.</p>
           </div>
         </div>
@@ -457,7 +457,7 @@ export default function BeforeAfterGallery({
             >
               {/* Modal Header */}
               <div className="flex justify-between items-center p-6 border-b">
-                <h2 className="text-2xl font-bold">{selectedCase.title}</h2>
+                <h2 className="text-2xl font-serif font-bold">{selectedCase.title}</h2>
                 <button
                   onClick={closeModal}
                   className="text-gray-500 hover:text-gray-700"
@@ -485,7 +485,7 @@ export default function BeforeAfterGallery({
                       
                       {/* Image Overlay Badge */}
                       <div className="absolute top-4 right-4">
-                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium shadow-lg ${
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm text-professional shadow-lg ${
                           showBeforeImage 
                             ? 'bg-red-500 text-white' 
                             : 'bg-green-500 text-white'
@@ -499,7 +499,7 @@ export default function BeforeAfterGallery({
                     <div className="flex gap-3">
                       <button
                         onClick={() => setShowBeforeImage(true)}
-                        className={`flex-1 py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
+                        className={`flex-1 py-4 px-6 rounded-xl text-professional-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
                           showBeforeImage 
                             ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-red-200' 
                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -509,9 +509,9 @@ export default function BeforeAfterGallery({
                       </button>
                       <button
                         onClick={() => setShowBeforeImage(false)}
-                        className={`flex-1 py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
+                        className={`flex-1 py-4 px-6 rounded-xl text-professional-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
                           !showBeforeImage 
-                            ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-green-200' 
+                            ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-blue-200' 
                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                         }`}
                       >
@@ -522,11 +522,11 @@ export default function BeforeAfterGallery({
                     {/* Quick Stats */}
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-blue-50 p-4 rounded-lg text-center">
-                        <div className="text-2xl font-bold text-blue-600">{selectedCase.patientAge || 'N/A'}</div>
+                        <div className="text-2xl font-serif font-bold text-blue-600">{selectedCase.patientAge || 'N/A'}</div>
                         <div className="text-sm text-blue-800">Years Old</div>
                       </div>
                       <div className="bg-green-50 p-4 rounded-lg text-center">
-                        <div className="text-2xl font-bold text-green-600">{selectedCase.timeframe || 'N/A'}</div>
+                        <div className="text-2xl font-serif font-bold text-green-600">{selectedCase.timeframe || 'N/A'}</div>
                         <div className="text-sm text-green-800">Results Time</div>
                       </div>
                     </div>
@@ -536,7 +536,7 @@ export default function BeforeAfterGallery({
                   <div className="space-y-8">
                     {/* Patient Info Card */}
                     <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl">
-                      <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                      <h3 className="text-xl font-serif font-bold text-gray-800 mb-4 flex items-center">
                         <span className="bg-blue-500 text-white p-2 rounded-lg mr-3">👤</span>
                         Patient Information
                       </h3>
@@ -570,8 +570,8 @@ export default function BeforeAfterGallery({
 
                     {/* Description Card */}
                     {selectedCase.description && (
-                      <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-xl">
-                        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                      <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl">
+                        <h3 className="text-xl font-serif font-bold text-gray-800 mb-4 flex items-center">
                           <span className="bg-amber-500 text-white p-2 rounded-lg mr-3">📝</span>
                           Description
                         </h3>
@@ -582,7 +582,7 @@ export default function BeforeAfterGallery({
                     {/* Treatment Details Card */}
                     {selectedCase.treatmentDetails && (
                       <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl">
-                        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <h3 className="text-xl font-serif font-bold text-gray-800 mb-4 flex items-center">
                           <span className="bg-purple-500 text-white p-2 rounded-lg mr-3">🏥</span>
                           Treatment Details
                         </h3>
@@ -592,8 +592,8 @@ export default function BeforeAfterGallery({
 
                     {/* Results Card */}
                     {selectedCase.results && (
-                      <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl">
-                        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                      <div className="bg-gradient-to-br from-blue-50 to-slate-50 p-6 rounded-xl">
+                        <h3 className="text-xl font-serif font-bold text-gray-800 mb-4 flex items-center">
                           <span className="bg-green-500 text-white p-2 rounded-lg mr-3">🎯</span>
                           Results
                         </h3>

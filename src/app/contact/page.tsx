@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { EnvelopeIcon, PhoneIcon, ArrowLeftIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from '@/lib/i18n/hooks';
 
 const offices = [
   {
@@ -15,11 +16,13 @@ const offices = [
 
 export default function ContactPage() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
+    country: '',
     message: '',
     treatment: 'dental',
   });
@@ -53,6 +56,7 @@ export default function ContactPage() {
         lastName: '',
         email: '',
         phone: '',
+        country: '',
         message: '',
         treatment: 'dental',
       });
@@ -72,44 +76,21 @@ export default function ContactPage() {
 
   return (
     <div className="bg-white">
-      {/* Navigation Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <button
-              onClick={() => router.push('/')}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors group"
-            >
-              <ArrowLeftIcon className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
-              <span className="font-medium">Back to Home</span>
-            </button>
-            
-            <h1 className="text-lg font-semibold text-gray-900">Contact Us</h1>
-            
-            <button
-              onClick={() => router.push('/')}
-              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all"
-              aria-label="Close and go to home"
-            >
-              <XMarkIcon className="h-6 w-6" />
-            </button>
-          </div>
-        </div>
-      </div>
+
 
       {/* Hero section */}
       <div className="relative isolate bg-gradient-to-b from-primary-100/20">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-y-8 lg:grid-cols-2 lg:gap-x-8">
           <div className="relative px-4 pb-12 pt-16 sm:px-6 sm:pb-16 sm:pt-24 lg:static lg:px-8 lg:py-32">
             <div className="mx-auto max-w-xl lg:mx-0 lg:max-w-lg">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">Contact Vola Health Istanbul</h1>
+              <h1 className="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-gray-900">{t('contact.hero.title')}</h1>
               <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-7 sm:leading-8 text-gray-600">
-                We're here to help you start your medical tourism journey. Contact us for a free consultation or to learn more about our services.
+                {t('contact.hero.subtitle')}
               </p>
               <dl className="mt-8 sm:mt-10 space-y-6 sm:space-y-8 text-base leading-7 text-gray-600">
                 {offices.map((office) => (
                   <div key={office.city} className="mt-6 first:mt-0">
-                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900">{office.city} Office</h2>
+                    <h2 className="text-lg sm:text-xl font-serif font-bold text-gray-900">{office.city} {t('contact.hero.office')}</h2>
                     <div className="mt-2 sm:mt-3 space-y-1">
                       {office.address.map((line) => (
                         <p key={line} className="text-sm sm:text-base">{line}</p>
@@ -148,8 +129,8 @@ export default function ContactPage() {
                         </svg>
                       </div>
                       <div className="ml-3">
-                        <p className="text-xs sm:text-sm font-medium text-green-800">
-                          Thank you! Your consultation request has been received. We'll contact you soon.
+                        <p className="text-xs sm:text-sm text-professional text-green-800">
+                          {t('contact.messages.success')}
                         </p>
                       </div>
                     </div>
@@ -157,9 +138,9 @@ export default function ContactPage() {
                       <button
                         type="button"
                         onClick={() => router.push('/contact/success')}
-                        className="text-xs sm:text-sm font-medium text-green-600 hover:text-green-500"
+                        className="text-xs sm:text-sm text-professional text-green-600 hover:text-green-500"
                       >
-                        View Details →
+                        {t('contact.messages.viewDetails')}
                       </button>
                     </div>
                   </div>
@@ -175,8 +156,8 @@ export default function ContactPage() {
                       </svg>
                     </div>
                     <div className="ml-3">
-                      <p className="text-xs sm:text-sm font-medium text-red-800">
-                        {errorMessage || 'Something went wrong. Please try again.'}
+                      <p className="text-xs sm:text-sm text-professional text-red-800">
+                        {errorMessage || t('contact.messages.error')}
                       </p>
                     </div>
                   </div>
@@ -185,8 +166,8 @@ export default function ContactPage() {
 
               <div className="grid grid-cols-1 gap-x-4 sm:gap-x-8 gap-y-4 sm:gap-y-6 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="firstName" className="block text-xs sm:text-sm font-semibold leading-6 text-gray-900">
-                    First name
+                  <label htmlFor="firstName" className="block text-xs sm:text-sm text-professional-bold leading-6 text-gray-900">
+                    {t('contact.form.firstName')}
                   </label>
                   <div className="mt-2 sm:mt-2.5">
                     <input
@@ -202,8 +183,8 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="lastName" className="block text-xs sm:text-sm font-semibold leading-6 text-gray-900">
-                    Last name
+                  <label htmlFor="lastName" className="block text-xs sm:text-sm text-professional-bold leading-6 text-gray-900">
+                    {t('contact.form.lastName')}
                   </label>
                   <div className="mt-2 sm:mt-2.5">
                     <input
@@ -219,8 +200,8 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className="sm:col-span-2">
-                  <label htmlFor="email" className="block text-xs sm:text-sm font-semibold leading-6 text-gray-900">
-                    Email
+                  <label htmlFor="email" className="block text-xs sm:text-sm text-professional-bold leading-6 text-gray-900">
+                    {t('contact.form.email')}
                   </label>
                   <div className="mt-2 sm:mt-2.5">
                     <input
@@ -236,8 +217,8 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className="sm:col-span-2">
-                  <label htmlFor="phone" className="block text-xs sm:text-sm font-semibold leading-6 text-gray-900">
-                    Phone number
+                  <label htmlFor="phone" className="block text-xs sm:text-sm text-professional-bold leading-6 text-gray-900">
+                    {t('contact.form.phone')}
                   </label>
                   <div className="mt-2 sm:mt-2.5">
                     <input
@@ -253,8 +234,26 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className="sm:col-span-2">
-                  <label htmlFor="treatment" className="block text-xs sm:text-sm font-semibold leading-6 text-gray-900">
-                    Interested in
+                  <label htmlFor="country" className="block text-xs sm:text-sm text-professional-bold leading-6 text-gray-900">
+                    {t('contact.form.country')}
+                  </label>
+                  <div className="mt-2 sm:mt-2.5">
+                    <input
+                      type="text"
+                      name="country"
+                      id="country"
+                      required
+                      autoComplete="country"
+                      value={formData.country}
+                      onChange={handleChange}
+                      placeholder={t('contact.form.countryPlaceholder')}
+                      className="block w-full rounded-md border-0 px-3 sm:px-3.5 py-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:text-base"
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <label htmlFor="treatment" className="block text-xs sm:text-sm text-professional-bold leading-6 text-gray-900">
+                    {t('contact.form.treatment')}
                   </label>
                   <div className="mt-2 sm:mt-2.5">
                     <select
@@ -265,16 +264,16 @@ export default function ContactPage() {
                       onChange={handleChange}
                       className="block w-full rounded-md border-0 px-3 sm:px-3.5 py-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:text-base"
                     >
-                      <option value="dental">Dental Services</option>
-                      <option value="facial">Facial Services</option>
-                      <option value="body">Body Services</option>
+                      <option value="dental">{t('contact.treatments.dental')}</option>
+                      <option value="hair">{t('contact.treatments.hair')}</option>
+                      <option value="plastic">{t('contact.treatments.aesthetic')}</option>
                       <option value="other">Other Services</option>
                     </select>
                   </div>
                 </div>
                 <div className="sm:col-span-2">
-                  <label htmlFor="message" className="block text-xs sm:text-sm font-semibold leading-6 text-gray-900">
-                    Message
+                  <label htmlFor="message" className="block text-xs sm:text-sm text-professional-bold leading-6 text-gray-900">
+                    {t('contact.form.message')}
                   </label>
                   <div className="mt-2 sm:mt-2.5">
                     <textarea
@@ -293,11 +292,11 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className={`w-full sm:w-auto rounded-md bg-primary px-3 sm:px-3.5 py-2 sm:py-2.5 text-center text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+                  className={`w-full sm:w-auto rounded-md bg-primary px-3 sm:px-3.5 py-2 sm:py-2.5 text-center text-xs sm:text-sm text-professional-bold text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
                     status === 'loading' ? 'opacity-75 cursor-not-allowed' : ''
                   }`}
                 >
-                  {status === 'loading' ? 'Sending...' : 'Send message'}
+                  {status === 'loading' ? t('contact.form.submitting') : t('contact.form.submit')}
                 </button>
               </div>
             </div>

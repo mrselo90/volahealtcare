@@ -44,17 +44,20 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const {
       serviceId,
+      serviceTitle,
       rating,
       review,
       country,
       videoUrl,
       isApproved = false,
       isFeatured = false,
-      userId
+      userId,
+      userName,
+      userEmail
     } = body;
 
     // Validate required fields
-    if (!serviceId || !rating || !review || !country) {
+    if ((!serviceId && !serviceTitle) || !rating || !review || !country) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -69,28 +72,91 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if service exists
-    const service = await prisma.service.findUnique({
-      where: { id: serviceId }
-    });
+    let finalServiceId = serviceId;
+    let finalUserId = userId;
 
-    if (!service) {
-      return NextResponse.json(
-        { error: 'Service not found' },
-        { status: 404 }
-      );
+    // Handle service creation/finding
+    if (!serviceId && serviceTitle) {
+      // Try to find existing service by title
+      let service = await prisma.service.findFirst({
+        where: { title: serviceTitle }
+      });
+
+      // If not found, create new service
+      if (!service) {
+        // First, we need to find or create a category
+        let category = await prisma.category.findFirst({
+          where: { slug: 'general' }
+        });
+
+        if (!category) {
+          category = await prisma.category.create({
+            data: {
+              name: JSON.stringify({ en: 'General', tr: 'Genel' }),
+              slug: 'general',
+              orderIndex: 999
+            }
+          });
+        }
+
+        service = await prisma.service.create({
+          data: {
+            title: serviceTitle,
+            slug: serviceTitle.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+            description: `Service for ${serviceTitle}`,
+            price: 0,
+            categoryId: category.id,
+            operationTime: '1-2 hours'
+          }
+        });
+      }
+      finalServiceId = service.id;
+    }
+
+    // Handle user creation/finding
+    if (!userId && userName && userEmail) {
+      // Try to find existing user by email
+      let user = await prisma.user.findUnique({
+        where: { email: userEmail }
+      });
+
+      // If not found, create new user
+      if (!user) {
+        user = await prisma.user.create({
+          data: {
+            name: userName,
+            email: userEmail,
+            role: 'USER'
+          }
+        });
+      }
+      finalUserId = user.id;
+    }
+
+    // Check if service exists
+    if (finalServiceId) {
+      const service = await prisma.service.findUnique({
+        where: { id: finalServiceId }
+      });
+
+      if (!service) {
+        return NextResponse.json(
+          { error: 'Service not found' },
+          { status: 404 }
+        );
+      }
     }
 
     const testimonial = await prisma.testimonial.create({
       data: {
-        serviceId,
+        serviceId: finalServiceId,
         rating,
         review,
         country,
         videoUrl: videoUrl || null,
         isApproved,
         isFeatured,
-        userId: userId || null
+        userId: finalUserId || null
       },
       include: {
         service: {

@@ -545,7 +545,7 @@ export default function ConsultationPage() {
             },
             {
               icon: ClockIcon,
-              title: '30-60 Minutes',
+              title: '15 Minutes',
               description: 'Comprehensive evaluation and personalized treatment plan'
             },
             {

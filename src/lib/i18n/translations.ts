@@ -7,9 +7,11 @@ export interface Translations {
     about: string;
     whyChooseUs: string;
     results: string;
+    gallery: string;
     testimonials: string;
     contact: string;
     consultation: string;
+    menu: string;
   };
   common: {
     loading: string;
@@ -30,7 +32,6 @@ export interface Translations {
     learnMore: string;
     getStarted: string;
     bookNow: string;
-    callNow: string;
     messageNow: string;
     readMore: string;
     showLess: string;
@@ -54,12 +55,22 @@ export interface Translations {
     };
     packageDetails: {
       title: string;
+      subtitle: string;
       timeInTurkey: string;
+      timeInTurkeySubtitle: string;
       operationTime: string;
+      operationTimeSubtitle: string;
       hospitalStay: string;
+      hospitalStaySubtitle: string;
       recovery: string;
+      recoverySubtitle: string;
       accommodation: string;
+      accommodationSubtitle: string;
       transportation: string;
+      transportationSubtitle: string;
+      premiumPackageTitle: string;
+      premiumPackageDescription: string;
+      reserveJourney: string;
     };
   };
   results: {
@@ -195,6 +206,33 @@ export interface Translations {
     content: string;
   };
   contact: {
+    hero: {
+      title: string;
+      subtitle: string;
+      office: string;
+    };
+    form: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+      country: string;
+      countryPlaceholder: string;
+      message: string;
+      treatment: string;
+      submit: string;
+      submitting: string;
+    };
+    treatments: {
+      dental: string;
+      hair: string;
+      aesthetic: string;
+    };
+    messages: {
+      success: string;
+      error: string;
+      viewDetails: string;
+    };
     info: {
       phone: string;
       email: string;
@@ -219,9 +257,11 @@ export const translations: Record<Language, Translations> = {
       about: 'About',
       whyChooseUs: 'Why Choose Us?',
       results: 'Results',
+      gallery: 'Gallery',
       testimonials: 'Testimonials',
       contact: 'Contact',
       consultation: 'Free Consultation',
+      menu: 'Menu',
     },
     common: {
       loading: 'Loading...',
@@ -242,8 +282,7 @@ export const translations: Record<Language, Translations> = {
       learnMore: 'Learn More',
       getStarted: 'Get Started',
       bookNow: 'Book Now',
-      callNow: 'Call Now',
-      messageNow: 'Message Now',
+              messageNow: 'Message Now',
       readMore: 'Read More',
       showLess: 'Show Less',
       noResults: 'No results found',
@@ -264,15 +303,25 @@ export const translations: Record<Language, Translations> = {
         hair: 'Hair Transplant',
         aesthetic: 'Aesthetic Surgery',
       },
-      packageDetails: {
-        title: 'Treatment Package Details',
-        timeInTurkey: 'Time In Turkey',
-        operationTime: 'Operation Time',
-        hospitalStay: 'Hospital Stay',
-        recovery: 'Recovery Time',
-        accommodation: 'Accommodation',
-        transportation: 'Transportation',
-      },
+              packageDetails: {
+          title: 'Treatment Package Details',
+          subtitle: 'Everything you need to know about your premium medical tourism journey in Turkey',
+          timeInTurkey: 'Time In Turkey',
+          timeInTurkeySubtitle: 'Accommodation duration',
+          operationTime: 'Operation Time',
+          operationTimeSubtitle: 'Procedure duration',
+          hospitalStay: 'Hospital Stay',
+          hospitalStaySubtitle: 'Recovery period',
+          recovery: 'Recovery Time',
+          recoverySubtitle: 'Healing period',
+          accommodation: 'Accommodation',
+          accommodationSubtitle: 'Hotel accommodation',
+          transportation: 'Transportation',
+          transportationSubtitle: 'Transfer service',
+          premiumPackageTitle: 'All-Inclusive Premium Package',
+          premiumPackageDescription: 'Complete medical tourism experience with luxury accommodation',
+          reserveJourney: 'Reserve Your Journey',
+        },
     },
     results: {
       beforeAfter: {
@@ -407,6 +456,33 @@ export const translations: Record<Language, Translations> = {
       content: 'Choosing Vola Health means choosing a team that values your journey as much as you do.',
     },
     contact: {
+      hero: {
+        title: 'Contact Vola Health Istanbul',
+        subtitle: 'We\'re here to help you start your medical tourism journey. Contact us for a free consultation or to learn more about our services.',
+        office: 'Office',
+      },
+      form: {
+        firstName: 'First name',
+        lastName: 'Last name',
+        email: 'Email',
+        phone: 'Phone number',
+        country: 'Country',
+        countryPlaceholder: 'e.g. United States, Turkey, Germany',
+        message: 'Message',
+        treatment: 'Interested in',
+        submit: 'Send Message',
+        submitting: 'Sending...',
+      },
+      treatments: {
+        dental: 'Dental Treatments',
+        hair: 'Hair Transplant',
+        aesthetic: 'Plastic Surgery',
+      },
+      messages: {
+        success: 'Thank you! Your consultation request has been received. We\'ll contact you soon.',
+        error: 'Something went wrong. Please try again.',
+        viewDetails: 'View Details →',
+      },
       info: {
         phone: 'Phone',
         email: 'Email',
@@ -429,9 +505,11 @@ export const translations: Record<Language, Translations> = {
       about: 'Hakkımızda',
       whyChooseUs: 'Neden Bizi Seçmelisiniz?',
       results: 'Sonuçlar',
+      gallery: 'Galeri',
       testimonials: 'Hasta Yorumları',
       contact: 'İletişim',
       consultation: 'Ücretsiz Konsültasyon',
+      menu: 'Menü',
     },
     common: {
       loading: 'Yükleniyor...',
@@ -452,8 +530,7 @@ export const translations: Record<Language, Translations> = {
       learnMore: 'Daha Fazla Bilgi',
       getStarted: 'Başlayın',
       bookNow: 'Hemen Rezerve Et',
-      callNow: 'Hemen Ara',
-      messageNow: 'Mesaj Gönder',
+              messageNow: 'Mesaj Gönder',
       readMore: 'Devamını Oku',
       showLess: 'Daha Az Göster',
       noResults: 'Sonuç bulunamadı',
@@ -474,15 +551,25 @@ export const translations: Record<Language, Translations> = {
         hair: 'Saç Ekimi',
         aesthetic: 'Estetik Cerrahi',
       },
-      packageDetails: {
-        title: 'Tedavi Paketi Detayları',
-        timeInTurkey: 'Türkiye\'de Kalış Süresi',
-        operationTime: 'Operasyon Süresi',
-        hospitalStay: 'Hastane Kalışı',
-        recovery: 'İyileşme Süresi',
-        accommodation: 'Konaklama',
-        transportation: 'Ulaşım',
-      },
+              packageDetails: {
+          title: 'Tedavi Paketi Detayları',
+          subtitle: 'Türkiye\'deki premium medikal turizm yolculuğunuz hakkında bilmeniz gereken her şey',
+          timeInTurkey: 'Türkiye\'de Kalış Süresi',
+          timeInTurkeySubtitle: 'Konaklama süresi',
+          operationTime: 'Operasyon Süresi',
+          operationTimeSubtitle: 'İşlem süresi',
+          hospitalStay: 'Hastane Kalışı',
+          hospitalStaySubtitle: 'Yatış süresi',
+          recovery: 'İyileşme Süresi',
+          recoverySubtitle: 'Toparlanma dönemi',
+          accommodation: 'Konaklama',
+          accommodationSubtitle: 'Otel konaklaması',
+          transportation: 'Ulaşım',
+          transportationSubtitle: 'Transfer hizmeti',
+          premiumPackageTitle: 'Hepsi Dahil Premium Paket',
+          premiumPackageDescription: 'Lüks konaklama ile eksiksiz medikal turizm deneyimi',
+          reserveJourney: 'Yolculuğunuzu Rezerve Edin',
+        },
     },
     results: {
       beforeAfter: {
@@ -617,6 +704,33 @@ export const translations: Record<Language, Translations> = {
       content: 'Vola Health\'i seçmek, yolculuğunuza sizin kadar değer veren bir ekibi seçmek demektir.',
     },
     contact: {
+      hero: {
+        title: 'Vola Health İstanbul İletişim',
+        subtitle: 'Medikal turizm yolculuğunuza başlamanızda size yardımcı olmak için buradayız. Ücretsiz konsültasyon için veya hizmetlerimiz hakkında daha fazla bilgi almak için bizimle iletişime geçin.',
+        office: 'Ofis',
+      },
+      form: {
+        firstName: 'Ad',
+        lastName: 'Soyad',
+        email: 'E-posta',
+        phone: 'Telefon numarası',
+        country: 'Ülke',
+        countryPlaceholder: 'örn. Türkiye, Almanya, İngiltere',
+        message: 'Mesaj',
+        treatment: 'İlgilendiğiniz tedavi',
+        submit: 'Mesaj Gönder',
+        submitting: 'Gönderiliyor...',
+      },
+      treatments: {
+        dental: 'Diş Tedavileri',
+        hair: 'Saç Ekimi',
+        aesthetic: 'Plastik Cerrahi',
+      },
+      messages: {
+        success: 'Teşekkürler! Konsültasyon talebiniz alındı. En kısa sürede sizinle iletişime geçeceğiz.',
+        error: 'Bir şeyler yanlış gitti. Lütfen tekrar deneyin.',
+        viewDetails: 'Detayları Görüntüle →',
+      },
       info: {
         phone: 'Telefon',
         email: 'E-posta',

@@ -216,7 +216,7 @@ export default function ImageLightbox({
               className="absolute bottom-4 right-4 max-w-sm p-4 rounded-lg bg-black/50 text-white backdrop-blur-sm"
             >
               {currentImage.title && (
-                <h3 id="lightbox-title" className="font-semibold text-lg mb-1">
+                <h3 id="lightbox-title" className="font-serif font-bold text-lg mb-1">
                   {currentImage.title}
                 </h3>
               )}

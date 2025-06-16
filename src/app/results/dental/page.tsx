@@ -12,8 +12,8 @@ export default function DentalResultsPage() {
       title={t('results.dental.title') || 'Dental Treatment Results'}
       subtitle={t('results.dental.subtitle') || 'Results of Our Treatments That Transform Your Smile'}
       description={t('results.treatments.dental')}
-      gradientFrom="from-blue-500"
-      gradientTo="to-cyan-500"
+      gradientFrom="from-blue-600"
+              gradientTo="to-blue-700"
       treatments={[
         t('results.dental.treatments.smileDesign') || 'Smile Design',
         t('results.dental.treatments.dentalImplant') || 'Dental Implant',
