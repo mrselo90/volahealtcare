@@ -30,11 +30,22 @@ export default function Chatbot() {
   const [userPhone, setUserPhone] = useState('');
   const [userCountry, setUserCountry] = useState('');
   const [showContactForm, setShowContactForm] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  const [isSessionInitialized, setIsSessionInitialized] = useState(false);
 
   // Generate a session ID when the component mounts
   useEffect(() => {
     // Check if we already have a session ID in localStorage
-    const storedSessionId = localStorage.getItem('chatSessionId');
+    let storedSessionId = localStorage.getItem('chatSessionId');
+    const sessionExpiry = localStorage.getItem('chatSessionExpiry');
+    
+    // Check if session is expired (24 hours)
+    if (sessionExpiry && Date.now() > parseInt(sessionExpiry)) {
+      localStorage.removeItem('chatSessionId');
+      localStorage.removeItem('chatSessionExpiry');
+      storedSessionId = null;
+    }
+    
     if (storedSessionId) {
       setSessionId(storedSessionId);
     } else {
@@ -42,15 +53,22 @@ export default function Chatbot() {
       const newSessionId = uuidv4();
       setSessionId(newSessionId);
       localStorage.setItem('chatSessionId', newSessionId);
+      // Set expiry to 24 hours from now
+      localStorage.setItem('chatSessionExpiry', (Date.now() + 24 * 60 * 60 * 1000).toString());
     }
+    setIsSessionInitialized(true);
   }, []);
 
-  // Save initial bot message to database when session ID is available
+  // Save initial bot message to database only once per session
   useEffect(() => {
-    if (sessionId && messages.length === 1) {
-      saveMessageToDatabase(messages[0]);
+    if (sessionId && isSessionInitialized && !hasUserInteracted) {
+      const shouldSaveWelcome = localStorage.getItem(`chatWelcome_${sessionId}`);
+      if (!shouldSaveWelcome) {
+        saveMessageToDatabase(messages[0]);
+        localStorage.setItem(`chatWelcome_${sessionId}`, 'true');
+      }
     }
-  }, [sessionId, messages]);
+  }, [sessionId, isSessionInitialized]);
 
   // Prevent body scroll when chat is open on mobile
   useEffect(() => {
@@ -112,6 +130,11 @@ export default function Chatbot() {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
+    // Mark that user has interacted
+    if (!hasUserInteracted) {
+      setHasUserInteracted(true);
+    }
+
     // Add user message
     const userMessage: Message = {
       id: uuidv4(),
@@ -126,7 +149,7 @@ export default function Chatbot() {
     await saveMessageToDatabase(userMessage);
 
     // If this is the first user message, ask for contact info
-    if (!showContactForm && messages.length === 1) {
+    if (!showContactForm && !userName && !userEmail) {
       setTimeout(() => {
         const contactRequestMessage: Message = {
           id: uuidv4(),
@@ -135,11 +158,12 @@ export default function Chatbot() {
           timestamp: new Date(),
         };
         setMessages((prevMessages) => [...prevMessages, contactRequestMessage]);
+        // Only save contact request message to database (not standard responses)
         saveMessageToDatabase(contactRequestMessage);
         setShowContactForm(true);
       }, 1000);
-    } else {
-      // Standard bot response
+    } else if (userName && userEmail) {
+      // Only show standard response if contact info is already provided
       setTimeout(() => {
         const botMessage: Message = {
           id: uuidv4(),
@@ -148,7 +172,8 @@ export default function Chatbot() {
           timestamp: new Date(),
         };
         setMessages((prevMessages) => [...prevMessages, botMessage]);
-        saveMessageToDatabase(botMessage);
+        // Don't save standard bot responses to reduce database clutter
+        // saveMessageToDatabase(botMessage);
       }, 1000);
     }
   };
@@ -177,7 +202,7 @@ Country: ${userCountry}`,
     saveMessageToDatabase(contactInfoMessage);
     setShowContactForm(false);
     
-    // Bot response after contact info submission
+    // Bot response after contact info submission (shown but not saved to reduce clutter)
     setTimeout(() => {
       const botMessage: Message = {
         id: uuidv4(),
@@ -186,7 +211,8 @@ Country: ${userCountry}`,
         timestamp: new Date(),
       };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
-      saveMessageToDatabase(botMessage);
+      // Don't save standard bot responses to reduce database clutter
+      // saveMessageToDatabase(botMessage);
     }, 1000);
   };
 

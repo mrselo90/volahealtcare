@@ -23,6 +23,7 @@ export default function ChatMessagesPage() {
   const [error, setError] = useState('');
   const [replyContent, setReplyContent] = useState('');
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
+  const [cleanupLoading, setCleanupLoading] = useState(false);
 
   useEffect(() => {
     fetchMessages();
@@ -68,6 +69,37 @@ export default function ChatMessagesPage() {
     }
   };
 
+  const cleanupMessages = async (type: string, sessionId?: string) => {
+    if (!confirm('Are you sure you want to delete these messages? This action cannot be undone.')) {
+      return;
+    }
+
+    setCleanupLoading(true);
+    try {
+      const url = new URL('/api/admin/messages', window.location.origin);
+      url.searchParams.append('type', type);
+      if (sessionId) {
+        url.searchParams.append('sessionId', sessionId);
+      }
+
+      const response = await fetch(url.toString(), {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) throw new Error('Failed to cleanup messages');
+      
+      const result = await response.json();
+      alert(result.message);
+      await fetchMessages(); // Refresh the list
+      setSelectedSessionId(null);
+    } catch (err) {
+      setError('Failed to cleanup messages');
+      console.error(err);
+    } finally {
+      setCleanupLoading(false);
+    }
+  };
+
   // Group messages by sessionId
   const groupedMessages = messages.reduce((acc, message) => {
     const sessionId = message.sessionId;
@@ -98,6 +130,22 @@ export default function ChatMessagesPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Chat Messages</h1>
+        <div className="flex gap-2">
+          <button
+            onClick={() => cleanupMessages('bot-messages')}
+            disabled={cleanupLoading}
+            className="rounded-md bg-yellow-600 px-3 py-2 text-sm font-medium text-white hover:bg-yellow-700 disabled:opacity-50"
+          >
+            {cleanupLoading ? 'Cleaning...' : 'Clean Bot Messages'}
+          </button>
+          <button
+            onClick={() => cleanupMessages('old-messages')}
+            disabled={cleanupLoading}
+            className="rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
+          >
+            {cleanupLoading ? 'Cleaning...' : 'Clean Old Messages (30+ days)'}
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-12 gap-6">
@@ -138,7 +186,17 @@ export default function ChatMessagesPage() {
         <div className="col-span-8 rounded-lg border bg-white">
           {selectedSessionId ? (
             <>
-              <div className="h-[calc(100vh-300px)] overflow-y-auto p-4">
+              <div className="border-b p-4 flex justify-between items-center">
+                <h3 className="font-medium">Session: {selectedSessionId.slice(0, 8)}...</h3>
+                <button
+                  onClick={() => cleanupMessages('session', selectedSessionId)}
+                  disabled={cleanupLoading}
+                  className="rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
+                >
+                  {cleanupLoading ? 'Deleting...' : 'Delete This Session'}
+                </button>
+              </div>
+              <div className="h-[calc(100vh-350px)] overflow-y-auto p-4">
                 {groupedMessages[selectedSessionId]?.map((message) => (
                   <div
                     key={message.id}
