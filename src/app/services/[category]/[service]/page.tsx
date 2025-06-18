@@ -765,14 +765,7 @@ export default function ServicePage({ params }: ServicePageProps) {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="max-w-5xl"
             >
-              {/* Breadcrumb - Simplified */}
-              <nav className="text-blue-200 mb-3 sm:mb-4 lg:mb-6 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 bg-black/20 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full w-fit max-w-[90%]">
-                <Link href="/" className="hover:text-white transition-colors">Home</Link>
-                <ChevronRightIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <Link href="/services" className="hover:text-white transition-colors hidden sm:inline">Services</Link>
-                <ChevronRightIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 hidden sm:block" />
-                <span className="text-white font-medium truncate max-w-[180px] sm:max-w-none">{serviceTitle}</span>
-              </nav>
+
           
 
 
