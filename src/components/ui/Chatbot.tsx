@@ -32,6 +32,9 @@ export default function Chatbot() {
   const [showContactForm, setShowContactForm] = useState(false);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const [isSessionInitialized, setIsSessionInitialized] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   // Generate a session ID when the component mounts
   useEffect(() => {
@@ -223,6 +226,35 @@ Country: ${userCountry}`,
     }, 1000);
   };
 
+  // Touch handlers for pull-to-close functionality
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientY);
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientY);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) {
+      setIsDragging(false);
+      return;
+    }
+    
+    const distance = touchStart - touchEnd;
+    const isDownSwipe = distance < -50; // At least 50px down swipe
+    
+    if (isDownSwipe) {
+      setIsOpen(false);
+    }
+    
+    setIsDragging(false);
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
   return (
     <>
       {/* Chat button - Mobile optimized */}
@@ -292,8 +324,35 @@ Country: ${userCountry}`,
                          xl:w-[580px] xl:max-h-[800px]"
             >
               {/* Mobile pull indicator */}
-              <div className="md:hidden bg-gradient-to-r from-indigo-600 to-purple-600 rounded-t-2xl flex justify-center py-2">
-                <div className="w-12 h-1.5 bg-white/40 rounded-full"></div>
+              <div 
+                className={`md:hidden bg-gradient-to-r from-indigo-600 to-purple-600 rounded-t-2xl flex justify-center py-3 cursor-pointer transition-all duration-200 touch-manipulation ${
+                  isDragging ? 'bg-indigo-700 scale-105' : 'active:bg-indigo-700'
+                }`}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                onClick={() => setIsOpen(false)}
+              >
+                <div className="flex flex-col items-center gap-1">
+                  <motion.div 
+                    className="w-16 h-2 bg-white/60 rounded-full"
+                    animate={{ 
+                      scaleX: isDragging ? 1.2 : 1,
+                      opacity: isDragging ? 0.8 : 0.6 
+                    }}
+                    transition={{ duration: 0.2 }}
+                  />
+                  <motion.div 
+                    className="text-white/70 text-xs font-medium"
+                    animate={{ 
+                      scale: isDragging ? 0.95 : 1,
+                      opacity: isDragging ? 1 : 0.7 
+                    }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {isDragging ? 'Release to close' : 'Pull down to close'}
+                  </motion.div>
+                </div>
               </div>
               
               {/* Header - Mobile optimized */}
