@@ -218,7 +218,7 @@ const BookingModal = ({ isOpen, onClose, service }: {
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative cursor-default"
+          className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative cursor-default"
           onClick={e => e.stopPropagation()}
         >
           {/* Enhanced Close Button - Top Right Corner */}
@@ -230,12 +230,12 @@ const BookingModal = ({ isOpen, onClose, service }: {
             <XMarkIcon className="h-6 w-6 text-gray-500 group-hover:text-gray-700" />
           </button>
           
-          <div className="p-8">
+          <div className="p-4 sm:p-6 lg:p-8">
             {/* Header */}
-            <div className="mb-8 pr-16">
+            <div className="mb-6 sm:mb-8 pr-12 sm:pr-16">
               <div>
-                <h2 className="text-3xl font-bold text-gray-900">Book an Appointment</h2>
-                <p className="text-gray-600 mt-2">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Book an Appointment</h2>
+                <p className="text-gray-600 mt-2 text-sm sm:text-base">
                   Schedule your consultation for <span className="font-semibold text-blue-600">{service?.title}</span>
                 </p>
               </div>
@@ -276,8 +276,8 @@ const BookingModal = ({ isOpen, onClose, service }: {
             )}
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                     Full Name
@@ -289,7 +289,7 @@ const BookingModal = ({ isOpen, onClose, service }: {
                     required
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -435,18 +435,18 @@ const BookingModal = ({ isOpen, onClose, service }: {
               </div>
 
               {/* Form Actions */}
-              <div className="pt-6 flex flex-col sm:flex-row gap-4">
+              <div className="pt-4 sm:pt-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 bg-gray-100 text-gray-700 py-4 px-6 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+                  className="flex-1 bg-gray-100 text-gray-700 py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl font-semibold hover:bg-gray-200 transition-colors text-sm sm:text-base"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 bg-blue-600 text-white py-4 px-6 rounded-xl font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="flex-1 bg-blue-600 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   {isSubmitting ? (
                     <>
@@ -461,15 +461,15 @@ const BookingModal = ({ isOpen, onClose, service }: {
             </form>
 
             {/* Contact Info */}
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <div className="text-center text-sm text-gray-600">
+            <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200">
+              <div className="text-center text-xs sm:text-sm text-gray-600">
                 <p className="mb-2">Or contact us directly:</p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href="tel:+1555123456" className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
-                    <PhoneIcon className="h-4 w-4" />
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center">
+                  <a href="tel:+1555123456" className="flex items-center justify-center gap-2 text-blue-600 hover:text-blue-700">
+                    <PhoneIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                     +1 (555) 123-4567
                   </a>
-                  <a href="mailto:info@example.com" className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
+                  <a href="mailto:info@example.com" className="flex items-center justify-center gap-2 text-blue-600 hover:text-blue-700">
                     📧 info@example.com
                   </a>
                 </div>
@@ -741,7 +741,7 @@ export default function ServicePage({ params }: ServicePageProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative h-[50vh] overflow-hidden"
+        className="relative h-[40vh] sm:h-[50vh] overflow-hidden"
       >
         {/* Background with Parallax Effect */}
         <motion.div 
@@ -758,7 +758,7 @@ export default function ServicePage({ params }: ServicePageProps) {
 
         {/* Enhanced Hero Content */}
         <div className="absolute inset-0 flex items-center">
-          <div className="max-w-7xl mx-auto px-4 w-full">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -766,12 +766,12 @@ export default function ServicePage({ params }: ServicePageProps) {
               className="max-w-5xl"
             >
               {/* Breadcrumb - Simplified */}
-              <nav className="text-blue-200 mb-6 text-sm flex items-center gap-2 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full w-fit">
+              <nav className="text-blue-200 mb-4 sm:mb-6 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 bg-black/20 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full w-fit">
                 <Link href="/" className="hover:text-white transition-colors">Home</Link>
-                <ChevronRightIcon className="h-4 w-4" />
+                <ChevronRightIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                 <Link href="/services" className="hover:text-white transition-colors">Services</Link>
-                <ChevronRightIcon className="h-4 w-4" />
-                <span className="text-white font-medium">{serviceTitle}</span>
+                <ChevronRightIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="text-white font-medium truncate max-w-[120px] sm:max-w-none">{serviceTitle}</span>
               </nav>
           
 
@@ -781,7 +781,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
-                className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-8"
+                className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold leading-tight mb-4 sm:mb-6 lg:mb-8"
               >
                 <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
                   {serviceTitle}
@@ -793,9 +793,9 @@ export default function ServicePage({ params }: ServicePageProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 }}
-                className="text-xl md:text-2xl text-blue-100 max-w-4xl mb-10 text-professional-light"
+                className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-blue-100 max-w-4xl mb-6 sm:mb-8 lg:mb-10 text-professional-light"
               >
-                {serviceDescription?.substring(0, 200)}...
+                {serviceDescription?.substring(0, 150)}...
               </motion.p>
 
               {/* CTA Section - Contact Only */}
@@ -807,10 +807,10 @@ export default function ServicePage({ params }: ServicePageProps) {
               >
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center px-8 py-4 text-lg text-professional-bold text-blue-600 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
+                  className="inline-flex items-center justify-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 text-sm sm:text-base lg:text-lg text-professional-bold text-blue-600 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
                 >
                   Contact Us
-                  <ChatBubbleLeftIcon className="w-5 h-5 ml-2" />
+                  <ChatBubbleLeftIcon className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
                 </Link>
               </motion.div>
             </motion.div>
@@ -818,14 +818,14 @@ export default function ServicePage({ params }: ServicePageProps) {
         </div>
 
         {/* Scroll Indicator - Functional */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/80">
+        <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 text-white/80">
           <button
             onClick={() => scrollToSection('overview')}
-            className="flex flex-col items-center gap-2 hover:text-white transition-colors duration-300 group cursor-pointer"
+            className="flex flex-col items-center gap-1 sm:gap-2 hover:text-white transition-colors duration-300 group cursor-pointer"
             aria-label="Scroll to content"
           >
-            <ChevronDownIcon className="h-6 w-6 animate-bounce group-hover:animate-pulse" />
-            <span className="text-xs opacity-70 group-hover:opacity-100 transition-opacity">
+            <ChevronDownIcon className="h-5 w-5 sm:h-6 sm:w-6 animate-bounce group-hover:animate-pulse" />
+            <span className="text-xs opacity-70 group-hover:opacity-100 transition-opacity hidden sm:block">
               Scroll Down
             </span>
           </button>
@@ -835,10 +835,10 @@ export default function ServicePage({ params }: ServicePageProps) {
 
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid lg:grid-cols-3 gap-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {/* Main Content Column */}
-          <div className="lg:col-span-2 space-y-16">
+          <div className="lg:col-span-2 space-y-8 sm:space-y-12 lg:space-y-16">
             
         {/* Enhanced Overview Section */}
             <motion.section
@@ -849,24 +849,24 @@ export default function ServicePage({ params }: ServicePageProps) {
               transition={{ duration: 0.6 }}
               className="scroll-mt-24"
             >
-              <div className="bg-gradient-to-br from-white to-blue-50/30 rounded-3xl shadow-2xl p-8 md:p-12 border border-blue-100/50 backdrop-blur-sm">
-                <div className="flex items-center gap-4 mb-10">
-                  <div className="p-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg">
-                    <InformationCircleIcon className="h-8 w-8 text-white" />
+              <div className="bg-gradient-to-br from-white to-blue-50/30 rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 lg:p-12 border border-blue-100/50 backdrop-blur-sm">
+                <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-10">
+                  <div className="p-3 sm:p-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl sm:rounded-2xl shadow-lg">
+                    <InformationCircleIcon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-4xl font-serif font-bold bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">About This Treatment</h2>
-                    <p className="text-professional text-lg">Comprehensive information about your procedure</p>
+                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-bold bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">About This Treatment</h2>
+                    <p className="text-professional text-sm sm:text-base lg:text-lg">Comprehensive information about your procedure</p>
                   </div>
                 </div>
 
-                <div className="prose prose-lg max-w-none text-gray-700 mb-12">
+                <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-gray-700 mb-6 sm:mb-8 lg:mb-12">
                   <ReactMarkdown>{serviceDescription}</ReactMarkdown>
                   </div>
 
                 {/* Premium Package Details Section */}
                 {(data.timeInTurkey || data.operationTime || data.hospitalStay || data.recovery || data.accommodation || data.transportation) && (
-                  <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 rounded-3xl p-8 md:p-12 mb-12 shadow-2xl border border-white/10">
+                  <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 mb-6 sm:mb-8 lg:mb-12 shadow-2xl border border-white/10">
                     {/* Background Pattern */}
                     <div className="absolute inset-0 opacity-10">
                       <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full blur-3xl"></div>
@@ -874,22 +874,22 @@ export default function ServicePage({ params }: ServicePageProps) {
                     </div>
 
                     {/* Header */}
-                    <div className="relative z-10 text-center mb-12">
+                    <div className="relative z-10 text-center mb-6 sm:mb-8 lg:mb-12">
                       <motion.div 
                         initial={{ opacity: 0, scale: 0.8 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-700 rounded-3xl mb-6 shadow-2xl"
-                      >
-                        <InformationCircleIcon className="h-10 w-10 text-white" />
-                      </motion.div>
+                        className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-700 rounded-2xl sm:rounded-3xl mb-4 sm:mb-6 shadow-2xl"
+                                              >
+                          <InformationCircleIcon className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-white" />
+                        </motion.div>
                       <motion.h3 
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="text-4xl md:text-5xl font-serif font-bold text-white mb-4"
+                        className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-serif font-bold text-white mb-3 sm:mb-4"
                       >
                         {t('services.packageDetails.title')}
                       </motion.h3>
@@ -1180,7 +1180,7 @@ export default function ServicePage({ params }: ServicePageProps) {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="sticky top-32 space-y-8">
+            <div className="lg:sticky lg:top-32 space-y-4 sm:space-y-6 lg:space-y-8">
               
               {/* Quick Booking Card */}
               <motion.div
@@ -1188,14 +1188,14 @@ export default function ServicePage({ params }: ServicePageProps) {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 id="booking"
-                className="bg-gradient-to-br from-blue-600 to-purple-700 rounded-3xl p-8 text-white shadow-2xl"
+                className="bg-gradient-to-br from-blue-600 to-purple-700 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 text-white shadow-2xl"
               >
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold mb-2">Book Your Consultation</h3>
-                  <p className="text-blue-100">Free consultation with our experts</p>
+                <div className="text-center mb-4 sm:mb-6">
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2">Book Your Consultation</h3>
+                  <p className="text-blue-100 text-sm sm:text-base">Free consultation with our experts</p>
             </div>
             
-                <div className="space-y-4 mb-6">
+                <div className="space-y-4 mb-4 sm:mb-6">
                   {/* Package Details */}
                   {/* Package Details block removed as requested */}
                 </div>
@@ -1203,15 +1203,15 @@ export default function ServicePage({ params }: ServicePageProps) {
                 <div className="space-y-3">
                   <button 
                     onClick={() => setShowBookingModal(true)}
-                    className="w-full bg-white text-blue-700 hover:bg-blue-50 py-4 rounded-2xl font-bold text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                    className="w-full bg-white text-blue-700 hover:bg-blue-50 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base lg:text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                   >
-                    <CalendarIcon className="h-6 w-6" />
-                    Book Free Consultation
+                    <CalendarIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                    <span className="truncate">Book Free Consultation</span>
                   </button>
                   
-                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="w-full border-2 border-white/30 text-white hover:bg-white/10 py-3 rounded-2xl font-semibold transition-all flex items-center justify-center gap-2">
-                    <PhoneIcon className="h-5 w-5" />
-                    Message Now: {settings.contactPhone}
+                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="w-full border-2 border-white/30 text-white hover:bg-white/10 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all flex items-center justify-center gap-2">
+                    <PhoneIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                    <span className="truncate">Message Now</span>
                   </a>
                       </div>
 
@@ -1234,48 +1234,48 @@ export default function ServicePage({ params }: ServicePageProps) {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
+                className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-100"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Why Choose Us</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">Why Choose Us</h3>
                 
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center">
-                      <UserGroupIcon className="h-6 w-6 text-blue-600" />
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                      <UserGroupIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                       </div>
                     <div>
-                      <div className="text-2xl font-bold text-gray-900">4500+</div>
-                      <div className="text-gray-600 text-sm">Happy Clients</div>
+                      <div className="text-xl sm:text-2xl font-bold text-gray-900">4500+</div>
+                      <div className="text-gray-600 text-xs sm:text-sm">Happy Clients</div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center">
-                      <StarIconSolid className="h-6 w-6 text-green-600" />
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                      <StarIconSolid className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-gray-900">4.9/5</div>
-                      <div className="text-gray-600 text-sm">Average Rating</div>
+                      <div className="text-xl sm:text-2xl font-bold text-gray-900">4.9/5</div>
+                      <div className="text-gray-600 text-xs sm:text-sm">Average Rating</div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center">
-                      <ShieldCheckIcon className="h-6 w-6 text-purple-600" />
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                      <ShieldCheckIcon className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600" />
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-gray-900">15+</div>
-                      <div className="text-gray-600 text-sm">Years Experience</div>
+                      <div className="text-xl sm:text-2xl font-bold text-gray-900">15+</div>
+                      <div className="text-gray-600 text-xs sm:text-sm">Years Experience</div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center">
-                      <SparklesIcon className="h-6 w-6 text-orange-600" />
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                      <SparklesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600" />
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-gray-900">98%</div>
-                      <div className="text-gray-600 text-sm">Success Rate</div>
+                      <div className="text-xl sm:text-2xl font-bold text-gray-900">98%</div>
+                      <div className="text-gray-600 text-xs sm:text-sm">Success Rate</div>
                     </div>
                   </div>
                 </div>
@@ -1286,9 +1286,9 @@ export default function ServicePage({ params }: ServicePageProps) {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
+                className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-100"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Patient Reviews</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">Patient Reviews</h3>
                 
                 <div className="relative">
                   <AnimatePresence mode="wait">
@@ -1366,9 +1366,9 @@ export default function ServicePage({ params }: ServicePageProps) {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
+                className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-100"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Related Services</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">Related Services</h3>
                 
                 <div className="space-y-4">
                   {['Teeth Whitening', 'Dental Veneers', 'Smile Makeover'].map((service, index) => (
@@ -1431,10 +1431,10 @@ export default function ServicePage({ params }: ServicePageProps) {
               {/* Close Button */}
               <button
                 onClick={closeLightbox}
-                className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 rounded-full p-3 text-white hover:text-gray-300 transition-all backdrop-blur-sm hover:scale-105"
+                className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-black/50 hover:bg-black/70 rounded-full p-2 sm:p-3 text-white hover:text-gray-300 transition-all backdrop-blur-sm hover:scale-105"
                 aria-label="Close lightbox"
               >
-                <XMarkIcon className="w-6 h-6" />
+                <XMarkIcon className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
               
               {/* Image Navigation */}
@@ -1451,9 +1451,9 @@ export default function ServicePage({ params }: ServicePageProps) {
                         prevIndex
                       );
                     }}
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 rounded-full p-3 text-white transition-all backdrop-blur-sm hover:scale-105"
+                    className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 rounded-full p-2 sm:p-3 text-white transition-all backdrop-blur-sm hover:scale-105"
                   >
-                    <ChevronLeftIcon className="w-6 h-6" />
+                    <ChevronLeftIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                   </button>
 
                   <button
@@ -1467,9 +1467,9 @@ export default function ServicePage({ params }: ServicePageProps) {
                         nextIndex
                       );
                     }}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 rounded-full p-3 text-white transition-all backdrop-blur-sm hover:scale-105"
+                    className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 rounded-full p-2 sm:p-3 text-white transition-all backdrop-blur-sm hover:scale-105"
                   >
-                    <ChevronRightIcon className="w-6 h-6" />
+                    <ChevronRightIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                   </button>
 
                   {/* Image Counter */}
@@ -1478,7 +1478,7 @@ export default function ServicePage({ params }: ServicePageProps) {
           </div>
 
                   {/* Thumbnail Navigation */}
-                  <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 max-w-md mx-auto">
+                  <div className="absolute bottom-4 left-0 right-0 justify-center space-x-1 sm:space-x-2 max-w-md mx-auto hidden sm:flex">
                     {allImages.slice(Math.max(0, currentImageIndex - 2), currentImageIndex + 3).map((image, index) => {
                       const actualIndex = Math.max(0, currentImageIndex - 2) + index;
               return (
@@ -1493,7 +1493,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                               actualIndex
                             );
                           }}
-                          className={`w-12 h-12 rounded-lg overflow-hidden transition-all ${
+                          className={`w-8 h-8 sm:w-12 sm:h-12 rounded-lg overflow-hidden transition-all ${
                             actualIndex === currentImageIndex 
                               ? 'ring-2 ring-white scale-110' 
                               : 'opacity-70 hover:opacity-100'
