@@ -410,8 +410,8 @@ export default function HeroSlider() {
         <ChevronRightIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 flex gap-2">
+      {/* Slide Indicators - Hidden on mobile */}
+      <div className="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 gap-2 hidden sm:flex">
         {slides.map((_, index) => (
           <button
             key={index}
