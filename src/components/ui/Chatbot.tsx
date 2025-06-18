@@ -54,16 +54,33 @@ export default function Chatbot() {
 
   // Prevent body scroll when chat is open on mobile
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && window.innerWidth < 768) {
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
     } else {
       document.body.style.overflow = 'unset';
+      document.body.style.position = 'unset';
+      document.body.style.width = 'unset';
     }
     
     return () => {
       document.body.style.overflow = 'unset';
+      document.body.style.position = 'unset';
+      document.body.style.width = 'unset';
     };
   }, [isOpen]);
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    const messagesContainer = document.querySelector('.messages-container');
+    if (messagesContainer) {
+      messagesContainer.scrollTo({
+        top: messagesContainer.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [messages]);
 
   const saveMessageToDatabase = async (message: Message) => {
     try {
@@ -219,17 +236,33 @@ Country: ${userCountry}`,
             />
             
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
+              initial={{ 
+                opacity: 0, 
+                y: window.innerWidth < 768 ? 100 : 20,
+                scale: window.innerWidth < 768 ? 0.95 : 1 
+              }}
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                scale: 1 
+              }}
+              exit={{ 
+                opacity: 0, 
+                y: window.innerWidth < 768 ? 100 : 20,
+                scale: window.innerWidth < 768 ? 0.95 : 1 
+              }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               className="fixed z-40 bg-white shadow-2xl 
-                         bottom-0 left-0 right-0 rounded-t-2xl max-h-[85vh] 
+                         bottom-0 left-0 right-0 rounded-t-2xl max-h-[90vh] flex flex-col
                          md:bottom-24 md:right-4 md:left-auto md:w-96 md:max-h-[600px] md:rounded-lg md:max-w-sm
                          lg:right-6 lg:w-[400px] lg:max-w-md"
             >
               {/* Header - Mobile optimized */}
-              <div className="flex items-center justify-between border-b bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-3 sm:p-4 rounded-t-2xl md:rounded-t-lg">
-                <h3 className="text-base sm:text-lg font-semibold truncate">{t('chatbot.title') || 'Vola Health Istanbul Chat'}</h3>
+              <div className="flex items-center justify-between border-b bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-3 sm:p-4 rounded-t-2xl md:rounded-t-lg flex-shrink-0">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <h3 className="text-base sm:text-lg font-semibold truncate">{t('chatbot.title') || 'Vola Health Chat'}</h3>
+                </div>
                 <button
                   onClick={() => setIsOpen(false)}
                   className="text-white/80 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-lg min-w-[44px] min-h-[44px] flex items-center justify-center"
@@ -252,123 +285,177 @@ Country: ${userCountry}`,
               </div>
 
               {/* Messages container - Mobile responsive height */}
-              <div className="overflow-y-auto p-3 sm:p-4 mobile-scroll" 
-                   style={{ 
-                     height: 'calc(60vh - 120px)', 
-                     maxHeight: window.innerWidth < 768 ? 'calc(85vh - 180px)' : '400px' 
-                   }}>
-                {messages.map((message) => (
-                  <div
+              <div className="flex-1 overflow-y-auto p-3 sm:p-4 mobile-scroll min-h-0 messages-container" style={{ scrollBehavior: 'smooth', WebkitOverflowScrolling: 'touch' }}>
+                {messages.map((message, index) => (
+                  <motion.div
                     key={message.id}
+                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
                     className={`mb-3 sm:mb-4 flex ${
                       message.sender === 'user' ? 'justify-end' : 'justify-start'
                     }`}
                   >
-                    <div
-                      className={`rounded-lg px-3 py-2 sm:px-4 sm:py-2 max-w-[85%] sm:max-w-[80%] ${
-                        message.sender === 'user'
-                          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white'
-                          : 'bg-gray-100 text-gray-900'
-                      }`}
-                    >
-                      <div className="whitespace-pre-wrap text-sm sm:text-base break-words">{message.text}</div>
-                      <div className="mt-1 text-xs opacity-70">
-                        {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    <div className={`flex items-start gap-2 max-w-[85%] sm:max-w-[80%] ${
+                      message.sender === 'user' ? 'flex-row-reverse' : 'flex-row'
+                    }`}>
+                      {/* Avatar */}
+                      <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold ${
+                        message.sender === 'user' 
+                          ? 'bg-indigo-600 text-white' 
+                          : 'bg-gray-300 text-gray-700'
+                      }`}>
+                        {message.sender === 'user' ? 'U' : 'V'}
+                      </div>
+                      
+                      {/* Message bubble */}
+                      <div
+                        className={`rounded-2xl px-3 py-2 sm:px-4 sm:py-3 ${
+                          message.sender === 'user'
+                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-br-md'
+                            : 'bg-gray-100 text-gray-900 rounded-bl-md'
+                        }`}
+                      >
+                        <div className="whitespace-pre-wrap text-sm sm:text-base break-words leading-relaxed">{message.text}</div>
+                        <div className={`mt-1 text-xs ${
+                          message.sender === 'user' ? 'text-white/70' : 'text-gray-500'
+                        }`}>
+                          {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
+                
+                {/* Typing indicator placeholder */}
+                <div className="h-4"></div>
               </div>
 
               {/* Contact form - Mobile responsive */}
               {showContactForm ? (
-                <form onSubmit={handleContactSubmit} className="border-t p-3 sm:p-4 bg-gray-50">
-                  <div className="mb-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <motion.form 
+                  onSubmit={handleContactSubmit} 
+                  className="border-t p-3 sm:p-4 bg-gray-50 flex-shrink-0"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="mb-2 text-center">
+                    <p className="text-xs sm:text-sm text-gray-600 font-medium">Please provide your contact information</p>
+                  </div>
+                  <div className="mb-3 grid grid-cols-1 gap-3">
                     <div>
-                      <label htmlFor="name" className="mb-1 block text-xs sm:text-sm font-medium">
-                        Name
+                      <label htmlFor="name" className="mb-1 block text-xs sm:text-sm font-medium text-gray-700">
+                        Full Name *
                       </label>
                       <input
                         type="text"
                         id="name"
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px]"
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px] transition-all"
+                        placeholder="Enter your full name"
                         required
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="mb-1 block text-xs sm:text-sm font-medium">
-                        Email
+                      <label htmlFor="email" className="mb-1 block text-xs sm:text-sm font-medium text-gray-700">
+                        Email Address *
                       </label>
                       <input
                         type="email"
                         id="email"
                         value={userEmail}
                         onChange={(e) => setUserEmail(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px]"
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px] transition-all"
+                        placeholder="your@email.com"
                         required
                       />
                     </div>
                   </div>
-                  <div className="mb-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="phone" className="mb-1 block text-xs sm:text-sm font-medium">
-                        Phone
+                      <label htmlFor="phone" className="mb-1 block text-xs sm:text-sm font-medium text-gray-700">
+                        Phone Number *
                       </label>
                       <input
                         type="tel"
                         id="phone"
                         value={userPhone}
                         onChange={(e) => setUserPhone(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px]"
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px] transition-all"
+                        placeholder="+1 234 567 8900"
                         required
                       />
                     </div>
                     <div>
-                      <label htmlFor="country" className="mb-1 block text-xs sm:text-sm font-medium">
-                        Country
+                      <label htmlFor="country" className="mb-1 block text-xs sm:text-sm font-medium text-gray-700">
+                        Country *
                       </label>
                       <input
                         type="text"
                         id="country"
                         value={userCountry}
                         onChange={(e) => setUserCountry(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px]"
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px] transition-all"
+                        placeholder="Your country"
                         required
                       />
                     </div>
                   </div>
                   <button
                     type="submit"
-                    className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 px-4 py-3 text-white transition-all duration-300 transform hover:scale-[1.02] min-h-[44px] font-medium"
+                    className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 px-4 py-3 text-white transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] min-h-[44px] font-medium shadow-lg hover:shadow-xl"
                   >
-                    Submit Contact Information
+                    ✓ Submit Contact Information
                   </button>
-                </form>
-              ) : (
-                /* Message input - Mobile responsive */
-                <form onSubmit={handleSubmit} className="border-t p-3 sm:p-4">
-                  <div className="flex gap-2 sm:gap-3">
-                    <input
-                      type="text"
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      placeholder="Type your message..."
-                      className="flex-1 rounded-lg border border-gray-300 px-3 py-2 sm:px-4 sm:py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-sm sm:text-base min-h-[44px]"
-                    />
-                    <button
-                      type="submit"
-                      className="rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 px-3 py-2 sm:px-4 sm:py-2 text-white transition-all duration-300 transform hover:scale-105 min-h-[44px] min-w-[60px] flex items-center justify-center"
-                      aria-label="Send message"
-                    >
-                      <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                      </svg>
-                    </button>
-                  </div>
-                </form>
-              )}
+                </motion.form>
+                              ) : (
+                  /* Message input - Mobile responsive */
+                  <form onSubmit={handleSubmit} className="border-t p-3 sm:p-4 bg-white flex-shrink-0">
+                    <div className="flex gap-2 sm:gap-3 items-end">
+                      <div className="flex-1">
+                        <input
+                          type="text"
+                          value={inputValue}
+                          onChange={(e) => setInputValue(e.target.value)}
+                          placeholder="Type your message..."
+                          className="w-full rounded-2xl border border-gray-300 px-4 py-3 sm:px-4 sm:py-3 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-sm sm:text-base min-h-[44px] transition-all resize-none"
+                          autoComplete="off"
+                          autoFocus={false}
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={!inputValue.trim()}
+                        className={`rounded-full px-3 py-3 sm:px-4 sm:py-3 text-white transition-all duration-300 transform min-h-[44px] min-w-[44px] flex items-center justify-center shadow-lg ${
+                          inputValue.trim()
+                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 hover:scale-105 active:scale-95 hover:shadow-xl'
+                            : 'bg-gray-300 cursor-not-allowed'
+                        }`}
+                        aria-label="Send message"
+                      >
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                      </button>
+                    </div>
+                    
+                    {/* Quick action buttons */}
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {['Dental Services', 'Hair Transplant', 'Plastic Surgery', 'Pricing Info'].map((quickAction) => (
+                        <button
+                          key={quickAction}
+                          type="button"
+                          onClick={() => setInputValue(quickAction)}
+                          className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-indigo-50 hover:text-indigo-600 text-gray-600 rounded-full transition-all duration-200 border border-gray-200 hover:border-indigo-200"
+                        >
+                          {quickAction}
+                        </button>
+                      ))}
+                    </div>
+                  </form>
+                )}
             </motion.div>
           </>
         )}
