@@ -466,41 +466,49 @@ export default function ServicesPage() {
         </motion.div>
 
         {/* Results Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div className="flex-1">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
               {searchTerm || selectedCategory 
                 ? `${t('services.searchResults') || 'Search Results'}${filteredTotal > 0 ? ` (${filteredTotal})` : ''}`
                 : t('services.allServices') || 'All Services'
               }
             </h2>
-            <p className="text-gray-600 mt-1">
+            <p className="text-gray-600 mt-1 text-sm sm:text-base">
               {searchTerm && `${t('services.resultsFor') || 'Results for'} "${searchTerm}"`}
               {selectedCategory && ` ${t('services.inCategory') || 'in'} ${getCategoryName(categories.find((c: any) => c.slug === selectedCategory))}`}
             </p>
           </div>
           
-          {/* View Toggle */}
-          <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-lg">
+          {/* View Toggle - Mobile Optimized */}
+          <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-xl shadow-sm">
             <button 
               onClick={() => setViewMode('grid')}
-              className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center justify-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 min-w-[80px] min-h-[44px] ${
                 viewMode === 'grid' 
-                  ? 'bg-white text-gray-700 shadow-sm' 
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-white text-gray-700 shadow-md border border-gray-200' 
+                  : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
               }`}
+              aria-label="Grid view"
             >
-              {t('services.grid') || 'Grid'}
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+              </svg>
+              <span className="hidden sm:inline">{t('services.grid') || 'Grid'}</span>
             </button>
             <button 
               onClick={() => setViewMode('list')}
-              className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center justify-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 min-w-[80px] min-h-[44px] ${
                 viewMode === 'list' 
-                  ? 'bg-white text-gray-700 shadow-sm' 
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-white text-gray-700 shadow-md border border-gray-200' 
+                  : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
               }`}
+              aria-label="List view"
             >
-              {t('services.list') || 'List'}
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+              </svg>
+              <span className="hidden sm:inline">{t('services.list') || 'List'}</span>
             </button>
           </div>
         </div>
@@ -555,8 +563,8 @@ export default function ServicesPage() {
                     {/* Services Grid/List */}
                     <div className={
                       viewMode === 'grid' 
-                        ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                        : "space-y-4"
+                        ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
+                        : "space-y-3 sm:space-y-4"
                     }>
                       {category.services.map((service: any, serviceIndex: number) => (
                         <motion.div
@@ -587,10 +595,10 @@ export default function ServicesPage() {
                               />
                             ) : (
                               /* List View Card */
-                              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                                <div className="flex flex-col md:flex-row">
+                              <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group">
+                                <div className="flex flex-col sm:flex-row">
                                   {/* Image */}
-                                  <div className="relative md:w-64 h-48 md:h-auto overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+                                  <div className="relative sm:w-48 md:w-64 h-48 sm:h-auto overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
                                     <Image
                                       src={getServiceImageUrl(service) || '/images/services/default-service.jpg'}
                                       alt={getServiceImageAlt(service, service.title)}
@@ -607,10 +615,10 @@ export default function ServicesPage() {
                                   </div>
                                   
                                   {/* Content */}
-                                  <div className="flex-1 p-6">
-                                    <div className="flex items-start justify-between mb-4">
-                                      <div className="flex-1">
-                                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 mb-2">
+                                  <div className="flex-1 p-4 sm:p-6">
+                                    <div className="flex items-start justify-between mb-3 sm:mb-4">
+                                      <div className="flex-1 pr-3">
+                                        <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 mb-2">
                                           {service.title}
                                         </h3>
                                         {service.category && (
@@ -629,7 +637,7 @@ export default function ServicesPage() {
                                           }
                                           setFavorites(newFavorites);
                                         }}
-                                        className={`p-2 rounded-full border transition-all duration-200 ${
+                                        className={`p-2 rounded-full border transition-all duration-200 min-w-[40px] min-h-[40px] flex items-center justify-center ${
                                           favorites.has(service.id)
                                             ? 'bg-red-500 text-white border-red-500 shadow-lg' 
                                             : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-red-50 hover:text-red-500'
@@ -639,11 +647,11 @@ export default function ServicesPage() {
                                       </button>
                                     </div>
                                     
-                                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                                    <p className="text-gray-600 text-sm mb-3 sm:mb-4 line-clamp-2">
                                       {service.description}
                                     </p>
                                     
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                                       <div className="flex items-center gap-4 text-sm text-gray-500">
                                         {service.recoveryTime && (
                                           <div className="flex items-center gap-1">
@@ -655,10 +663,10 @@ export default function ServicesPage() {
                                       
                                       <Link 
                                         href={`/services/${service.category?.slug || 'general'}/${service.slug}`}
-                                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
+                                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 sm:px-6 py-2.5 sm:py-2 rounded-lg sm:rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm sm:text-base min-h-[44px] w-full sm:w-auto"
                                       >
-                                        {t('services.learnMore') || 'Learn More'}
-                                        <ArrowRightIcon className="h-4 w-4" />
+                                        <span className="truncate">{t('services.learnMore') || 'Learn More'}</span>
+                                        <ArrowRightIcon className="h-4 w-4 flex-shrink-0" />
                                       </Link>
                                     </div>
                                   </div>
@@ -720,17 +728,18 @@ export default function ServicesPage() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="fixed bottom-6 right-6 z-50"
+              className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50"
             >
               <button
                 onClick={() => {
                   // Here you would typically show favorites panel or navigate to favorites page
                   console.log('Show favorites:', favorites);
                 }}
-                className="bg-red-500 hover:bg-red-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110"
+                className="bg-red-500 hover:bg-red-600 text-white p-3 sm:p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 min-w-[48px] min-h-[48px] flex items-center justify-center"
+                aria-label={`${favorites.size} favorited services`}
               >
-                <HeartIcon className="h-6 w-6 fill-current" />
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
+                <HeartIcon className="h-5 w-5 sm:h-6 sm:w-6 fill-current" />
+                <span className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center font-bold">
                   {favorites.size}
                 </span>
               </button>
@@ -745,13 +754,14 @@ export default function ServicesPage() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="fixed bottom-6 left-6 z-50"
+              className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-50"
             >
               <button
                 onClick={scrollToTop}
-                className="bg-gray-900 hover:bg-gray-800 text-white p-3 rounded-full shadow-2xl transition-all duration-300 hover:scale-110"
+                className="bg-gray-900 hover:bg-gray-800 text-white p-2.5 sm:p-3 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                aria-label="Back to top"
               >
-                <ChevronUpIcon className="h-6 w-6" />
+                <ChevronUpIcon className="h-5 w-5 sm:h-6 sm:w-6" />
               </button>
             </motion.div>
           )}
