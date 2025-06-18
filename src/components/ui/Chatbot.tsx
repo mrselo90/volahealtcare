@@ -101,6 +101,11 @@ export default function Chatbot() {
   }, [messages]);
 
   const saveMessageToDatabase = async (message: Message) => {
+    // Prevent duplicate saves
+    if (message.id && localStorage.getItem(`saved_${message.id}`)) {
+      return;
+    }
+    
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -118,7 +123,10 @@ export default function Chatbot() {
         }),
       });
 
-      if (!response.ok) {
+      if (response.ok) {
+        // Mark message as saved to prevent duplicates
+        localStorage.setItem(`saved_${message.id}`, 'true');
+      } else {
         console.error('Failed to save message to database');
       }
     } catch (error) {
@@ -142,7 +150,8 @@ export default function Chatbot() {
       sender: 'user',
       timestamp: new Date(),
     };
-    setMessages([...messages, userMessage]);
+    
+    setMessages(prevMessages => [...prevMessages, userMessage]);
     setInputValue('');
 
     // Save user message to database
@@ -173,7 +182,6 @@ export default function Chatbot() {
         };
         setMessages((prevMessages) => [...prevMessages, botMessage]);
         // Don't save standard bot responses to reduce database clutter
-        // saveMessageToDatabase(botMessage);
       }, 1000);
     }
   };
@@ -198,7 +206,7 @@ Country: ${userCountry}`,
       timestamp: new Date(),
     };
     
-    setMessages([...messages, contactInfoMessage]);
+    setMessages(prevMessages => [...prevMessages, contactInfoMessage]);
     saveMessageToDatabase(contactInfoMessage);
     setShowContactForm(false);
     
@@ -212,7 +220,6 @@ Country: ${userCountry}`,
       };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
       // Don't save standard bot responses to reduce database clutter
-      // saveMessageToDatabase(botMessage);
     }, 1000);
   };
 
@@ -279,23 +286,29 @@ Country: ${userCountry}`,
               }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="fixed z-40 bg-white shadow-2xl 
-                         bottom-0 left-0 right-0 rounded-t-2xl max-h-[90vh] flex flex-col
-                         md:bottom-24 md:right-4 md:left-auto md:w-96 md:max-h-[600px] md:rounded-lg md:max-w-sm
-                         lg:right-6 lg:w-[400px] lg:max-w-md"
+                         bottom-0 left-0 right-0 rounded-t-2xl max-h-[92vh] flex flex-col
+                         md:bottom-24 md:right-4 md:left-auto md:w-[480px] md:max-h-[700px] md:rounded-lg
+                         lg:right-6 lg:w-[520px] lg:max-h-[750px]
+                         xl:w-[580px] xl:max-h-[800px]"
             >
+              {/* Mobile pull indicator */}
+              <div className="md:hidden bg-gradient-to-r from-indigo-600 to-purple-600 rounded-t-2xl flex justify-center py-2">
+                <div className="w-12 h-1.5 bg-white/40 rounded-full"></div>
+              </div>
+              
               {/* Header - Mobile optimized */}
-              <div className="flex items-center justify-between border-b bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-3 sm:p-4 rounded-t-2xl md:rounded-t-lg flex-shrink-0">
+              <div className="flex items-center justify-between border-b bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-3 sm:p-4 md:rounded-t-2xl flex-shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <div className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
                   <h3 className="text-base sm:text-lg font-semibold truncate">{t('chatbot.title') || 'Vola Health Chat'}</h3>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="text-white/80 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-lg min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  className="text-white hover:text-white transition-all p-2 hover:bg-white/20 rounded-full min-w-[48px] min-h-[48px] flex items-center justify-center bg-white/10 hover:scale-105 active:scale-95 shadow-lg"
                   aria-label={t('chatbot.closeChat') || 'Close chat'}
                 >
                   <svg
-                    className="h-5 w-5 sm:h-6 sm:w-6"
+                    className="h-6 w-6 sm:h-7 sm:w-7 stroke-[3]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -303,7 +316,7 @@ Country: ${userCountry}`,
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
+                      strokeWidth={3}
                       d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
@@ -435,6 +448,20 @@ Country: ${userCountry}`,
                   >
                     ✓ Submit Contact Information
                   </button>
+                  
+                  {/* Mobile close button for contact form */}
+                  <div className="mt-3 md:hidden">
+                    <button
+                      type="button"
+                      onClick={() => setIsOpen(false)}
+                      className="w-full py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                      </svg>
+                      Close Chat
+                    </button>
+                  </div>
                 </motion.form>
                               ) : (
                   /* Message input - Mobile responsive */
@@ -479,6 +506,19 @@ Country: ${userCountry}`,
                           {quickAction}
                         </button>
                       ))}
+                    </div>
+                    
+                    {/* Mobile close button */}
+                    <div className="mt-3 md:hidden">
+                      <button
+                        onClick={() => setIsOpen(false)}
+                        className="w-full py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                        Close Chat
+                      </button>
                     </div>
                   </form>
                 )}
