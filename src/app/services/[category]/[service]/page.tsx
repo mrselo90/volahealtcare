@@ -741,7 +741,7 @@ export default function ServicePage({ params }: ServicePageProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative h-[40vh] sm:h-[50vh] overflow-hidden"
+        className="relative h-[35vh] sm:h-[45vh] lg:h-[50vh] overflow-hidden"
       >
         {/* Background with Parallax Effect */}
         <motion.div 
@@ -766,12 +766,12 @@ export default function ServicePage({ params }: ServicePageProps) {
               className="max-w-5xl"
             >
               {/* Breadcrumb - Simplified */}
-              <nav className="text-blue-200 mb-4 sm:mb-6 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 bg-black/20 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full w-fit">
+              <nav className="text-blue-200 mb-3 sm:mb-4 lg:mb-6 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 bg-black/20 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full w-fit max-w-[90%]">
                 <Link href="/" className="hover:text-white transition-colors">Home</Link>
-                <ChevronRightIcon className="h-3 w-3 sm:h-4 sm:w-4" />
-                <Link href="/services" className="hover:text-white transition-colors">Services</Link>
-                <ChevronRightIcon className="h-3 w-3 sm:h-4 sm:w-4" />
-                <span className="text-white font-medium truncate max-w-[120px] sm:max-w-none">{serviceTitle}</span>
+                <ChevronRightIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <Link href="/services" className="hover:text-white transition-colors hidden sm:inline">Services</Link>
+                <ChevronRightIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 hidden sm:block" />
+                <span className="text-white font-medium truncate max-w-[180px] sm:max-w-none">{serviceTitle}</span>
               </nav>
           
 
@@ -781,7 +781,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
-                className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold leading-tight mb-4 sm:mb-6 lg:mb-8"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold leading-tight mb-3 sm:mb-4 lg:mb-6"
               >
                 <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
                   {serviceTitle}
@@ -793,9 +793,9 @@ export default function ServicePage({ params }: ServicePageProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 }}
-                className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-blue-100 max-w-4xl mb-6 sm:mb-8 lg:mb-10 text-professional-light"
+                className="text-sm sm:text-base md:text-lg lg:text-xl text-blue-100 max-w-4xl mb-4 sm:mb-6 lg:mb-8 text-professional-light"
               >
-                {serviceDescription?.substring(0, 150)}...
+                {serviceDescription?.substring(0, 120)}...
               </motion.p>
 
               {/* CTA Section - Contact Only */}
