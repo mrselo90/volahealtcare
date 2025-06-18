@@ -21,9 +21,7 @@ interface Service {
     name: string;
     slug: string;
   };
-  price: number;
   duration: string;
-  currency: string;
   images: Array<{
     id: string;
     url: string;
@@ -159,8 +157,7 @@ export default function AdminServices() {
                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Image</th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Title</th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Category</th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Price</th>
-                <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Duration</th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Translations</th>
                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
@@ -194,8 +191,21 @@ export default function AdminServices() {
                       return service.categoryId;
                     })()}
                   </td>
-                  <td className="px-6 py-4 text-gray-700">{service.price} {service.currency}</td>
-                  <td className="px-6 py-4 text-gray-700">{service.duration}</td>
+                  <td className="px-6 py-4 text-gray-600">
+                    <div className="flex flex-wrap gap-1">
+                      {service.translations?.map((translation) => (
+                        <span
+                          key={translation.language}
+                          className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                        >
+                          {translation.language.toUpperCase()}
+                        </span>
+                      ))}
+                      {(!service.translations || service.translations.length === 0) && (
+                        <span className="text-gray-400 text-sm">No translations</span>
+                      )}
+                    </div>
+                  </td>
                   <td className="px-6 py-4 flex gap-2">
                     <button
                       onClick={() => handleEdit(service.slug)}

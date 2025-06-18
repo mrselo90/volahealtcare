@@ -178,7 +178,7 @@ export default function GalleryPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <div className="text-3xl font-bold text-blue-400 mb-2">1500+</div>
+              <div className="text-3xl font-bold text-blue-400 mb-2">4500+</div>
               <div className="text-gray-300 font-medium">{t('gallery.stats.transformations') || 'Successful Transformations'}</div>
             </div>
             <div className="flex flex-col items-center">
@@ -205,7 +205,7 @@ export default function GalleryPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
                 </svg>
               </div>
-              <div className="text-3xl font-bold text-blue-400 mb-2">50+</div>
+              <div className="text-3xl font-bold text-blue-400 mb-2">25+</div>
               <div className="text-gray-300 font-medium">{t('gallery.stats.countries') || 'Countries Served'}</div>
             </div>
           </div>

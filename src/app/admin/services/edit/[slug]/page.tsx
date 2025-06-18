@@ -3,11 +3,27 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useTranslation } from '@/lib/i18n/hooks';
 
-const defaultTranslations = [
-  { language: 'en', title: '', description: '' },
-  { language: 'tr', title: '', description: '' },
+const supportedLanguages = [
+  { code: 'en', name: 'English' },
+  { code: 'tr', name: 'Türkçe' },
+  { code: 'es', name: 'Español' },
+  { code: 'de', name: 'Deutsch' },
+  { code: 'fr', name: 'Français' },
+  { code: 'it', name: 'Italiano' },
+  { code: 'pt', name: 'Português' },
+  { code: 'ro', name: 'Română' },
+  { code: 'pl', name: 'Polski' },
+  { code: 'ar', name: 'العربية' },
+  { code: 'ru', name: 'Русский' }
 ];
+
+const defaultTranslations = supportedLanguages.map(lang => ({
+  language: lang.code,
+  title: '',
+  description: ''
+}));
 
 // Helper function to validate and fix image URLs
 const isValidImageUrl = (url: string): boolean => {
@@ -37,6 +53,7 @@ const fixImageUrl = (url: string): string => {
 
 export default function EditServicePage({ params }: { params: { slug: string } }) {
   const router = useRouter();
+  const { t } = useTranslation();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -48,8 +65,6 @@ export default function EditServicePage({ params }: { params: { slug: string } }
     slug: '',
     description: '',
     category: '',
-    price: 0,
-    currency: 'USD',
     translations: defaultTranslations,
     images: [] as Array<{ id?: string; url: string; alt: string }>,
     featured: false,
@@ -60,6 +75,7 @@ export default function EditServicePage({ params }: { params: { slug: string } }
     aftercare: '',
     benefits: '',
     risks: '',
+    anesthesia: '',
     // Package Details
     timeInTurkey: '',
     operationTime: '',
@@ -71,20 +87,43 @@ export default function EditServicePage({ params }: { params: { slug: string } }
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const res = await fetch('/api/admin/categories');
-      if (!res.ok) return setCategories([]);
-      const data = await res.json();
-      const parsed = data.map((cat: any) => {
-        let name = '';
-        try {
-          const obj = typeof cat.name === 'string' ? JSON.parse(cat.name) : cat.name;
-          name = obj && obj.en ? obj.en : (cat.name || '');
-        } catch {
-          name = cat.name || '';
+      try {
+        console.log('Fetching categories for edit...');
+        const res = await fetch('/api/categories');
+        console.log('Categories response status:', res.status);
+        
+        if (!res.ok) {
+          console.error('Failed to fetch categories:', res.status, res.statusText);
+          setCategories([]);
+          return;
         }
-        return { ...cat, name };
-      });
-      setCategories(parsed);
+        
+        const data = await res.json();
+        console.log('Categories data for edit:', data);
+        
+        // Parse name - public API returns plain strings, admin API returns JSON
+        const parsed = data.map((cat: any) => {
+          let name = '';
+          try {
+            // If name is already a string (from public API), use it directly
+            if (typeof cat.name === 'string' && !cat.name.startsWith('{')) {
+              name = cat.name;
+            } else {
+              // If name is JSON string (from admin API), parse it
+              const obj = typeof cat.name === 'string' ? JSON.parse(cat.name) : cat.name;
+              name = obj && obj.en ? obj.en : (cat.name || '');
+            }
+          } catch {
+            name = cat.name || '';
+          }
+          return { ...cat, name };
+        });
+        console.log('Parsed categories for edit:', parsed);
+        setCategories(parsed);
+      } catch (error) {
+        console.error('Error fetching categories for edit:', error);
+        setCategories([]);
+      }
     };
 
     const fetchService = async () => {
@@ -111,8 +150,6 @@ export default function EditServicePage({ params }: { params: { slug: string } }
           slug: data.slug || '',
           description: data.translations?.find((t: any) => t.language === 'en')?.description || '',
           category: data.categoryId || '',
-          price: data.price || 0,
-          currency: data.currency || 'USD',
           translations: data.translations?.length > 0 ? data.translations.map((t: any) => ({
             language: t.language,
             title: t.title,
@@ -131,6 +168,7 @@ export default function EditServicePage({ params }: { params: { slug: string } }
           aftercare: data.aftercare || '',
           benefits: data.benefits || '',
           risks: data.risks || '',
+          anesthesia: data.anesthesia || '',
           // Package Details
           timeInTurkey: data.timeInTurkey || '',
           operationTime: data.operationTime || '',
@@ -349,33 +387,7 @@ export default function EditServicePage({ params }: { params: { slug: string } }
               </select>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Price *</label>
-              <input
-                type="number"
-                name="price"
-                value={service.price}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-                required
-              />
-            </div>
 
-
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Currency</label>
-              <select
-                name="currency"
-                value={service.currency}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-              >
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="TRY">TRY</option>
-              </select>
-            </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Availability</label>
@@ -478,6 +490,18 @@ export default function EditServicePage({ params }: { params: { slug: string } }
                 rows={3}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
                 placeholder="Potential risks and important considerations..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Anesthesia</label>
+              <input
+                type="text"
+                name="anesthesia"
+                value={service.anesthesia}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                placeholder="e.g., Local Anesthesia"
               />
             </div>
           </div>
@@ -621,42 +645,47 @@ export default function EditServicePage({ params }: { params: { slug: string } }
         {/* Translations */}
         <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Translations</h2>
-          <div className="space-y-6">
-            {service.translations.map((translation) => (
-              <div key={translation.language} className="border border-gray-200 rounded-lg p-4">
-                <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <span className="w-8 h-5 bg-gray-100 rounded text-xs flex items-center justify-center font-mono">
-                    {translation.language.toUpperCase()}
-                  </span>
-                  {translation.language === 'en' ? 'English' : 'Turkish'}
-                  {translation.language === 'en' && (
-                    <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">Required</span>
-                  )}
-                </h3>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                    <input
-                      type="text"
-                      value={translation.title}
-                      onChange={(e) => handleTranslationChange(translation.language, 'title', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-                      required={translation.language === 'en'}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                    <textarea
-                      value={translation.description}
-                      onChange={(e) => handleTranslationChange(translation.language, 'description', e.target.value)}
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-                      required={translation.language === 'en'}
-                    />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {service.translations.map((translation) => {
+              const language = supportedLanguages.find(lang => lang.code === translation.language);
+              return (
+                <div key={translation.language} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                  <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      {translation.language.toUpperCase()}
+                    </span>
+                    {language?.name}
+                    {translation.language === 'en' && (
+                      <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">Required</span>
+                    )}
+                  </h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                      <input
+                        type="text"
+                        value={translation.title}
+                        onChange={(e) => handleTranslationChange(translation.language, 'title', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                        placeholder={`Enter title in ${language?.name}`}
+                        required={translation.language === 'en'}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                      <textarea
+                        value={translation.description}
+                        onChange={(e) => handleTranslationChange(translation.language, 'description', e.target.value)}
+                        rows={3}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                        placeholder={`Enter description in ${language?.name}`}
+                        required={translation.language === 'en'}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

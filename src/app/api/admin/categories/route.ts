@@ -6,7 +6,10 @@ import { prisma } from '@/lib/prisma';
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
+    console.log('Admin categories API - Session:', session?.user?.email, 'Role:', session?.user?.role);
+    
     if (!session?.user || session.user.role !== 'admin') {
+      console.log('Unauthorized access to admin categories API');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

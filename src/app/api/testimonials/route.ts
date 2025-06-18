@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 // GET - Fetch approved testimonials for public display
 export async function GET() {
@@ -37,11 +35,12 @@ export async function GET() {
       content: testimonial.review,
       author: testimonial.user?.name || 'Anonymous Patient',
       role: `${testimonial.service.title} Patient`,
+      image: testimonial.photoUrl, // Use photoUrl as image
       rating: testimonial.rating,
       country: testimonial.country,
       date: testimonial.createdAt.toISOString().split('T')[0],
       procedure: testimonial.service.title,
-      videoUrl: testimonial.videoUrl,
+      videoUrl: null, // No longer using videoUrl
       treatment: getServiceCategory(testimonial.service.categoryId),
       beforeAfter: true,
       isFeatured: testimonial.isFeatured

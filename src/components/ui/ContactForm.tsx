@@ -9,6 +9,7 @@ import {
   PhoneIcon,
   EnvelopeIcon
 } from '@heroicons/react/24/outline';
+import { useTranslation } from '@/lib/i18n/hooks';
 
 interface FormData {
   name: string;
@@ -26,6 +27,7 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ isModal = false, onClose }: ContactFormProps = {}) {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -128,10 +130,10 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
           className="text-center mb-8 sm:mb-12"
         >
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
-            Book Your <span className="text-blue-600">Free Consultation</span>
+            {t('contact.form.title') || 'Book Your'} <span className="text-blue-600">{t('contact.form.freeConsultation') || 'Free Consultation'}</span>
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-4">
-            Take the first step towards your transformation. Our expert medical team is ready to guide you through your journey.
+            {t('contact.form.subtitle') || 'Take the first step towards your transformation. Our expert medical team is ready to guide you through your journey.'}
           </p>
         </motion.div>
       )}
@@ -156,9 +158,9 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
                     <CheckCircleIcon className="h-10 w-10 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-green-900">Consultation Booked Successfully!</h3>
+                    <h3 className="text-lg font-semibold text-green-900">{t('contact.messages.success') || 'Consultation Booked Successfully!'}</h3>
                     <p className="text-green-700 mt-1">
-                      Thank you for choosing us. Our team will contact you within 24 hours to confirm your appointment.
+                      {t('contact.messages.successDesc') || 'Thank you for choosing us. Our team will contact you within 24 hours to confirm your appointment.'}
                     </p>
                   </div>
                 </div>
@@ -177,9 +179,9 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
                     <XMarkIcon className="h-10 w-10 text-red-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-red-900">Booking Failed</h3>
+                    <h3 className="text-lg font-semibold text-red-900">{t('contact.messages.error') || 'Booking Failed'}</h3>
                     <p className="text-red-700 mt-1">
-                      We're sorry, something went wrong. Please try again or contact us directly.
+                      {t('contact.messages.errorDesc') || 'We\'re sorry, something went wrong. Please try again or contact us directly.'}
                     </p>
                   </div>
                 </div>
@@ -190,13 +192,13 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
               {/* Personal Information */}
               <div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">
-                  Personal Information
+                  {t('contact.form.personalInfo') || 'Personal Information'}
                 </h3>
                 <div className="grid md:grid-cols-2 gap-6">
         <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-3">
-                      Full Name *
-          </label>
+                                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-3">
+                      {t('contact.form.fullName') || 'Full Name'} *
+                    </label>
           <input
             type="text"
             name="name"
@@ -205,14 +207,14 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
             value={formData.name}
             onChange={handleChange}
                       className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
-                      placeholder="Enter your full name"
+                      placeholder={t('contact.form.fullNamePlaceholder') || 'Enter your full name'}
           />
         </div>
 
         <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-3">
-                      Email Address *
-          </label>
+                                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-3">
+                      {t('contact.form.email') || 'Email Address'} *
+                    </label>
           <input
             type="email"
             name="email"
@@ -221,14 +223,14 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
             value={formData.email}
             onChange={handleChange}
                       className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
-                      placeholder="your.email@example.com"
+                      placeholder={t('contact.form.emailPlaceholder') || 'your.email@example.com'}
           />
         </div>
 
         <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-3">
-                      Phone Number *
-          </label>
+                                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-3">
+                      {t('contact.form.phone') || 'Phone Number'} *
+                    </label>
           <input
             type="tel"
             name="phone"
@@ -237,14 +239,14 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
             value={formData.phone}
             onChange={handleChange}
                       className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
-                      placeholder="+1 (555) 123-4567"
+                      placeholder={t('contact.form.phonePlaceholder') || '+1 (555) 123-4567'}
           />
         </div>
 
         <div>
-                    <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-3">
-                      Country *
-          </label>
+                                        <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-3">
+                      {t('contact.form.country') || 'Country'} *
+                    </label>
           <input
             type="text"
             name="country"
@@ -253,7 +255,7 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
             value={formData.country}
             onChange={handleChange}
                       className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
-                      placeholder="United States"
+                      placeholder={t('contact.form.countryPlaceholder') || 'United States'}
           />
                   </div>
                 </div>
@@ -262,13 +264,13 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
               {/* Service Information */}
               <div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">
-                  Service & Schedule
+                  {t('contact.form.serviceSchedule') || 'Service & Schedule'}
                 </h3>
                 <div className="space-y-6">
         <div>
-                    <label htmlFor="serviceId" className="block text-sm font-medium text-gray-700 mb-3">
-                      Interested Service *
-          </label>
+                                        <label htmlFor="serviceId" className="block text-sm font-medium text-gray-700 mb-3">
+                      {t('contact.form.service') || 'Interested Service'} *
+                    </label>
                     <div className="relative">
           <select
             name="serviceId"
@@ -279,7 +281,7 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
                         className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg appearance-none bg-white"
           >
             {services.length === 0 && (
-              <option value="">Loading services...</option>
+              <option value="">{t('contact.form.loadingServices') || 'Loading services...'}</option>
             )}
             {services.map(service => (
               <option key={service.id} value={service.id}>{service.title}</option>
@@ -290,9 +292,9 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
         </div>
 
         <div>
-                    <label htmlFor="preferredDate" className="block text-sm font-medium text-gray-700 mb-3">
-            Preferred Date & Time
-          </label>
+                                        <label htmlFor="preferredDate" className="block text-sm font-medium text-gray-700 mb-3">
+                      {t('contact.form.preferredDate') || 'Preferred Date & Time'}
+                    </label>
           <input
             type="datetime-local"
             name="preferredDate"
@@ -302,14 +304,14 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
                       className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
           />
                     <p className="text-sm text-gray-500 mt-2">
-                      Optional: Leave blank and we'll contact you to schedule
+                      {t('contact.form.dateOptional') || 'Optional: Leave blank and we\'ll contact you to schedule'}
                     </p>
         </div>
 
         <div>
-                    <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-3">
-                      Additional Notes
-          </label>
+                                        <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-3">
+                      {t('contact.form.notes') || 'Additional Notes'}
+                    </label>
           <textarea
             name="notes"
             id="notes"
@@ -317,7 +319,7 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
             value={formData.notes}
             onChange={handleChange}
                       className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg resize-none"
-                      placeholder="Tell us about your goals, concerns, or any questions you have..."
+                      placeholder={t('contact.form.notesPlaceholder') || 'Tell us about your goals, concerns, or any questions you have...'}
           />
                   </div>
                 </div>
@@ -332,7 +334,7 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
                     onClick={onClose}
                     className="flex-1 bg-gray-100 text-gray-700 py-3 px-6 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
                   >
-                    Cancel
+                    {t('common.cancel') || 'Cancel'}
                   </button>
                   <button
                     type="submit"
@@ -342,11 +344,11 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
                     {isSubmitting ? (
                       <>
                         <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
-                        Booking...
+                        {t('contact.form.booking') || 'Booking...'}
                       </>
                     ) : (
                       <>
-                        📅 Book Consultation
+                        📅 {t('contact.form.bookConsultation') || 'Book Consultation'}
                       </>
                     )}
                   </button>
@@ -360,11 +362,11 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
                   {isSubmitting ? (
                     <>
                       <div className="animate-spin h-6 w-6 border-2 border-white border-t-transparent rounded-full" />
-                      Booking Your Consultation...
+                      {t('contact.form.bookingConsultation') || 'Booking Your Consultation...'}
                     </>
                   ) : (
                     <>
-                      📅 Book Free Consultation
+                      📅 {t('contact.form.bookFreeConsultation') || 'Book Free Consultation'}
                     </>
                   )}
           </button>

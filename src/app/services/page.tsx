@@ -10,6 +10,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { LoadingState, ServiceCardSkeleton, CategorySkeleton } from '@/components/LoadingState';
 import { getCategoryName } from '@/utils/categoryUtils';
 import { getServiceImageUrl, getServiceImageAlt } from '@/utils/imageUtils';
+import { useTranslation } from '../../lib/i18n/hooks';
 
 interface ServiceCardProps {
   service: {
@@ -30,7 +31,7 @@ interface ServiceCardProps {
 }
 
 // Service Card Component
-const ServiceCard = ({ service, onToggleFavorite, isFavorited }: any) => {
+const ServiceCard = ({ service, onToggleFavorite, isFavorited, t }: any) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -117,7 +118,7 @@ const ServiceCard = ({ service, onToggleFavorite, isFavorited }: any) => {
           {/* Key Benefits */}
           {service.keyBenefits && service.keyBenefits.length > 0 && (
             <div className="space-y-1">
-              <p className="text-xs font-medium text-gray-700 uppercase tracking-wide">Key Benefits</p>
+              <p className="text-xs font-medium text-gray-700 uppercase tracking-wide">{t('services.keyBenefits') || 'Key Benefits'}</p>
               <div className="flex flex-wrap gap-1">
                 {service.keyBenefits.slice(0, 3).map((benefit: string, index: number) => (
                   <span key={index} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
@@ -126,7 +127,7 @@ const ServiceCard = ({ service, onToggleFavorite, isFavorited }: any) => {
                 ))}
                 {service.keyBenefits.length > 3 && (
                   <span className="text-xs text-gray-500 px-2 py-1">
-                    +{service.keyBenefits.length - 3} more
+                    +{service.keyBenefits.length - 3} {t('services.more') || 'more'}
                   </span>
                 )}
               </div>
@@ -140,7 +141,7 @@ const ServiceCard = ({ service, onToggleFavorite, isFavorited }: any) => {
             href={`/services/${service.category?.slug || 'general'}/${service.slug}`}
             className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-center py-3 px-4 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
-            Learn More
+            {t('services.learnMore') || 'Learn More'}
           </Link>
         </div>
       </div>
@@ -159,7 +160,8 @@ const SearchAndFilters = ({
   setSelectedCategory, 
   categories,
   sortBy,
-  setSortBy 
+  setSortBy,
+  t 
 }: any) => {
   const [showFilters, setShowFilters] = useState(false);
 
@@ -174,7 +176,7 @@ const SearchAndFilters = ({
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search treatments, procedures..."
+                placeholder={t('services.searchPlaceholder') || 'Search treatments, procedures...'}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 placeholder-gray-400 min-h-[48px]"
@@ -197,7 +199,7 @@ const SearchAndFilters = ({
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white text-gray-700 min-h-[48px]"
             >
-              <option value="">All Categories</option>
+              <option value="">{t('services.allCategories') || 'All Categories'}</option>
               {categories.map((category: any) => (
                 <option key={category.slug} value={category.slug}>
                   {getCategoryName(category)} ({category.services?.length || 0})
@@ -213,9 +215,9 @@ const SearchAndFilters = ({
               onChange={(e) => setSortBy(e.target.value)}
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white text-gray-700"
             >
-              <option value="name">Sort by Name</option>
-              <option value="featured">Featured First</option>
-              <option value="duration">Duration</option>
+              <option value="name">{t('services.sortByName') || 'Sort by Name'}</option>
+              <option value="featured">{t('services.sortByFeatured') || 'Featured First'}</option>
+              <option value="duration">{t('services.sortByDuration') || 'Duration'}</option>
             </select>
           </div>
 
@@ -226,7 +228,7 @@ const SearchAndFilters = ({
               className="w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-gray-700 font-medium"
             >
               <AdjustmentsHorizontalIcon className="h-5 w-5" />
-              {showFilters ? 'Hide Filters' : 'More Filters'}
+              {showFilters ? (t('services.hideFilters') || 'Hide Filters') : (t('services.moreFilters') || 'More Filters')}
             </button>
           </div>
         </div>
@@ -243,13 +245,13 @@ const SearchAndFilters = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Duration Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t('services.duration') || 'Duration'}</label>
               <select className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                <option value="">Any Duration</option>
-                <option value="1-2-hours">1-2 Hours</option>
-                <option value="half-day">Half Day</option>
-                <option value="full-day">Full Day</option>
-                <option value="multiple-days">Multiple Days</option>
+                <option value="">{t('services.anyDuration') || 'Any Duration'}</option>
+                <option value="1-2-hours">{t('services.oneTwoHours') || '1-2 Hours'}</option>
+                <option value="half-day">{t('services.halfDay') || 'Half Day'}</option>
+                <option value="full-day">{t('services.fullDay') || 'Full Day'}</option>
+                <option value="multiple-days">{t('services.multipleDays') || 'Multiple Days'}</option>
               </select>
             </div>
 
@@ -257,16 +259,16 @@ const SearchAndFilters = ({
             <div>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                <span className="text-sm font-medium text-gray-700">Featured Services Only</span>
+                <span className="text-sm font-medium text-gray-700">{t('services.featuredOnly') || 'Featured Services Only'}</span>
               </label>
             </div>
           </div>
 
           {/* Quick Filter Tags */}
           <div className="mt-4 pt-4 border-t border-gray-200">
-            <p className="text-sm font-medium text-gray-700 mb-2">Quick Filters:</p>
+            <p className="text-sm font-medium text-gray-700 mb-2">{t('services.quickFilters') || 'Quick Filters:'}</p>
             <div className="flex flex-wrap gap-2">
-              {['Most Popular', 'Quick Procedures', 'Premium Services', 'Non-Invasive'].map((tag) => (
+              {[t('services.mostPopular') || 'Most Popular', t('services.quickProcedures') || 'Quick Procedures', t('services.premiumServices') || 'Premium Services', t('services.nonInvasive') || 'Non-Invasive'].map((tag) => (
                 <button
                   key={tag}
                   className="px-3 py-1 bg-white border border-gray-200 rounded-full text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all duration-200"
@@ -284,6 +286,7 @@ const SearchAndFilters = ({
 
 // Main Services Page Component
 export default function ServicesPage() {
+  const { t } = useTranslation();
   const [categories, setCategories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -291,6 +294,7 @@ export default function ServicesPage() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [sortBy, setSortBy] = useState('featured');
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const [showBackToTop, setShowBackToTop] = useState(false);
 
@@ -402,13 +406,13 @@ export default function ServicesPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="text-6xl mb-4">😔</div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Oops! Something went wrong</h2>
-          <p className="text-gray-600 mb-6">{error}</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('services.errorTitle') || 'Oops! Something went wrong'}</h2>
+          <p className="text-gray-600 mb-6">{t('services.errorDesc') || error}</p>
           <button
             onClick={fetchCategories}
             className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors duration-300"
           >
-            Try Again
+            {t('services.tryAgain') || 'Try Again'}
           </button>
         </div>
       </div>
@@ -426,20 +430,19 @@ export default function ServicesPage() {
           className="text-center mb-12"
         >
           <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-4">
-            Our Medical Services
+            {t('services.headerTitle') || 'Our Medical Services'}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Discover world-class medical treatments and procedures designed to enhance your health, beauty, and confidence. 
-            Expert care with cutting-edge technology.
+            {t('services.headerDesc') || 'Discover world-class medical treatments and procedures designed to enhance your health, beauty, and confidence. Expert care with cutting-edge technology.'}
           </p>
           <div className="mt-6 flex items-center justify-center gap-6 text-sm text-gray-500">
             <span className="flex items-center gap-2">
               <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-              {totalServices} Total Services
+              {t('services.totalServices', { count: totalServices }) || `${totalServices} Total Services`}
             </span>
             <span className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              {filteredTotal} Showing
+              {t('services.showing', { count: filteredTotal }) || `Showing ${filteredTotal}`}
             </span>
           </div>
         </motion.div>
@@ -458,6 +461,7 @@ export default function ServicesPage() {
             categories={categories}
             sortBy={sortBy}
             setSortBy={setSortBy}
+            t={t}
           />
         </motion.div>
 
@@ -466,23 +470,37 @@ export default function ServicesPage() {
           <div>
             <h2 className="text-2xl font-bold text-gray-900">
               {searchTerm || selectedCategory 
-                ? `Search Results ${filteredTotal > 0 ? `(${filteredTotal})` : ''}`
-                : 'All Services'
+                ? `${t('services.searchResults') || 'Search Results'}${filteredTotal > 0 ? ` (${filteredTotal})` : ''}`
+                : t('services.allServices') || 'All Services'
               }
             </h2>
             <p className="text-gray-600 mt-1">
-              {searchTerm && `Results for "${searchTerm}"`}
-              {selectedCategory && ` in ${getCategoryName(categories.find((c: any) => c.slug === selectedCategory))}`}
+              {searchTerm && `${t('services.resultsFor') || 'Results for'} "${searchTerm}"`}
+              {selectedCategory && ` ${t('services.inCategory') || 'in'} ${getCategoryName(categories.find((c: any) => c.slug === selectedCategory))}`}
             </p>
           </div>
           
           {/* View Toggle */}
           <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-lg">
-            <button className="px-3 py-2 bg-white text-gray-700 rounded-md shadow-sm text-sm font-medium">
-              Grid
+            <button 
+              onClick={() => setViewMode('grid')}
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                viewMode === 'grid' 
+                  ? 'bg-white text-gray-700 shadow-sm' 
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              {t('services.grid') || 'Grid'}
             </button>
-            <button className="px-3 py-2 text-gray-500 hover:text-gray-700 rounded-md text-sm font-medium">
-              List
+            <button 
+              onClick={() => setViewMode('list')}
+              className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                viewMode === 'list' 
+                  ? 'bg-white text-gray-700 shadow-sm' 
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              {t('services.list') || 'List'}
             </button>
           </div>
         </div>
@@ -534,8 +552,12 @@ export default function ServicesPage() {
                       </div>
                     </div>
 
-                    {/* Services Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {/* Services Grid/List */}
+                    <div className={
+                      viewMode === 'grid' 
+                        ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        : "space-y-4"
+                    }>
                       {category.services.map((service: any, serviceIndex: number) => (
                         <motion.div
                           key={service.slug}
@@ -545,21 +567,104 @@ export default function ServicesPage() {
                             duration: 0.4, 
                             delay: (categoryIndex * 0.1) + (serviceIndex * 0.05) 
                           }}
+                          className={viewMode === 'list' ? 'w-full' : ''}
                         >
                           <ErrorBoundary>
-                            <ServiceCard
-                              service={service}
-                              onToggleFavorite={(serviceId: string) => {
-                                const newFavorites = new Set(favorites);
-                                if (newFavorites.has(serviceId)) {
-                                  newFavorites.delete(serviceId);
-                                } else {
-                                  newFavorites.add(serviceId);
-                                }
-                                setFavorites(newFavorites);
-                              }}
-                              isFavorited={favorites.has(service.id)}
-                            />
+                            {viewMode === 'grid' ? (
+                              <ServiceCard
+                                service={service}
+                                onToggleFavorite={(serviceId: string) => {
+                                  const newFavorites = new Set(favorites);
+                                  if (newFavorites.has(serviceId)) {
+                                    newFavorites.delete(serviceId);
+                                  } else {
+                                    newFavorites.add(serviceId);
+                                  }
+                                  setFavorites(newFavorites);
+                                }}
+                                isFavorited={favorites.has(service.id)}
+                                t={t}
+                              />
+                            ) : (
+                              /* List View Card */
+                              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group">
+                                <div className="flex flex-col md:flex-row">
+                                  {/* Image */}
+                                  <div className="relative md:w-64 h-48 md:h-auto overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+                                    <Image
+                                      src={getServiceImageUrl(service) || '/images/services/default-service.jpg'}
+                                      alt={getServiceImageAlt(service, service.title)}
+                                      fill
+                                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                    />
+                                    {service.featured && (
+                                      <div className="absolute top-4 left-4">
+                                        <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                                          ⭐ Featured
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+                                  
+                                  {/* Content */}
+                                  <div className="flex-1 p-6">
+                                    <div className="flex items-start justify-between mb-4">
+                                      <div className="flex-1">
+                                        <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 mb-2">
+                                          {service.title}
+                                        </h3>
+                                        {service.category && (
+                                          <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
+                                            {getCategoryName(service.category)}
+                                          </span>
+                                        )}
+                                      </div>
+                                      <button
+                                        onClick={() => {
+                                          const newFavorites = new Set(favorites);
+                                          if (newFavorites.has(service.id)) {
+                                            newFavorites.delete(service.id);
+                                          } else {
+                                            newFavorites.add(service.id);
+                                          }
+                                          setFavorites(newFavorites);
+                                        }}
+                                        className={`p-2 rounded-full border transition-all duration-200 ${
+                                          favorites.has(service.id)
+                                            ? 'bg-red-500 text-white border-red-500 shadow-lg' 
+                                            : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-red-50 hover:text-red-500'
+                                        }`}
+                                      >
+                                        <HeartIcon className={`h-4 w-4 ${favorites.has(service.id) ? 'fill-current' : ''}`} />
+                                      </button>
+                                    </div>
+                                    
+                                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                                      {service.description}
+                                    </p>
+                                    
+                                    <div className="flex items-center justify-between">
+                                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                                        {service.recoveryTime && (
+                                          <div className="flex items-center gap-1">
+                                            <CalendarDaysIcon className="h-4 w-4" />
+                                            <span>{service.recoveryTime} recovery</span>
+                                          </div>
+                                        )}
+                                      </div>
+                                      
+                                      <Link 
+                                        href={`/services/${service.category?.slug || 'general'}/${service.slug}`}
+                                        className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
+                                      >
+                                        {t('services.learnMore') || 'Learn More'}
+                                        <ArrowRightIcon className="h-4 w-4" />
+                                      </Link>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </ErrorBoundary>
                         </motion.div>
                       ))}
@@ -577,7 +682,7 @@ export default function ServicesPage() {
                 <div className="mx-auto w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                   <MagnifyingGlassIcon className="h-12 w-12 text-gray-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">No services found</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('common.noResults') || 'No services found'}</h3>
                 <p className="text-gray-600 mb-8 max-w-md mx-auto">
                   {searchTerm || selectedCategory 
                     ? "Try adjusting your search criteria or browse all services"
@@ -599,7 +704,7 @@ export default function ServicesPage() {
                       href="/contact"
                       className="px-6 py-3 border border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 rounded-xl font-medium transition-colors duration-200"
                     >
-                      Contact Us
+                      {t('nav.contact') || 'Contact Us'}
                     </Link>
                   </div>
                 )}
@@ -607,8 +712,6 @@ export default function ServicesPage() {
             )}
           </>
         )}
-
-
 
         {/* Floating Action Button for Favorites */}
         <AnimatePresence>

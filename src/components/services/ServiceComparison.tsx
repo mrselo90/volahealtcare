@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Service } from '@/data/services';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from '@/lib/i18n/hooks';
 
 interface ServiceComparisonProps {
   services: Service[];
@@ -11,6 +12,8 @@ interface ServiceComparisonProps {
 }
 
 export function ServiceComparison({ services, onRemoveService }: ServiceComparisonProps) {
+  const { t } = useTranslation();
+  
   if (services.length === 0) {
     return null;
   }
@@ -61,7 +64,7 @@ export function ServiceComparison({ services, onRemoveService }: ServiceComparis
           {/* Description Row */}
           <tr>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-              Description
+              {t('results.description') || 'Description'}
             </td>
             {services.map((service) => (
               <td key={service.slug} className="px-6 py-4 text-sm text-gray-500">

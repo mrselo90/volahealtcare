@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon, ChevronLeftIcon, ChevronRightIcon, StarIcon } from '@heroicons/react/24/outline';
 import { getPlaceholderImage } from '@/lib/placeholders';
 import SafeImage from './SafeImage';
+import { useTranslation } from '@/lib/i18n/hooks';
 
 interface BeforeAfterCase {
   id: string;
@@ -59,6 +60,7 @@ export default function BeforeAfterGallery({
   gridCols = 3,
   className = '',
 }: BeforeAfterGalleryProps) {
+  const { t } = useTranslation();
   const [cases, setCases] = useState<BeforeAfterCase[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -123,10 +125,26 @@ export default function BeforeAfterGallery({
       const response = await fetch('/api/categories');
       if (response.ok) {
         const data = await response.json();
-        setCategories(data.map((cat: any) => ({
-          id: cat.id,
-          name: typeof cat.name === 'string' ? JSON.parse(cat.name).en || cat.name : cat.name
-        })));
+        setCategories(data.map((cat: any) => {
+          let categoryName = cat.name;
+          
+          // Handle different name formats
+          if (typeof cat.name === 'string') {
+            try {
+              // Try to parse as JSON first
+              const parsed = JSON.parse(cat.name);
+              categoryName = parsed.en || parsed.tr || cat.name;
+            } catch (e) {
+              // If parsing fails, use the string as is
+              categoryName = cat.name;
+            }
+          }
+          
+          return {
+            id: cat.id,
+            name: categoryName
+          };
+        }));
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -313,111 +331,70 @@ export default function BeforeAfterGallery({
         {filteredCases.map((caseItem, index) => (
           <div 
             key={caseItem.id} 
-            className="bg-white rounded-lg shadow-md overflow-hidden"
+            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
             role="gridcell"
             aria-rowindex={Math.floor(index / gridCols) + 1}
             aria-colindex={(index % gridCols) + 1}
+            onClick={() => openModal(caseItem)}
           >
-            <div className="relative">
-              <div className="relative aspect-square">
-                <SafeImage
-                  src={caseItem.beforeImage}
-                  alt={caseItem.beforeImageAlt || `Before treatment for ${caseItem.title}`}
-                  fill
-                  className="object-cover"
-                  fallbackType="before"
-                  fallbackIndex={1}
-                />
-                
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                
-                {/* Status badges */}
-                <div className="absolute top-4 left-4 flex gap-2" role="group" aria-label="Case status">
-                  {caseItem.isFeatured && (
-                    <span style={featuredBadge} role="status" aria-label="Featured case">Featured</span>
-                  )}
-                  {caseItem.isPublished && (
-                    <span style={publishedBadge} role="status" aria-label="Published case">Published</span>
-                  )}
+            <div className="relative aspect-square">
+              <SafeImage
+                src={caseItem.beforeImage}
+                alt={caseItem.beforeImageAlt || `Before treatment for ${caseItem.title}`}
+                fill
+                className="object-cover"
+                fallbackType="before"
+                fallbackIndex={1}
+              />
+              
+              {/* Enhanced overlay gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              
+              {/* RESULT badge */}
+              <div className="absolute top-4 right-4">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-500 text-white shadow-lg">
+                  RESULT
+                </span>
+              </div>
+              
+              {/* Category badge */}
+              {caseItem.category && (
+                <div className="absolute top-4 left-4">
+                  <span 
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500/90 text-white shadow-lg backdrop-blur-sm"
+                    role="tag"
+                    aria-label={`Category: ${caseItem.category.name}`}
+                  >
+                    {caseItem.category.name}
+                  </span>
                 </div>
-                
-                {/* Category badge */}
-                {caseItem.category && (
-                  <div className="absolute top-4 right-4">
-                    <span 
-                      className="inline-flex items-center px-3 py-1 rounded-full text-xs text-professional bg-blue-500 text-white shadow-lg"
-                      role="tag"
-                      aria-label={`Category: ${caseItem.category.name}`}
-                    >
-                      {caseItem.category.name}
+              )}
+              
+              {/* Title overlay - improved positioning and styling */}
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <h3 className="text-white font-serif font-bold text-xl mb-2 line-clamp-2 drop-shadow-lg">
+                  {caseItem.title}
+                </h3>
+                {caseItem.patientAge && (
+                  <div className="flex items-center gap-2 text-white/90 text-sm">
+                    <span className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
+                      👤 {caseItem.patientAge} years
                     </span>
+                    {caseItem.timeframe && (
+                      <span className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
+                        ⏱️ {caseItem.timeframe}
+                      </span>
+                    )}
                   </div>
                 )}
-                
-                {/* Title overlay */}
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-white font-serif font-bold text-lg mb-1 line-clamp-2">
-                    {caseItem.title}
-                  </h3>
-                  {caseItem.patientAge && caseItem.patientCountry && (
-                    <p className="text-white/90 text-sm" aria-label={`Patient details: ${caseItem.patientAge} years old from ${caseItem.patientCountry}`}>
-                      {caseItem.patientAge} years • {caseItem.patientCountry}
-                    </p>
-                  )}
+              </div>
+              
+              {/* Hover effect overlay */}
+              <div className="absolute inset-0 bg-blue-600/20 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div className="text-white text-center">
+                  <div className="text-2xl mb-2">👁️</div>
+                  <div className="text-sm font-medium">View Details</div>
                 </div>
-              </div>
-            </div>
-            <div className="p-4">
-              <div className="flex flex-wrap gap-2 mb-2" role="group" aria-label="Case badges">
-                {caseItem.isFeatured && (
-                  <span style={featuredBadge} role="status">Featured</span>
-                )}
-                {caseItem.isPublished && (
-                  <span style={publishedBadge} role="status">Published</span>
-                )}
-              </div>
-              <div className="mb-1 text-sm text-gray-700">
-                <span>Age: {caseItem.patientAge}</span>
-                {caseItem.patientCountry && <> | <span>{caseItem.patientCountry}</span></>}
-              </div>
-              <div className="mb-1 text-sm text-gray-700">
-                <span>
-                  Category: {(() => {
-                    try {
-                      const name = typeof caseItem.category?.name === 'string'
-                        ? JSON.parse(caseItem.category.name).en
-                        : caseItem.category?.name?.en;
-                      return name || caseItem.category?.name;
-                    } catch {
-                      return caseItem.category?.name;
-                    }
-                  })()}
-                </span>
-              </div>
-              <div className="mb-1 text-sm text-gray-700">
-                <span>Timeline: {caseItem.timeframe || '-'}</span>
-              </div>
-              <div className="space-y-2 text-sm text-gray-600 mt-2">
-                {caseItem.description && <p>{caseItem.description}</p>}
-                {caseItem.service && (
-                  <p className="flex items-center gap-1">
-                    <span role="img" aria-label="service">🦷</span> {caseItem.service.title}
-                  </p>
-                )}
-              </div>
-              <div className="mt-4 flex justify-between items-center">
-                <button
-                  onClick={() => openModal(caseItem)}
-                  className="text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
-                  title="View Details"
-                  aria-label={`View detailed information for ${caseItem.title}`}
-                >
-                  View Details
-                </button>
-                <span className="text-xs text-gray-500" aria-label={`Created on ${new Date(caseItem.createdAt).toLocaleDateString()}`}>
-                  {new Date(caseItem.createdAt).toLocaleDateString()}
-                </span>
               </div>
             </div>
           </div>
@@ -573,7 +550,7 @@ export default function BeforeAfterGallery({
                       <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl">
                         <h3 className="text-xl font-serif font-bold text-gray-800 mb-4 flex items-center">
                           <span className="bg-amber-500 text-white p-2 rounded-lg mr-3">📝</span>
-                          Description
+                          {t('results.description') || 'Description'}
                         </h3>
                         <p className="text-gray-700 leading-relaxed">{selectedCase.description}</p>
                       </div>

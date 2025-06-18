@@ -2,14 +2,17 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/lib/i18n/hooks';
 
 interface WhatsAppButtonProps {
   phoneNumber: string;
   message?: string;
 }
 
-export default function WhatsAppButton({ phoneNumber, message = 'Hello! I\'m interested in your medical tourism services at Vola Health Istanbul.' }: WhatsAppButtonProps) {
-  const encodedMessage = encodeURIComponent(message);
+export default function WhatsAppButton({ phoneNumber, message }: WhatsAppButtonProps) {
+  const { t } = useTranslation();
+  const defaultMessage = t('whatsapp.defaultMessage') || 'Hello! I\'m interested in your medical tourism services at Vola Health Istanbul.';
+  const encodedMessage = encodeURIComponent(message || defaultMessage);
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
   return (
@@ -33,7 +36,7 @@ export default function WhatsAppButton({ phoneNumber, message = 'Hello! I\'m int
         target="_blank"
         rel="noopener noreferrer"
       >
-        <span className="sr-only">Contact us on WhatsApp</span>
+        <span className="sr-only">{t('whatsapp.srOnly') || 'Contact us on WhatsApp'}</span>
         <svg
           className="h-6 w-6 sm:h-8 sm:w-8"
           fill="currentColor"

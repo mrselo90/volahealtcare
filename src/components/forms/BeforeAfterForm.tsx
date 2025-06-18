@@ -8,6 +8,7 @@ import {
   ExclamationTriangleIcon,
   CheckCircleIcon
 } from '@heroicons/react/24/outline';
+import { useTranslation } from '@/lib/i18n/hooks';
 
 interface BeforeAfterData {
   beforeImageUrl: string;
@@ -30,6 +31,7 @@ export default function BeforeAfterForm({
   onSubmit, 
   isLoading = false 
 }: BeforeAfterFormProps) {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<BeforeAfterData>({
     beforeImageUrl: initialData?.beforeImageUrl || '',
     beforeImageAlt: initialData?.beforeImageAlt || '',
@@ -179,7 +181,7 @@ export default function BeforeAfterForm({
         {/* Description */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Description <span className="text-red-500">*</span>
+            {t('results.description') || 'Description'} <span className="text-red-500">*</span>
           </label>
           <textarea
             value={formData.description}

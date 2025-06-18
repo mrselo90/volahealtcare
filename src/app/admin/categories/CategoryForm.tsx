@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { RiErrorWarningLine, RiCloseLine } from 'react-icons/ri';
 import { CategoryData, CategoryFormData as BaseCategoryFormData } from './types';
+import { useTranslation } from '@/lib/i18n/hooks';
 
 interface CategoryFormData extends BaseCategoryFormData {
   imageFile?: File;
@@ -21,6 +22,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   onCancel,
   loading = false 
 }) => {
+  const { t } = useTranslation();
+
   interface FormDataState {
     name: string; // JSON string
     description: string; // JSON string
@@ -302,7 +305,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
         {/* Description */}
         <div>
           <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-            Description
+            {t('results.description') || 'Description'}
           </label>
           <div className="mt-1">
             <textarea

@@ -1,0 +1,35 @@
+category,service_name,slug,description,image_filename,order_index
+Plastic Surgery,Liposuction,liposuction,Advanced liposuction technique for body contouring and fat removal,9.jpg,1
+Plastic Surgery,Brazilian Butt Lift (BBL),brazilian-butt-lift,Brazilian Butt Lift procedure for enhanced buttock shape and volume,12.jpg,2
+Plastic Surgery,Thigh Lift,thigh-lift,Thigh lift surgery for tighter and more contoured legs,Thigh-Lift-at-Silkor-UAE-1.webp,3
+Plastic Surgery,Tummy Tuck,tummy-tuck,Abdominoplasty procedure for flatter and tighter abdominal area,tummy-tuck.jpg,4
+Plastic Surgery,Arm Lift,arm-lift,Brachioplasty surgery for removing excess skin from arms,arm-lifting.jpg,5
+Plastic Surgery,Abdominal Muscle Aesthetics (Six Pack),six-pack-surgery,Six pack surgery for defined abdominal muscles,13.jpg,6
+Plastic Surgery,Breast Augmentation,breast-augmentation,Breast enlargement surgery with implants,breast-augmentation.jpg,7
+Plastic Surgery,Breast Lift,breast-lift,Mastopexy surgery for lifting and reshaping breasts,shutterstock_612400328-1.jpg,8
+Plastic Surgery,Breast Reduction,breast-reduction,Reduction mammoplasty for smaller and lighter breasts,2730890.jpeg,9
+Plastic Surgery,Gynecomastia,gynecomastia,Male breast reduction surgery,lines-drawn-on-male-chest-to-represent-gynecomastia.jpg,10
+Plastic Surgery,Brow Lift,brow-lift,Forehead lift surgery for younger-looking eyes and brow,brow-lifting.jpg,11
+Plastic Surgery,Facelift,facelift,Rhytidectomy surgery for facial rejuvenation,facelift.jpg,12
+Plastic Surgery,Nose Aesthetics (Rhinoplasty),rhinoplasty,Nose reshaping surgery for better facial harmony,rhinoplasty.jpg,13
+Plastic Surgery,Eyelid Surgery,eyelid-surgery,Blepharoplasty for rejuvenated eye appearance,eyelid-lift.jpg,14
+Plastic Surgery,Fat Transfer to Face,fat-transfer-to-face,Facial fat grafting for natural volume restoration,fat-transfer-to-face.jpg,15
+Plastic Surgery,Otoplasty,otoplasty,Ear surgery for correcting ear shape and position,otoplasty.jpg,16
+Plastic Surgery,Bichectomy,bichectomy,Buccal fat removal for defined cheekbones,bisektomi1.png,17
+Plastic Surgery,Forehead Lifting,forehead-lifting,Forehead lift surgery for smoother forehead,forehead-lifting.jpg,18
+Plastic Surgery,Neck Lift,neck-lift,Neck rejuvenation surgery for tighter neck area,neck-lifting.jpg,19
+Plastic Surgery,Botox,botox,Botulinum toxin injections for wrinkle reduction,botox.jpg,20
+Dental Treatments,Implants,dental-implants,Dental implant surgery for missing teeth replacement,dental-implants.jpg,1
+Dental Treatments,Canal Root,root-canal,Root canal treatment for infected tooth nerves,root-canal-therapy.jpg,2
+Dental Treatments,Hollywood Smile,hollywood-smile,Complete smile makeover with veneers and treatments,hollywood-smile.jpg,3
+Dental Treatments,Dental Veneers,dental-veneers,Porcelain veneers for perfect smile transformation,dental-veneers-and-dental-laminates-1904.jpg,4
+Dental Treatments,Zirconium Crowns,zirconium-crowns,Durable and aesthetic zirconium dental crowns,zirconium-crowns.png,5
+Dental Treatments,Digital Smile Design,digital-smile-design,Computer-aided smile design and planning,DSD-digital-smile-design-in-istanbul-768x429.png,6
+Dental Treatments,Gum Aesthetics,gum-aesthetics,Gum contouring and periodontal treatments,Periodontal-Disease-Treatment-Artesia.jpg.webp,7
+Dental Treatments,Teeth Whitening,teeth-whitening,Professional teeth whitening treatments,teeth-whitening.jpg,8
+Hair Transplant,FUE Hair Transplant,fue-hair-transplant,Follicular Unit Extraction hair transplantation,fue-hair-transplant.jpg,1
+Hair Transplant,DHI Hair Transplant,dhi-hair-transplant,Direct Hair Implantation technique,dhi-hair-transplant.jpg,2
+Hair Transplant,Unshaven Hair Transplant,unshaven-hair-transplant,Hair transplant without shaving existing hair,unshaven-hair-transplant.jpg,3
+Hair Transplant,Stem Cell Hair Transplant,stem-cell-hair-transplant,Advanced stem cell enhanced hair transplantation,stem-cell-hair-transplant.jpg,4
+Hair Transplant,FUE Sapphire Hair Transplantation,fue-sapphire-hair-transplant,FUE technique with sapphire blades for precision,fue-sapphire.jpg,5
+Hair Transplant,FUT Hair Transplant,fut-hair-transplant,Follicular Unit Transplantation strip method,fut-hair-transplant.jpg,6 

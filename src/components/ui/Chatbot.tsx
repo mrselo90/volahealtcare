@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from '@/lib/i18n/hooks';
 
 interface Message {
   id: string;
@@ -12,12 +13,13 @@ interface Message {
 }
 
 export default function Chatbot() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [sessionId, setSessionId] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     {
       id: uuidv4(),
-      text: 'Hello! How can I help you with your medical tourism needs at Vola Health Istanbul today?',
+      text: t('chatbot.welcome') || 'Hello! How can I help you with your medical tourism needs at Vola Health Istanbul today?',
       sender: 'bot',
       timestamp: new Date(),
     },
@@ -111,7 +113,7 @@ export default function Chatbot() {
       setTimeout(() => {
         const contactRequestMessage: Message = {
           id: uuidv4(),
-          text: 'Thank you for your message. To better assist you, could you please provide your contact information?',
+          text: t('chatbot.contactRequest') || 'Thank you for your message. To better assist you, could you please provide your contact information?',
           sender: 'bot',
           timestamp: new Date(),
         };
@@ -124,7 +126,7 @@ export default function Chatbot() {
       setTimeout(() => {
         const botMessage: Message = {
           id: uuidv4(),
-          text: 'Thank you for your message. One of our medical consultants will get back to you shortly.',
+          text: t('chatbot.standardResponse') || 'Thank you for your message. One of our medical consultants will get back to you shortly.',
           sender: 'bot',
           timestamp: new Date(),
         };
@@ -140,7 +142,12 @@ export default function Chatbot() {
     // Create a message summarizing the contact info
     const contactInfoMessage: Message = {
       id: uuidv4(),
-      text: `Contact information received:
+      text: t('chatbot.contactInfoReceived', {
+        name: userName,
+        email: userEmail,
+        phone: userPhone,
+        country: userCountry
+      }) || `Contact information received:
 Name: ${userName}
 Email: ${userEmail}
 Phone: ${userPhone}
@@ -157,7 +164,7 @@ Country: ${userCountry}`,
     setTimeout(() => {
       const botMessage: Message = {
         id: uuidv4(),
-        text: 'Thank you for providing your contact information. How else can I assist you with your medical tourism needs at Vola Health Istanbul?',
+        text: t('chatbot.contactInfoResponse') || 'Thank you for providing your contact information. How else can I assist you with your medical tourism needs at Vola Health Istanbul?',
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -172,7 +179,7 @@ Country: ${userCountry}`,
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-20 sm:bottom-24 right-4 z-30 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg hover:from-indigo-500 hover:to-purple-500 transition-all duration-300 transform hover:scale-105"
-        aria-label={isOpen ? 'Close chat' : 'Open chat'}
+        aria-label={isOpen ? t('chatbot.closeChat') || 'Close chat' : t('chatbot.openChat') || 'Open chat'}
       >
         <svg
           className={`h-6 w-6 sm:h-8 sm:w-8 transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}
@@ -222,11 +229,11 @@ Country: ${userCountry}`,
             >
               {/* Header - Mobile optimized */}
               <div className="flex items-center justify-between border-b bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-3 sm:p-4 rounded-t-2xl md:rounded-t-lg">
-                <h3 className="text-base sm:text-lg font-semibold truncate">Vola Health Istanbul Chat</h3>
+                <h3 className="text-base sm:text-lg font-semibold truncate">{t('chatbot.title') || 'Vola Health Istanbul Chat'}</h3>
                 <button
                   onClick={() => setIsOpen(false)}
                   className="text-white/80 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-lg min-w-[44px] min-h-[44px] flex items-center justify-center"
-                  aria-label="Close chat"
+                  aria-label={t('chatbot.closeChat') || 'Close chat'}
                 >
                   <svg
                     className="h-5 w-5 sm:h-6 sm:w-6"

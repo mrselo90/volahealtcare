@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { RiSaveLine, RiCheckLine, RiErrorWarningLine } from 'react-icons/ri';
+import { useTranslation } from '@/lib/i18n/hooks';
 
 interface Settings {
   siteName: string;
@@ -14,10 +15,15 @@ interface Settings {
     instagram: string;
     twitter: string;
     youtube: string;
+    trustpilot: string;
+    googlemaps: string;
+    linkedin: string;
+    pinterest: string;
   };
 }
 
 export default function SettingsPage() {
+  const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -32,6 +38,10 @@ export default function SettingsPage() {
       instagram: '',
       twitter: '',
       youtube: '',
+      trustpilot: '',
+      googlemaps: '',
+      linkedin: '',
+      pinterest: '',
     },
   });
 
@@ -188,7 +198,7 @@ export default function SettingsPage() {
 
             <div className="sm:col-span-2">
               <label htmlFor="description" className="block text-sm font-medium text-gray-900">
-                Site Description
+                {t('admin.settings.siteDescription') || 'Site Description'}
               </label>
               <textarea
                 name="description"
@@ -286,6 +296,86 @@ export default function SettingsPage() {
                   })
                 }
                 placeholder="https://twitter.com/volahealthistanbul"
+                className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="trustpilot" className="block text-sm font-medium text-gray-900">
+                Trustpilot URL
+              </label>
+              <input
+                type="url"
+                name="trustpilot"
+                id="trustpilot"
+                value={settings.socialMedia.trustpilot}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    socialMedia: { ...settings.socialMedia, trustpilot: e.target.value },
+                  })
+                }
+                placeholder="https://www.trustpilot.com/review/volahealthistanbul.com"
+                className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="googlemaps" className="block text-sm font-medium text-gray-900">
+                Google Maps URL
+              </label>
+              <input
+                type="url"
+                name="googlemaps"
+                id="googlemaps"
+                value={settings.socialMedia.googlemaps}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    socialMedia: { ...settings.socialMedia, googlemaps: e.target.value },
+                  })
+                }
+                placeholder="https://maps.google.com/..."
+                className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="linkedin" className="block text-sm font-medium text-gray-900">
+                LinkedIn URL
+              </label>
+              <input
+                type="url"
+                name="linkedin"
+                id="linkedin"
+                value={settings.socialMedia.linkedin}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    socialMedia: { ...settings.socialMedia, linkedin: e.target.value },
+                  })
+                }
+                placeholder="https://linkedin.com/company/volahealthistanbul"
+                className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="pinterest" className="block text-sm font-medium text-gray-900">
+                Pinterest URL
+              </label>
+              <input
+                type="url"
+                name="pinterest"
+                id="pinterest"
+                value={settings.socialMedia.pinterest}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    socialMedia: { ...settings.socialMedia, pinterest: e.target.value },
+                  })
+                }
+                placeholder="https://pinterest.com/volahealthistanbul"
                 className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-amber-500 sm:text-sm sm:leading-6"
               />
             </div>

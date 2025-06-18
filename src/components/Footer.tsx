@@ -14,7 +14,7 @@ export function Footer() {
           <div className="col-span-1 sm:col-span-2 lg:col-span-1">
             <h3 className="text-lg sm:text-xl font-serif font-bold text-white mb-3 sm:mb-4">Vola Health Istanbul</h3>
             <p className="text-sm sm:text-base text-gray-300 mb-4 leading-relaxed">
-              {t('about.content') || 'Premier medical tourism destination in Istanbul, offering world-class healthcare services with personalized care.'}
+              {t('footer.companyDesc')}
             </p>
             
             {/* Social Media Links - Mobile Optimized */}
@@ -39,6 +39,28 @@ export function Footer() {
               >
                 <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+              <a 
+                href="https://www.trustpilot.com/review/volahealthistanbul.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300"
+                aria-label="View our Trustpilot reviews"
+              >
+                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0l3.708 7.514 8.292 1.207-6 5.849 1.416 8.259L12 18.902l-7.416 3.927L6 14.57 0 8.721l8.292-1.207L12 0z"/>
+                </svg>
+              </a>
+              <a 
+                href="https://maps.app.goo.gl/wdZhMAjRpBS4xrCf9" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors duration-300"
+                aria-label="Find us on Google Maps"
+              >
+                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
               </a>
             </div>
@@ -66,6 +88,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/testimonials" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                  {t('nav.testimonials') || 'View All Testimonials'}
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('nav.contact') || 'Contact'}
                 </Link>
@@ -85,7 +112,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/services/dental" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href="/services/dental-treatments" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('services.categories.dental') || 'Dental Services'}
                 </Link>
               </li>
@@ -108,7 +135,7 @@ export function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span className="text-sm sm:text-base">Istanbul, Turkey</span>
+                <span className="text-sm sm:text-base">{t('footer.istanbul')}</span>
               </li>
               <li className="flex items-start gap-2">
                 <svg className="w-4 h-4 mt-0.5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,14 +161,14 @@ export function Footer() {
         <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-gray-700">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-xs sm:text-sm text-gray-400 text-center sm:text-left">
-              © {new Date().getFullYear()} Vola Health Istanbul. All rights reserved.
+              © {new Date().getFullYear()} Vola Health Istanbul. {t('footer.allRightsReserved')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-center sm:text-left">
               <Link href="/privacy" className="text-xs sm:text-sm text-gray-400 hover:text-blue-400 transition-colors">
-                Privacy Policy
+                {t('footer.privacyPolicy')}
               </Link>
               <Link href="/terms" className="text-xs sm:text-sm text-gray-400 hover:text-blue-400 transition-colors">
-                Terms of Service
+                {t('footer.termsOfService')}
               </Link>
             </div>
           </div>

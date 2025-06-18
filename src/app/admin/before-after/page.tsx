@@ -107,27 +107,50 @@ export default function BeforeAfterAdmin() {
   const fetchCategories = async () => {
     try {
       const response = await fetch('/api/categories');
+      
       if (response.ok) {
         const data = await response.json();
-        setCategories(data.map((cat: any) => ({
-          id: cat.id,
-          name: typeof cat.name === 'string' ? JSON.parse(cat.name).en || cat.name : cat.name
-        })));
+        
+        const processedCategories = data.map((cat: any) => {
+          let categoryName = cat.name;
+          
+          // Handle different name formats
+          if (typeof cat.name === 'string') {
+            try {
+              // Try to parse as JSON first
+              const parsed = JSON.parse(cat.name);
+              categoryName = parsed.en || parsed.tr || cat.name;
+            } catch (e) {
+              // If parsing fails, use the string as is
+              categoryName = cat.name;
+            }
+          }
+          
+          return {
+            id: cat.id,
+            name: categoryName
+          };
+        });
+        
+        setCategories(processedCategories);
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setCategories([]);
     }
   };
 
   const fetchServices = async () => {
     try {
       const response = await fetch('/api/services');
+      
       if (response.ok) {
         const data = await response.json();
         setServices(data);
       }
     } catch (error) {
       console.error('Error fetching services:', error);
+      setServices([]);
     }
   };
 

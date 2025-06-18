@@ -119,6 +119,9 @@ export default function ContactPage() {
           </div>
           <form onSubmit={handleSubmit} className="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8 lg:py-32">
             <div className="mx-auto max-w-xl lg:mr-0 lg:max-w-lg">
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-gray-900 mb-6 sm:mb-8">
+                {t('contact.form.sendMessage') || 'Send Us A Message'}
+              </h2>
               {status === 'success' && (
                 <div className="mb-6 rounded-md bg-green-50 p-3 sm:p-4">
                   <div className="flex flex-col">
@@ -178,6 +181,7 @@ export default function ContactPage() {
                       autoComplete="given-name"
                       value={formData.firstName}
                       onChange={handleChange}
+                      placeholder={t('contact.form.firstName')}
                       className="block w-full rounded-md border-0 px-3 sm:px-3.5 py-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:text-base"
                     />
                   </div>
@@ -195,6 +199,7 @@ export default function ContactPage() {
                       autoComplete="family-name"
                       value={formData.lastName}
                       onChange={handleChange}
+                      placeholder={t('contact.form.lastName')}
                       className="block w-full rounded-md border-0 px-3 sm:px-3.5 py-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:text-base"
                     />
                   </div>
@@ -212,6 +217,7 @@ export default function ContactPage() {
                       autoComplete="email"
                       value={formData.email}
                       onChange={handleChange}
+                      placeholder={t('contact.form.email')}
                       className="block w-full rounded-md border-0 px-3 sm:px-3.5 py-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:text-base"
                     />
                   </div>
@@ -229,6 +235,7 @@ export default function ContactPage() {
                       autoComplete="tel"
                       value={formData.phone}
                       onChange={handleChange}
+                      placeholder={t('contact.form.phone')}
                       className="block w-full rounded-md border-0 px-3 sm:px-3.5 py-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:text-base"
                     />
                   </div>
@@ -267,7 +274,7 @@ export default function ContactPage() {
                       <option value="dental">{t('contact.treatments.dental')}</option>
                       <option value="hair">{t('contact.treatments.hair')}</option>
                       <option value="plastic">{t('contact.treatments.aesthetic')}</option>
-                      <option value="other">Other Services</option>
+                      <option value="other">{t('contact.treatments.other') || 'Other Services'}</option>
                     </select>
                   </div>
                 </div>
@@ -283,6 +290,7 @@ export default function ContactPage() {
                       rows={4}
                       value={formData.message}
                       onChange={handleChange}
+                      placeholder={t('contact.form.message')}
                       className="block w-full rounded-md border-0 px-3 sm:px-3.5 py-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary text-sm sm:text-base"
                     />
                   </div>
@@ -307,7 +315,7 @@ export default function ContactPage() {
       {/* Map section */}
       <div className="relative h-64 sm:h-96">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3006.8674977588477!2d29.0054!3d41.0748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDA0JzI5LjMiTiAyOcKwMDAnMTkuNCJF!5e0!3m2!1sen!2str!4v1625136234567!5m2!1sen!2str"
+          src="https://www.google.com/maps?q=40.990963,28.900390&hl=tr&z=16&output=embed"
           width="100%"
           height="100%"
           style={{ border: 0 }}

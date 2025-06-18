@@ -25,9 +25,9 @@ export default function AestheticResultsPage() {
         t('results.aesthetic.treatments.botoxFiller') || 'Botox & Filler'
       ]}
       stats={[
-        { number: '3000+', label: t('results.aesthetic.stats.operations') || 'Successful Operations' },
-        { number: '97%', label: t('results.aesthetic.stats.satisfaction') || 'Patient Satisfaction' },
-        { number: '18+', label: t('results.aesthetic.stats.experience') || 'Years of Experience' },
+        { number: '1000+', label: t('results.aesthetic.stats.operations') || 'Successful Operations' },
+        { number: '98%', label: t('results.aesthetic.stats.satisfaction') || 'Patient Satisfaction' },
+        { number: '15+', label: t('results.aesthetic.stats.experience') || 'Years of Experience' },
         { number: '15+', label: t('results.aesthetic.stats.surgeons') || 'Expert Surgeons' }
       ]}
     />

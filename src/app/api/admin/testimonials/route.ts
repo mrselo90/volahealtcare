@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 // GET - Fetch all testimonials
 export async function GET() {
@@ -48,7 +46,7 @@ export async function POST(request: NextRequest) {
       rating,
       review,
       country,
-      videoUrl,
+      photoUrl,
       isApproved = false,
       isFeatured = false,
       userId,
@@ -114,18 +112,19 @@ export async function POST(request: NextRequest) {
     }
 
     // Handle user creation/finding
-    if (!userId && userName && userEmail) {
-      // Try to find existing user by email
-      let user = await prisma.user.findUnique({
-        where: { email: userEmail }
+    if (!userId && userName) {
+      // Try to find existing user by name first
+      let user = await prisma.user.findFirst({
+        where: { name: userName }
       });
 
-      // If not found, create new user
+      // If not found, create new user with temporary email
       if (!user) {
+        const tempEmail = `${userName.toLowerCase().replace(/\s+/g, '.')}@testimonial.temp`;
         user = await prisma.user.create({
           data: {
             name: userName,
-            email: userEmail,
+            email: tempEmail,
             role: 'USER'
           }
         });
@@ -153,7 +152,7 @@ export async function POST(request: NextRequest) {
         rating,
         review,
         country,
-        videoUrl: videoUrl || null,
+        photoUrl: photoUrl || null,
         isApproved,
         isFeatured,
         userId: finalUserId || null
@@ -196,7 +195,7 @@ export async function PUT(request: NextRequest) {
       rating,
       review,
       country,
-      videoUrl,
+      photoUrl,
       isApproved,
       isFeatured
     } = body;
@@ -223,7 +222,7 @@ export async function PUT(request: NextRequest) {
         ...(rating && { rating }),
         ...(review && { review }),
         ...(country && { country }),
-        ...(videoUrl !== undefined && { videoUrl: videoUrl || null }),
+        ...(photoUrl !== undefined && { photoUrl: photoUrl || null }),
         ...(isApproved !== undefined && { isApproved }),
         ...(isFeatured !== undefined && { isFeatured })
       },

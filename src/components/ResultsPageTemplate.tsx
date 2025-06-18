@@ -102,6 +102,8 @@ export default function ResultsPageTemplate({
     currentPage * casesPerPage
   );
 
+
+
   const openModal = (caseItem: BeforeAfterCase) => {
     console.log('Opening modal for case:', {
       id: caseItem.id,
@@ -231,6 +233,8 @@ export default function ResultsPageTemplate({
           </div>
         ) : (
           <>
+
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {currentCases.map((caseItem, index) => (
                 <motion.div
@@ -238,52 +242,23 @@ export default function ResultsPageTemplate({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
                   onClick={() => openModal(caseItem)}
                 >
-                  {/* Result Image */}
-                  <div className="relative h-48 bg-gray-100">
-                    <Image
+                  <div className="relative aspect-square">
+                    <img
                       src={caseItem.afterImage || '/images/placeholder.svg'}
-                      alt="Treatment Result"
-                      fill
-                      className="object-cover"
+                      alt={t('results.treatmentResult') || 'Treatment Result'}
+                      className="w-full h-full object-cover rounded-xl"
                       onError={(e) => {
                         console.error('Grid image failed to load:', caseItem.afterImage);
-                        e.currentTarget.src = '/images/placeholder.svg';
+                        const target = e.currentTarget as HTMLImageElement;
+                        target.src = 'https://via.placeholder.com/400x400/cccccc/666666?text=No+Image';
                       }}
                     />
-                    <div className="absolute bottom-2 right-2 bg-green-500 text-white px-2 py-1 rounded text-xs text-professional-bold">
-                      RESULT
-                    </div>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="p-4">
-                    <h3 className="font-serif font-bold text-lg text-gray-900 mb-2">
-                      {caseItem.title}
-                    </h3>
                     
-                    {caseItem.description && (
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                        {caseItem.description}
-                      </p>
-                    )}
-
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      {caseItem.patientAge && (
-                        <span className="flex items-center gap-1">
-                          <UserIcon className="w-3 h-3" />
-                          {caseItem.patientAge} {t('results.beforeAfter.age') || 'years old'}
-                        </span>
-                      )}
-                      {caseItem.timeframe && (
-                        <span className="flex items-center gap-1">
-                          <ClockIcon className="w-3 h-3" />
-                          {caseItem.timeframe}
-                        </span>
-                      )}
-                    </div>
+                    {/* Minimal hover effect */}
+                    <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-all duration-300 rounded-xl" />
                   </div>
                 </motion.div>
               ))}
@@ -364,7 +339,7 @@ export default function ResultsPageTemplate({
                       {selectedCase.afterImage ? (
                         <Image
                           src={selectedCase.afterImage}
-                          alt="Treatment Result"
+                          alt={t('results.treatmentResult') || 'Treatment Result'}
                           fill
                           className="object-cover"
                           onError={(e) => {
@@ -393,18 +368,17 @@ export default function ResultsPageTemplate({
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-blue-50 p-4 rounded-lg text-center">
                         <div className="text-2xl font-serif font-bold text-blue-600">{selectedCase.patientAge || 'N/A'}</div>
-                        <div className="text-sm text-blue-800">{t('results.beforeAfter.age') || 'Age'}</div>
+                        <div className="text-sm text-blue-800">{t('results.patientAge') || 'Patient Age'}: {selectedCase.patientAge} {t('results.years') || 'years'}</div>
                       </div>
                       <div className="bg-green-50 p-4 rounded-lg text-center">
                         <div className="text-2xl font-serif font-bold text-green-600">{selectedCase.timeframe || 'N/A'}</div>
-                        <div className="text-sm text-green-800">{t('results.resultTime') || 'Result Time'}</div>
+                        <div className="text-sm text-green-800">{t('results.timeline') || 'Timeline'}: {selectedCase.timeframe || t('results.na') || 'N/A'}</div>
                       </div>
                     </div>
 
                     {selectedCase.description && (
                       <div>
-                        <h3 className="text-lg font-serif font-bold mb-2">{t('results.description') || 'Description'}</h3>
-                        <p className="text-gray-600">{selectedCase.description}</p>
+                        <h3 className="text-lg font-serif font-bold mb-2">{t('results.description') || 'Description'}: {selectedCase.description}</h3>
                       </div>
                     )}
 
@@ -417,8 +391,7 @@ export default function ResultsPageTemplate({
 
                     {selectedCase.results && (
                       <div>
-                        <h3 className="text-lg font-serif font-bold mb-2">{t('results.results') || 'Results'}</h3>
-                        <p className="text-gray-600">{selectedCase.results}</p>
+                        <h3 className="text-lg font-serif font-bold mb-2">{t('results.resultsAchieved') || 'Results Achieved'}: {selectedCase.results}</h3>
                       </div>
                     )}
                   </div>

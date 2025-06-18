@@ -308,9 +308,58 @@ export async function DELETE(request: Request) {
       );
     }
 
-    // Delete service (this will cascade delete related records due to schema setup)
-    await prisma.service.delete({
-      where: { id }
+    // Delete related records first to avoid foreign key constraint violations
+    await prisma.$transaction(async (tx) => {
+      // Delete appointments
+      await tx.appointment.deleteMany({
+        where: { serviceId: id }
+      });
+
+      // Delete testimonials
+      await tx.testimonial.deleteMany({
+        where: { serviceId: id }
+      });
+
+      // Delete before after cases
+      await tx.beforeAfterCase.deleteMany({
+        where: { serviceId: id }
+      });
+
+      // Delete FAQ translations first, then FAQs
+      const faqs = await tx.fAQ.findMany({
+        where: { serviceId: id },
+        select: { id: true }
+      });
+      
+      for (const faq of faqs) {
+        await tx.fAQTranslation.deleteMany({
+          where: { faqId: faq.id }
+        });
+      }
+      
+      await tx.fAQ.deleteMany({
+        where: { serviceId: id }
+      });
+
+      // Delete service translations
+      await tx.serviceTranslation.deleteMany({
+        where: { serviceId: id }
+      });
+
+      // Delete images
+      await tx.image.deleteMany({
+        where: { serviceId: id }
+      });
+
+      // Delete before after images
+      await tx.beforeAfterImage.deleteMany({
+        where: { serviceId: id }
+      });
+
+      // Finally delete the service
+      await tx.service.delete({
+        where: { id }
+      });
     });
 
     return NextResponse.json({ success: true });

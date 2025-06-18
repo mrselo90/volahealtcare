@@ -9,7 +9,7 @@ interface Testimonial {
   rating: number;
   review: string;
   country: string;
-  videoUrl?: string;
+  photoUrl?: string;
   isApproved: boolean;
   isFeatured: boolean;
   createdAt: string;
@@ -25,22 +25,43 @@ interface Testimonial {
   };
 }
 
+interface Service {
+  id: string;
+  title: string;
+  slug: string;
+  category: {
+    id: string;
+    name: string;
+    slug: string;
+  };
+}
+
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 export default function TestimonialsPage() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newTestimonial, setNewTestimonial] = useState({
     rating: 5,
     review: '',
     country: '',
-    videoUrl: '',
     userName: '',
-    userEmail: '',
-    serviceTitle: ''
+    categoryId: '',
+    serviceId: '',
+    photo: null as File | null
   });
 
   useEffect(() => {
     fetchTestimonials();
+    fetchServices();
+    fetchCategories();
   }, []);
 
   const fetchTestimonials = async () => {
@@ -54,6 +75,30 @@ export default function TestimonialsPage() {
       toast.error('Failed to load testimonials');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchServices = async () => {
+    try {
+      const response = await fetch('/api/services');
+      if (!response.ok) throw new Error('Failed to fetch services');
+      const data = await response.json();
+      setServices(data);
+    } catch (error) {
+      console.error('Error fetching services:', error);
+      toast.error('Failed to load services');
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('/api/categories');
+      if (!response.ok) throw new Error('Failed to fetch categories');
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      toast.error('Failed to load categories');
     }
   };
 
@@ -125,12 +170,41 @@ export default function TestimonialsPage() {
     e.preventDefault();
     
     try {
+      let photoUrl = '';
+      
+      // Upload photo if selected
+      if (newTestimonial.photo) {
+        const formData = new FormData();
+        formData.append('file', newTestimonial.photo);
+        
+        const uploadResponse = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        
+        if (uploadResponse.ok) {
+          const uploadResult = await uploadResponse.json();
+          photoUrl = uploadResult.url;
+        } else {
+          throw new Error('Failed to upload photo');
+        }
+      }
+      
       const response = await fetch('/api/admin/testimonials', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newTestimonial),
+        body: JSON.stringify({
+          serviceId: newTestimonial.serviceId,
+          rating: newTestimonial.rating,
+          review: newTestimonial.review,
+          country: newTestimonial.country,
+          photoUrl: photoUrl,
+          userName: newTestimonial.userName,
+          isApproved: true, // Auto-approve admin-created testimonials
+          isFeatured: false
+        }),
       });
 
       if (!response.ok) throw new Error('Failed to add testimonial');
@@ -142,10 +216,10 @@ export default function TestimonialsPage() {
         rating: 5,
         review: '',
         country: '',
-        videoUrl: '',
         userName: '',
-        userEmail: '',
-        serviceTitle: ''
+        categoryId: '',
+        serviceId: '',
+        photo: null
       });
       toast.success('Testimonial added successfully');
     } catch (error) {
@@ -163,6 +237,11 @@ export default function TestimonialsPage() {
       )
     ));
   };
+
+  // Filter services based on selected category
+  const filteredServices = newTestimonial.categoryId 
+    ? services.filter(service => service.category.id === newTestimonial.categoryId)
+    : services;
 
   return (
     <div className="relative space-y-8">
@@ -235,11 +314,18 @@ export default function TestimonialsPage() {
                 {testimonial.review}
               </p>
 
-              {/* Video indicator */}
-              {testimonial.videoUrl && (
-                <div className="flex items-center gap-1 text-xs text-blue-600">
-                  <span>📹</span>
-                  <span>Has video</span>
+              {/* Photo indicator */}
+              {testimonial.photoUrl && (
+                <div className="flex items-center gap-2">
+                  <img
+                    src={testimonial.photoUrl}
+                    alt="Testimonial photo"
+                    className="w-16 h-16 object-cover rounded-lg"
+                  />
+                  <div className="flex items-center gap-1 text-xs text-green-600">
+                    <span>📷</span>
+                    <span>Has photo</span>
+                  </div>
                 </div>
               )}
 
@@ -276,13 +362,7 @@ export default function TestimonialsPage() {
                     <RiStarFill className="h-4 w-4" />
                   </button>
 
-                  {/* Edit */}
-                  <button
-                    className="text-gray-400 hover:text-amber-500 p-2 rounded-full transition-colors"
-                    title="Edit testimonial"
-                  >
-                    <RiEditLine className="h-4 w-4" />
-                  </button>
+
 
                   {/* Delete */}
                   <button
@@ -329,28 +409,45 @@ export default function TestimonialsPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  User Email
+                  Category
                 </label>
-                <input
-                  type="email"
+                <select
                   required
-                  value={newTestimonial.userEmail}
-                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, userEmail: e.target.value }))}
+                  value={newTestimonial.categoryId}
+                  onChange={(e) => setNewTestimonial(prev => ({ 
+                    ...prev, 
+                    categoryId: e.target.value,
+                    serviceId: '' // Reset service when category changes
+                  }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                />
+                >
+                  <option value="">Select a category</option>
+                  {categories.map(category => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Service Title
+                  Service
                 </label>
-                <input
-                  type="text"
+                <select
                   required
-                  value={newTestimonial.serviceTitle}
-                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, serviceTitle: e.target.value }))}
+                  value={newTestimonial.serviceId}
+                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, serviceId: e.target.value }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                />
+                  disabled={!newTestimonial.categoryId}
+                >
+                  <option value="">Select a service</option>
+                  {filteredServices.map(service => (
+                    <option key={service.id} value={service.id}>
+                      {service.title}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
@@ -396,14 +493,22 @@ export default function TestimonialsPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Video URL (optional)
+                  Photo (optional)
                 </label>
                 <input
-                  type="url"
-                  value={newTestimonial.videoUrl}
-                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, videoUrl: e.target.value }))}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setNewTestimonial(prev => ({ 
+                    ...prev, 
+                    photo: e.target.files?.[0] || null 
+                  }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
+                {newTestimonial.photo && (
+                  <p className="text-sm text-gray-500 mt-1">
+                    Selected: {newTestimonial.photo.name}
+                  </p>
+                )}
               </div>
 
               <div className="flex gap-3 pt-4">

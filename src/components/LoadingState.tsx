@@ -1,8 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/lib/i18n/hooks';
 
 export const LoadingState = () => {
+  const { t } = useTranslation();
+  
   return (
     <div className="min-h-[400px] flex items-center justify-center p-4">
       <motion.div
@@ -16,7 +19,7 @@ export const LoadingState = () => {
           <div className="w-8 h-8 bg-primary rounded-full absolute top-0 left-0 animate-ping"></div>
           <div className="w-8 h-8 bg-primary rounded-full absolute top-0 left-0 animate-pulse"></div>
         </div>
-        <p className="mt-4 text-sm text-gray-600">Loading...</p>
+        <p className="mt-4 text-sm text-gray-600">{t('common.loading')}</p>
       </motion.div>
     </div>
   );

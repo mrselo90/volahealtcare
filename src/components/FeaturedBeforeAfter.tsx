@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import CounterAnimation from '@/components/CounterAnimation';
+import { useTranslation } from '../lib/i18n/hooks';
 
 interface BeforeAfterCase {
   id: string;
@@ -48,6 +49,7 @@ export default function FeaturedBeforeAfter({
   limit = 6, 
   className = '' 
 }: FeaturedBeforeAfterProps) {
+  const { t } = useTranslation();
   const [cases, setCases] = useState<BeforeAfterCase[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -105,7 +107,7 @@ export default function FeaturedBeforeAfter({
           <div className="text-center">
             <div className="inline-flex items-center gap-3 mb-4">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
-              <p className="text-lg text-professional text-blue-100">Loading transformations...</p>
+              <p className="text-lg text-professional text-blue-100">{t('featured.loading') || 'Loading transformations...'}</p>
             </div>
           </div>
         </div>
@@ -119,10 +121,8 @@ export default function FeaturedBeforeAfter({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-12 max-w-md mx-auto">
-              <h3 className="text-2xl font-serif font-bold text-white mb-4">No Featured Cases</h3>
-              <p className="text-blue-100 mb-6">
-                {error ? 'Unable to load featured cases at the moment.' : 'No featured transformations are currently available.'}
-              </p>
+              <h3 className="text-2xl font-serif font-bold text-white mb-4">{t('featured.noCases') || 'No Featured Cases'}</h3>
+              <p className="text-blue-100 mb-6">{error ? t('featured.unableToLoad') || 'Unable to load featured cases at the moment.' : t('featured.noTransformations') || 'No featured transformations are currently available.'}</p>
             </div>
           </div>
         </div>
@@ -148,18 +148,18 @@ export default function FeaturedBeforeAfter({
           >
           <div className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10 text-white px-8 py-3 rounded-full text-sm text-professional-bold mb-8 shadow-2xl">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-            <span>REAL PATIENT TRANSFORMATIONS</span>
+            <span>{t('featured.realPatientTransformations') || 'REAL PATIENT TRANSFORMATIONS'}</span>
             <span>✨</span>
           </div>
           
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-4 sm:mb-6 leading-tight">
-            Life-Changing
+            {t('featured.lifeChanging') || 'Life-Changing'}
             <br />
-            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-serif font-light italic">Results</span>
+            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-serif font-light italic">{t('featured.results') || 'Results'}</span>
           </h2>
           
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Witness the incredible transformations of patients who trusted us with their medical tourism journey at Vola Health Istanbul.
+            {t('featured.witness') || 'Witness the incredible transformations of patients who trusted us with their medical tourism journey at Vola Health Istanbul.'}
           </p>
         </motion.div>
 
@@ -178,7 +178,7 @@ export default function FeaturedBeforeAfter({
                 <div className="relative">
                   <div className="relative group max-w-md mx-auto">
                     <div className="absolute -top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm text-professional-bold z-10 glow-animation">
-                      ✨ RESULT
+                      {t('featured.result') || '✨ RESULT'}
                     </div>
                     <div className="aspect-square rounded-2xl overflow-hidden shadow-xl bg-gray-800">
                       <Image
@@ -200,13 +200,23 @@ export default function FeaturedBeforeAfter({
                 <div className="text-white">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 rounded-full text-sm text-professional-bold gradient-text-accent shimmer-effect">
-                      ⭐ FEATURED
+                      {t('featured.featured') || '⭐ FEATURED'}
                     </span>
                     {currentCase.category && (
                       <span className="bg-blue-500/20 border border-blue-400/30 text-blue-200 px-3 py-1 rounded-full text-sm">
-                        {typeof currentCase.category.name === 'string' 
-                          ? JSON.parse(currentCase.category.name).en 
-                          : currentCase.category.name}
+                        {(() => {
+                          if (typeof currentCase.category.name === 'string') {
+                            try {
+                              // Try to parse as JSON first
+                              const parsed = JSON.parse(currentCase.category.name);
+                              return parsed.en || parsed.tr || currentCase.category.name;
+                            } catch (e) {
+                              // If parsing fails, use the string as is
+                              return currentCase.category.name;
+                            }
+                          }
+                          return currentCase.category.name;
+                        })()}
                       </span>
                     )}
                   </div>
@@ -217,22 +227,20 @@ export default function FeaturedBeforeAfter({
                   
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="bg-white/5 rounded-lg p-4 stats-card">
-                      <div className="text-blue-200 text-sm mb-1">Patient Age</div>
-                      <div className="text-xl text-professional-bold">{currentCase.patientAge} years</div>
+                      <div className="text-blue-200 text-sm mb-1">{t('featured.patientAge') || 'Patient Age'}</div>
+                      <div className="text-xl text-professional-bold">{currentCase.patientAge} {t('featured.years') || 'years'}</div>
                     </div>
                     <div className="bg-white/5 rounded-lg p-4 stats-card">
-                      <div className="text-blue-200 text-sm mb-1">Timeline</div>
-                      <div className="text-xl text-professional-bold">{currentCase.timeframe || 'N/A'}</div>
+                      <div className="text-blue-200 text-sm mb-1">{t('featured.timeline') || 'Timeline'}</div>
+                      <div className="text-xl text-professional-bold">{currentCase.timeframe || t('featured.na') || 'N/A'}</div>
                     </div>
                   </div>
                   
-                  <p className="text-lg text-blue-100 mb-6 leading-relaxed">
-                    {currentCase.description}
-                  </p>
+
                   
                   {currentCase.results && (
                     <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 rounded-lg p-4 mb-6">
-                      <div className="text-green-200 text-sm mb-2">RESULTS ACHIEVED</div>
+                      <div className="text-green-200 text-sm mb-2">{t('featured.resultsAchieved') || 'RESULTS ACHIEVED'}</div>
                       <p className="text-white">{currentCase.results}</p>
                     </div>
                   )}
@@ -266,10 +274,10 @@ export default function FeaturedBeforeAfter({
           className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16"
         >
           {[
-            { number: 1500, suffix: '+', label: 'Successful Cases', icon: '🏆' },
-            { number: 98, suffix: '%', label: 'Satisfaction Rate', icon: '😊' },
-            { number: 25, suffix: '+', label: 'Countries Served', icon: '🌍' },
-            { number: 15, suffix: '+', label: 'Years Experience', icon: '⭐' }
+            { number: 4500, suffix: '+', label: t('stats.successfulCases') || 'Successful Cases', icon: '🏆' },
+            { number: 98, suffix: '%', label: t('stats.satisfactionRate') || 'Satisfaction Rate', icon: '😊' },
+            { number: 25, suffix: '+', label: t('stats.countriesServed') || 'Countries Served', icon: '🌍' },
+            { number: 15, suffix: '+', label: t('stats.yearsExperience') || 'Years Experience', icon: '⭐' }
           ].map((stat, index) => (
             <div key={index} className="text-center">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 stats-card">
@@ -296,18 +304,17 @@ export default function FeaturedBeforeAfter({
         >
           <div className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg rounded-3xl p-12 border border-white/20 shadow-2xl max-w-4xl mx-auto featured-case-card">
             <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-6 gradient-text-primary">
-              Ready for Your Transformation?
+              {t('cta.title') || 'Ready for Your Transformation?'}
             </h3>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Join thousands of satisfied patients who chose Istanbul for their medical journey. 
-              Our expert team is ready to help you achieve your desired results.
+                              {t('cta.subtitle') || 'Join thousands of satisfied patients who chose Vola Health Istanbul for their transformation journey. Our expert team is ready to help you achieve your desired results.'}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/gallery"
                 className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-professional-bold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-xl btn-primary-gradient"
               >
-                <span>View All Transformations</span>
+                <span>{t('cta.viewAll') || 'View All Transformations'}</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
@@ -316,7 +323,7 @@ export default function FeaturedBeforeAfter({
                 href="/consultation"
                 className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white px-8 py-4 rounded-xl text-professional-bold hover:bg-white/20 transition-all duration-300 shadow-xl stats-card"
               >
-                <span>Free Consultation</span>
+                <span>{t('cta.freeConsultation') || 'Free Consultation'}</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>

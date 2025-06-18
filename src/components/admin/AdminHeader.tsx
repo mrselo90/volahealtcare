@@ -5,6 +5,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { signOut, useSession } from 'next-auth/react';
 import { RiGlobalLine, RiLogoutBoxRLine, RiUserLine } from 'react-icons/ri';
 import Image from 'next/image';
+import { useTranslation } from '@/lib/i18n/hooks';
 
 const languages = [
   { code: 'en', name: 'English' },
@@ -22,6 +23,7 @@ const languages = [
 
 export function AdminHeader() {
   const { data: session } = useSession();
+  const { t } = useTranslation();
 
   return (
     <header className="bg-white border-b border-gray-200 shadow-sm">
@@ -39,7 +41,7 @@ export function AdminHeader() {
             <Menu as="div" className="relative inline-block text-left">
               <Menu.Button className="flex items-center text-gray-600 hover:text-gray-900 focus:outline-none">
                 <RiGlobalLine className="h-5 w-5" />
-                <span className="ml-2 text-sm font-medium">Language</span>
+                <span className="ml-2 text-sm font-medium">{t('admin.header.language')}</span>
               </Menu.Button>
               <Transition
                 as={Fragment}

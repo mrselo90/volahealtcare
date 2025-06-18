@@ -3,35 +3,74 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useTranslation } from '@/lib/i18n/hooks';
 
-const defaultTranslations = [
-  { language: 'en', title: '', description: '' },
-  { language: 'tr', title: '', description: '' },
+const supportedLanguages = [
+  { code: 'en', name: 'English' },
+  { code: 'tr', name: 'Türkçe' },
+  { code: 'es', name: 'Español' },
+  { code: 'de', name: 'Deutsch' },
+  { code: 'fr', name: 'Français' },
+  { code: 'it', name: 'Italiano' },
+  { code: 'pt', name: 'Português' },
+  { code: 'ro', name: 'Română' },
+  { code: 'pl', name: 'Polski' },
+  { code: 'ar', name: 'العربية' },
+  { code: 'ru', name: 'Русский' }
 ];
+
+const defaultTranslations = supportedLanguages.map(lang => ({
+  language: lang.code,
+  title: '',
+  description: ''
+}));
 
 export default function NewService() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [error, setError] = useState('');
   const [uploading, setUploading] = useState(false);
   const [categories, setCategories] = useState<{ id: string; name: string; slug: string }[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const res = await fetch('/api/admin/categories');
-      if (!res.ok) return setCategories([]);
-      const data = await res.json();
-      // Parse name as JSON and use .en for display, use slug as value
-      const parsed = data.map((cat: any) => {
-        let name = '';
-        try {
-          const obj = typeof cat.name === 'string' ? JSON.parse(cat.name) : cat.name;
-          name = obj && obj.en ? obj.en : (cat.name || '');
-        } catch {
-          name = cat.name || '';
+      try {
+        console.log('Fetching categories...');
+        const res = await fetch('/api/categories');
+        console.log('Categories response status:', res.status);
+        
+        if (!res.ok) {
+          console.error('Failed to fetch categories:', res.status, res.statusText);
+          setCategories([]);
+          return;
         }
-        return { ...cat, name };
-      });
-      setCategories(parsed);
+        
+        const data = await res.json();
+        console.log('Categories data:', data);
+        
+        // Parse name - public API returns plain strings, admin API returns JSON
+        const parsed = data.map((cat: any) => {
+          let name = '';
+          try {
+            // If name is already a string (from public API), use it directly
+            if (typeof cat.name === 'string' && !cat.name.startsWith('{')) {
+              name = cat.name;
+            } else {
+              // If name is JSON string (from admin API), parse it
+              const obj = typeof cat.name === 'string' ? JSON.parse(cat.name) : cat.name;
+              name = obj && obj.en ? obj.en : (cat.name || '');
+            }
+          } catch {
+            name = cat.name || '';
+          }
+          return { ...cat, name };
+        });
+        console.log('Parsed categories:', parsed);
+        setCategories(parsed);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setCategories([]);
+      }
     };
     fetchCategories();
   }, []);
@@ -40,11 +79,15 @@ export default function NewService() {
     slug: '',
     description: '',
     category: '', // Start empty so the placeholder shows
-    price: 0,
-    duration: '',
-    currency: 'USD',
     translations: defaultTranslations,
     images: [] as Array<{ id?: string; url: string; alt: string }>,
+    // Package Details
+    timeInTurkey: '',
+    operationTime: '',
+    hospitalStay: '',
+    recovery: '',
+    accommodation: '',
+    transportation: '',
     // Additional fields
     featured: false,
     availability: 'always',
@@ -54,6 +97,7 @@ export default function NewService() {
     aftercare: '',
     benefits: '',
     risks: '',
+    anesthesia: '',
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -203,44 +247,7 @@ export default function NewService() {
 
 
 
-          <div>
-            <label className="block mb-2">Price</label>
-            <input
-              type="number"
-              name="price"
-              value={service.price}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
 
-          <div>
-            <label className="block mb-2">Duration</label>
-            <input
-              type="text"
-              name="duration"
-              value={service.duration}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block mb-2">Currency</label>
-            <select
-              name="currency"
-              value={service.currency}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded"
-              required
-            >
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-              <option value="TRY">TRY</option>
-            </select>
-          </div>
 
           <div>
             <label className="block mb-2">Availability</label>
@@ -277,6 +284,84 @@ export default function NewService() {
               onChange={handleInputChange}
               className="w-full p-2 border rounded"
             />
+          </div>
+        </div>
+
+        {/* Package Details Section */}
+        <div className="bg-gray-50 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4">Package Details</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-2">Time in Turkey</label>
+              <input
+                type="text"
+                name="timeInTurkey"
+                value={service.timeInTurkey}
+                onChange={handleInputChange}
+                className="w-full p-2 border rounded"
+                placeholder="e.g., 3-5 Days"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2">Operation Time</label>
+              <input
+                type="text"
+                name="operationTime"
+                value={service.operationTime}
+                onChange={handleInputChange}
+                className="w-full p-2 border rounded"
+                placeholder="e.g., 2-4 Hours"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2">Hospital Stay</label>
+              <input
+                type="text"
+                name="hospitalStay"
+                value={service.hospitalStay}
+                onChange={handleInputChange}
+                className="w-full p-2 border rounded"
+                placeholder="e.g., Day Case"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2">Recovery Time</label>
+              <input
+                type="text"
+                name="recovery"
+                value={service.recovery}
+                onChange={handleInputChange}
+                className="w-full p-2 border rounded"
+                placeholder="e.g., 1-2 Weeks"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2">Accommodation</label>
+              <input
+                type="text"
+                name="accommodation"
+                value={service.accommodation}
+                onChange={handleInputChange}
+                className="w-full p-2 border rounded"
+                placeholder="e.g., 5* Hotel"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2">Transportation</label>
+              <input
+                type="text"
+                name="transportation"
+                value={service.transportation}
+                onChange={handleInputChange}
+                className="w-full p-2 border rounded"
+                placeholder="e.g., VIP Car & Driver"
+              />
+            </div>
           </div>
         </div>
 
@@ -322,6 +407,18 @@ export default function NewService() {
               onChange={handleInputChange}
               className="w-full p-2 border rounded"
               rows={3}
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2">Anesthesia</label>
+            <input
+              type="text"
+              name="anesthesia"
+              value={service.anesthesia}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded"
+              placeholder="e.g., Local Anesthesia"
             />
           </div>
         </div>
@@ -391,35 +488,43 @@ export default function NewService() {
 
         <div className="mt-6">
           <h2 className="text-xl font-semibold mb-4">Translations</h2>
-          {service.translations.map((translation) => (
-            <div key={translation.language} className="mb-6 p-4 border rounded">
-              <h3 className="font-semibold mb-2">
-                {translation.language === 'en' ? 'English' : 'Turkish'}
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block mb-2">Title</label>
-                  <input
-                    type="text"
-                    value={translation.title}
-                    onChange={(e) => handleTranslationChange(translation.language, 'title', e.target.value)}
-                    className="w-full p-2 border rounded"
-                    required
-                  />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {service.translations.map((translation) => {
+              const language = supportedLanguages.find(lang => lang.code === translation.language);
+              return (
+                <div key={translation.language} className="p-4 border rounded-lg bg-gray-50">
+                  <h3 className="font-semibold mb-3 text-lg flex items-center gap-2">
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      {translation.language.toUpperCase()}
+                    </span>
+                    {language?.name}
+                  </h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block mb-2 text-sm font-medium">Title</label>
+                      <input
+                        type="text"
+                        value={translation.title}
+                        onChange={(e) => handleTranslationChange(translation.language, 'title', e.target.value)}
+                        className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder={`Enter title in ${language?.name}`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block mb-2 text-sm font-medium">Description</label>
+                      <textarea
+                        value={translation.description}
+                        onChange={(e) => handleTranslationChange(translation.language, 'description', e.target.value)}
+                        className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        rows={3}
+                        placeholder={`Enter description in ${language?.name}`}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label className="block mb-2">Description</label>
-                  <textarea
-                    value={translation.description}
-                    onChange={(e) => handleTranslationChange(translation.language, 'description', e.target.value)}
-                    className="w-full p-2 border rounded"
-                    rows={3}
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
+              );
+            })}
+          </div>
         </div>
 
         <div className="flex gap-4">

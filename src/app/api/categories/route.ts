@@ -14,11 +14,10 @@ export async function GET() {
             title: true,
             slug: true,
             description: true,
-            price: true,
-            currency: true,
             featured: true,
             images: true,
             categoryId: true,
+            anesthesia: true,
             // Package Details
             timeInTurkey: true,
             operationTime: true,

@@ -8,7 +8,6 @@ import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import { LanguageProvider } from '@/lib/i18n/hooks';
 import CookieConsent from '@/components/ui/CookieConsent';
 import { Providers } from './providers';
-import PerformanceMonitor from '@/components/PerformanceMonitor';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -87,9 +86,8 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <Providers>
           <LanguageProvider>
-            <PerformanceMonitor />
             <Header />
-            <main className="flex-grow pt-20 sm:pt-24">
+            <main className="flex-grow pt-16 sm:pt-[72px]">
               {children}
             </main>
             <Footer />

@@ -662,6 +662,7 @@ export default function ServicePage({ params }: ServicePageProps) {
   const [lang, setLang] = useState(language);
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const [isFavorited, setIsFavorited] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
 
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
@@ -749,18 +750,8 @@ export default function ServicePage({ params }: ServicePageProps) {
           animate={{ scale: 1 }}
           transition={{ duration: 1.2 }}
         >
-          {featuredImage ? (
-            <OptimizedImage
-              src={featuredImage.url}
-              alt={featuredImage.alt || serviceTitle}
-              fill
-              className="object-cover"
-              priority
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800" />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
+          <div className="w-full h-full bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900" />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10" />
         </motion.div>
         
 
@@ -815,7 +806,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                 className="flex justify-start"
               >
                 <Link
-                  href="#contact"
+                  href="/contact"
                   className="inline-flex items-center justify-center px-8 py-4 text-lg text-professional-bold text-blue-600 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20"
                 >
                   Contact Us
@@ -826,11 +817,18 @@ export default function ServicePage({ params }: ServicePageProps) {
           </div>
         </div>
 
-        {/* Scroll Indicator - Simplified */}
+        {/* Scroll Indicator - Functional */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/80">
-          <div className="flex flex-col items-center gap-2">
-            <ChevronDownIcon className="h-6 w-6 animate-bounce" />
-          </div>
+          <button
+            onClick={() => scrollToSection('overview')}
+            className="flex flex-col items-center gap-2 hover:text-white transition-colors duration-300 group cursor-pointer"
+            aria-label="Scroll to content"
+          >
+            <ChevronDownIcon className="h-6 w-6 animate-bounce group-hover:animate-pulse" />
+            <span className="text-xs opacity-70 group-hover:opacity-100 transition-opacity">
+              Scroll Down
+            </span>
+          </button>
         </div>
       </motion.section>
 
@@ -868,9 +866,9 @@ export default function ServicePage({ params }: ServicePageProps) {
 
                 {/* Premium Package Details Section */}
                 {(data.timeInTurkey || data.operationTime || data.hospitalStay || data.recovery || data.accommodation || data.transportation) && (
-                  <div className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 rounded-3xl p-8 md:p-12 mb-12 shadow-2xl border border-white/20">
+                  <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 rounded-3xl p-8 md:p-12 mb-12 shadow-2xl border border-white/10">
                     {/* Background Pattern */}
-                    <div className="absolute inset-0 opacity-5">
+                    <div className="absolute inset-0 opacity-10">
                       <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full blur-3xl"></div>
                       <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-indigo-400 to-pink-600 rounded-full blur-3xl"></div>
                     </div>
@@ -891,7 +889,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="text-4xl md:text-5xl font-serif font-bold bg-gradient-to-r from-slate-800 via-blue-800 to-indigo-900 bg-clip-text text-transparent mb-4"
+                        className="text-4xl md:text-5xl font-serif font-bold text-white mb-4"
                       >
                         {t('services.packageDetails.title')}
                       </motion.h3>
@@ -900,7 +898,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.3 }}
-                        className="text-xl text-professional max-w-2xl mx-auto"
+                        className="text-xl text-blue-100 max-w-2xl mx-auto"
                       >
                         {t('services.packageDetails.subtitle')}
                       </motion.p>
@@ -1018,20 +1016,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                 )}
 
                 {/* Additional Key Information for other fields */}
-                {data.anesthesia && (
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                    <motion.div 
-                      whileHover={{ scale: 1.02, y: -5 }}
-                      className="bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-2xl shadow-lg text-white"
-                    >
-                      <div className="flex items-center gap-3 mb-3">
-                        <ShieldCheckIcon className="h-6 w-6" />
-                        <h4 className="font-semibold">Anesthesia</h4>
-                      </div>
-                      <p className="text-lg font-medium">{data.anesthesia}</p>
-                    </motion.div>
-                  </div>
-                )}
+                {/* Anesthesia information hidden per user request */}
             
 
               </div>
@@ -1259,8 +1244,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                       <UserGroupIcon className="h-6 w-6 text-blue-600" />
                       </div>
                     <div>
-                      <div className="text-2xl font-bold text-gray-900">1500+</div>
-                      <div className="text-gray-600 text-sm">Happy Patients</div>
+                      <div className="text-2xl font-bold text-gray-900">4500+</div>
+                      <div className="text-gray-600 text-sm">Happy Clients</div>
                     </div>
                   </div>
 
@@ -1279,7 +1264,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                       <ShieldCheckIcon className="h-6 w-6 text-purple-600" />
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-gray-900">10+</div>
+                      <div className="text-2xl font-bold text-gray-900">15+</div>
                       <div className="text-gray-600 text-sm">Years Experience</div>
                     </div>
                   </div>
@@ -1536,9 +1521,12 @@ export default function ServicePage({ params }: ServicePageProps) {
         )}
       </AnimatePresence>
 
-
-
-
+      {/* Booking Modal */}
+      <BookingModal 
+        isOpen={showBookingModal}
+        onClose={() => setShowBookingModal(false)}
+        service={data}
+      />
 
     </div>
   );

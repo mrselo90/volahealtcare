@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon, PhoneIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+  const { t } = useTranslation();
   const menuItems = [
     { href: '/', label: 'Home' },
     { href: '/services', label: 'Services' },
@@ -25,7 +27,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const ctaButtons = [
     {
       href: '/consultation',
-      label: 'Free Consultation',
+      label: t('nav.consultation') || 'Free Consultation',
       icon: CalendarDaysIcon,
       primary: true
     },
@@ -38,12 +40,12 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   ];
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Services', href: '/services' },
-    { name: 'About', href: '/about' },
-    { name: 'Why Choose Us?', href: '/why-choose-us' },
-    { name: 'Results', href: '/gallery' },
-    { name: 'Contact', href: '/contact' },
+    { name: t('nav.home') || 'Home', href: '/' },
+    { name: t('nav.services') || 'Services', href: '/services' },
+    { name: t('nav.about') || 'About', href: '/about' },
+    { name: t('nav.whyChooseUs') || 'Why Choose Us?', href: '/why-choose-us' },
+    { name: t('nav.results') || 'Results', href: '/gallery' },
+    { name: t('nav.contact') || 'Contact', href: '/contact' },
   ];
 
   return (

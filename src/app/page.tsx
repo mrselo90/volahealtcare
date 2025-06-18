@@ -2,36 +2,85 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import FeaturedBeforeAfter from '@/components/FeaturedBeforeAfter';
 import { useState, useEffect } from 'react';
 import { useTranslation } from '@/lib/i18n/hooks';
-import HeroSlider from '@/components/HeroSlider';
+import dynamic from 'next/dynamic';
 
 interface SocialMediaUrls {
   social_instagram: string;
   social_facebook: string;
+  social_trustpilot: string;
+  social_googlemaps: string;
   social_linkedin: string;
   social_youtube: string;
   social_pinterest: string;
   social_twitter: string;
 }
 
+interface Testimonial {
+  id: string;
+  content: string;
+  author: string;
+  country: string;
+}
+
+interface ContentBlock {
+  id: string;
+  key: string;
+  title: string;
+  content?: string;
+  mediaUrl?: string;
+  mediaType: 'image' | 'video' | 'placeholder';
+  mediaAlt?: string;
+  isActive: boolean;
+  orderIndex: number;
+}
+
+const Chatbot = dynamic(() => import('@/components/ui/Chatbot'), { 
+  ssr: false, 
+  loading: () => <div className="animate-pulse">Loading chat...</div> 
+});
+const HeroSlider = dynamic(() => import('@/components/HeroSlider'), { 
+  loading: () => <div className="animate-pulse bg-gray-200 rounded-lg h-full flex items-center justify-center">Loading gallery...</div> 
+});
+const FeaturedBeforeAfter = dynamic(() => import('@/components/FeaturedBeforeAfter'), { 
+  loading: () => <div className="animate-pulse bg-gray-200 rounded-lg h-64 flex items-center justify-center">Loading results...</div> 
+});
+
 export default function Home() {
   const { t } = useTranslation();
   const [socialUrls, setSocialUrls] = useState<SocialMediaUrls>({
     social_instagram: '',
     social_facebook: '',
+    social_trustpilot: '',
+    social_googlemaps: '',
     social_linkedin: '',
     social_youtube: '',
     social_pinterest: '',
     social_twitter: ''
   });
-  const [testimonials, setTestimonials] = useState([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [contentBlocks, setContentBlocks] = useState<ContentBlock[]>([]);
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
-    fetchSocialUrls();
-    fetchTestimonials();
+    const loadData = async () => {
+      setIsLoading(true);
+      try {
+        await Promise.all([fetchSocialUrls(), fetchTestimonials(), fetchContentBlocks()]);
+      } catch (err) {
+        setError('Failed to load page data');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadData();
   }, []);
 
   // Auto-rotate testimonials every 5 seconds
@@ -46,6 +95,20 @@ export default function Home() {
       return () => clearInterval(interval);
     }
   }, [testimonials.length]);
+
+  // Auto-rotate media content every 6 seconds
+  useEffect(() => {
+    const mediaBlocks = getMediaContentBlocks();
+    if (mediaBlocks.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentMediaIndex((prev) => 
+          prev === mediaBlocks.length - 1 ? 0 : prev + 1
+        );
+      }, 6000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [contentBlocks]);
 
   const fetchTestimonials = async () => {
     try {
@@ -69,6 +132,8 @@ export default function Home() {
         setSocialUrls({
           social_instagram: data.socialMedia?.instagram || '',
           social_facebook: data.socialMedia?.facebook || '',
+          social_trustpilot: data.socialMedia?.trustpilot || '',
+          social_googlemaps: data.socialMedia?.googlemaps || '',
           social_linkedin: data.socialMedia?.linkedin || '',
           social_youtube: data.socialMedia?.youtube || '',
           social_pinterest: data.socialMedia?.pinterest || '',
@@ -77,6 +142,61 @@ export default function Home() {
       }
     } catch (error) {
       console.error('Error fetching social media URLs:', error);
+    }
+  };
+
+  const fetchContentBlocks = async () => {
+    try {
+      const response = await fetch('/api/content-blocks');
+      if (response.ok) {
+        const data = await response.json();
+        setContentBlocks(data);
+      }
+    } catch (error) {
+      console.error('Error fetching content blocks:', error);
+    }
+  };
+
+  const getContentBlock = (key: string) => {
+    const block = contentBlocks.find(block => block.key === key && block.isActive);
+    return block;
+  };
+
+  const getMediaContentBlocks = () => {
+    return contentBlocks.filter(block => 
+      block.isActive && 
+      block.mediaUrl && 
+      (block.mediaType === 'image' || block.mediaType === 'video')
+    ).sort((a, b) => a.orderIndex - b.orderIndex);
+  };
+
+  // Touch gesture handling for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+    const mediaBlocks = getMediaContentBlocks();
+
+    if (isLeftSwipe && mediaBlocks.length > 1) {
+      setCurrentMediaIndex(prev => 
+        prev === mediaBlocks.length - 1 ? 0 : prev + 1
+      );
+    }
+    if (isRightSwipe && mediaBlocks.length > 1) {
+      setCurrentMediaIndex(prev => 
+        prev === 0 ? mediaBlocks.length - 1 : prev - 1
+      );
     }
   };
 
@@ -118,6 +238,18 @@ export default function Home() {
             <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.333 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.748-1.378 0 0-.599 2.282-.744 2.84-.282 1.079-1.044 2.431-1.549 3.235C9.584 23.815 10.77 24.001 12.017 24.001c6.624-.001 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
           </svg>
         );
+      case 'trustpilot':
+        return (
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0L9.3 8.7H0l7.5 5.4L4.8 24L12 18.6L19.2 24l-2.7-9.9L24 8.7h-9.3L12 0z"/>
+          </svg>
+        );
+      case 'googlemaps':
+        return (
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+        );
       default:
         return null;
     }
@@ -126,6 +258,8 @@ export default function Home() {
   const socialPlatforms = [
     { key: 'social_instagram', platform: 'instagram' },
     { key: 'social_facebook', platform: 'facebook' },
+    { key: 'social_trustpilot', platform: 'trustpilot' },
+    { key: 'social_googlemaps', platform: 'googlemaps' },
     { key: 'social_twitter', platform: 'twitter' },
     { key: 'social_linkedin', platform: 'linkedin' },
     { key: 'social_youtube', platform: 'youtube' },
@@ -207,7 +341,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section - Mobile Optimized */}
-      <section className="relative min-h-[calc(100vh-80px)] sm:min-h-[calc(100vh-96px)] flex items-center justify-center overflow-hidden pt-20 sm:pt-24">
+      <section className="relative min-h-[calc(100vh-64px)] sm:min-h-[calc(100vh-72px)] flex items-center justify-center overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 z-0">
           {/* Gradient Background */}
@@ -232,15 +366,15 @@ export default function Home() {
         </div>
           
         {/* Content - Mobile-first approach */}
-        <div className="relative z-10 section-padding-mobile max-w-7xl mx-auto w-full">
+        <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-20 items-center">
             {/* Left Side - Text Content */}
             <div className="text-center lg:text-left space-y-4 sm:space-y-6 lg:space-y-10 order-2 lg:order-1">
               <div className="space-y-3 sm:space-y-4 lg:space-y-6">
                 <div className="inline-block px-3 sm:px-4 lg:px-6 py-2 lg:py-3 bg-gradient-to-r from-blue-100 to-purple-100 backdrop-blur-sm rounded-full border border-blue-200/50 shadow-lg">
-                  <span className="text-[10px] sm:text-xs lg:text-sm text-professional-bold text-blue-800 tracking-wide">✨ PREMIUM MEDICAL TOURISM</span>
+                  <span className="text-[10px] sm:text-xs lg:text-sm font-bold text-blue-800 tracking-wide">✨ {t('home.premiumBadge') || 'PREMIUM HEALTH CARE'}</span>
                 </div>
-                <h1 className="text-mobile-hero font-serif font-bold tracking-tight leading-[1.1] sm:leading-tight">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold tracking-tight leading-[1.1] sm:leading-tight">
                   <span className="block text-gray-900">{t('home.hero.title') || 'Transform Your Life'}</span>
                   <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mt-1 sm:mt-0">
                     with Premium Care
@@ -256,7 +390,7 @@ export default function Home() {
               <div className="flex flex-col gap-3 sm:gap-4 justify-center lg:justify-start pt-4 lg:pt-6">
                 <Link
                   href="/consultation"
-                  className="group relative btn-touch px-6 lg:px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl lg:rounded-2xl text-white text-professional-bold text-base lg:text-lg transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl overflow-hidden"
+                  className="group relative touch-manipulation px-6 lg:px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl lg:rounded-2xl text-white font-bold text-base lg:text-lg transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <span className="relative flex items-center justify-center gap-2">
@@ -271,7 +405,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/gallery"
-                  className="group btn-touch px-6 lg:px-8 py-4 bg-white/80 hover:bg-white border-2 border-gray-200 hover:border-blue-300 rounded-xl lg:rounded-2xl text-gray-700 hover:text-blue-700 text-professional-bold text-base lg:text-lg transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-xl"
+                  className="group touch-manipulation px-6 lg:px-8 py-4 bg-white/80 hover:bg-white border-2 border-gray-200 hover:border-blue-300 rounded-xl lg:rounded-2xl text-gray-700 hover:text-blue-700 font-bold text-base lg:text-lg transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-xl"
                 >
                   <span className="flex items-center justify-center gap-2">
                     <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,19 +416,19 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Trust Indicators - Mobile responsive */}
-              <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-2 sm:gap-4 lg:gap-8 pt-4 sm:pt-6 lg:pt-8">
-                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md mx-2 sm:mx-0">
+              {/* Trust Indicators - Web side by side, mobile stacked */}
+              <div className="flex flex-col md:flex-row justify-center lg:justify-start gap-2 md:gap-4 lg:gap-6 pt-4 sm:pt-6 lg:pt-8">
+                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md mx-2 md:mx-0">
                   <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse flex-shrink-0"></div>
-                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700 whitespace-nowrap">1500+ Successful Cases</span>
+                  <span className="text-xs lg:text-sm font-bold text-gray-700 whitespace-nowrap">{t('home.hero.trustIndicators.successfulCases') || '4500+ Successful Cases'}</span>
                 </div>
-                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md mx-2 sm:mx-0">
+                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md mx-2 md:mx-0">
                   <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full animate-pulse delay-200 flex-shrink-0"></div>
-                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700 whitespace-nowrap">98% Satisfaction Rate</span>
+                  <span className="text-xs lg:text-sm font-bold text-gray-700 whitespace-nowrap">{t('home.hero.trustIndicators.satisfactionRate') || '98% Satisfaction Rate'}</span>
                 </div>
-                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md mx-2 sm:mx-0">
+                <div className="flex items-center gap-2 lg:gap-3 bg-white/60 backdrop-blur-sm rounded-lg lg:rounded-xl px-3 lg:px-4 py-2 shadow-md mx-2 md:mx-0">
                   <div className="w-2 h-2 lg:w-3 lg:h-3 bg-gradient-to-r from-purple-400 to-purple-500 rounded-full animate-pulse delay-400 flex-shrink-0"></div>
-                  <span className="text-xs lg:text-sm text-professional-bold text-gray-700 whitespace-nowrap">15+ Years Experience</span>
+                  <span className="text-xs lg:text-sm font-bold text-gray-700 whitespace-nowrap">{t('home.hero.trustIndicators.yearsExperience') || '15+ Years Experience'}</span>
                 </div>
               </div>
             </div>
@@ -311,15 +445,15 @@ export default function Home() {
       <section className="py-12 sm:py-16 lg:py-20 bg-white text-black">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light mb-6 lg:mb-8">EXCELLENCE IN MEDICAL TOURISM</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light mb-6 lg:mb-8">{t('home.excellenceTitle') || 'EXCELLENCE IN MEDICAL TOURISM'}</h2>
             <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-8 lg:mb-12">
-              Vola Health Istanbul has established itself as a premier destination for medical tourism, combining world-class expertise with cutting-edge technology. Our comprehensive approach covers dental treatments, hair transplant procedures, and plastic surgery, delivering exceptional results in the beautiful city of Istanbul.
+              {t('home.excellenceDesc') || 'Vola Health Istanbul has established itself as a premier destination for medical tourism, combining world-class expertise with cutting-edge technology. Our comprehensive approach covers dental treatments, hair transplant procedures, and plastic surgery, delivering exceptional results in the beautiful city of Istanbul.'}
             </p>
             <Link 
               href="/about" 
-              className="inline-block border-b-2 border-black pb-1 text-base lg:text-lg text-professional hover:opacity-80 transition-opacity"
+              className="inline-block border-b-2 border-black pb-1 text-base lg:text-lg font-medium hover:opacity-80 transition-opacity"
             >
-              DISCOVER OUR CLINIC
+              {t('home.discoverClinic') || 'DISCOVER OUR CLINIC'}
             </Link>
           </div>
         </div>
@@ -331,34 +465,34 @@ export default function Home() {
       {/* Services Section */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gray-50 text-black">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">OUR SERVICES</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">{t('home.ourServicesTitle') || 'OUR SERVICES'}</h2>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {[
               {
-                title: 'DENTAL TREATMENTS',
-                description: 'Transform your smile with advanced dental procedures including veneers, implants, and Hollywood smile treatments.',
-                count: '8 Services',
+                title: t('home.dentalTitle') || 'DENTAL TREATMENTS',
+                description: t('home.dentalDesc') || 'Transform your smile with advanced dental procedures including veneers, implants, and Hollywood smile treatments.',
+                count: t('home.dentalCount') || '8 Services',
                 href: '/services'
               },
               {
-                title: 'HAIR TRANSPLANT',
-                description: 'Restore your natural hairline with cutting-edge FUE, DHI, and Sapphire techniques for permanent results.',
-                count: '9 Services',
+                title: t('home.hairTitle') || 'HAIR TRANSPLANT',
+                description: t('home.hairDesc') || 'Restore your natural hairline with cutting-edge FUE, DHI, and Sapphire techniques for permanent results.',
+                count: t('home.hairCount') || '9 Services',
                 href: '/services'
               },
               {
-                title: 'PLASTIC SURGERY',
-                description: 'Enhance your natural beauty with rhinoplasty, facelifts, and comprehensive facial aesthetic procedures.',
-                count: '21 Services',
+                title: t('home.plasticTitle') || 'PLASTIC SURGERY',
+                description: t('home.plasticDesc') || 'Enhance your natural beauty with rhinoplasty, facelifts, and comprehensive facial aesthetic procedures.',
+                count: t('home.plasticCount') || '21 Services',
                 href: '/services'
               }
             ].map((service, index) => (
-              <div key={index} className="p-8 bg-white shadow-professional card-hover">
-                <h3 className="text-2xl font-serif font-light mb-4 heading-professional">{service.title}</h3>
-                <p className="text-gray-600 mb-4 text-professional">{service.description}</p>
-                <p className="text-sm text-professional text-blue-600 mb-6">{service.count}</p>
-                <Link href={service.href} className="text-sm text-professional hover:underline transition-colors duration-300">VIEW ALL SERVICES</Link>
+              <div key={index} className="p-8 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg">
+                <h3 className="text-2xl font-serif font-light mb-4 text-gray-900">{service.title}</h3>
+                <p className="text-gray-600 mb-4 leading-relaxed">{service.description}</p>
+                <p className="text-sm font-medium text-blue-600 mb-6">{service.count}</p>
+                <Link href={service.href} className="text-sm font-medium hover:underline transition-colors duration-300">{t('buttons.viewAllServices')}</Link>
               </div>
             ))}
           </div>
@@ -370,29 +504,29 @@ export default function Home() {
         {/* Background Pattern for Better Visual Hierarchy */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"></div>
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-center mb-8 lg:mb-16 text-white drop-shadow-lg">THE VOLA HEALTH EXPERIENCE</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-center mb-8 lg:mb-16 text-white drop-shadow-lg">{t('home.volaExperience') || 'THE VOLA HEALTH EXPERIENCE'}</h2>
           
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="order-2 lg:order-1 space-y-6">
               {/* Enhanced readability with better spacing and contrast */}
               <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
                 <p className="text-lg sm:text-xl leading-relaxed text-gray-100 font-light">
-                  At Vola Health Istanbul, we combine cutting-edge medical technology with personalized patient care to deliver exceptional results in medical tourism.
+                  {t('home.experienceDesc1') || 'At Vola Health Istanbul, we combine cutting-edge medical technology with personalized patient care to deliver exceptional results in medical tourism.'}
                 </p>
               </div>
               
               <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
                 <p className="text-lg sm:text-xl leading-relaxed text-gray-100 font-light">
-                  Our comprehensive approach includes pre-treatment consultation, world-class procedures, and dedicated aftercare support to ensure your complete satisfaction and safety.
+                  {t('home.experienceDesc2') || 'Our comprehensive approach includes pre-treatment consultation, world-class procedures, and dedicated aftercare support to ensure your complete satisfaction and safety.'}
                 </p>
               </div>
               
               <div className="pt-4">
                 <Link 
-                  href="/about" 
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-professional-bold transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  href="/contact" 
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
-                  <span>LEARN ABOUT OUR PROCESS</span>
+                  <span>{t('home.learnProcess') || 'LEARN OUR PROCESS'}</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
@@ -401,16 +535,193 @@ export default function Home() {
             </div>
             
             <div className="order-1 lg:order-2 relative">
-              <div className="bg-gradient-to-br from-gray-800 to-gray-900 aspect-video flex items-center justify-center rounded-2xl border border-white/20 shadow-2xl">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <span className="text-gray-400 text-sm">[Video/Image Placeholder]</span>
-                </div>
-              </div>
+              {(() => {
+                const mediaBlocks = getMediaContentBlocks();
+                
+                if (mediaBlocks.length > 0) {
+                  const currentMedia = mediaBlocks[currentMediaIndex];
+                  
+                  return (
+                    <div className="relative group">
+                      {/* Media Display */}
+                      <div 
+                        className="relative aspect-video rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-gradient-to-br from-gray-900 to-black cursor-pointer select-none"
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                      >
+                        {currentMedia.mediaType === 'image' ? (
+                          <Image
+                            src={currentMedia.mediaUrl!}
+                            alt={currentMedia.mediaAlt || currentMedia.title}
+                            fill
+                            className="object-cover transition-all duration-500"
+                          />
+                        ) : (
+                          <video
+                            src={currentMedia.mediaUrl!}
+                            className="w-full h-full object-cover"
+                            controls
+                            autoPlay
+                            muted={isMuted}
+                            loop
+                            playsInline
+                            poster={currentMedia.mediaAlt}
+                            key={currentMedia.id}
+                            preload="metadata"
+                          />
+                        )}
+
+
+
+
+                        {/* Sound Control for Videos */}
+                        {currentMedia.mediaType === 'video' && (
+                          <button
+                            onClick={() => setIsMuted(!isMuted)}
+                            className="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-all duration-300"
+                            aria-label={isMuted ? 'Sesi aç' : 'Sesi kapat'}
+                          >
+                            {isMuted ? (
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                              </svg>
+                            ) : (
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                              </svg>
+                            )}
+                          </button>
+                        )}
+                      </div>
+                      
+                      {/* Enhanced Navigation Arrows */}
+                      {mediaBlocks.length > 1 && (
+                        <>
+                          <button
+                            onClick={() => setCurrentMediaIndex(prev => 
+                              prev === 0 ? mediaBlocks.length - 1 : prev - 1
+                            )}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 transition-all duration-300 opacity-0 group-hover:opacity-100 shadow-lg border border-white/20"
+                            aria-label="Previous media"
+                          >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                          </button>
+                          <button
+                            onClick={() => setCurrentMediaIndex(prev => 
+                              prev === mediaBlocks.length - 1 ? 0 : prev + 1
+                            )}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 transition-all duration-300 opacity-0 group-hover:opacity-100 shadow-lg border border-white/20"
+                            aria-label="Next media"
+                          >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </button>
+                        </>
+                      )}
+                      
+                      {/* Enhanced Dot Indicators */}
+                      {mediaBlocks.length > 1 && (
+                        <div className="flex justify-center mt-6 space-x-3">
+                          {mediaBlocks.map((_, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setCurrentMediaIndex(index)}
+                              className={`transition-all duration-300 rounded-full ${
+                                index === currentMediaIndex 
+                                  ? 'w-8 h-3 bg-white shadow-lg' 
+                                  : 'w-3 h-3 bg-white/40 hover:bg-white/60 hover:scale-125'
+                              }`}
+                              aria-label={`Go to media ${index + 1}`}
+                            />
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Thumbnail Preview Strip (for multiple videos) */}
+                      {mediaBlocks.length > 2 && (
+                        <div className="mt-4 flex space-x-2 overflow-x-auto pb-2">
+                          {mediaBlocks.map((media, index) => (
+                            <button
+                              key={media.id}
+                              onClick={() => setCurrentMediaIndex(index)}
+                              className={`flex-shrink-0 relative w-20 h-12 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                                index === currentMediaIndex
+                                  ? 'border-white shadow-lg scale-105'
+                                  : 'border-white/30 hover:border-white/60 hover:scale-105'
+                              }`}
+                            >
+                              {media.mediaType === 'image' ? (
+                                <Image
+                                  src={media.mediaUrl!}
+                                  alt={media.title}
+                                  fill
+                                  className="object-cover"
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gray-800 flex items-center justify-center">
+                                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                  </svg>
+                                </div>
+                              )}
+                              {index === currentMediaIndex && (
+                                <div className="absolute inset-0 bg-white/20"></div>
+                              )}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                } else {
+                  // Fallback to single experience_media block or placeholder
+                  const experienceMedia = getContentBlock('experience_media');
+                  
+                  if (experienceMedia?.mediaUrl && experienceMedia.mediaType === 'image') {
+                    return (
+                      <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/20 shadow-2xl">
+                        <Image
+                          src={experienceMedia.mediaUrl}
+                          alt={experienceMedia.mediaAlt || experienceMedia.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    );
+                  } else if (experienceMedia?.mediaUrl && experienceMedia.mediaType === 'video') {
+                    return (
+                      <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-black">
+                        <video
+                          src={experienceMedia.mediaUrl}
+                          className="w-full h-full object-cover"
+                          controls
+                          poster={experienceMedia.mediaAlt}
+                        />
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div className="bg-gradient-to-br from-gray-800 to-gray-900 aspect-video flex items-center justify-center rounded-2xl border border-white/20 shadow-2xl">
+                        <div className="text-center">
+                          <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                          </div>
+                          <span className="text-gray-400 text-sm">
+                            {experienceMedia?.title || '[Video/Image Placeholder]'}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  }
+                }
+              })()}
               {/* Decorative Elements */}
               <div className="absolute -top-4 -right-4 w-8 h-8 bg-blue-500/20 rounded-full blur-sm"></div>
               <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-purple-500/20 rounded-full blur-sm"></div>
@@ -422,7 +733,7 @@ export default function Home() {
       {/* Testimonials */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white text-black">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">PATIENT TESTIMONIALS</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">{t('home.testimonialsTitle') || 'PATIENT TESTIMONIALS'}</h2>
           
           <div className="bg-gray-50 p-6 sm:p-8 lg:p-12 text-center rounded-lg">
             <div className="text-4xl sm:text-5xl lg:text-6xl mb-6 lg:mb-8 font-serif">"</div>
@@ -432,7 +743,7 @@ export default function Home() {
                 <p className="text-lg sm:text-xl lg:text-2xl leading-relaxed mb-6 lg:mb-8 italic font-serif">
                   {testimonials[currentTestimonial]?.content}
                 </p>
-                <p className="text-professional">
+                <p className="font-medium">
                   {testimonials[currentTestimonial]?.author}
                 </p>
                 <p className="text-gray-600">{testimonials[currentTestimonial]?.country}</p>
@@ -455,7 +766,7 @@ export default function Home() {
                 <p className="text-lg sm:text-xl lg:text-2xl leading-relaxed mb-6 lg:mb-8 italic font-serif">
                   My experience at Vola Health Istanbul was exceptional. The quality of care, professionalism, and results exceeded all my expectations. I felt safe and well-cared for throughout my entire medical tourism journey.
                 </p>
-                <p className="text-professional">Emma Thompson</p>
+                <p className="font-medium">Emma Thompson</p>
                 <p className="text-gray-600">London, UK</p>
                 
                 <div className="flex justify-center mt-8 space-x-2">
@@ -477,7 +788,7 @@ export default function Home() {
               href="/testimonials" 
               className="inline-block border-b-2 border-blue-600 pb-1 text-base lg:text-lg text-blue-600 hover:opacity-80 transition-opacity"
             >
-              VIEW ALL TESTIMONIALS
+              {t('home.viewAllTestimonials') || 'VIEW ALL TESTIMONIALS'}
             </Link>
           </div>
         </div>
@@ -486,54 +797,54 @@ export default function Home() {
       {/* Contact Section */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gray-100 text-black">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">CONTACT US</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-center mb-8 lg:mb-16">{t('home.contactTitle') || 'CONTACT US'}</h2>
           
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             <div>
-              <h3 className="text-2xl font-serif font-light mb-6">VOLA HEALTH ISTANBUL</h3>
+              <h3 className="text-2xl font-serif font-light mb-6">{t('home.contactClinic') || 'VOLA HEALTH ISTANBUL'}</h3>
               <p className="mb-6 leading-relaxed">
-                <strong>Address:</strong> Veliefendi, Prof. Dr. Turan Güneş Cd. No:103 Zeytinburnu/Istanbul
+                <strong>{t('home.contactAddress') || 'Address:'}</strong> Veliefendi, Prof. Dr. Turan Güneş Cd. No:103 Zeytinburnu/Istanbul
               </p>
               <p className="mb-6 leading-relaxed">
-                <strong>Phone:</strong> +90 544 474 98 81<br />
-                <strong>Email:</strong> info@volahealthistanbul.com
+                <strong>{t('home.contactPhone') || 'Phone:'}</strong> +90 544 474 98 81<br />
+                <strong>{t('home.contactEmail') || 'Email:'}</strong> info@volahealthistanbul.com
               </p>
               <p className="leading-relaxed">
-                <strong>Hours:</strong><br />
-                Monday - Friday: 9:00 AM - 7:00 PM<br />
-                Saturday: 10:00 AM - 5:00 PM
+                <strong>{t('home.contactHours') || 'Hours:'}</strong><br />
+                {t('home.contactSchedule.weekdays') || 'Monday - Friday'}: 9:00 AM - 7:00 PM<br />
+                {t('home.contactSchedule.saturday') || 'Saturday'}: 10:00 AM - 5:00 PM
               </p>
             </div>
             
             <div>
-              <h3 className="text-2xl font-serif font-light mb-6">SEND US A MESSAGE</h3>
+              <h3 className="text-2xl font-serif font-light mb-6">{t('home.contactForm.title') || 'SEND US A MESSAGE'}</h3>
               <form className="space-y-4">
                 <div>
                   <input 
                     type="text" 
-                    placeholder="Your Name" 
-                    className="w-full px-4 py-3 border border-gray-300 form-input focus:outline-none"
+                    placeholder={t('home.contactForm.namePlaceholder') || 'Your Name'} 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
                 <div>
                   <input 
                     type="email" 
-                    placeholder="Your Email" 
-                    className="w-full px-4 py-3 border border-gray-300 form-input focus:outline-none"
+                    placeholder={t('home.contactForm.emailPlaceholder') || 'Your Email'} 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
                 <div>
                   <textarea 
                     rows={5}
-                    placeholder="Your Message" 
-                    className="w-full px-4 py-3 border border-gray-300 form-input focus:outline-none resize-none"
+                    placeholder={t('home.contactForm.messagePlaceholder') || 'Your Message'} 
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                   ></textarea>
                 </div>
                 <button 
                   type="submit" 
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 text-sm text-professional transition-all duration-300 transform hover:scale-105 shadow-lg btn-professional"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 text-sm font-medium transition-all duration-300 transform hover:scale-105 shadow-lg rounded-lg"
                 >
-                  SEND MESSAGE
+                  {t('home.contactForm.sendButton') || 'SEND MESSAGE'}
                 </button>
               </form>
             </div>
@@ -541,7 +852,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Chatbot - Fixed position */}
+      <Chatbot />
 
+      {/* Error Display */}
+      {error && (
+        <div className="fixed bottom-4 left-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+          <p className="text-sm">{error}</p>
+          <button 
+            onClick={() => setError(null)}
+            className="ml-2 text-white hover:text-gray-200"
+            aria-label="Close error"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading page content...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

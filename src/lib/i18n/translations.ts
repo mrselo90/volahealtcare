@@ -1,4 +1,15 @@
 import { Language } from './config';
+import { arTranslations } from './ar';
+import { deTranslations } from './de';
+import { enTranslations } from './en';
+import { esTranslations } from './es';
+import { frTranslations } from './fr';
+import { itTranslations } from './it';
+import { plTranslations } from './pl';
+import { ptTranslations } from './pt';
+import { roTranslations } from './ro';
+import { ruTranslations } from './ru';
+import { trTranslations } from './tr';
 
 export interface Translations {
   nav: {
@@ -12,6 +23,37 @@ export interface Translations {
     contact: string;
     consultation: string;
     menu: string;
+  };
+  buttons: {
+    viewAllServices: string;
+  };
+  cta: {
+    title: string;
+    subtitle: string;
+    viewAll: string;
+    freeConsultation: string;
+  };
+  stats: {
+    successfulCases: string;
+    satisfactionRate: string;
+    countriesServed: string;
+    yearsExperience: string;
+  };
+  featured: {
+    realPatientTransformations: string;
+    lifeChanging: string;
+    results: string;
+    witness: string;
+    loading: string;
+    noCases: string;
+    unableToLoad: string;
+    noTransformations: string;
+    result: string;
+    featured: string;
+    patientAge: string;
+    years: string;
+    timeline: string;
+    na: string;
   };
   common: {
     loading: string;
@@ -40,11 +82,55 @@ export interface Translations {
     quickLinks: string;
   };
   home: {
+    premiumBadge: string;
     hero: {
       title: string;
       subtitle: string;
       cta: string;
       trustBadge: string;
+      trustIndicators: {
+        successfulCases: string;
+        satisfactionRate: string;
+        yearsExperience: string;
+      };
+    };
+    excellenceTitle: string;
+    excellenceDesc: string;
+    discoverClinic: string;
+    ourServicesTitle: string;
+    dentalTitle: string;
+    dentalDesc: string;
+    dentalCount: string;
+    hairTitle: string;
+    hairDesc: string;
+    hairCount: string;
+    plasticTitle: string;
+    plasticDesc: string;
+    plasticCount: string;
+    viewAllServices: string;
+    experienceTitle: string;
+    volaExperience: string;
+    experienceDesc1: string;
+    experienceDesc2: string;
+    learnProcess: string;
+    testimonialsTitle: string;
+    viewAllTestimonials: string;
+    contactTitle: string;
+    contactClinic: string;
+    contactAddress: string;
+    contactPhone: string;
+    contactEmail: string;
+    contactHours: string;
+    contactForm: {
+      title: string;
+      namePlaceholder: string;
+      emailPlaceholder: string;
+      messagePlaceholder: string;
+      sendButton: string;
+    };
+    contactSchedule: {
+      weekdays: string;
+      saturday: string;
     };
   };
   services: {
@@ -72,6 +158,41 @@ export interface Translations {
       premiumPackageDescription: string;
       reserveJourney: string;
     };
+    searchPlaceholder: string;
+    allCategories: string;
+    sortByName: string;
+    sortByFeatured: string;
+    sortByDuration: string;
+    hideFilters: string;
+    moreFilters: string;
+    duration: string;
+    anyDuration: string;
+    oneTwoHours: string;
+    halfDay: string;
+    keyBenefits: string;
+    more: string;
+    learnMore: string;
+    fullDay: string;
+    multipleDays: string;
+    featuredOnly: string;
+    quickFilters: string;
+    mostPopular: string;
+    quickProcedures: string;
+    premiumServices: string;
+    nonInvasive: string;
+    headerTitle: string;
+    headerDesc: string;
+    totalServices: string;
+    showing: string;
+    searchResults: string;
+    allServices: string;
+    resultsFor: string;
+    inCategory: string;
+    grid: string;
+    list: string;
+    errorTitle: string;
+    errorDesc: string;
+    tryAgain: string;
   };
   results: {
     beforeAfter: {
@@ -82,6 +203,7 @@ export interface Translations {
       dental: string;
       hair: string;
       aesthetic: string;
+      other: string;
     };
     dental: {
       title: string;
@@ -159,6 +281,15 @@ export interface Translations {
       consultation: string;
       contact: string;
     };
+    treatmentResult: string;
+    patientAge: string;
+    years: string;
+    timeline: string;
+    na: string;
+    resultsAchieved: string;
+    previous: string;
+    next: string;
+    close: string;
   };
   gallery: {
     hero: {
@@ -203,7 +334,68 @@ export interface Translations {
     };
   };
   about: {
-    content: string;
+    title: string;
+    subtitle: string;
+    p1: string;
+    p2: string;
+    p3: string;
+    slogan: string;
+  };
+  testimonials: {
+    title: string;
+    subtitle: string;
+    loading: string;
+    noTestimonials: string;
+    readMore: string;
+    showLess: string;
+    verified: string;
+    page: {
+      heroTitle: string;
+      heroSubtitle: string;
+      heroDescription: string;
+      patientTestimonials: string;
+      stats: {
+        happyPatients: string;
+        successRate: string;
+        countriesServed: string;
+        yearsExperience: string;
+      };
+      filters: {
+        title: string;
+        description: string;
+        allTreatments: string;
+        hairTransplant: string;
+        dentalAesthetics: string;
+        facialAesthetics: string;
+        bodyAesthetics: string;
+        allCountries: string;
+        videoOnly: string;
+        showing: string;
+        of: string;
+        testimonials: string;
+      };
+      featured: {
+        title: string;
+        subtitle: string;
+        videoTestimonial: string;
+      };
+      allTestimonials: {
+        title: string;
+        subtitle: string;
+      };
+      noResults: {
+        title: string;
+        description: string;
+        clearFilters: string;
+      };
+      cta: {
+        title: string;
+        subtitle: string;
+        description: string;
+        freeConsultation: string;
+        contactUs: string;
+      };
+    };
   };
   contact: {
     hero: {
@@ -212,12 +404,32 @@ export interface Translations {
       office: string;
     };
     form: {
-      firstName: string;
-      lastName: string;
+      title: string;
+      freeConsultation: string;
+      sendMessage: string;
+      subtitle: string;
+      personalInfo: string;
+      serviceSchedule: string;
+      fullName: string;
+      fullNamePlaceholder: string;
       email: string;
+      emailPlaceholder: string;
       phone: string;
+      phonePlaceholder: string;
       country: string;
       countryPlaceholder: string;
+      service: string;
+      loadingServices: string;
+      preferredDate: string;
+      dateOptional: string;
+      notes: string;
+      notesPlaceholder: string;
+      bookConsultation: string;
+      bookFreeConsultation: string;
+      booking: string;
+      bookingConsultation: string;
+      firstName: string;
+      lastName: string;
       message: string;
       treatment: string;
       submit: string;
@@ -227,10 +439,13 @@ export interface Translations {
       dental: string;
       hair: string;
       aesthetic: string;
+      other: string;
     };
     messages: {
       success: string;
+      successDesc: string;
       error: string;
+      errorDesc: string;
       viewDetails: string;
     };
     info: {
@@ -247,514 +462,220 @@ export interface Translations {
     female: string;
     months: string;
   };
+  chatbot: {
+    title: string;
+    welcome: string;
+    contactRequest: string;
+    standardResponse: string;
+    contactInfoReceived: string;
+    contactInfoResponse: string;
+    closeChat: string;
+    openChat: string;
+  };
+  whatsapp: {
+    defaultMessage: string;
+    srOnly: string;
+  };
+  why: {
+    title: string;
+    teamTitle: string;
+    teamDesc: string;
+    translatorTitle: string;
+    translatorDesc: string;
+    hotelTitle: string;
+    hotelDesc: string;
+    transferTitle: string;
+    transferDesc: string;
+  };
+  consultation: {
+    header: {
+      backToHome: string;
+      title: string;
+      subtitle: string;
+    };
+    benefits: {
+      free: {
+        title: string;
+        description: string;
+      };
+      time: {
+        title: string;
+        description: string;
+      };
+      expert: {
+        title: string;
+        description: string;
+      };
+    };
+    services: {
+      hollywoodSmile: string;
+      dentalVeneers: string;
+      dentalImplants: string;
+      zirconiumCrowns: string;
+      teethWhitening: string;
+      rhinoplasty: string;
+      facelift: string;
+      browLift: string;
+      eyelidSurgery: string;
+      breastAugmentation: string;
+      breastLift: string;
+      tummyTuck: string;
+      liposuction: string;
+      hairTransplant: string;
+      other: string;
+    };
+    step1: {
+      title: string;
+      firstName: string;
+      firstNamePlaceholder: string;
+      lastName: string;
+      lastNamePlaceholder: string;
+      email: string;
+      emailPlaceholder: string;
+      phone: string;
+      phonePlaceholder: string;
+      country: string;
+      countryPlaceholder: string;
+      age: string;
+      agePlaceholder: string;
+      gender: string;
+      selectGender: string;
+      male: string;
+      female: string;
+      other: string;
+      preferNotToSay: string;
+    };
+    step2: {
+      title: string;
+      subtitle: string;
+    };
+    step3: {
+      title: string;
+      preferredDate: string;
+      preferredTime: string;
+      selectTime: string;
+      contactMethod: string;
+      email: string;
+      phoneCall: string;
+      whatsapp: string;
+    };
+    step4: {
+      title: string;
+      medicalHistory: string;
+      medicalHistoryPlaceholder: string;
+      currentMedications: string;
+      medicationsPlaceholder: string;
+      additionalInfo: string;
+      additionalInfoPlaceholder: string;
+    };
+    errors: {
+      firstNameRequired: string;
+      lastNameRequired: string;
+      emailRequired: string;
+      phoneRequired: string;
+      countryRequired: string;
+      serviceRequired: string;
+      dateRequired: string;
+    };
+    progress: {
+      step: string;
+      of: string;
+      complete: string;
+    };
+    navigation: {
+      previous: string;
+      nextStep: string;
+      submitting: string;
+      schedule: string;
+    };
+    success: {
+      title: string;
+      message: string;
+      returnHome: string;
+      questions: string;
+    };
+    contact: {
+      preferDirect: string;
+    };
+  };
+  admin: {
+    sidebar: {
+      dashboard: string;
+      dashboardDesc: string;
+      categories: string;
+      categoriesDesc: string;
+      services: string;
+      servicesDesc: string;
+      beforeAfter: string;
+      beforeAfterDesc: string;
+      appointments: string;
+      appointmentsDesc: string;
+      consultations: string;
+      consultationsDesc: string;
+      messages: string;
+      messagesDesc: string;
+      testimonials: string;
+      testimonialsDesc: string;
+      translations: string;
+      translationsDesc: string;
+      settings: string;
+      settingsDesc: string;
+      signOut: string;
+    };
+    header: {
+      language: string;
+    };
+    settings: {
+      siteDescription: string;
+    };
+  };
+  footer: {
+    companyDesc: string;
+    privacyPolicy: string;
+    termsOfService: string;
+    allRightsReserved: string;
+    istanbul: string;
+  };
+  heroSlider: {
+    slides: {
+      hair: {
+        title: string;
+        subtitle: string;
+        category: string;
+      };
+      aesthetic: {
+        title: string;
+        subtitle: string;
+        category: string;
+      };
+      dental: {
+        title: string;
+        subtitle: string;
+        category: string;
+      };
+    };
+    navigation: {
+      previous: string;
+      next: string;
+      pause: string;
+      play: string;
+    };
+  };
 }
 
-export const translations: Record<Language, Translations> = {
-  en: {
-    nav: {
-      home: 'Home',
-      services: 'Services',
-      about: 'About',
-      whyChooseUs: 'Why Choose Us?',
-      results: 'Results',
-      gallery: 'Gallery',
-      testimonials: 'Testimonials',
-      contact: 'Contact',
-      consultation: 'Free Consultation',
-      menu: 'Menu',
-    },
-    common: {
-      loading: 'Loading...',
-      error: 'Error',
-      success: 'Success',
-      save: 'Save',
-      cancel: 'Cancel',
-      delete: 'Delete',
-      edit: 'Edit',
-      create: 'Create',
-      update: 'Update',
-      submit: 'Submit',
-      close: 'Close',
-      back: 'Back',
-      next: 'Next',
-      previous: 'Previous',
-      viewAll: 'View All',
-      learnMore: 'Learn More',
-      getStarted: 'Get Started',
-      bookNow: 'Book Now',
-              messageNow: 'Message Now',
-      readMore: 'Read More',
-      showLess: 'Show Less',
-      noResults: 'No results found',
-      comingSoon: 'Coming Soon',
-      quickLinks: 'Quick Links',
-    },
-    home: {
-      hero: {
-        title: 'Transform Your Life with Premium Medical Tourism',
-        subtitle: 'Experience world-class healthcare in Istanbul with our expert medical team and luxury accommodations.',
-        cta: 'Start Your Journey',
-        trustBadge: 'Trusted by 10,000+ patients worldwide',
-      },
-    },
-    services: {
-      categories: {
-        dental: 'Dental Treatments',
-        hair: 'Hair Transplant',
-        aesthetic: 'Aesthetic Surgery',
-      },
-              packageDetails: {
-          title: 'Treatment Package Details',
-          subtitle: 'Everything you need to know about your premium medical tourism journey in Turkey',
-          timeInTurkey: 'Time In Turkey',
-          timeInTurkeySubtitle: 'Accommodation duration',
-          operationTime: 'Operation Time',
-          operationTimeSubtitle: 'Procedure duration',
-          hospitalStay: 'Hospital Stay',
-          hospitalStaySubtitle: 'Recovery period',
-          recovery: 'Recovery Time',
-          recoverySubtitle: 'Healing period',
-          accommodation: 'Accommodation',
-          accommodationSubtitle: 'Hotel accommodation',
-          transportation: 'Transportation',
-          transportationSubtitle: 'Transfer service',
-          premiumPackageTitle: 'All-Inclusive Premium Package',
-          premiumPackageDescription: 'Complete medical tourism experience with luxury accommodation',
-          reserveJourney: 'Reserve Your Journey',
-        },
-    },
-    results: {
-      beforeAfter: {
-        age: 'years old',
-        results: 'Results',
-      },
-      treatments: {
-        dental: 'With our dental treatments, our patients achieve excellent results not only aesthetically but also functionally.',
-        hair: 'Natural appearance is at the forefront in our hair transplant and treatments.',
-        aesthetic: 'Patient safety and natural results are our priority in our aesthetic surgery operations.',
-      },
-      dental: {
-        title: 'Dental Treatment Results',
-        subtitle: 'Results of Our Treatments That Transform Your Smile',
-        treatments: {
-          smileDesign: 'Smile Design',
-          dentalImplant: 'Dental Implant',
-          veneers: 'Dental Veneers (Laminate)',
-          whitening: 'Teeth Whitening',
-          orthodontics: 'Orthodontics (Braces)',
-          gumAesthetics: 'Gum Aesthetics',
-          allOn4: 'All-on-4 Implant',
-          zirconia: 'Zirconia Crown',
-        },
-        stats: {
-          treatments: 'Successful Dental Treatments',
-          satisfaction: 'Patient Satisfaction',
-          experience: 'Years of Experience',
-          dentists: 'Expert Dentists',
-        },
-      },
-      hair: {
-        title: 'Hair Transplant Results',
-        subtitle: 'Our Natural-Looking Hair Transplant Results',
-        treatments: {
-          fue: 'FUE Hair Transplant',
-          dhi: 'DHI Hair Transplant',
-          beard: 'Beard Transplant',
-          eyebrow: 'Eyebrow Transplant',
-          prp: 'PRP Treatment',
-          mesotherapy: 'Mesotherapy',
-          analysis: 'Hair Analysis',
-          women: 'Women Hair Transplant',
-        },
-        stats: {
-          transplants: 'Successful Hair Transplants',
-          satisfaction: 'Patient Satisfaction',
-          experience: 'Years of Experience',
-          surgeons: 'Expert Surgeons',
-        },
-      },
-      aesthetic: {
-        title: 'Aesthetic Surgery Results',
-        subtitle: 'Our Safe and Natural Aesthetic Surgery Results',
-        treatments: {
-          rhinoplasty: 'Rhinoplasty (Nose Job)',
-          liposuction: 'Liposuction (Fat Removal)',
-          breastAesthetics: 'Breast Aesthetics',
-          tummyTuck: 'Tummy Tuck',
-          facelift: 'Face Lift',
-          eyelidSurgery: 'Eyelid Surgery',
-          bbl: 'Brazilian Butt Lift (BBL)',
-          botoxFiller: 'Botox & Filler',
-        },
-        stats: {
-          operations: 'Successful Operations',
-          satisfaction: 'Patient Satisfaction',
-          experience: 'Years of Experience',
-          surgeons: 'Expert Surgeons',
-        },
-      },
-      backToGallery: 'Back to Gallery',
-      treatmentAreas: 'Treatment Areas',
-      treatmentAreasDesc: 'Treatment options provided by our expert team',
-      beforeAfterResults: 'Before & After Results',
-      discoverResults: 'Discover our real patient results',
-      resultTime: 'Result Time',
-      description: 'Description',
-      treatmentDetails: 'Treatment Details',
-      results: 'Results',
-      cta: {
-        viewAllResults: 'View All Results',
-        title: 'Would You Like to Achieve These Results Too?',
-        subtitle: 'Get a free consultation with our expert team and create your personalized treatment plan.',
-        consultation: 'Free Consultation',
-        contact: 'Contact Us',
-      },
-    },
-    gallery: {
-      hero: {
-        title: 'Before & After Gallery',
-        subtitle: 'Witness real transformations from our satisfied patients. Each story represents a journey of confidence and renewed self-esteem.',
-        consultation_btn: 'Free Consultation',
-        contact_btn: 'Contact Us',
-      },
-      dental: {
-        title: 'Dental Treatment Results',
-        description: 'Discover the impressive results of our dental treatments that transform your smile. From aesthetic dentistry to implant applications, achieving perfect results.',
-      },
-      hair: {
-        title: 'Hair Transplant Results',
-        description: 'See the natural results achieved with our hair transplant and treatments. Permanent and natural-looking hair with FUE technique.',
-      },
-      aesthetic: {
-        title: 'Plastic Surgery Results',
-        description: 'Impressive results of our plastic surgery operations. Perfect transformations with our priority on natural appearance and patient safety.',
-      },
-      testimonials: {
-        title: 'Patient Testimonials',
-        subtitle: 'Listen to our patients\' experiences and satisfaction',
-        testimonial1: '"My hair transplant operation was perfect. Natural-looking results and professional service. I definitely recommend it."',
-        testimonial2: '"My dental treatment went great. My smile completely changed and my self-confidence increased. Thank you Vola Health!"',
-        testimonial3: '"My plastic surgery operation exceeded my expectations. Natural results and excellent care. I recommend it to everyone."',
-        hair_patient: 'Hair Transplant Patient',
-        dental_patient: 'Dental Treatment Patient',
-        plastic_patient: 'Plastic Surgery Patient',
-      },
-      cta: {
-        title: 'Ready to Start Your Transformation?',
-        subtitle: 'Join thousands of satisfied patients who have achieved their aesthetic goals. Achieve the look of your dreams with our expert care and proven results.',
-        consultation_btn: 'Get Free Consultation',
-        contact_btn: 'Contact Us',
-      },
-      stats: {
-        transformations: 'Successful Transformations',
-        satisfaction: 'Patient Satisfaction Rate',
-        experience: 'Years of Excellence',
-        countries: 'Countries Served',
-      },
-    },
-    about: {
-      content: 'Choosing Vola Health means choosing a team that values your journey as much as you do.',
-    },
-    contact: {
-      hero: {
-        title: 'Contact Vola Health Istanbul',
-        subtitle: 'We\'re here to help you start your medical tourism journey. Contact us for a free consultation or to learn more about our services.',
-        office: 'Office',
-      },
-      form: {
-        firstName: 'First name',
-        lastName: 'Last name',
-        email: 'Email',
-        phone: 'Phone number',
-        country: 'Country',
-        countryPlaceholder: 'e.g. United States, Turkey, Germany',
-        message: 'Message',
-        treatment: 'Interested in',
-        submit: 'Send Message',
-        submitting: 'Sending...',
-      },
-      treatments: {
-        dental: 'Dental Treatments',
-        hair: 'Hair Transplant',
-        aesthetic: 'Plastic Surgery',
-      },
-      messages: {
-        success: 'Thank you! Your consultation request has been received. We\'ll contact you soon.',
-        error: 'Something went wrong. Please try again.',
-        viewDetails: 'View Details →',
-      },
-      info: {
-        phone: 'Phone',
-        email: 'Email',
-      },
-    },
-    mockData: {
-      patient: 'Patient',
-      transformation: 'Amazing transformation',
-      results: 'Incredible results',
-      procedure: 'Life-changing procedure',
-      male: 'Male',
-      female: 'Female',
-      months: 'months',
-    },
-  },
-  tr: {
-    nav: {
-      home: 'Ana Sayfa',
-      services: 'Hizmetler',
-      about: 'Hakkımızda',
-      whyChooseUs: 'Neden Bizi Seçmelisiniz?',
-      results: 'Sonuçlar',
-      gallery: 'Galeri',
-      testimonials: 'Hasta Yorumları',
-      contact: 'İletişim',
-      consultation: 'Ücretsiz Konsültasyon',
-      menu: 'Menü',
-    },
-    common: {
-      loading: 'Yükleniyor...',
-      error: 'Hata',
-      success: 'Başarılı',
-      save: 'Kaydet',
-      cancel: 'İptal',
-      delete: 'Sil',
-      edit: 'Düzenle',
-      create: 'Oluştur',
-      update: 'Güncelle',
-      submit: 'Gönder',
-      close: 'Kapat',
-      back: 'Geri',
-      next: 'İleri',
-      previous: 'Önceki',
-      viewAll: 'Tümünü Gör',
-      learnMore: 'Daha Fazla Bilgi',
-      getStarted: 'Başlayın',
-      bookNow: 'Hemen Rezerve Et',
-              messageNow: 'Mesaj Gönder',
-      readMore: 'Devamını Oku',
-      showLess: 'Daha Az Göster',
-      noResults: 'Sonuç bulunamadı',
-      comingSoon: 'Yakında Gelecek',
-      quickLinks: 'Hızlı Bağlantılar',
-    },
-    home: {
-      hero: {
-        title: 'Premium Medikal Turizm ile Hayatınızı Dönüştürün',
-        subtitle: 'İstanbul\'da uzman tıbbi ekibimiz ve lüks konaklamalarımızla dünya standartlarında sağlık hizmeti deneyimleyin.',
-        cta: 'Yolculuğunuza Başlayın',
-        trustBadge: 'Dünya çapında 10.000+ hasta tarafından güveniliyor',
-      },
-    },
-    services: {
-      categories: {
-        dental: 'Diş Tedavileri',
-        hair: 'Saç Ekimi',
-        aesthetic: 'Estetik Cerrahi',
-      },
-              packageDetails: {
-          title: 'Tedavi Paketi Detayları',
-          subtitle: 'Türkiye\'deki premium medikal turizm yolculuğunuz hakkında bilmeniz gereken her şey',
-          timeInTurkey: 'Türkiye\'de Kalış Süresi',
-          timeInTurkeySubtitle: 'Konaklama süresi',
-          operationTime: 'Operasyon Süresi',
-          operationTimeSubtitle: 'İşlem süresi',
-          hospitalStay: 'Hastane Kalışı',
-          hospitalStaySubtitle: 'Yatış süresi',
-          recovery: 'İyileşme Süresi',
-          recoverySubtitle: 'Toparlanma dönemi',
-          accommodation: 'Konaklama',
-          accommodationSubtitle: 'Otel konaklaması',
-          transportation: 'Ulaşım',
-          transportationSubtitle: 'Transfer hizmeti',
-          premiumPackageTitle: 'Hepsi Dahil Premium Paket',
-          premiumPackageDescription: 'Lüks konaklama ile eksiksiz medikal turizm deneyimi',
-          reserveJourney: 'Yolculuğunuzu Rezerve Edin',
-        },
-    },
-    results: {
-      beforeAfter: {
-        age: 'yaş',
-        results: 'Sonuçlar',
-      },
-      treatments: {
-        dental: 'Diş tedavilerimiz ile hastalarımız sadece estetik açıdan değil, aynı zamanda fonksiyonel olarak da mükemmel sonuçlar elde ediyor.',
-        hair: 'Saç ekimi ve tedavilerimizde doğal görünüm ön plandadır.',
-        aesthetic: 'Estetik cerrahi operasyonlarımızda hasta güvenliği ve doğal sonuçlar önceliğimizdir.',
-      },
-              dental: {
-          title: 'Diş Tedavisi Sonuçları',
-          subtitle: 'Gülüşünüzü Dönüştüren Tedavilerimizin Sonuçları',
-        treatments: {
-          smileDesign: 'Gülüş Tasarımı',
-          dentalImplant: 'Diş İmplant',
-          veneers: 'Diş Laminat',
-          whitening: 'Diş Beyazlığı',
-          orthodontics: 'Ortodontik',
-          gumAesthetics: 'Gül Aestetiği',
-          allOn4: 'All-on-4 İmplant',
-          zirconia: 'Zirkonya Kron',
-        },
-        stats: {
-          treatments: 'Başarılı Diş Tedavileri',
-          satisfaction: 'Hasta Memnuniyeti',
-          experience: 'Deneyim',
-          dentists: 'Uzman Diş Hekimleri',
-        },
-      },
-      hair: {
-        title: 'Saç Ekimi Sonuçları',
-        subtitle: 'Doğal Görünümlü Saç Ekimi Sonuçları',
-        treatments: {
-          fue: 'FUE Saç Ekimi',
-          dhi: 'DHI Saç Ekimi',
-          beard: 'Barba Ekimi',
-          eyebrow: 'Bıyık Ekimi',
-          prp: 'PRP İşlemi',
-          mesotherapy: 'Mesoterapi',
-          analysis: 'Saç Analizi',
-          women: 'Kadın Saç Ekimi',
-        },
-        stats: {
-          transplants: 'Başarılı Saç Ekimi',
-          satisfaction: 'Hasta Memnuniyeti',
-          experience: 'Deneyim',
-          surgeons: 'Uzman Cerrahçılar',
-        },
-      },
-      aesthetic: {
-        title: 'Plastik Cerrahi Sonuçları',
-        subtitle: 'Güvenli ve Doğal Plastik Cerrahi Sonuçları',
-        treatments: {
-          rhinoplasty: 'Rhinoplasti',
-          liposuction: 'Liposuksiyon',
-          breastAesthetics: 'Göğüs Aestetiği',
-          tummyTuck: 'Tummy Tuck',
-          facelift: 'Yüz Lifliği',
-          eyelidSurgery: 'Bıyık Cerrahi',
-          bbl: 'Brazilian Butt Lift',
-          botoxFiller: 'Botok ve Filler',
-        },
-        stats: {
-          operations: 'Başarılı Operasyonlar',
-          satisfaction: 'Hasta Memnuniyeti',
-          experience: 'Deneyim',
-          surgeons: 'Uzman Cerrahçılar',
-        },
-      },
-      backToGallery: 'Galereye Dön',
-      treatmentAreas: 'Tedavi Alanları',
-      treatmentAreasDesc: 'Uzman ekibimiz tarafından sağlanan tedavi seçenekleri',
-      beforeAfterResults: 'Önce & Sonra Sonuçlar',
-      discoverResults: 'Gerçek hastalarımızın sonuçlarını keşfedin',
-      resultTime: 'Sonuç Zamanı',
-      description: 'Açıklama',
-      treatmentDetails: 'Tedavi Detayları',
-      results: 'Sonuçlar',
-      cta: {
-        viewAllResults: 'Tüm Sonuçları Gör',
-        title: 'Bu Sonuçları Da Elde Etmek İstermisiniz?',
-        subtitle: 'Uzman ekibimizle birlikte ücretsiz konsültasyon alın ve kişiselleştirilmiş tedavi planınızı oluşturun.',
-        consultation: 'Ücretsiz Konsültasyon',
-        contact: 'İletişime Geçin',
-      },
-    },
-    gallery: {
-      hero: {
-        title: 'Önce & Sonra Galerisi',
-        subtitle: 'Memnun hastalarımızın gerçek dönüşümlerine tanık olun. Her hikaye güven ve yenilenen öz saygı yolculuğunu temsil ediyor.',
-        consultation_btn: 'Ücretsiz Konsültasyon',
-        contact_btn: 'İletişim',
-      },
-      dental: {
-        title: 'Diş Tedavisi Sonuçları',
-        description: 'Gülüşünüzü dönüştüren diş tedavilerimizin etkileyici sonuçlarını keşfedin. Estetik diş hekimliğinden implant uygulamalarına kadar mükemmel sonuçlar elde ediyoruz.',
-      },
-      hair: {
-        title: 'Saç Ekimi Sonuçları',
-        description: 'Saç ekimi ve tedavilerimizle elde edilen doğal sonuçları görün. FUE tekniği ile kalıcı ve doğal görünümlü saçlar.',
-      },
-      aesthetic: {
-        title: 'Plastik Cerrahi Sonuçları',
-        description: 'Plastik cerrahi operasyonlarımızın etkileyici sonuçları. Doğal görünüm ve hasta güvenliği önceliğimizle mükemmel dönüşümler.',
-      },
-      testimonials: {
-        title: 'Hasta Yorumları',
-        subtitle: 'Hastalarımızın deneyimlerini ve memnuniyetlerini dinleyin',
-        testimonial1: '"Saç ekimi operasyonum mükemmeldi. Doğal görünümlü sonuçlar ve profesyonel hizmet. Kesinlikle tavsiye ederim."',
-        testimonial2: '"Diş tedavim harika geçti. Gülüşüm tamamen değişti ve özgüvenim arttı. Teşekkürler Vola Health!"',
-        testimonial3: '"Plastik cerrahi operasyonum beklentilerimi aştı. Doğal sonuçlar ve mükemmel bakım. Herkese tavsiye ederim."',
-        hair_patient: 'Saç Ekimi Hastası',
-        dental_patient: 'Diş Tedavisi Hastası',
-        plastic_patient: 'Plastik Cerrahi Hastası',
-      },
-      cta: {
-        title: 'Dönüşümünüze Başlamaya Hazır mısınız?',
-        subtitle: 'Estetik hedeflerine ulaşan binlerce memnun hastaya katılın. Uzman bakımımız ve kanıtlanmış sonuçlarımızla hayalinizdeki görünüme kavuşun.',
-        consultation_btn: 'Ücretsiz Konsültasyon Alın',
-        contact_btn: 'İletişime Geçin',
-      },
-      stats: {
-        transformations: 'Başarılı Dönüşüm',
-        satisfaction: 'Hasta Memnuniyet Oranı',
-        experience: 'Yıllık Mükemmellik',
-        countries: 'Hizmet Verilen Ülke',
-      },
-    },
-    about: {
-      content: 'Vola Health\'i seçmek, yolculuğunuza sizin kadar değer veren bir ekibi seçmek demektir.',
-    },
-    contact: {
-      hero: {
-        title: 'Vola Health İstanbul İletişim',
-        subtitle: 'Medikal turizm yolculuğunuza başlamanızda size yardımcı olmak için buradayız. Ücretsiz konsültasyon için veya hizmetlerimiz hakkında daha fazla bilgi almak için bizimle iletişime geçin.',
-        office: 'Ofis',
-      },
-      form: {
-        firstName: 'Ad',
-        lastName: 'Soyad',
-        email: 'E-posta',
-        phone: 'Telefon numarası',
-        country: 'Ülke',
-        countryPlaceholder: 'örn. Türkiye, Almanya, İngiltere',
-        message: 'Mesaj',
-        treatment: 'İlgilendiğiniz tedavi',
-        submit: 'Mesaj Gönder',
-        submitting: 'Gönderiliyor...',
-      },
-      treatments: {
-        dental: 'Diş Tedavileri',
-        hair: 'Saç Ekimi',
-        aesthetic: 'Plastik Cerrahi',
-      },
-      messages: {
-        success: 'Teşekkürler! Konsültasyon talebiniz alındı. En kısa sürede sizinle iletişime geçeceğiz.',
-        error: 'Bir şeyler yanlış gitti. Lütfen tekrar deneyin.',
-        viewDetails: 'Detayları Görüntüle →',
-      },
-      info: {
-        phone: 'Telefon',
-        email: 'E-posta',
-      },
-    },
-    mockData: {
-      patient: 'Hasta',
-      transformation: 'Muhteşem dönüşüm',
-      results: 'İnanılmaz sonuçlar',
-      procedure: 'Hayat değiştiren prosedür',
-      male: 'Erkek',
-      female: 'Kadın',
-      months: 'ay',
-    },
-  },
-  es: {} as Translations,
-  pt: {} as Translations,
-  de: {} as Translations,
-  fr: {} as Translations,
-  ru: {} as Translations,
-  ro: {} as Translations,
-  it: {} as Translations,
-  pl: {} as Translations,
-  ar: {} as Translations,
+// Translations object
+const translations: Record<Language, Translations> = {
+  en: enTranslations,
+  ar: arTranslations,
+  de: deTranslations,
+  es: esTranslations,
+  fr: frTranslations,
+  it: itTranslations,
+  pl: plTranslations,
+  pt: ptTranslations,
+  ro: roTranslations,
+  ru: ruTranslations,
+  tr: trTranslations
 };
 
 export function getTranslation(
@@ -763,12 +684,14 @@ export function getTranslation(
   params?: Record<string, string | number>
 ): string {
   const keys = key.split('.');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let value: any = translations[language];
 
   for (const k of keys) {
     if (value && typeof value === 'object' && k in value) {
       value = value[k];
     } else {
+      // Fallback to English
       value = translations.en;
       for (const fallbackKey of keys) {
         if (value && typeof value === 'object' && fallbackKey in value) {

@@ -25,9 +25,9 @@ export default function HairResultsPage() {
         t('results.hair.treatments.women') || 'Women Hair Transplant'
       ]}
       stats={[
-        { number: '5000+', label: t('results.hair.stats.transplants') || 'Successful Hair Transplants' },
+        { number: '1500+', label: t('results.hair.stats.transplants') || 'Successful Hair Transplants' },
         { number: '99%', label: t('results.hair.stats.satisfaction') || 'Patient Satisfaction' },
-        { number: '20+', label: t('results.hair.stats.experience') || 'Years of Experience' },
+        { number: '15+', label: t('results.hair.stats.experience') || 'Years of Experience' },
         { number: '10+', label: t('results.hair.stats.surgeons') || 'Expert Surgeons' }
       ]}
     />
