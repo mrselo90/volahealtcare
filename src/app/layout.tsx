@@ -1,12 +1,6 @@
 import type { Metadata } from 'next';
 import { Montserrat, Playfair_Display } from 'next/font/google';
 import './globals.css';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import Chatbot from '@/components/ui/Chatbot';
-import WhatsAppButton from '@/components/ui/WhatsAppButton';
-import { LanguageProvider } from '@/lib/i18n/hooks';
-import CookieConsent from '@/components/ui/CookieConsent';
 import { Providers } from './providers';
 
 const montserrat = Montserrat({
@@ -82,19 +76,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${playfairDisplay.variable}`}>
-      <body className="min-h-screen flex flex-col">
+    <html suppressHydrationWarning>
+      <body 
+        className={`${montserrat.variable} ${playfairDisplay.variable} font-sans antialiased`}
+        suppressHydrationWarning
+      >
         <Providers>
-          <LanguageProvider>
-            <Header />
-            <main className="flex-grow pt-16 sm:pt-[72px]">
-              {children}
-            </main>
-            <Footer />
-            <Chatbot />
-            <WhatsAppButton phoneNumber="905444749881" />
-            <CookieConsent />
-          </LanguageProvider>
+          {children}
         </Providers>
       </body>
     </html>

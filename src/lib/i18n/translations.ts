@@ -26,6 +26,7 @@ export interface Translations {
   };
   buttons: {
     viewAllServices: string;
+    freeConsultation: string;
   };
   cta: {
     title: string;
@@ -139,6 +140,98 @@ export interface Translations {
       hair: string;
       aesthetic: string;
     };
+    detail: {
+      scrollDown: string;
+      contactUs: string;
+      aboutTreatment: string;
+      comprehensiveInfo: string;
+      minRead: string;
+      keyBenefits: string;
+      tableOfContents: string;
+      serviceNotFound: string;
+      goBack: string;
+      bookConsultation: string;
+      whatsappConsult: string;
+      freeConsultation: string;
+      bookingForm: {
+        title: string;
+        subtitle: string;
+        name: string;
+        email: string;
+        phone: string;
+        country: string;
+        preferredDate: string;
+        preferredTime: string;
+        notes: string;
+        notesPlaceholder: string;
+        submit: string;
+        submitting: string;
+        success: string;
+        error: string;
+        close: string;
+      };
+      gallery: {
+        title: string;
+        beforeAfter: string;
+        procedure: string;
+        results: string;
+        viewGallery: string;
+        noImages: string;
+      };
+      faq: {
+        title: string;
+        noFaq: string;
+      };
+      testimonials: {
+        title: string;
+        rating: string;
+        verified: string;
+        noTestimonials: string;
+        review: string;
+        reviews: string;
+        loading: string;
+        noReviews: string;
+        beFirst: string;
+      };
+      relatedServices: {
+        title: string;
+        exploreMore: string;
+        subtitle: string;
+        noServices: string;
+        browseAll: string;
+        viewAll: string;
+      };
+      navigation: {
+        overview: string;
+        procedure: string;
+        gallery: string;
+        faq: string;
+        booking: string;
+      };
+      consultation: {
+        title: string;
+        subtitle: string;
+        bookFreeConsultation: string;
+        messageNow: string;
+        freeConsultation: string;
+        expertCare: string;
+      };
+      whyChooseUs: {
+        title: string;
+        happyClients: string;
+        averageRating: string;
+        yearsExperience: string;
+        successRate: string;
+      };
+      quickOverview: string;
+      readingTime: string;
+      sections: string;
+      topics: string;
+      highlights: string;
+      jumpToSection: string;
+      shareExperience: string;
+      exploreSimilar: string;
+    };
     packageDetails: {
       title: string;
       subtitle: string;
@@ -168,8 +261,6 @@ export interface Translations {
     duration: string;
     anyDuration: string;
     oneTwoHours: string;
-    halfDay: string;
-    keyBenefits: string;
     more: string;
     learnMore: string;
     fullDay: string;

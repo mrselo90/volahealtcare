@@ -1,25 +1,47 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/db';
 
-// GET - Fetch approved testimonials for public display
-export async function GET() {
+// GET /api/testimonials - Get all testimonials or by service
+export async function GET(req: NextRequest) {
   try {
+    const { searchParams } = new URL(req.url);
+    const serviceId = searchParams.get('serviceId');
+    const approved = searchParams.get('approved');
+    const featured = searchParams.get('featured');
+    const language = searchParams.get('language') || 'en';
+
+    const where: any = {};
+    
+    if (serviceId) {
+      where.serviceId = serviceId;
+    }
+    
+    if (approved === 'true') {
+      where.isApproved = true;
+    }
+    
+    if (featured === 'true') {
+      where.isFeatured = true;
+    }
+
     const testimonials = await prisma.testimonial.findMany({
-      where: {
-        isApproved: true
-      },
+      where,
       include: {
         service: {
           select: {
-            id: true,
             title: true,
-            slug: true,
-            categoryId: true
+            slug: true
           }
         },
         user: {
           select: {
-            name: true
+            name: true,
+            image: true
+          }
+        },
+        translations: {
+          where: {
+            language: language
           }
         }
       },
@@ -29,28 +51,82 @@ export async function GET() {
       ]
     });
 
-    // Transform data to match frontend expectations
-    const transformedTestimonials = testimonials.map(testimonial => ({
-      id: testimonial.id,
-      content: testimonial.review,
-      author: testimonial.user?.name || 'Anonymous Patient',
-      role: `${testimonial.service.title} Patient`,
-      image: testimonial.photoUrl, // Use photoUrl as image
-      rating: testimonial.rating,
-      country: testimonial.country,
-      date: testimonial.createdAt.toISOString().split('T')[0],
-      procedure: testimonial.service.title,
-      videoUrl: null, // No longer using videoUrl
-      treatment: getServiceCategory(testimonial.service.categoryId),
-      beforeAfter: true,
-      isFeatured: testimonial.isFeatured
-    }));
-
-    return NextResponse.json(transformedTestimonials);
+    return NextResponse.json(testimonials);
   } catch (error) {
     console.error('Error fetching testimonials:', error);
     return NextResponse.json(
       { error: 'Failed to fetch testimonials' },
+      { status: 500 }
+    );
+  }
+}
+
+// POST /api/testimonials - Create new testimonial
+export async function POST(req: NextRequest) {
+  try {
+    const data = await req.json();
+    const {
+      name,
+      serviceId,
+      rating,
+      review,
+      country,
+      photoUrl,
+      userId,
+      translations
+    } = data;
+
+    // Validate required fields
+    if (!name || !serviceId || !rating || !review || !country) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // Validate rating
+    if (rating < 1 || rating > 5) {
+      return NextResponse.json(
+        { error: 'Rating must be between 1 and 5' },
+        { status: 400 }
+      );
+    }
+
+    // Create testimonial
+    const testimonial = await prisma.testimonial.create({
+      data: {
+        name,
+        serviceId,
+        rating,
+        review,
+        country,
+        photoUrl,
+        userId,
+        isApproved: false, // Default to false for moderation
+        isFeatured: false,
+        translations: translations ? {
+          create: translations.map((t: any) => ({
+            language: t.language,
+            review: t.review
+          }))
+        } : undefined
+      },
+      include: {
+        service: {
+          select: {
+            title: true,
+            slug: true
+          }
+        },
+        translations: true
+      }
+    });
+
+    return NextResponse.json(testimonial, { status: 201 });
+  } catch (error) {
+    console.error('Error creating testimonial:', error);
+    return NextResponse.json(
+      { error: 'Failed to create testimonial' },
       { status: 500 }
     );
   }

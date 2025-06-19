@@ -189,6 +189,7 @@ model Testimonial {
   id           String                   @id @default(cuid())
   userId       String?
   serviceId    String
+  name         String
   rating       Int
   review       String
   country      String

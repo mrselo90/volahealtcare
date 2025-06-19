@@ -49,6 +49,10 @@ export const getServiceTitle = (service: { title?: string; translations?: Servic
  */
 export const getServiceDescription = (service: { description?: string; translations?: ServiceTranslation[] }, language: string = 'en'): string => {
   if (service.translations && service.translations.length > 0) {
+    // Try content field first, then description field
+    const translatedContent = getTranslation(service.translations, 'content', language);
+    if (translatedContent) return translatedContent;
+    
     const translatedDesc = getTranslation(service.translations, 'description', language);
     if (translatedDesc) return translatedDesc;
   }

@@ -1,32 +1,65 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 
-// GET - Fetch all testimonials
-export async function GET() {
+// GET /api/admin/testimonials - Get all testimonials for admin
+export async function GET(req: NextRequest) {
   try {
-    const testimonials = await prisma.testimonial.findMany({
-      include: {
-        service: {
-          select: {
-            id: true,
-            title: true,
-            slug: true
-          }
+    const { searchParams } = new URL(req.url);
+    const serviceId = searchParams.get('serviceId');
+    const status = searchParams.get('status'); // pending, approved, rejected
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '10');
+    const skip = (page - 1) * limit;
+
+    const where: any = {};
+    
+    if (serviceId) {
+      where.serviceId = serviceId;
+    }
+    
+    if (status === 'pending') {
+      where.isApproved = false;
+    } else if (status === 'approved') {
+      where.isApproved = true;
+    }
+
+    const [testimonials, total] = await Promise.all([
+      prisma.testimonial.findMany({
+        where,
+        include: {
+          service: {
+            select: {
+              title: true,
+              slug: true
+            }
+          },
+          user: {
+            select: {
+              name: true,
+              email: true,
+              image: true
+            }
+          },
+          translations: true
         },
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true
-          }
-        }
-      },
-      orderBy: {
-        createdAt: 'desc'
+        orderBy: {
+          createdAt: 'desc'
+        },
+        skip,
+        take: limit
+      }),
+      prisma.testimonial.count({ where })
+    ]);
+
+    return NextResponse.json({
+      testimonials,
+      pagination: {
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit)
       }
     });
-
-    return NextResponse.json(testimonials);
   } catch (error) {
     console.error('Error fetching testimonials:', error);
     return NextResponse.json(
@@ -36,33 +69,31 @@ export async function GET() {
   }
 }
 
-// POST - Create new testimonial
-export async function POST(request: NextRequest) {
+// POST /api/admin/testimonials - Create testimonial from admin
+export async function POST(req: NextRequest) {
   try {
-    const body = await request.json();
+    const data = await req.json();
     const {
+      name,
       serviceId,
-      serviceTitle,
       rating,
       review,
       country,
       photoUrl,
-      isApproved = false,
-      isFeatured = false,
-      userId,
-      userName,
-      userEmail
-    } = body;
+      isApproved,
+      isFeatured,
+      translations
+    } = data;
 
     // Validate required fields
-    if ((!serviceId && !serviceTitle) || !rating || !review || !country) {
+    if (!name || !serviceId || !rating || !review || !country) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    // Validate rating range
+    // Validate rating
     if (rating < 1 || rating > 5) {
       return NextResponse.json(
         { error: 'Rating must be between 1 and 5' },
@@ -70,108 +101,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let finalServiceId = serviceId;
-    let finalUserId = userId;
-
-    // Handle service creation/finding
-    if (!serviceId && serviceTitle) {
-      // Try to find existing service by title
-      let service = await prisma.service.findFirst({
-        where: { title: serviceTitle }
-      });
-
-      // If not found, create new service
-      if (!service) {
-        // First, we need to find or create a category
-        let category = await prisma.category.findFirst({
-          where: { slug: 'general' }
-        });
-
-        if (!category) {
-          category = await prisma.category.create({
-            data: {
-              name: JSON.stringify({ en: 'General', tr: 'Genel' }),
-              slug: 'general',
-              orderIndex: 999
-            }
-          });
-        }
-
-        service = await prisma.service.create({
-          data: {
-            title: serviceTitle,
-            slug: serviceTitle.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
-            description: `Service for ${serviceTitle}`,
-            price: 0,
-            categoryId: category.id,
-            operationTime: '1-2 hours'
-          }
-        });
-      }
-      finalServiceId = service.id;
-    }
-
-    // Handle user creation/finding
-    if (!userId && userName) {
-      // Try to find existing user by name first
-      let user = await prisma.user.findFirst({
-        where: { name: userName }
-      });
-
-      // If not found, create new user with temporary email
-      if (!user) {
-        const tempEmail = `${userName.toLowerCase().replace(/\s+/g, '.')}@testimonial.temp`;
-        user = await prisma.user.create({
-          data: {
-            name: userName,
-            email: tempEmail,
-            role: 'USER'
-          }
-        });
-      }
-      finalUserId = user.id;
-    }
-
-    // Check if service exists
-    if (finalServiceId) {
-      const service = await prisma.service.findUnique({
-        where: { id: finalServiceId }
-      });
-
-      if (!service) {
-        return NextResponse.json(
-          { error: 'Service not found' },
-          { status: 404 }
-        );
-      }
-    }
-
     const testimonial = await prisma.testimonial.create({
       data: {
-        serviceId: finalServiceId,
+        name,
+        serviceId,
         rating,
         review,
         country,
-        photoUrl: photoUrl || null,
-        isApproved,
-        isFeatured,
-        userId: finalUserId || null
+        photoUrl,
+        isApproved: isApproved || false,
+        isFeatured: isFeatured || false,
+        translations: translations ? {
+          create: translations.map((t: any) => ({
+            language: t.language,
+            review: t.review
+          }))
+        } : undefined
       },
       include: {
         service: {
           select: {
-            id: true,
             title: true,
             slug: true
           }
         },
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true
-          }
-        }
+        translations: true
       }
     });
 

@@ -1,11 +1,29 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { RiStarLine, RiEditLine, RiDeleteBinLine, RiAddLine, RiStarFill, RiCheckLine, RiCloseLine } from 'react-icons/ri';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Plus, Edit, Trash2, Star, User, Calendar, Globe, CheckCircle, XCircle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+
+interface Service {
+  id: string;
+  title: string;
+  slug: string;
+}
 
 interface Testimonial {
   id: string;
+  name: string;
+  serviceId: string;
   rating: number;
   review: string;
   country: string;
@@ -14,520 +32,570 @@ interface Testimonial {
   isFeatured: boolean;
   createdAt: string;
   service: {
-    id: string;
     title: string;
     slug: string;
   };
   user?: {
-    id: string;
     name: string;
     email: string;
+    image?: string;
   };
-}
-
-interface Service {
-  id: string;
-  title: string;
-  slug: string;
-  category: {
+  translations: Array<{
     id: string;
-    name: string;
-    slug: string;
-  };
+    language: string;
+    review: string;
+  }>;
 }
 
-interface Category {
-  id: string;
+interface TestimonialFormData {
   name: string;
-  slug: string;
+  serviceId: string;
+  rating: number;
+  review: string;
+  country: string;
+  photoUrl: string;
+  isApproved: boolean;
+  isFeatured: boolean;
+  translations: Array<{
+    language: string;
+    review: string;
+  }>;
 }
 
-export default function TestimonialsPage() {
+export default function AdminTestimonialsPage() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [services, setServices] = useState<Service[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [newTestimonial, setNewTestimonial] = useState({
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState<string>('all');
+  const [selectedService, setSelectedService] = useState<string>('all');
+  const [editingTestimonial, setEditingTestimonial] = useState<Testimonial | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [formData, setFormData] = useState<TestimonialFormData>({
+    name: '',
+    serviceId: '',
     rating: 5,
     review: '',
     country: '',
-    userName: '',
-    categoryId: '',
-    serviceId: '',
-    photo: null as File | null
+    photoUrl: '',
+    isApproved: false,
+    isFeatured: false,
+    translations: []
   });
 
   useEffect(() => {
-    fetchTestimonials();
     fetchServices();
-    fetchCategories();
-  }, []);
+    fetchTestimonials();
+  }, [selectedStatus, selectedService]);
+
+  const fetchServices = async () => {
+    try {
+      const response = await fetch('/api/admin/services');
+      if (response.ok) {
+        const data = await response.json();
+        setServices(data);
+      }
+    } catch (error) {
+      console.error('Error fetching services:', error);
+    }
+  };
 
   const fetchTestimonials = async () => {
     try {
-      const response = await fetch('/api/admin/testimonials');
-      if (!response.ok) throw new Error('Failed to fetch testimonials');
-      const data = await response.json();
-      setTestimonials(data);
+      setLoading(true);
+      const params = new URLSearchParams();
+      if (selectedStatus !== 'all') {
+        params.append('status', selectedStatus);
+      }
+      if (selectedService !== 'all') {
+        params.append('serviceId', selectedService);
+      }
+
+      const response = await fetch(`/api/admin/testimonials?${params}`);
+      if (response.ok) {
+        const data = await response.json();
+        setTestimonials(data.testimonials || data);
+      }
     } catch (error) {
       console.error('Error fetching testimonials:', error);
-      toast.error('Failed to load testimonials');
+      toast.error('Failed to fetch testimonials');
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchServices = async () => {
-    try {
-      const response = await fetch('/api/services');
-      if (!response.ok) throw new Error('Failed to fetch services');
-      const data = await response.json();
-      setServices(data);
-    } catch (error) {
-      console.error('Error fetching services:', error);
-      toast.error('Failed to load services');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validation
+    if (!formData.name.trim()) {
+      toast.error('Patient name is required');
+      return;
     }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch('/api/categories');
-      if (!response.ok) throw new Error('Failed to fetch categories');
-      const data = await response.json();
-      setCategories(data);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      toast.error('Failed to load categories');
+    if (!formData.country.trim()) {
+      toast.error('Country is required');
+      return;
     }
-  };
-
-  const handleApprove = async (id: string, isApproved: boolean) => {
+    if (!formData.serviceId) {
+      toast.error('Please select a service');
+      return;
+    }
+    if (!formData.review.trim()) {
+      toast.error('Review is required');
+      return;
+    }
+    if (formData.review.length > 500) {
+      toast.error('Review must be less than 500 characters');
+      return;
+    }
+    
     try {
-      const response = await fetch('/api/admin/testimonials', {
-        method: 'PUT',
+      setIsSubmitting(true);
+      
+      const url = editingTestimonial 
+        ? `/api/admin/testimonials/${editingTestimonial.id}`
+        : '/api/admin/testimonials';
+      
+      const method = editingTestimonial ? 'PUT' : 'POST';
+      
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id, isApproved }),
+        body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error('Failed to update testimonial');
-      
-      setTestimonials(prev => 
-        prev.map(t => t.id === id ? { ...t, isApproved } : t)
-      );
-      
-      toast.success(isApproved ? 'Testimonial approved' : 'Testimonial unapproved');
+      if (response.ok) {
+        toast.success(editingTestimonial ? 'Testimonial updated!' : 'Testimonial created!');
+        setIsDialogOpen(false);
+        setEditingTestimonial(null);
+        resetForm();
+        fetchTestimonials();
+      } else {
+        const error = await response.json();
+        toast.error(error.error || 'Failed to save testimonial');
+      }
     } catch (error) {
-      console.error('Error updating testimonial:', error);
-      toast.error('Failed to update testimonial');
-    }
-  };
-
-  const handleFeature = async (id: string, isFeatured: boolean) => {
-    try {
-      const response = await fetch('/api/admin/testimonials', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id, isFeatured }),
-      });
-
-      if (!response.ok) throw new Error('Failed to update testimonial');
-      
-      setTestimonials(prev => 
-        prev.map(t => t.id === id ? { ...t, isFeatured } : t)
-      );
-      
-      toast.success(isFeatured ? 'Testimonial featured' : 'Testimonial unfeatured');
-    } catch (error) {
-      console.error('Error updating testimonial:', error);
-      toast.error('Failed to update testimonial');
+      console.error('Error saving testimonial:', error);
+      toast.error('Failed to save testimonial');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this testimonial?')) return;
-
     try {
-      const response = await fetch(`/api/admin/testimonials?id=${id}`, {
+      const response = await fetch(`/api/admin/testimonials/${id}`, {
         method: 'DELETE',
       });
 
-      if (!response.ok) throw new Error('Failed to delete testimonial');
-      
-      setTestimonials(prev => prev.filter(t => t.id !== id));
-      toast.success('Testimonial deleted successfully');
+      if (response.ok) {
+        toast.success('Testimonial deleted!');
+        fetchTestimonials();
+      } else {
+        toast.error('Failed to delete testimonial');
+      }
     } catch (error) {
       console.error('Error deleting testimonial:', error);
       toast.error('Failed to delete testimonial');
     }
   };
 
-  const handleAddTestimonial = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const handleApprovalToggle = async (testimonial: Testimonial) => {
     try {
-      let photoUrl = '';
-      
-      // Upload photo if selected
-      if (newTestimonial.photo) {
-        const formData = new FormData();
-        formData.append('file', newTestimonial.photo);
-        
-        const uploadResponse = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
-        
-        if (uploadResponse.ok) {
-          const uploadResult = await uploadResponse.json();
-          photoUrl = uploadResult.url;
-        } else {
-          throw new Error('Failed to upload photo');
-        }
-      }
-      
-      const response = await fetch('/api/admin/testimonials', {
-        method: 'POST',
+      const response = await fetch(`/api/admin/testimonials/${testimonial.id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          serviceId: newTestimonial.serviceId,
-          rating: newTestimonial.rating,
-          review: newTestimonial.review,
-          country: newTestimonial.country,
-          photoUrl: photoUrl,
-          userName: newTestimonial.userName,
-          isApproved: true, // Auto-approve admin-created testimonials
-          isFeatured: false
+          isApproved: !testimonial.isApproved
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to add testimonial');
-      
-      const addedTestimonial = await response.json();
-      setTestimonials(prev => [addedTestimonial, ...prev]);
-      setShowAddModal(false);
-      setNewTestimonial({
-        rating: 5,
-        review: '',
-        country: '',
-        userName: '',
-        categoryId: '',
-        serviceId: '',
-        photo: null
-      });
-      toast.success('Testimonial added successfully');
+      if (response.ok) {
+        toast.success(testimonial.isApproved ? 'Testimonial unapproved' : 'Testimonial approved');
+        fetchTestimonials();
+      } else {
+        toast.error('Failed to update testimonial');
+      }
     } catch (error) {
-      console.error('Error adding testimonial:', error);
-      toast.error('Failed to add testimonial');
+      console.error('Error updating testimonial:', error);
+      toast.error('Failed to update testimonial');
     }
   };
 
+  const handleFeaturedToggle = async (testimonial: Testimonial) => {
+    try {
+      const response = await fetch(`/api/admin/testimonials/${testimonial.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          isFeatured: !testimonial.isFeatured
+        }),
+      });
+
+      if (response.ok) {
+        toast.success(testimonial.isFeatured ? 'Removed from featured' : 'Added to featured');
+        fetchTestimonials();
+      } else {
+        toast.error('Failed to update testimonial');
+      }
+    } catch (error) {
+      console.error('Error updating testimonial:', error);
+      toast.error('Failed to update testimonial');
+    }
+  };
+
+  const openEditDialog = (testimonial: Testimonial) => {
+    setEditingTestimonial(testimonial);
+    setFormData({
+      name: testimonial.name,
+      serviceId: testimonial.serviceId,
+      rating: testimonial.rating,
+      review: testimonial.review,
+      country: testimonial.country,
+      photoUrl: testimonial.photoUrl || '',
+      isApproved: testimonial.isApproved,
+      isFeatured: testimonial.isFeatured,
+      translations: testimonial.translations || []
+    });
+    setIsDialogOpen(true);
+  };
+
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      serviceId: '',
+      rating: 5,
+      review: '',
+      country: '',
+      photoUrl: '',
+      isApproved: false,
+      isFeatured: false,
+      translations: []
+    });
+  };
+
   const renderStars = (rating: number) => {
-    return [...Array(5)].map((_, index) => (
-      index < rating ? (
-        <RiStarFill key={index} className="h-4 w-4 text-yellow-400" />
-      ) : (
-        <RiStarLine key={index} className="h-4 w-4 text-gray-300" />
-      )
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star
+        key={i}
+        className={`w-4 h-4 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
+      />
     ));
   };
 
-  // Filter services based on selected category
-  const filteredServices = newTestimonial.categoryId 
-    ? services.filter(service => service.category.id === newTestimonial.categoryId)
-    : services;
-
   return (
-    <div className="relative space-y-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-extrabold text-gray-800">Testimonials</h1>
-        <button 
-          onClick={() => setShowAddModal(true)}
-          className="inline-flex items-center gap-2 bg-amber-500 text-white px-5 py-2 rounded-lg shadow hover:bg-amber-600 transition-all text-lg font-semibold"
-        >
-          <RiAddLine className="h-5 w-5" /> Add Testimonial
-        </button>
-      </div>
-
-      {loading ? (
-        <div className="flex justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500"></div>
-        </div>
-      ) : testimonials.length === 0 ? (
-        <div className="text-center py-12">
-          <RiStarLine className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-2 text-sm font-semibold text-gray-900">No testimonials</h3>
-          <p className="mt-1 text-sm text-gray-500">No testimonials have been submitted yet.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <div
-              key={testimonial.id}
-              className={`bg-white shadow-lg ring-1 ring-gray-900/5 rounded-2xl p-6 flex flex-col gap-4 hover:shadow-amber-200 transition-shadow ${
-                testimonial.isFeatured ? 'ring-2 ring-amber-400' : ''
-              }`}
-            >
-              {/* Header */}
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-lg font-bold text-gray-900">
-                      {testimonial.user?.name || 'Anonymous'}
-                    </h3>
-                    {testimonial.isFeatured && (
-                      <span className="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded-full font-medium">
-                        Featured
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm text-gray-500">{testimonial.service.title}</p>
-                  <p className="text-xs text-gray-400">{testimonial.country}</p>
-                </div>
-                
-                {/* Status indicators */}
-                <div className="flex flex-col items-end gap-2">
-                  <div className={`w-3 h-3 rounded-full ${
-                    testimonial.isApproved ? 'bg-green-400' : 'bg-red-400'
-                  }`} title={testimonial.isApproved ? 'Approved' : 'Pending approval'} />
-                </div>
-              </div>
-
-              {/* Rating */}
-              <div className="flex items-center gap-2">
-                <div className="flex items-center">
-                  {renderStars(testimonial.rating)}
-                </div>
-                <span className="text-sm text-gray-500">
-                  {testimonial.rating}/5
-                </span>
-              </div>
-
-              {/* Review */}
-              <p className="text-gray-700 text-sm leading-relaxed line-clamp-4">
-                {testimonial.review}
-              </p>
-
-              {/* Photo indicator */}
-              {testimonial.photoUrl && (
-                <div className="flex items-center gap-2">
-                  <img
-                    src={testimonial.photoUrl}
-                    alt="Testimonial photo"
-                    className="w-16 h-16 object-cover rounded-lg"
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Testimonials Management</h1>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button onClick={() => { resetForm(); setEditingTestimonial(null); }}>
+              <Plus className="w-4 h-4 mr-2" />
+              Add Testimonial
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-semibold">
+                {editingTestimonial ? 'Edit Testimonial' : 'Add New Testimonial'}
+              </DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="name">Patient Name *</Label>
+                  <Input
+                    id="name"
+                    placeholder="Enter patient name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
                   />
-                  <div className="flex items-center gap-1 text-xs text-green-600">
-                    <span>📷</span>
-                    <span>Has photo</span>
-                  </div>
                 </div>
-              )}
-
-              {/* Actions */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                <div className="text-xs text-gray-400">
-                  {new Date(testimonial.createdAt).toLocaleDateString()}
-                </div>
-                
-                <div className="flex items-center gap-1">
-                  {/* Approve/Unapprove */}
-                  <button
-                    onClick={() => handleApprove(testimonial.id, !testimonial.isApproved)}
-                    className={`p-2 rounded-full transition-colors ${
-                      testimonial.isApproved 
-                        ? 'text-green-600 hover:text-green-700 hover:bg-green-50' 
-                        : 'text-gray-400 hover:text-green-600 hover:bg-green-50'
-                    }`}
-                    title={testimonial.isApproved ? 'Unapprove' : 'Approve'}
-                  >
-                    <RiCheckLine className="h-4 w-4" />
-                  </button>
-
-                  {/* Feature/Unfeature */}
-                  <button
-                    onClick={() => handleFeature(testimonial.id, !testimonial.isFeatured)}
-                    className={`p-2 rounded-full transition-colors ${
-                      testimonial.isFeatured 
-                        ? 'text-amber-600 hover:text-amber-700 hover:bg-amber-50' 
-                        : 'text-gray-400 hover:text-amber-600 hover:bg-amber-50'
-                    }`}
-                    title={testimonial.isFeatured ? 'Unfeature' : 'Feature'}
-                  >
-                    <RiStarFill className="h-4 w-4" />
-                  </button>
-
-
-
-                  {/* Delete */}
-                  <button
-                    onClick={() => handleDelete(testimonial.id)}
-                    className="text-gray-400 hover:text-red-500 p-2 rounded-full transition-colors"
-                    title="Delete testimonial"
-                  >
-                    <RiDeleteBinLine className="h-4 w-4" />
-                  </button>
+                <div>
+                  <Label htmlFor="country">Country *</Label>
+                  <Input
+                    id="country"
+                    placeholder="Enter country"
+                    value={formData.country}
+                    onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                    required
+                  />
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
 
-      {/* Add Testimonial Modal */}
-      {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-gray-800">Add New Testimonial</h2>
-              <button
-                onClick={() => setShowAddModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <RiCloseLine className="h-6 w-6" />
-              </button>
-            </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="service">Service *</Label>
+                  <Select
+                    value={formData.serviceId}
+                    onValueChange={(value) => setFormData({ ...formData, serviceId: value })}
+                    required
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select service" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {services.map((service) => (
+                        <SelectItem key={service.id} value={service.id}>
+                          {service.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="rating">Rating</Label>
+                  <Select
+                    value={formData.rating.toString()}
+                    onValueChange={(value) => setFormData({ ...formData, rating: parseInt(value) })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select rating" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[1, 2, 3, 4, 5].map((rating) => (
+                        <SelectItem key={rating} value={rating.toString()}>
+                          <div className="flex items-center gap-2">
+                            <div className="flex">
+                              {Array.from({ length: rating }, (_, i) => (
+                                <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                              ))}
+                              {Array.from({ length: 5 - rating }, (_, i) => (
+                                <Star key={i + rating} className="w-4 h-4 text-gray-300" />
+                              ))}
+                            </div>
+                            <span>{rating} Star{rating > 1 ? 's' : ''}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
 
-            <form onSubmit={handleAddTestimonial} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  User Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={newTestimonial.userName}
-                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, userName: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                <Label htmlFor="photoUrl">Photo URL (optional)</Label>
+                <Input
+                  id="photoUrl"
+                  type="url"
+                  placeholder="https://example.com/photo.jpg"
+                  value={formData.photoUrl}
+                  onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Category
-                </label>
-                <select
-                  required
-                  value={newTestimonial.categoryId}
-                  onChange={(e) => setNewTestimonial(prev => ({ 
-                    ...prev, 
-                    categoryId: e.target.value,
-                    serviceId: '' // Reset service when category changes
-                  }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                >
-                  <option value="">Select a category</option>
-                  {categories.map(category => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Service
-                </label>
-                <select
-                  required
-                  value={newTestimonial.serviceId}
-                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, serviceId: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  disabled={!newTestimonial.categoryId}
-                >
-                  <option value="">Select a service</option>
-                  {filteredServices.map(service => (
-                    <option key={service.id} value={service.id}>
-                      {service.title}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Country
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={newTestimonial.country}
-                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, country: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Rating
-                </label>
-                <select
-                  value={newTestimonial.rating}
-                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, rating: parseInt(e.target.value) }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                >
-                  {[1, 2, 3, 4, 5].map(num => (
-                    <option key={num} value={num}>{num} Star{num > 1 ? 's' : ''}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Review
-                </label>
-                <textarea
-                  required
+                <Label htmlFor="review">Review *</Label>
+                <Textarea
+                  id="review"
                   rows={4}
-                  value={newTestimonial.review}
-                  onChange={(e) => setNewTestimonial(prev => ({ ...prev, review: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  placeholder="Write the patient's review here..."
+                  value={formData.review}
+                  onChange={(e) => setFormData({ ...formData, review: e.target.value })}
+                  required
                 />
+                <p className={`text-sm mt-1 ${
+                  formData.review.length > 500 
+                    ? 'text-red-500' 
+                    : formData.review.length > 400 
+                    ? 'text-yellow-500' 
+                    : 'text-muted-foreground'
+                }`}>
+                  {formData.review.length}/500 characters
+                </p>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Photo (optional)
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setNewTestimonial(prev => ({ 
-                    ...prev, 
-                    photo: e.target.files?.[0] || null 
-                  }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                />
-                {newTestimonial.photo && (
-                  <p className="text-sm text-gray-500 mt-1">
-                    Selected: {newTestimonial.photo.name}
-                  </p>
-                )}
+              <div className="flex gap-6">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="approved"
+                    checked={formData.isApproved}
+                    onCheckedChange={(checked) => setFormData({ ...formData, isApproved: !!checked })}
+                  />
+                  <Label htmlFor="approved" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Approved
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="featured"
+                    checked={formData.isFeatured}
+                    onCheckedChange={(checked) => setFormData({ ...formData, isFeatured: !!checked })}
+                  />
+                  <Label htmlFor="featured" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Featured
+                  </Label>
+                </div>
               </div>
 
-              <div className="flex gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowAddModal(false)}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+              <div className="flex justify-end gap-3 pt-4 border-t">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setIsDialogOpen(false)}
+                  disabled={isSubmitting}
                 >
                   Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 px-4 py-2 bg-amber-500 text-white rounded-md hover:bg-amber-600"
+                </Button>
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="min-w-[120px]"
                 >
-                  Add Testimonial
-                </button>
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Saving...
+                    </div>
+                  ) : (
+                    `${editingTestimonial ? 'Update' : 'Create'} Testimonial`
+                  )}
+                </Button>
               </div>
             </form>
-          </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {/* Filters */}
+      <div className="flex gap-4 mb-6">
+        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+          <SelectTrigger className="w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="approved">Approved</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select value={selectedService} onValueChange={setSelectedService}>
+          <SelectTrigger className="w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Services</SelectItem>
+            {services.map((service) => (
+              <SelectItem key={service.id} value={service.id}>
+                {service.title}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Testimonials List */}
+      {loading ? (
+        <div className="text-center py-8">Loading testimonials...</div>
+      ) : (
+        <div className="grid gap-4">
+          {testimonials.length === 0 ? (
+            <Card>
+              <CardContent className="text-center py-8">
+                <p className="text-muted-foreground">No testimonials found</p>
+              </CardContent>
+            </Card>
+          ) : (
+            testimonials.map((testimonial) => (
+              <Card key={testimonial.id}>
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-3">
+                      {testimonial.photoUrl ? (
+                        <img
+                          src={testimonial.photoUrl}
+                          alt={testimonial.name}
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                          <User className="w-6 h-6 text-gray-400" />
+                        </div>
+                      )}
+                      <div>
+                        <CardTitle className="text-lg">{testimonial.name}</CardTitle>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Globe className="w-4 h-4" />
+                          {testimonial.country}
+                          <Calendar className="w-4 h-4 ml-2" />
+                          {new Date(testimonial.createdAt).toLocaleDateString()}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant={testimonial.isApproved ? "default" : "outline"}
+                        onClick={() => handleApprovalToggle(testimonial)}
+                      >
+                        {testimonial.isApproved ? (
+                          <CheckCircle className="w-4 h-4" />
+                        ) : (
+                          <XCircle className="w-4 h-4" />
+                        )}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant={testimonial.isFeatured ? "default" : "outline"}
+                        onClick={() => handleFeaturedToggle(testimonial)}
+                      >
+                        <Star className={`w-4 h-4 ${testimonial.isFeatured ? 'fill-current' : ''}`} />
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => openEditDialog(testimonial)}>
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button size="sm" variant="outline">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Testimonial</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete this testimonial? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => handleDelete(testimonial.id)}>
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <div className="flex">{renderStars(testimonial.rating)}</div>
+                      <Badge variant="outline">{testimonial.service.title}</Badge>
+                      {testimonial.isApproved && (
+                        <Badge variant="default">Approved</Badge>
+                      )}
+                      {testimonial.isFeatured && (
+                        <Badge variant="secondary">Featured</Badge>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground line-clamp-3">
+                      {testimonial.review}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
       )}
     </div>

@@ -19,24 +19,22 @@ import {
   RiSlideshowLine,
   RiLayoutLine,
 } from 'react-icons/ri';
-import { useTranslation } from '@/lib/i18n/hooks';
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { t } = useTranslation();
 
   const navigationItems = [
     {
-      name: t('admin.sidebar.dashboard'),
+      name: 'Dashboard',
       href: '/admin',
       icon: RiHomeLine,
-      description: t('admin.sidebar.dashboardDesc'),
+      description: 'Overview of your medical tourism website',
     },
     {
-      name: t('admin.sidebar.categories'),
+      name: 'Categories',
       href: '/admin/categories',
       icon: RiListCheck,
-      description: t('admin.sidebar.categoriesDesc'),
+      description: 'Manage service categories',
     },
     {
       name: 'Hero Slides',
@@ -51,59 +49,58 @@ export default function Sidebar() {
       description: 'Manage dynamic content sections',
     },
     {
-      name: t('admin.sidebar.services'),
+      name: 'Services',
       href: '/admin/services',
       icon: RiBriefcaseLine,
-      description: t('admin.sidebar.servicesDesc'),
+      description: 'Manage medical services and treatments',
     },
     {
-      name: t('admin.sidebar.beforeAfter'),
+      name: 'Before & After',
       href: '/admin/before-after',
       icon: RiImageLine,
-      description: t('admin.sidebar.beforeAfterDesc'),
+      description: 'Manage before and after photos',
     },
     {
-      name: t('admin.sidebar.appointments'),
+      name: 'Appointments',
       href: '/admin/appointments',
       icon: RiCalendarLine,
-      description: t('admin.sidebar.appointmentsDesc'),
+      description: 'View and manage patient appointments',
     },
     {
-      name: t('admin.sidebar.consultations'),
+      name: 'Consultations',
       href: '/admin/consultations',
       icon: RiUserHeartLine,
-      description: t('admin.sidebar.consultationsDesc'),
+      description: 'Manage consultation requests',
     },
     {
-      name: t('admin.sidebar.messages'),
+      name: 'Messages',
       href: '/admin/messages',
       icon: RiMessageLine,
-      description: t('admin.sidebar.messagesDesc'),
+      description: 'View contact form messages',
     },
     {
-      name: t('admin.sidebar.testimonials'),
+      name: 'Testimonials',
       href: '/admin/testimonials',
       icon: RiStarLine,
-      description: t('admin.sidebar.testimonialsDesc'),
+      description: 'Manage patient reviews and testimonials',
     },
     {
-      name: t('admin.sidebar.translations'),
+      name: 'Translations',
       href: '/admin/translations',
       icon: RiGlobalLine,
-      description: t('admin.sidebar.translationsDesc'),
+      description: 'Manage website translations',
     },
     {
-      name: t('admin.sidebar.settings'),
+      name: 'Settings',
       href: '/admin/settings',
       icon: RiSettings3Line,
-      description: t('admin.sidebar.settingsDesc'),
+      description: 'Configure website settings',
     },
   ];
 
   return (
     <aside className="hidden md:flex md:flex-shrink-0 bg-gradient-to-b from-white via-gray-50 to-amber-50 border-r border-gray-200 min-h-screen shadow-lg w-72">
       <div className="flex flex-col w-64 h-full">
-
         <nav className="flex-1 px-4 pt-8 pb-6 space-y-2 overflow-y-auto">
           {navigationItems.map((item) => {
             const isActive = pathname === item.href;
@@ -126,7 +123,7 @@ export default function Sidebar() {
             className="w-full mt-8 flex items-center gap-3 px-3 py-2 rounded-lg text-base font-medium text-red-600 hover:bg-red-50 hover:text-red-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
           >
             <RiLogoutBoxLine className="h-6 w-6" />
-            <span>{t('admin.sidebar.signOut')}</span>
+            <span>Sign Out</span>
           </button>
         </nav>
       </div>

@@ -1,10 +1,27 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useTranslation } from '@/lib/i18n/hooks';
+import { languages } from '@/lib/i18n/config';
 
 export function Footer() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const pathname = usePathname();
+  
+  // Get current language from URL
+  const pathSegments = pathname.split('/');
+  const currentLangInPath = pathSegments[1];
+  const hasLanguagePrefix = languages.some(lang => lang.code === currentLangInPath);
+  const currentLang = hasLanguagePrefix ? currentLangInPath : language;
+  
+  // Helper function to create language-aware links
+  const createLink = (href: string) => {
+    if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+      return href;
+    }
+    return hasLanguagePrefix ? `/${currentLang}${href}` : `/${language}${href}`;
+  };
 
   return (
     <footer className="bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900">
@@ -73,27 +90,27 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 sm:space-y-3">
               <li>
-                <Link href="/services" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/services')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('nav.services') || 'Services'}
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/about')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('nav.about') || 'About Us'}
                 </Link>
               </li>
               <li>
-                <Link href="/gallery" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/gallery')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('nav.gallery') || 'Gallery'}
                 </Link>
               </li>
               <li>
-                <Link href="/testimonials" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/testimonials')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('nav.testimonials') || 'View All Testimonials'}
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/contact')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('nav.contact') || 'Contact'}
                 </Link>
               </li>
@@ -107,17 +124,17 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 sm:space-y-3">
               <li>
-                <Link href="/services/hair-transplant" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/services/hair-transplant')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('services.categories.hair') || 'Hair Transplant'}
                 </Link>
               </li>
               <li>
-                <Link href="/services/dental-treatments" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/services/dental-treatments')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('services.categories.dental') || 'Dental Services'}
                 </Link>
               </li>
               <li>
-                <Link href="/services/plastic-surgery" className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/services/plastic-surgery')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('services.categories.aesthetic') || 'Plastic Surgery'}
                 </Link>
               </li>
@@ -164,10 +181,10 @@ export function Footer() {
               © {new Date().getFullYear()} Vola Health Istanbul. {t('footer.allRightsReserved')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-center sm:text-left">
-              <Link href="/privacy" className="text-xs sm:text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              <Link href={createLink('/privacy')} className="text-xs sm:text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 {t('footer.privacyPolicy')}
               </Link>
-              <Link href="/terms" className="text-xs sm:text-sm text-gray-400 hover:text-blue-400 transition-colors">
+              <Link href={createLink('/terms')} className="text-xs sm:text-sm text-gray-400 hover:text-blue-400 transition-colors">
                 {t('footer.termsOfService')}
               </Link>
             </div>

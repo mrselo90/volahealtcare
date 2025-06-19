@@ -32,7 +32,7 @@ export const services: ServiceCategory[] = [
         name: 'Digital Smile Design',
         slug: 'digital-smile-design',
         description: 'Digital Smile Design (DSD) is an innovative process that uses advanced technology to create a customized smile tailored to your facial features and preferences.',
-        longDescription: 'Digital Smile Design (DSD) is an innovative, high-tech approach to achieving the smile of your dreams. At Aesthetic Care Istanbul, we use cutting-edge digital tools and advanced techniques to create personalized, precise smile transformations. Whether you're looking to enhance the appearance of your teeth, correct alignment issues, or achieve a more youthful smile, DSD allows us to design and visualize your ideal smile before any treatment begins.',
+        longDescription: 'Digital Smile Design (DSD) is an innovative, high-tech approach to achieving the smile of your dreams. At Aesthetic Care Istanbul, we use cutting-edge digital tools and advanced techniques to create personalized, precise smile transformations. Whether you\'re looking to enhance the appearance of your teeth, correct alignment issues, or achieve a more youthful smile, DSD allows us to design and visualize your ideal smile before any treatment begins.',
         priceRange: [1500, 3000],
         duration: '2-3 hours',
         benefits: [
@@ -96,7 +96,7 @@ export const services: ServiceCategory[] = [
         name: 'Hollywood Smile',
         slug: 'hollywood-smile',
         description: 'A Hollywood smile is a cosmetic treatment designed to enhance the appearance of your teeth, giving you a bright, flawless, and symmetrical smile.',
-        longDescription: 'A Hollywood Smile is the ultimate transformation for anyone looking to achieve a perfect, radiant, and flawless smile. At Aesthetic Care Istanbul, we specialize in creating dazzling Hollywood Smiles, combining advanced dental techniques with a personalized approach to give you a smile that's not only beautiful but also perfectly suited to your facial features.',
+        longDescription: 'A Hollywood Smile is the ultimate transformation for anyone looking to achieve a perfect, radiant, and flawless smile. At Aesthetic Care Istanbul, we specialize in creating dazzling Hollywood Smiles, combining advanced dental techniques with a personalized approach to give you a smile that\'s not only beautiful but also perfectly suited to your facial features.',
         priceRange: [2000, 5000],
         duration: '2-3 weeks',
         benefits: [

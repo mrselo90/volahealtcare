@@ -5,21 +5,22 @@ export const trTranslations: Translations = {
     home: 'Ana Sayfa',
     services: 'Hizmetler',
     about: 'Hakkımızda',
-    whyChooseUs: 'Neden Biz?',
+    whyChooseUs: 'Neden Bizi Seçmelisiniz?',
     results: 'Sonuçlar',
     gallery: 'Galeri',
-    testimonials: 'Yorumlar',
+    testimonials: 'Referanslar',
     contact: 'İletişim',
     consultation: 'Ücretsiz Danışma',
-    menu: 'Menü',
+    menu: 'Menü'
   },
   buttons: {
-    viewAllServices: 'TÜM HİZMETLERİ GÖRÜNTÜLE',
+    viewAllServices: 'TÜM HİZMETLERİ GÖR',
+    freeConsultation: 'Ücretsiz Danışma'
   },
   cta: {
-    title: 'Dönüşümünüze Hazır mısınız?',
-    subtitle: 'Dönüşüm yolculukları için Vola Health İstanbul\'u seçen binlerce memnun hastaya katılın. Uzman ekibimiz istediğiniz sonuçlara ulaşmanıza yardımcı olmak için hazır.',
-    viewAll: 'Tüm Dönüşümleri Görüntüle',
+    title: 'Dönüşümünüz İçin Hazır mısınız?',
+    subtitle: 'Dönüşüm yolculuğu için Vola Health İstanbul\'u seçen binlerce mutlu hastaya katılın.',
+    viewAll: 'Tüm Dönüşümleri Gör',
     freeConsultation: 'Ücretsiz Danışma'
   },
   stats: {
@@ -29,20 +30,20 @@ export const trTranslations: Translations = {
     yearsExperience: 'Yıllık Deneyim'
   },
   featured: {
-    realPatientTransformations: 'GERÇEK HASTA DÖNÜŞÜMLER',
+    realPatientTransformations: 'GERÇEK HASTA DÖNÜŞÜMLERİ',
     lifeChanging: 'Hayat Değiştiren',
     results: 'Sonuçlar',
-    witness: 'Estetik ve sağlık yolculuklarında Vola Health İstanbul\'a güvenen hastaların inanılmaz dönüşümlerine tanık olun.',
+    witness: 'Vola Health İstanbul\'a güvenen hastaların inanılmaz dönüşümlerine tanık olun.',
     loading: 'Dönüşümler yükleniyor...',
     noCases: 'Öne Çıkan Vaka Yok',
     unableToLoad: 'Şu anda öne çıkan vakalar yüklenemiyor.',
-    noTransformations: 'Şu anda öne çıkan dönüşüm bulunmuyor.',
+    noTransformations: 'Şu anda öne çıkan dönüşüm bulunmamaktadır.',
     result: '✨ SONUÇ',
     featured: '⭐ ÖNE ÇIKAN',
     patientAge: 'Hasta Yaşı',
     years: 'yaş',
     timeline: 'Zaman Çizelgesi',
-    na: 'Mevcut Değil'
+    na: 'Yok'
   },
   common: {
     loading: 'Yükleniyor...',
@@ -61,9 +62,9 @@ export const trTranslations: Translations = {
     previous: 'Önceki',
     viewAll: 'Tümünü Gör',
     learnMore: 'Daha Fazla Bilgi',
-    getStarted: 'Başlayın',
-    bookNow: 'Hemen Rezervasyon Yap',
-    messageNow: 'Mesaj Gönder',
+    getStarted: 'Başla',
+    bookNow: 'Hemen Randevu Al',
+    messageNow: 'Şimdi Mesaj Gönder',
     readMore: 'Devamını Oku',
     showLess: 'Daha Az Göster',
     noResults: 'Sonuç bulunamadı',
@@ -71,40 +72,40 @@ export const trTranslations: Translations = {
     quickLinks: 'Hızlı Bağlantılar'
   },
   home: {
-    premiumBadge: 'PREMİUM SAĞLIK HİZMETİ',
+    premiumBadge: 'PREMIUM SAĞLIK HİZMETİ',
     hero: {
-      title: 'İstanbul\'da Premium Medikal Turizm ile Hayatınızı Dönüştürün',
-      subtitle: 'Uzman tıbbi ekibimizle İstanbul\'da dünya standartlarında sağlık hizmetleri deneyimleyin.',
+      title: 'Premium Medikal Turizm ile Hayatınızı Dönüştürün',
+      subtitle: 'Uzman medikal ekibimizle İstanbul\'da dünya standartlarında sağlık hizmeti deneyimi yaşayın.',
       cta: 'Yolculuğunuza Başlayın',
-      trustBadge: 'Dünya çapında 10.000\'den fazla hasta tarafından güveniliyor',
+      trustBadge: 'Dünya çapında 10.000\'den fazla hasta tarafından güvenilir',
       trustIndicators: {
         successfulCases: '4500+ Başarılı Vaka',
         satisfactionRate: '%98 Memnuniyet Oranı',
-        yearsExperience: '15+ Yıl Deneyim'
+        yearsExperience: '15+ Yıllık Deneyim'
       }
     },
-    excellenceTitle: 'MEDİKAL TURİZMDE MÜKEMMEL',
-    excellenceDesc: 'Vola Health İstanbul, dönüştürücü sağlık ve estetik çözümler için öncü bir destinasyon olarak kendini kurmuştur. Dünya standartlarında uzmanlığı son teknoloji ile birleştiren yaklaşımımız, diş tedavileri, saç ekimi prosedürleri ve plastik cerrahiyi kapsayarak güzel İstanbul şehrinde olağanüstü sonuçlar sunmaktadır.',
+    excellenceTitle: 'MEDİKAL TURİZMDE MÜKEMMELLİK',
+    excellenceDesc: 'Vola Health İstanbul, dünya standartlarında uzmanlık ile en son teknolojiyi birleştirerek dönüştürücü sağlık ve estetik çözümleri için önde gelen bir destinasyon olarak kendini kanıtlamıştır. Kapsamlı yaklaşımımız diş tedavileri, saç ekimi prosedürleri ve plastik cerrahiyi kapsar, İstanbul\'un güzel şehrinde olağanüstü sonuçlar sunar.',
     discoverClinic: 'VOLA HEALTH\'İ KEŞFEDİN',
     ourServicesTitle: 'HİZMETLERİMİZ',
     dentalTitle: 'DİŞ TEDAVİLERİ',
-    dentalDesc: 'Gelişmiş diş prosedürleri ile gülümsemenizi dönüştürün.',
+    dentalDesc: 'Gelişmiş diş prosedürleri ile gülüşünüzü dönüştürün.',
     dentalCount: '8 Hizmet',
     hairTitle: 'SAÇ EKİMİ',
-    hairDesc: 'En son tekniklerle doğal saç çizginizi restore edin.',
+    hairDesc: 'En son tekniklerle doğal saç çizginizi geri kazanın.',
     hairCount: '9 Hizmet',
     plasticTitle: 'PLASTİK CERRAHİ',
-    plasticDesc: 'Burun estetiği, yüz germe ve kapsamlı yüz estetiği prosedürleri ile doğal güzelliğinizi artırın.',
+    plasticDesc: 'Estetik prosedürlerle doğal güzelliğinizi artırın.',
     plasticCount: '21 Hizmet',
-    viewAllServices: 'TÜM HİZMETLERİ GÖRÜNTÜLE',
+    viewAllServices: 'TÜM HİZMETLERİ GÖR',
     experienceTitle: 'VOLA HEALTH DENEYİMİ',
     volaExperience: 'VOLA HEALTH DENEYİMİ',
-    experienceDesc1: 'Vola Health İstanbul\'da, ileri teknolojiyi kişiselleştirilmiş bakımla harmanlayarak hayat değiştiren estetik ve sağlık sonuçları yaratıyoruz.',
-    experienceDesc2: 'Kapsamlı yaklaşımımız, tam memnuniyetinizi ve güvenliğinizi sağlamak için tedavi öncesi danışmanlık, dünya standartlarında prosedürler ve özel bakım sonrası desteği içerir.',
-    learnProcess: 'SÜRECİMİZ HAKKINDA BİLGİ EDİNİN',
-    testimonialsTitle: 'HASTA YORUMLARI',
-    viewAllTestimonials: 'TÜM YORUMLARI GÖRÜNTÜLE',
-    contactTitle: 'BİZE ULAŞIN',
+    experienceDesc1: 'Vola Health İstanbul\'da, hayat değiştiren estetik ve sağlık sonuçları yaratmak için gelişmiş teknolojiyi kişiselleştirilmiş bakımla harmanlıyoruz.',
+    experienceDesc2: 'Kapsamlı yaklaşımımız danışma, prosedürler ve sonrası bakım desteğini içerir.',
+    learnProcess: 'SÜRECİMİZİ ÖĞRENİN',
+    testimonialsTitle: 'HASTA REFERANSLARI',
+    viewAllTestimonials: 'TÜM REFERANSLARI GÖR',
+    contactTitle: 'İLETİŞİM',
     contactClinic: 'VOLA HEALTH İSTANBUL',
     contactAddress: 'Adres:',
     contactPhone: 'Telefon:',
@@ -122,34 +123,134 @@ export const trTranslations: Translations = {
       saturday: 'Cumartesi'
     }
   },
+  about: {
+    title: 'Vola Health İstanbul Hakkında',
+    subtitle: 'Vola Health İstanbul',
+    p1: 'Vola Health İstanbul\'a hoş geldiniz, İstanbul\'un canlı şehrinde bulunan gelişmiş estetik ve diş bakımı için önde gelen bir destinasyon. On beş yılı aşkın özverili hizmetimizle, diş ve plastik cerrahi alanlarında güvenilir bir isim olarak kendimizi kanıtlamaktan gurur duyuyoruz. Kliniğimiz, dünya çapındaki hastaların yaşamlarını en yüksek standartlarda tıbbi estetik ve kişiselleştirilmiş bakım sunarak geliştirmeye adanmıştır.',
+    p2: 'Vola Health\'te, her hastanın kendine özgü hedefleri ve ihtiyaçları olduğunu anlıyoruz. Bu nedenle yaklaşımımız oldukça bireyseldir ve hastalarımızla gerçek bağlar kurarak onların beklentilerini daha iyi anlamaya ve karşılamaya inanıyoruz. İlk danışmadan ameliyat sonrası bakıma kadar, sürecimizin her adımı, hastaların sadece olağanüstü tıbbi sonuçlar almasını değil, aynı zamanda yol boyunca rahat, desteklenmiş ve bilgilendirilmiş hissetmesini sağlamak için titizlikle tasarlanmıştır. Uluslararası müşterilerimizin güvenini ve güvenini kazandığımız için onur duyuyoruz ve bu güveni sürekli olarak hizmetlerimizi iyileştirerek ve uzmanlığımızı genişleterek sürdürmeye kararlıyız.',
+    p3: 'Vola Health\'i seçmek, yolculuğunuza sizin kadar değer veren bir ekibi seçmek demektir. Sadece estetik iyileştirmelere değil, en iyi hissetmekten gelen güvene, mutluluğa ve yaşam kalitesine inanıyoruz. Yanınızda özverili bir ekiple, hedeflerinizin ve beklentilerinizin sadece karşılanmadığı, aşırıldığı dönüştürücü bir yolculuğa çıkmanızı davet ediyoruz.',
+    slogan: 'Vola Health İstanbul – Daha İyi Bir Siz İçin'
+  },
   services: {
     categories: {
       dental: 'Diş Tedavileri',
       hair: 'Saç Ekimi',
       aesthetic: 'Estetik Cerrahi'
     },
+    detail: {
+      scrollDown: 'Aşağı Kaydır',
+      contactUs: 'Bize Ulaşın',
+      aboutTreatment: 'Bu Tedavi Hakkında',
+      comprehensiveInfo: 'Prosedürünüz hakkında kapsamlı bilgi',
+      minRead: 'dakika okuma',
+      keyBenefits: 'Temel Faydalar',
+      tableOfContents: 'İçindekiler',
+      serviceNotFound: 'Hizmet Bulunamadı',
+      goBack: 'Geri Dön',
+      bookConsultation: 'Danışma Randevusu Al',
+      whatsappConsult: 'WhatsApp Danışması',
+      freeConsultation: 'Ücretsiz Danışma',
+      bookingForm: {
+        title: 'Randevu Al',
+        subtitle: 'Randevunuzu alın ve dönüşüm yolculuğunuza başlayın',
+        name: 'Ad Soyad',
+        email: 'E-posta',
+        phone: 'Telefon',
+        country: 'Ülke',
+        preferredDate: 'Tercih Edilen Tarih',
+        preferredTime: 'Tercih Edilen Saat',
+        notes: 'Notlar',
+        notesPlaceholder: 'Bu hizmet hakkında herhangi bir soru veya özel istek...',
+        submit: 'Randevu Talep Et',
+        submitting: 'Gönderiliyor...',
+        success: 'Randevunuz başarıyla oluşturuldu!',
+        error: 'Randevu oluşturulurken bir hata oluştu.',
+        close: 'Kapat'
+      },
+      gallery: {
+        title: 'Galeri',
+        beforeAfter: 'Öncesi & Sonrası',
+        procedure: 'Prosedür',
+        results: 'Sonuçlar',
+        viewGallery: 'Galeriyi Gör',
+        noImages: 'Henüz resim eklenmemiş'
+      },
+      faq: {
+        title: 'Sık Sorulan Sorular',
+        noFaq: 'Henüz SSS eklenmemiş'
+      },
+      testimonials: {
+        title: 'Hasta Yorumları',
+        rating: 'Değerlendirme',
+        verified: 'Doğrulanmış Hasta',
+        noTestimonials: 'Henüz yorum eklenmemiş',
+        review: 'yorum',
+        reviews: 'yorum',
+        loading: 'Yorumlar yükleniyor...',
+        noReviews: 'Bu hizmet için henüz yorum yok.',
+        beFirst: 'Deneyiminizi paylaşan ilk kişi olun!'
+      },
+      relatedServices: {
+        title: 'İlgili Hizmetler',
+        exploreMore: 'Bu kategorideki diğer hizmetleri keşfedin',
+        subtitle: 'Benzer tedavileri keşfedin',
+        noServices: 'İlgili hizmet bulunamadı.',
+        browseAll: 'Tüm hizmetleri görüntüle',
+        viewAll: 'Tüm {category} hizmetlerini gör'
+      },
+      navigation: {
+        overview: 'Genel Bakış',
+        procedure: 'Prosedür',
+        gallery: 'Galeri',
+        faq: 'SSS',
+        booking: 'Şimdi Randevu Al'
+      },
+      consultation: {
+        title: 'Ücretsiz Danışma',
+        subtitle: 'Uzmanlarımızla ücretsiz danışma',
+        bookFreeConsultation: 'Ücretsiz Danışma Randevusu Al',
+        messageNow: 'Şimdi Mesaj Gönder',
+        freeConsultation: 'Ücretsiz danışma',
+        expertCare: 'Uzman bakım'
+      },
+      whyChooseUs: {
+        title: 'Neden Bizi Seçmelisiniz',
+        happyClients: 'Mutlu Müşteri',
+        averageRating: 'Ortalama Değerlendirme',
+        yearsExperience: 'Yıllık Deneyim',
+        successRate: 'Başarı Oranı'
+      },
+      quickOverview: 'Hızlı Bakış',
+      readingTime: 'Okuma Süresi',
+      sections: 'Bölümler',
+      topics: 'konu',
+      highlights: 'vurgu',
+      jumpToSection: 'Bölüme Git',
+      shareExperience: 'Deneyiminizi Paylaşın',
+      exploreSimilar: 'Benzer tedavileri keşfedin'
+    },
     packageDetails: {
-      title: 'Tedavi Paketi Detayları',
-      subtitle: 'Türkiye\'deki premium sağlık turizmi yolculuğunuz hakkında bilmeniz gereken her şey',
-      timeInTurkey: 'Türkiye\'de Kalış',
-      timeInTurkeySubtitle: 'Konaklama süresi',
+      title: 'Paket Detayları',
+      subtitle: 'Medikal yolculuğunuzda dahil olan her şey',
+      timeInTurkey: 'Türkiye\'de Kalış Süresi',
+      timeInTurkeySubtitle: 'Önerilen kalış süresi',
       operationTime: 'Operasyon Süresi',
-      operationTimeSubtitle: 'İşlem süresi',
-      hospitalStay: 'Hastanede Kalış',
-      hospitalStaySubtitle: 'İyileşme süresi',
+      operationTimeSubtitle: 'Prosedür süresi',
+      hospitalStay: 'Hastane Kalışı',
+      hospitalStaySubtitle: 'İyileşme dönemi',
       recovery: 'İyileşme Süresi',
-      recoverySubtitle: 'Toparlanma dönemi',
+      recoverySubtitle: 'Tam iyileşme dönemi',
       accommodation: 'Konaklama',
-      accommodationSubtitle: 'Otel konaklaması',
+      accommodationSubtitle: '5 yıldızlı otel dahil',
       transportation: 'Ulaşım',
-      transportationSubtitle: 'Transfer hizmeti',
-      premiumPackageTitle: 'Hepsi Dahil Premium Paket',
-      premiumPackageDescription: 'Lüks konaklama ile eksiksiz sağlık turizmi deneyimi',
+      transportationSubtitle: 'VIP transferler dahil',
+      premiumPackageTitle: 'Premium Her Şey Dahil Paket',
+      premiumPackageDescription: 'Lüks konaklama ve kişiselleştirilmiş bakım ile tam medikal turizm deneyimi.',
       reserveJourney: 'Yolculuğunuzu Rezerve Edin'
     },
     searchPlaceholder: 'Hizmet ara...',
     allCategories: 'Tüm Kategoriler',
-    sortByName: 'İsme Göre Sırala',
+    sortByName: 'Ada Göre Sırala',
     sortByFeatured: 'Öne Çıkanlara Göre Sırala',
     sortByDuration: 'Süreye Göre Sırala',
     hideFilters: 'Filtreleri Gizle',
@@ -157,25 +258,23 @@ export const trTranslations: Translations = {
     duration: 'Süre',
     anyDuration: 'Herhangi Bir Süre',
     oneTwoHours: '1-2 Saat',
-    halfDay: 'Yarım Gün',
-    keyBenefits: 'Temel Faydalar',
     more: 'Daha Fazla',
     learnMore: 'Daha Fazla Bilgi',
     fullDay: 'Tam Gün',
-    multipleDays: 'Birden Fazla Gün',
+    multipleDays: 'Çoklu Gün',
     featuredOnly: 'Sadece Öne Çıkanlar',
-    quickFilters: 'Hızlı Filtreler:',
+    quickFilters: 'Hızlı Filtreler',
     mostPopular: 'En Popüler',
-    quickProcedures: 'Hızlı İşlemler',
+    quickProcedures: 'Hızlı Prosedürler',
     premiumServices: 'Premium Hizmetler',
-    nonInvasive: 'Non-İnvaziv',
+    nonInvasive: 'Non-Invaziv',
     headerTitle: 'Medikal Hizmetlerimiz',
-    headerDesc: 'Sağlığınızı, güzelliğinizi ve özgüveninizi artırmak için tasarlanmış dünya standartlarında tedavi ve prosedürleri keşfedin. Uzman bakım, en son teknoloji ile buluşuyor.',
-    totalServices: 'Toplam {count} Hizmet',
-    showing: '{count} Gösteriliyor',
+    headerDesc: 'Dünya standartlarında tedavi ve prosedürleri keşfedin.',
+    totalServices: '{count} Toplam Hizmet',
+    showing: '{count} gösteriliyor',
     searchResults: 'Arama Sonuçları',
     allServices: 'Tüm Hizmetler',
-    resultsFor: 'Şunun için sonuçlar',
+    resultsFor: 'Sonuçlar',
     inCategory: 'kategorisinde',
     grid: 'Izgara',
     list: 'Liste',
@@ -189,26 +288,26 @@ export const trTranslations: Translations = {
       results: 'Sonuçlar'
     },
     treatments: {
-      dental: 'Diş tedavilerimizle hastalarımız hem estetik hem de fonksiyonel olarak mükemmel sonuçlar elde ediyor.',
-      hair: 'Saç ekimi ve tedavilerimizde doğal görünüm ön planda.',
-      aesthetic: 'Estetik cerrahi operasyonlarımızda hasta güvenliği ve doğal sonuçlar önceliğimiz.',
-      other: 'Diğer tedavilerimizde de mükemmel sonuçlar elde ediyoruz.'
+      dental: 'Diş tedavileri mükemmel sonuçlar elde eder.',
+      hair: 'Saç tedavilerinde doğal görünüm.',
+      aesthetic: 'Güvenli ve doğal estetik sonuçlar.',
+      other: 'Diğer tedaviler'
     },
     dental: {
-      title: 'Diş Tedavisi Sonuçları',
-      subtitle: 'Gülüşünüzü Dönüştüren Tedavilerimizin Sonuçları',
+      title: 'Diş Tedavi Sonuçları',
+      subtitle: 'Gülüşünüzü Dönüştüren Sonuçlar',
       treatments: {
         smileDesign: 'Gülüş Tasarımı',
         dentalImplant: 'Diş İmplantı',
-        veneers: 'Diş Kaplama (Laminate)',
+        veneers: 'Diş Kaplaması',
         whitening: 'Diş Beyazlatma',
-        orthodontics: 'Ortodonti (Diş Teli)',
+        orthodontics: 'Ortodonti',
         gumAesthetics: 'Diş Eti Estetiği',
         allOn4: 'All-on-4 İmplant',
-        zirconia: 'Zirkonyum Kaplama'
+        zirconia: 'Zirkonyum Kron'
       },
       stats: {
-        treatments: 'Başarılı Diş Tedavisi',
+        treatments: 'Başarılı Tedavi',
         satisfaction: 'Hasta Memnuniyeti',
         experience: 'Yıllık Deneyim',
         dentists: 'Uzman Diş Hekimi'
@@ -216,16 +315,16 @@ export const trTranslations: Translations = {
     },
     hair: {
       title: 'Saç Ekimi Sonuçları',
-      subtitle: 'Doğal Saç Dönüşümleri',
+      subtitle: 'Doğal Görünümlü Saç Ekimi Sonuçları',
       treatments: {
-        fue: 'FUE',
-        dhi: 'DHI',
-        beard: 'Sakal',
-        eyebrow: 'Kaş',
-        prp: 'PRP',
+        fue: 'FUE Saç Ekimi',
+        dhi: 'DHI Saç Ekimi',
+        beard: 'Sakal Ekimi',
+        eyebrow: 'Kaş Ekimi',
+        prp: 'PRP Tedavisi',
         mesotherapy: 'Mezoterapi',
-        analysis: 'Analiz',
-        women: 'Kadınlar İçin'
+        analysis: 'Saç Analizi',
+        women: 'Kadın Saç Ekimi'
       },
       stats: {
         transplants: 'Başarılı Ekim',
@@ -236,16 +335,16 @@ export const trTranslations: Translations = {
     },
     aesthetic: {
       title: 'Estetik Cerrahi Sonuçları',
-      subtitle: 'Doğal Estetik Dönüşümler',
+      subtitle: 'Güvenli ve Doğal Estetik Cerrahi Sonuçları',
       treatments: {
-        rhinoplasty: 'Burun Estetiği',
+        rhinoplasty: 'Rinoplasti',
         liposuction: 'Liposuction',
         breastAesthetics: 'Meme Estetiği',
         tummyTuck: 'Karın Germe',
         facelift: 'Yüz Germe',
         eyelidSurgery: 'Göz Kapağı Ameliyatı',
-        bbl: 'BBL',
-        botoxFiller: 'Botoks ve Dolgu'
+        bbl: 'Brezilya Kalça Estetiği',
+        botoxFiller: 'Botox ve Dolgu'
       },
       stats: {
         operations: 'Başarılı Operasyon',
@@ -256,25 +355,25 @@ export const trTranslations: Translations = {
     },
     backToGallery: 'Galeriye Dön',
     treatmentAreas: 'Tedavi Alanları',
-    treatmentAreasDesc: 'Tedavi alanlarımızı keşfedin',
-    beforeAfterResults: 'Öncesi ve Sonrası Sonuçlar',
-    discoverResults: 'Sonuçları Keşfedin',
+    treatmentAreasDesc: 'Uzman ekibimiz tarafından sunulan tedavi seçenekleri',
+    beforeAfterResults: 'Öncesi & Sonrası Sonuçlar',
+    discoverResults: 'Gerçek hasta sonuçlarımızı keşfedin',
     resultTime: 'Sonuç Süresi',
     description: 'Açıklama',
     treatmentDetails: 'Tedavi Detayları',
     results: 'Sonuçlar',
     cta: {
       viewAllResults: 'Tüm Sonuçları Gör',
-      title: 'Dönüşüme Başlayın',
-      subtitle: 'Randevu Alın',
+      title: 'Bu Sonuçları da Elde Etmek İster misiniz?',
+      subtitle: 'Uzman ekibimizle ücretsiz danışma alın.',
       consultation: 'Ücretsiz Danışma',
-      contact: 'İletişime Geçin'
+      contact: 'İletişim'
     },
     treatmentResult: 'Tedavi Sonucu',
     patientAge: 'Hasta Yaşı',
     years: 'yaş',
     timeline: 'Zaman Çizelgesi',
-    na: 'Mevcut Değil',
+    na: 'Yok',
     resultsAchieved: 'Elde Edilen Sonuçlar',
     previous: 'Önceki',
     next: 'Sonraki',
@@ -282,141 +381,77 @@ export const trTranslations: Translations = {
   },
   gallery: {
     hero: {
-      title: 'Galerimiz',
-      subtitle: 'Hastalarımızın dönüşümlerini keşfedin',
-      consultation_btn: 'Randevu Alın',
-      contact_btn: 'İletişime Geçin'
+      title: 'Öncesi & Sonrası Galeri',
+      subtitle: 'Mutlu hastalarımızın gerçek dönüşümlerine tanık olun.',
+      consultation_btn: 'Ücretsiz Danışma',
+      contact_btn: 'İletişim'
     },
     dental: {
-      title: 'Diş Tedavileri',
-      description: 'Gülüş Dönüşümleri'
+      title: 'Diş Tedavi Sonuçları',
+      description: 'Diş tedavilerimizin etkileyici sonuçlarını keşfedin.'
     },
     hair: {
-      title: 'Saç Ekimi',
-      description: 'Doğal Sonuçlar'
+      title: 'Saç Ekimi Sonuçları',
+      description: 'Saç tedavilerimizden doğal sonuçları görün.'
     },
     aesthetic: {
-      title: 'Estetik Cerrahi',
-      description: 'Estetik Dönüşümler'
+      title: 'Plastik Cerrahi Sonuçları',
+      description: 'Plastik cerrahi operasyonlarımızdan etkileyici sonuçlar.'
     },
     testimonials: {
-      title: 'Hasta Yorumları',
-      subtitle: 'Gerçek Deneyimler',
-      testimonial1: 'Mükemmel Deneyim',
-      testimonial2: 'İnanılmaz Sonuçlar',
-      testimonial3: 'Profesyonel Hizmetler',
+      title: 'Hasta Referansları',
+      subtitle: 'Hastalarımızın deneyimlerini dinleyin',
+      testimonial1: '"Mükemmel saç ekimi sonuçları ve profesyonel hizmet."',
+      testimonial2: '"Harika diş tedavisi. Gülüşüm tamamen değişti!"',
+      testimonial3: '"Plastik cerrahi beklentilerimi aştı. Doğal sonuçlar."',
       hair_patient: 'Saç Ekimi Hastası',
       dental_patient: 'Diş Tedavisi Hastası',
       plastic_patient: 'Plastik Cerrahi Hastası'
     },
     cta: {
-      title: 'Dönüşüme Başlayın',
-      subtitle: 'İlk Adımı Atın',
-      consultation_btn: 'Ücretsiz Danışma',
-      contact_btn: 'İletişime Geçin'
+      title: 'Dönüşümünüze Başlamaya Hazır mısınız?',
+      subtitle: 'Binlerce mutlu hastaya katılın.',
+      consultation_btn: 'Ücretsiz Danışma Al',
+      contact_btn: 'İletişim'
     },
     stats: {
-      transformations: 'Dönüşüm',
-      satisfaction: 'Memnuniyet',
-      experience: 'Deneyim',
-      countries: 'Ülke'
-    }
-  },
-  about: {
-    title: 'Hakkımızda',
-    subtitle: 'Vola Health Istanbul',
-    p1: 'İstanbul\'un canlı şehrinde yer alan, gelişmiş estetik ve diş bakımı konusunda öncü bir destinasyon olan Vola Health Istanbul\'a hoş geldiniz. On beş yılı aşkın özveri ile hizmet vererek, diş hekimliği ve plastik cerrahi alanlarında güvenilir bir isim olarak kendimizi kurma konusunda gurur duyuyoruz. Kliniğimiz, en yüksek standartlarda tıbbi estetik mükemmelliği ve kişiselleştirilmiş bakım sunarak dünya çapındaki hastaların yaşamlarını iyileştirmeye adanmıştır.',
-    p2: 'Vola Health\'te her hastanın kendine özgü hedefleri ve ihtiyaçları olan benzersiz bir birey olduğunu anlıyoruz. Bu nedenle yaklaşımımız son derece bireyselleştirilmiştir ve hastalarımızla gerçek bağlantılar kurarak onların aspirasyonlarını daha iyi anlayıp karşılayabileceğimize inanıyoruz. İlk konsültasyondan ameliyat sonrası bakıma kadar sürecimizin her adımı, hastaların yalnızca olağanüstü tıbbi sonuçlar almasını değil, aynı zamanda bu süreçte kendilerini rahat, desteklenmiş ve bilgilendirilmiş hissetmelerini sağlamak için titizlikle hazırlanmıştır. Uluslararası müşteri kitlemizin güvenini ve güvenini kazanmış olmaktan onur duyuyoruz ve hizmetlerimizi sürekli geliştirerek ve uzmanlığımızı genişleterek bu güveni korumaya kararlıyız.',
-    p3: 'Vola Health\'i seçmek, yolculuğunuza sizin kadar değer veren bir ekibi seçmek demektir. Sadece estetik iyileştirmelerden fazlasına inanıyoruz; en iyi hissetmenin getirdiği güven, mutluluk ve yaşam kalitesine inanıyoruz. Yanınızda özel bir ekiple, hedeflerinizin ve beklentilerinizin yalnızca karşılanmadığı, aynı zamanda aşıldığı dönüştürücü bir yolculuğa çıkmanız için sizi davet ediyoruz.',
-    slogan: 'Vola Health Istanbul – Daha İyi Bir Sen İçin'
-  },
-  testimonials: {
-    title: 'Hasta Yorumları',
-    subtitle: 'Gerçek Deneyimler',
-    loading: 'Yorumlar yükleniyor...',
-    noTestimonials: 'Henüz yorum bulunmuyor.',
-    readMore: 'Devamını Oku',
-    showLess: 'Daha Az Göster',
-    verified: 'Doğrulanmış',
-    page: {
-      heroTitle: 'Gerçek Hastalardan',
-      heroSubtitle: 'Gerçek Hikayeler',
-      heroDescription: 'Dönüşüm yolculukları için Vola Health İstanbul\'u seçen dünyanın dört bir yanındaki hastaların otantik deneyimlerini keşfedin.',
-      patientTestimonials: 'HASTA YORUMLARI',
-      stats: {
-        happyPatients: 'Mutlu Hasta',
-        successRate: 'Başarı Oranı',
-        countriesServed: 'Hizmet Verilen Ülke',
-        yearsExperience: 'Yıl Deneyim'
-      },
-      filters: {
-        title: 'Yorumları Filtrele',
-        description: 'Tedavi türü, ülke veya sadece video yorumlarına göre filtreleyin.',
-        allTreatments: 'Tüm Tedaviler',
-        hairTransplant: 'Saç Ekimi',
-        dentalAesthetics: 'Diş Estetiği',
-        facialAesthetics: 'Yüz Estetiği',
-        bodyAesthetics: 'Vücut Estetiği',
-        allCountries: 'Tüm Ülkeler',
-        videoOnly: 'Sadece video yorumları',
-        showing: 'Gösteriliyor',
-        of: 'toplam',
-        testimonials: 'yorum'
-      },
-      featured: {
-        title: 'Öne Çıkan Hasta Hikayeleri',
-        subtitle: 'Hastalarımızdan dönüşüm yolculukları hakkında doğrudan dinleyin',
-        videoTestimonial: 'Video Yorumu'
-      },
-      allTestimonials: {
-        title: 'Tüm Hasta Yorumları',
-        subtitle: 'Tüm hasta hikayelerine ve deneyimlerine göz atın'
-      },
-      noResults: {
-        title: 'Yorum bulunamadı',
-        description: 'Mevcut filtrelerinizle eşleşen yorum yok.',
-        clearFilters: 'Tüm filtreleri temizle'
-      },
-      cta: {
-        title: 'Dönüşüm Yolculuğunuza',
-        subtitle: 'Başlamaya Hazır mısınız?',
-        description: 'Medikal turizm deneyimleri için Vola Health İstanbul\'u seçen binlerce memnun hastaya katılın.',
-        freeConsultation: 'Ücretsiz Konsültasyon Al',
-        contactUs: 'Bize Ulaşın'
-      }
+      transformations: 'Başarılı Dönüşüm',
+      satisfaction: 'Hasta Memnuniyet Oranı',
+      experience: 'Mükemmellik Yılları',
+      countries: 'Hizmet Verilen Ülke'
     }
   },
   contact: {
     hero: {
-      title: 'İletişime Geçin',
-      subtitle: 'Size yardımcı olmak için buradayız',
-      office: 'Ofisimiz'
+      title: 'Vola Health İstanbul ile İletişim',
+      subtitle: 'Medikal turizm yolculuğunuza başlamanıza yardımcı olmak için buradayız.',
+      office: 'Ofis'
     },
+    button: 'Bize Ulaşın',
     form: {
-      title: 'Rezervasyon Yapın',
+      title: 'Randevunuzu Alın',
       freeConsultation: 'Ücretsiz Danışma',
-      sendMessage: 'Bize Mesaj Gönderin',
-      subtitle: 'Dönüşümünüze doğru ilk adımı atın. Uzman tıbbi ekibimiz yolculuğunuzda size rehberlik etmeye hazır.',
+      subtitle: 'Dönüşümünüze doğru ilk adımı atın. Uzman medikal ekibimiz yolculuğunuz boyunca size rehberlik etmeye hazır.',
       personalInfo: 'Kişisel Bilgiler',
-      serviceSchedule: 'Hizmet ve Randevu',
+      serviceSchedule: 'Hizmet & Program',
       fullName: 'Ad Soyad',
-      fullNamePlaceholder: 'Ad ve soyadınızı girin',
+      fullNamePlaceholder: 'Adınızı ve soyadınızı girin',
       email: 'E-posta Adresi',
-      emailPlaceholder: 'ornek@email.com',
+      emailPlaceholder: 'your.email@example.com',
       phone: 'Telefon Numarası',
-      phonePlaceholder: '+90 (555) 123-4567',
+      phonePlaceholder: '+1 (555) 123-4567',
       country: 'Ülke',
-      countryPlaceholder: 'Türkiye',
+      countryPlaceholder: 'Amerika Birleşik Devletleri',
       service: 'İlgilendiğiniz Hizmet',
       loadingServices: 'Hizmetler yükleniyor...',
-      preferredDate: 'Tercih Edilen Tarih ve Saat',
-      dateOptional: 'İsteğe bağlı: Boş bırakın, sizinle iletişime geçerek randevu planlayalım',
+      preferredDate: 'Tercih Edilen Tarih & Saat',
+      dateOptional: 'İsteğe bağlı: Boş bırakın, programlamak için sizinle iletişime geçeriz',
       notes: 'Ek Notlar',
-      notesPlaceholder: 'Hedefleriniz, endişeleriniz veya sorularınız hakkında bize bilgi verin...',
-      bookConsultation: 'Danışma Rezervasyonu',
-      bookFreeConsultation: 'Ücretsiz Danışma Rezervasyonu',
-      booking: 'Rezervasyon yapılıyor...',
-      bookingConsultation: 'Danışmanız rezerve ediliyor...',
+      notesPlaceholder: 'Hedefleriniz, endişeleriniz veya sahip olduğunuz herhangi bir soru hakkında bize anlatın...',
+      bookConsultation: 'Danışma Randevusu Al',
+      bookFreeConsultation: 'Ücretsiz Danışma Randevusu Al',
+      booking: 'Randevu alınıyor...',
+      bookingConsultation: 'Danışmanız Randevu Alınıyor...',
       firstName: 'Ad',
       lastName: 'Soyad',
       message: 'Mesaj',
@@ -431,10 +466,10 @@ export const trTranslations: Translations = {
       other: 'Diğer Hizmetler'
     },
     messages: {
-      success: 'Danışma Başarıyla Rezerve Edildi!',
-      successDesc: 'Bizi tercih ettiğiniz için teşekkür ederiz. Ekibimiz randevunuzu onaylamak için 24 saat içinde sizinle iletişime geçecek.',
-      error: 'Rezervasyon Başarısız',
-      errorDesc: 'Üzgünüz, bir sorun oluştu. Lütfen tekrar deneyin veya doğrudan bizimle iletişime geçin.',
+      success: 'Danışma Başarıyla Randevu Alındı!',
+      successDesc: 'Bizi seçtiğiniz için teşekkürler. Ekibimiz randevunuzu onaylamak için 24 saat içinde sizinle iletişime geçecek.',
+      error: 'Randevu Başarısız',
+      errorDesc: 'Üzgünüz, bir şeyler ters gitti. Lütfen tekrar deneyin veya doğrudan bizimle iletişime geçin.',
       viewDetails: 'Detayları Gör'
     },
     info: {
@@ -444,20 +479,20 @@ export const trTranslations: Translations = {
   },
   mockData: {
     patient: 'Hasta',
-    transformation: 'Dönüşüm',
-    results: 'Sonuçlar',
-    procedure: 'İşlem',
+    transformation: 'İnanılmaz dönüşüm',
+    results: 'İnanılmaz sonuçlar',
+    procedure: 'Hayat değiştiren prosedür',
     male: 'Erkek',
     female: 'Kadın',
     months: 'ay'
   },
   chatbot: {
-    title: 'Chatbot',
-    welcome: 'Hello! How can I support you on your journey to health and beauty at Vola Health Istanbul?',
-    contactRequest: 'Sizinle iletişime geçilmesini ister misiniz?',
-    standardResponse: 'Hizmetlerimiz hakkında size bilgi verebilirim.',
-    contactInfoReceived: 'İletişim bilgilerinizi aldım.',
-    contactInfoResponse: 'Yakında sizinle iletişime geçeceğiz.',
+    title: 'Sohbet Botu',
+    welcome: 'Merhaba! Vola Health İstanbul\'da sağlık ve güzellik yolculuğunuzda size nasıl destek olabilirim?',
+    contactRequest: 'Danışmaya ihtiyacım var',
+    standardResponse: 'Talebiniz için teşekkürler.',
+    contactInfoReceived: 'İletişim bilgileriniz için teşekkürler.',
+    contactInfoResponse: 'Bizimle iletişime geçtiğiniz için teşekkürler.',
     closeChat: 'Sohbeti Kapat',
     openChat: 'Sohbeti Aç'
   },
@@ -468,24 +503,24 @@ export const trTranslations: Translations = {
   why: {
     title: 'Neden Bizi Seçmelisiniz?',
     teamTitle: 'Profesyonel Ekip',
-    teamDesc: 'Deneyimli tıbbi ekibimiz güvenliğiniz ve konforunuz için adanmıştır.',
-    translatorTitle: '24/7 Tercüman',
-    translatorDesc: '7/24 tercüman desteği sağlıyoruz.',
+    teamDesc: 'Deneyimli medikal ekibimiz güvenliğinize ve konforunuza adanmıştır.',
+    translatorTitle: '7/24 Çevirmen',
+    translatorDesc: 'Kesintisiz çeviri desteği sağlıyoruz.',
     hotelTitle: '5 Yıldızlı Otel Konaklaması',
-    hotelDesc: 'Lüks Ramada Merter Hotel\'de konforlu tedavi süreci yaşayın.',
+    hotelDesc: 'Lüks Ramada Merter Otel\'de rahat tedavi süreci yaşayın.',
     transferTitle: 'VIP Transfer',
-    transferDesc: 'Özel Vito araçlarımızla konforlu seyahat edin.'
+    transferDesc: 'Özel Vito araçlarımızla rahat seyahat edin.'
   },
   consultation: {
     header: {
       backToHome: 'Ana Sayfaya Dön',
-      title: 'Ücretsiz Tıbbi Danışmanlık',
-      subtitle: 'Uzman tıbbi ekibimizden kişiselleştirilmiş tavsiyeler alın. Ücretsiz danışmanlığınızı planlamak için bu formu doldurun.'
+      title: 'Ücretsiz Medikal Danışma',
+      subtitle: 'Uzman medikal ekibimizden kişiselleştirilmiş tavsiye alın. Ücretsiz danışmanızı programlamak için bu formu doldurun.'
     },
     benefits: {
       free: {
         title: 'Tamamen Ücretsiz',
-        description: 'Tıbbi uzmanlarla maliyetsiz, yükümlülüksüz danışmanlık'
+        description: 'Maliyet yok, yükümlülük yok, medikal uzmanlarla danışma'
       },
       time: {
         title: '15 Dakika',
@@ -493,21 +528,21 @@ export const trTranslations: Translations = {
       },
       expert: {
         title: 'Uzman Bakım',
-        description: 'Uluslararası deneyimli, sertifikalı cerrahlar'
+        description: 'Uluslararası deneyime sahip sertifikalı cerrahlar'
       }
     },
     services: {
-      hollywoodSmile: 'Hollywood Gülüş',
-      dentalVeneers: 'Diş Kaplamaları',
+      hollywoodSmile: 'Hollywood Gülüşü',
+      dentalVeneers: 'Diş Kaplaması',
       dentalImplants: 'Diş İmplantı',
-      zirconiumCrowns: 'Zirkon Kron',
+      zirconiumCrowns: 'Zirkonyum Kron',
       teethWhitening: 'Diş Beyazlatma',
-      rhinoplasty: 'Burun Estetiği',
+      rhinoplasty: 'Rinoplasti',
       facelift: 'Yüz Germe',
       browLift: 'Kaş Kaldırma',
-      eyelidSurgery: 'Göz Kapağı Estetiği',
+      eyelidSurgery: 'Göz Kapağı Ameliyatı',
       breastAugmentation: 'Meme Büyütme',
-      breastLift: 'Meme Dikleştirme',
+      breastLift: 'Meme Kaldırma',
       tummyTuck: 'Karın Germe',
       liposuction: 'Liposuction',
       hairTransplant: 'Saç Ekimi',
@@ -520,11 +555,11 @@ export const trTranslations: Translations = {
       lastName: 'Soyad',
       lastNamePlaceholder: 'Soyadınızı girin',
       email: 'E-posta Adresi',
-      emailPlaceholder: 'ornek@email.com',
+      emailPlaceholder: 'your.email@example.com',
       phone: 'Telefon Numarası',
-      phonePlaceholder: '+90 (555) 123-4567',
+      phonePlaceholder: '+1 (555) 123-4567',
       country: 'Ülke',
-      countryPlaceholder: 'Türkiye',
+      countryPlaceholder: 'Amerika Birleşik Devletleri',
       age: 'Yaş',
       agePlaceholder: '25',
       gender: 'Cinsiyet',
@@ -532,36 +567,36 @@ export const trTranslations: Translations = {
       male: 'Erkek',
       female: 'Kadın',
       other: 'Diğer',
-      preferNotToSay: 'Belirtmek istemiyorum'
+      preferNotToSay: 'Söylemek istemiyorum'
     },
     step2: {
       title: 'İlgilendiğiniz Hizmetler',
-      subtitle: 'Hakkında bilgi almak istediğiniz tüm işlemleri seçin:'
+      subtitle: 'Hakkında bilgi almak istediğiniz tüm prosedürleri seçin:'
     },
     step3: {
-      title: 'Danışmanlık Tercihleri',
+      title: 'Danışma Tercihleri',
       preferredDate: 'Tercih Edilen Tarih',
       preferredTime: 'Tercih Edilen Saat',
-      selectTime: 'Tercih edilen saati seçin',
+      selectTime: 'Saat seçin',
       contactMethod: 'Tercih Edilen İletişim Yöntemi',
       email: 'E-posta',
       phoneCall: 'Telefon Görüşmesi',
       whatsapp: 'WhatsApp'
     },
     step4: {
-      title: 'Tıbbi Bilgiler',
-      medicalHistory: 'Tıbbi Geçmiş',
-      medicalHistoryPlaceholder: 'Lütfen ilgili tıbbi geçmişinizi, geçirdiğiniz ameliyatları veya durumları açıklayın...',
+      title: 'Medikal Bilgiler',
+      medicalHistory: 'Medikal Geçmiş',
+      medicalHistoryPlaceholder: 'Lütfen ilgili medikal geçmişinizi açıklayın...',
       currentMedications: 'Mevcut İlaçlar',
-      medicationsPlaceholder: 'Şu anda kullandığınız ilaçları listeleyin...',
+      medicationsPlaceholder: 'Şu anda aldığınız ilaçları listeleyin...',
       additionalInfo: 'Ek Bilgiler',
-      additionalInfoPlaceholder: 'Paylaşmak istediğiniz ek sorular, endişeler veya bilgiler...'
+      additionalInfoPlaceholder: 'Paylaşmak istediğiniz diğer bilgiler...'
     },
     errors: {
       firstNameRequired: 'Ad gereklidir',
       lastNameRequired: 'Soyad gereklidir',
       emailRequired: 'E-posta gereklidir',
-      phoneRequired: 'Telefon gereklidir',
+      phoneRequired: 'Telefon numarası gereklidir',
       countryRequired: 'Ülke gereklidir',
       serviceRequired: 'Lütfen en az bir hizmet seçin',
       dateRequired: 'Tercih edilen tarih gereklidir'
@@ -569,46 +604,47 @@ export const trTranslations: Translations = {
     progress: {
       step: 'Adım',
       of: '/',
-      complete: 'Tamamlandı'
+      complete: 'Tamamla'
     },
     navigation: {
       previous: 'Önceki',
       nextStep: 'Sonraki Adım',
       submitting: 'Gönderiliyor...',
-      schedule: 'Danışmanlık Planla'
+      schedule: 'Danışma Programla'
     },
     success: {
-      title: 'Danışmanlık Talebi Gönderildi!',
-      message: 'Vola Health İstanbul\'a olan ilginiz için teşekkür ederiz. Danışmanlık talebinizi aldık ve ekibimiz 24 saat içinde ücretsiz danışmanlığınızı planlamak için sizinle iletişime geçecek.',
+      title: 'Danışma Başarıyla Programlandı!',
+      message: 'Vola Health İstanbul\'u seçtiğiniz için teşekkürler. Medikal ekibimiz danışma randevunuzu onaylamak için 24 saat içinde sizinle iletişime geçecek.',
       returnHome: 'Ana Sayfaya Dön',
       questions: 'Sorularınız mı var? Bize mesaj gönderin'
     },
     contact: {
-      preferDirect: 'Bizimle doğrudan konuşmayı mı tercih ediyorsunuz?'
+      preferDirect: 'Doğrudan bizimle iletişime geçmeyi mi tercih ediyorsunuz?'
     }
   },
+  // Admin çevirileri ekleyelim
   admin: {
     sidebar: {
-      dashboard: 'Dashboard',
-      dashboardDesc: 'Genel bakış ve analitikler',
+      dashboard: 'Gösterge Paneli',
+      dashboardDesc: 'Genel bakış ve analitik',
       categories: 'Kategoriler',
       categoriesDesc: 'Hizmet kategorilerini yönet',
       services: 'Hizmetler',
-      servicesDesc: 'Tıbbi hizmetleri yönet',
+      servicesDesc: 'Medikal hizmetleri yönet',
       beforeAfter: 'Öncesi/Sonrası',
       beforeAfterDesc: 'Öncesi/sonrası galerisini yönet',
       appointments: 'Randevular',
       appointmentsDesc: 'Randevuları görüntüle ve yönet',
-      consultations: 'Konsültasyonlar',
-      consultationsDesc: 'Konsültasyon taleplerini yönet',
+      consultations: 'Danışmalar',
+      consultationsDesc: 'Danışma taleplerini yönet',
       messages: 'Mesajlar',
-      messagesDesc: 'Hasta iletişimini yönet',
-      testimonials: 'Yorumlar',
+      messagesDesc: 'Hasta iletişimleri',
+      testimonials: 'Referanslar',
       testimonialsDesc: 'Hasta yorumlarını yönet',
       translations: 'Çeviriler',
       translationsDesc: 'Site dillerini yönet',
       settings: 'Ayarlar',
-      settingsDesc: 'Site konfigürasyonu',
+      settingsDesc: 'Site yapılandırması',
       signOut: 'Çıkış Yap'
     },
     header: {
@@ -618,13 +654,15 @@ export const trTranslations: Translations = {
       siteDescription: 'Site Açıklaması'
     }
   },
+  // Footer için ek çeviriler
   footer: {
-    companyDesc: 'İstanbul\'da premier tıbbi turizm destinasyonu, kişiselleştirilmiş bakımla dünya standartlarında sağlık hizmetleri sunuyor.',
+    companyDesc: 'İstanbul\'da kişiselleştirilmiş bakım ile dünya standartlarında sağlık hizmetleri sunan önde gelen medikal turizm destinasyonu.',
     privacyPolicy: 'Gizlilik Politikası',
     termsOfService: 'Hizmet Şartları',
     allRightsReserved: 'Tüm hakları saklıdır.',
     istanbul: 'İstanbul, Türkiye'
   },
+  // HeroSlider için çeviriler
   heroSlider: {
     slides: {
       hair: {
@@ -634,74 +672,74 @@ export const trTranslations: Translations = {
       },
       aesthetic: {
         title: 'Estetik Cerrahi',
-        subtitle: 'Uzman hassasiyetiyle görünümünüzü dönüştürün',
+        subtitle: 'Uzman hassasiyeti ile görünümünüzü dönüştürün',
         category: 'Plastik Cerrahi'
       },
       dental: {
-        title: 'Diş Hekimliği Mükemmelliği',
+        title: 'Diş Mükemmelliği',
         subtitle: 'Hollywood gülüşü ve kapsamlı diş bakımı',
         category: 'Diş Hizmetleri'
       }
     },
     navigation: {
-      previous: 'Önceki',
-      next: 'Sonraki',
-      pause: 'Duraklat',
-      play: 'Oynat'
+      previous: 'Önceki slayt',
+      next: 'Sonraki slayt',
+      pause: 'Slayt gösterisini duraklat',
+      play: 'Slayt gösterisini oynat'
     }
   },
   testimonials: {
-    title: 'Hasta Yorumları',
+    title: 'Hasta Referansları',
     subtitle: 'Gerçek Deneyimler',
-    loading: 'Yorumlar yükleniyor...',
-    noTestimonials: 'Henüz yorum bulunmuyor',
+    loading: 'Referanslar yükleniyor...',
+    noTestimonials: 'Referans bulunamadı',
     readMore: 'Devamını Oku',
     showLess: 'Daha Az Göster',
-    verified: 'Doğrulandı',
+    verified: 'Doğrulanmış',
     page: {
       heroTitle: 'Gerçek Hikayeler',
-      heroSubtitle: 'Gerçek Hastalardan',
-      heroDescription: 'Dönüşüm yolculukları için Vola Health İstanbul\'u seçen dünyanın dört bir yanından hastaların otantik deneyimlerini keşfedin.',
-      patientTestimonials: 'HASTA YORUMLARI',
+      heroSubtitle: 'Gerçek Hastalar',
+      heroDescription: 'Dönüşüm yolculuğu için Vola Health İstanbul\'u seçen dünya çapındaki hastaların gerçek deneyimlerini keşfedin.',
+      patientTestimonials: 'HASTA REFERANSLARI',
       stats: {
         happyPatients: 'Mutlu Hasta',
         successRate: 'Başarı Oranı',
-        countriesServed: 'Ülke Hizmeti',
-        yearsExperience: 'Yıl Deneyim'
+        countriesServed: 'Hizmet Verilen Ülke',
+        yearsExperience: 'Yıllık Deneyim'
       },
       filters: {
-        title: 'Yorumları Filtrele',
-        description: 'Tedavi türü, ülke veya yalnızca video yorumlarına göre filtreleyin.',
+        title: 'Referansları Filtrele',
+        description: 'Tedavi türü, ülke veya sadece video referanslarına göre referansları bulun.',
         allTreatments: 'Tüm Tedaviler',
         hairTransplant: 'Saç Ekimi',
         dentalAesthetics: 'Diş Estetiği',
         facialAesthetics: 'Yüz Estetiği',
         bodyAesthetics: 'Vücut Estetiği',
         allCountries: 'Tüm Ülkeler',
-        videoOnly: 'Sadece video yorumları',
-        showing: 'Gösterilen',
-        of: 'toplam',
-        testimonials: 'yorum'
+        videoOnly: 'Sadece video referansları',
+        showing: 'Gösteriliyor',
+        of: '/',
+        testimonials: 'referans'
       },
       featured: {
         title: 'Öne Çıkan Hasta Hikayeleri',
         subtitle: 'Hastalarımızdan dönüşüm yolculukları hakkında doğrudan dinleyin',
-        videoTestimonial: 'Video Yorum'
+        videoTestimonial: 'Video Referansı'
       },
       allTestimonials: {
-        title: 'Tüm Hasta Yorumları',
-        subtitle: 'Tüm hasta hikayelerini ve deneyimlerini inceleyin'
+        title: 'Tüm Hasta Referansları',
+        subtitle: 'Tüm hasta hikayelerimizi ve deneyimlerimizi gözden geçirin'
       },
       noResults: {
-        title: 'Yorum bulunamadı',
-        description: 'Mevcut filtrelerinizle eşleşen yorum yok.',
+        title: 'Referans bulunamadı',
+        description: 'Mevcut filtrelerinizle eşleşen referans bulunamadı.',
         clearFilters: 'Tüm filtreleri temizle'
       },
       cta: {
         title: 'Dönüşüm Yolculuğunuza',
         subtitle: 'Başlamaya Hazır mısınız?',
-        description: 'Dönüşüm yolculukları için Vola Health İstanbul\'u seçen binlerce memnun hastaya katılın.',
-        freeConsultation: 'Ücretsiz Konsültasyon',
+        description: 'Dönüşüm yolculuğu için Vola Health İstanbul\'u seçen binlerce mutlu hastaya katılın.',
+        freeConsultation: 'Ücretsiz Danışma Al',
         contactUs: 'Bize Ulaşın'
       }
     }

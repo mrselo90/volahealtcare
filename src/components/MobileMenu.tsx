@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { XMarkIcon, PhoneIcon, CalendarDaysIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import { useTranslation } from '@/contexts/TranslationContext';
+import { useTranslation } from '@/lib/i18n/hooks';
+import { languages } from '@/lib/i18n/config';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -13,39 +15,54 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
-  const { t } = useTranslation();
-  const menuItems = [
-    { href: '/', label: 'Home' },
-    { href: '/services', label: 'Services' },
-    { href: '/about', label: 'About Us' },
-    { href: '/before-after', label: 'Before & After' },
-    { href: '/testimonials', label: 'Testimonials' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/contact', label: 'Contact' },
+  const { t, language } = useTranslation();
+  const pathname = usePathname();
+  
+  // Get current language from URL
+  const pathSegments = pathname.split('/');
+  const currentLangInPath = pathSegments[1];
+  const hasLanguagePrefix = languages.some(lang => lang.code === currentLangInPath);
+  const currentLang = hasLanguagePrefix ? currentLangInPath : language;
+  
+  // Helper function to create language-aware links
+  const createLink = (href: string) => {
+    if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+      return href;
+    }
+    return hasLanguagePrefix ? `/${currentLang}${href}` : `/${language}${href}`;
+  };
+
+  const navigation = [
+    { name: t('nav.home') || 'Home', href: createLink('/') },
+    { name: t('nav.services') || 'Services', href: createLink('/services') },
+    { name: t('nav.about') || 'About', href: createLink('/about') },
+    { name: t('nav.whyChooseUs') || 'Why Choose Us?', href: createLink('/why-choose-us') },
+    { name: t('nav.results') || 'Results', href: createLink('/gallery') },
+    { name: t('nav.contact') || 'Contact', href: createLink('/contact') },
   ];
 
   const ctaButtons = [
     {
-      href: '/consultation',
+      href: createLink('/consultation'),
       label: t('nav.consultation') || 'Free Consultation',
       icon: CalendarDaysIcon,
       primary: true
     },
-          {
-        href: 'tel:+905444749881',
-        label: '+90 544 474 98 81',
+    {
+      href: 'tel:+905444749881',
+      label: '+90 544 474 98 81',
       icon: PhoneIcon,
       primary: false
     }
   ];
 
-  const navigation = [
-    { name: t('nav.home') || 'Home', href: '/' },
-    { name: t('nav.services') || 'Services', href: '/services' },
-    { name: t('nav.about') || 'About', href: '/about' },
-    { name: t('nav.whyChooseUs') || 'Why Choose Us?', href: '/why-choose-us' },
-    { name: t('nav.results') || 'Results', href: '/gallery' },
-    { name: t('nav.contact') || 'Contact', href: '/contact' },
+  // Popular services with proper language links
+  const popularServices = [
+    { name: 'Hollywood Smile', slug: 'hollywood-smile' },
+    { name: 'Dental Veneers', slug: 'dental-veneers' },
+    { name: 'Rhinoplasty', slug: 'rhinoplasty' },
+    { name: 'Hair Transplant', slug: 'hair-transplant' },
+    { name: 'Facelift', slug: 'facelift' }
   ];
 
   return (
@@ -115,25 +132,19 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 <div className="px-6">
                   <p className="text-white/60 text-xs text-professional tracking-widest mb-4">POPULAR SERVICES</p>
                   <div className="space-y-2">
-                    {[
-                      'Hollywood Smile',
-                      'Dental Veneers',
-                      'Rhinoplasty',
-                      'Hair Transplant',
-                      'Facelift'
-                    ].map((service, index) => (
+                    {popularServices.map((service, index) => (
                       <motion.div
-                        key={service}
+                        key={service.name}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.8 + index * 0.1 }}
                       >
-                        <Link
-                          href={`/services/${service.toLowerCase().replace(/\s+/g, '-')}`}
-                          onClick={onClose}
-                          className="block px-4 py-2 text-white/80 hover:bg-white/5 rounded text-sm transition-colors"
-                        >
-                          {service}
+                                                  <Link
+                            href={createLink(`/services/${service.slug}`)}
+                            onClick={onClose}
+                            className="block px-4 py-2 text-white/80 hover:bg-white/5 rounded text-sm transition-colors"
+                          >
+                          {service.name}
                         </Link>
                       </motion.div>
                     ))}

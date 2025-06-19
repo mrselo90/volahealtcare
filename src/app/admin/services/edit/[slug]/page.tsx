@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { useTranslation } from '@/lib/i18n/hooks';
 
 const supportedLanguages = [
   { code: 'en', name: 'English' },
@@ -22,7 +21,8 @@ const supportedLanguages = [
 const defaultTranslations = supportedLanguages.map(lang => ({
   language: lang.code,
   title: '',
-  description: ''
+  description: '',
+  content: ''
 }));
 
 // Helper function to validate and fix image URLs
@@ -53,7 +53,6 @@ const fixImageUrl = (url: string): string => {
 
 export default function EditServicePage({ params }: { params: { slug: string } }) {
   const router = useRouter();
-  const { t } = useTranslation();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -71,11 +70,7 @@ export default function EditServicePage({ params }: { params: { slug: string } }
     availability: 'always',
     minAge: 18,
     maxAge: 99,
-    prerequisites: '',
-    aftercare: '',
-    benefits: '',
-    risks: '',
-    anesthesia: '',
+          anesthesia: '',
     // Package Details
     timeInTurkey: '',
     operationTime: '',
@@ -154,6 +149,7 @@ export default function EditServicePage({ params }: { params: { slug: string } }
             language: t.language,
             title: t.title,
             description: t.description,
+            content: t.content || '',
           })) : defaultTranslations,
           images: data.images?.map((img: any) => ({
             id: img.id,
@@ -164,10 +160,6 @@ export default function EditServicePage({ params }: { params: { slug: string } }
           availability: data.availability || 'always',
           minAge: data.minAge || 18,
           maxAge: data.maxAge || 99,
-          prerequisites: data.prerequisites || '',
-          aftercare: data.aftercare || '',
-          benefits: data.benefits || '',
-          risks: data.risks || '',
           anesthesia: data.anesthesia || '',
           // Package Details
           timeInTurkey: data.timeInTurkey || '',
@@ -446,54 +438,6 @@ export default function EditServicePage({ params }: { params: { slug: string } }
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Detailed Information</h2>
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Prerequisites</label>
-              <textarea
-                name="prerequisites"
-                value={service.prerequisites}
-                onChange={handleInputChange}
-                rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-                placeholder="Any requirements before the procedure..."
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Aftercare Instructions</label>
-              <textarea
-                name="aftercare"
-                value={service.aftercare}
-                onChange={handleInputChange}
-                rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-                placeholder="Post-procedure care instructions..."
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Benefits</label>
-              <textarea
-                name="benefits"
-                value={service.benefits}
-                onChange={handleInputChange}
-                rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-                placeholder="Key benefits and expected outcomes..."
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Risks and Considerations</label>
-              <textarea
-                name="risks"
-                value={service.risks}
-                onChange={handleInputChange}
-                rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-                placeholder="Potential risks and important considerations..."
-              />
-            </div>
-
-            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Anesthesia</label>
               <input
                 type="text"
@@ -680,6 +624,16 @@ export default function EditServicePage({ params }: { params: { slug: string } }
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
                         placeholder={`Enter description in ${language?.name}`}
                         required={translation.language === 'en'}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">About This Treatment (Content)</label>
+                      <textarea
+                        value={translation.content || ''}
+                        onChange={(e) => handleTranslationChange(translation.language, 'content', e.target.value)}
+                        rows={8}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                        placeholder={`Enter detailed content about this treatment in ${language?.name}`}
                       />
                     </div>
                   </div>

@@ -14,7 +14,8 @@ export const enTranslations: Translations = {
     menu: 'Menu'
   },
   buttons: {
-    viewAllServices: 'VIEW ALL SERVICES'
+    viewAllServices: 'VIEW ALL SERVICES',
+    freeConsultation: 'Free Consultation'
   },
   cta: {
     title: 'Ready for Your Transformation?',
@@ -136,6 +137,100 @@ export const enTranslations: Translations = {
       hair: 'Hair Transplant',
       aesthetic: 'Aesthetic Surgery'
     },
+    detail: {
+      scrollDown: 'Scroll Down',
+      contactUs: 'Contact Us',
+      aboutTreatment: 'About This Treatment',
+      comprehensiveInfo: 'Comprehensive information about your procedure',
+      minRead: 'min read',
+      keyBenefits: 'Key Benefits',
+      tableOfContents: 'Table of Contents',
+      serviceNotFound: 'Service Not Found',
+      goBack: 'Go Back',
+      bookConsultation: 'Book Consultation',
+      whatsappConsult: 'WhatsApp Consultation',
+      freeConsultation: 'Free Consultation',
+      bookingForm: {
+        title: 'Book Appointment',
+        subtitle: 'Book your appointment and start your transformation journey',
+        name: 'Full Name',
+        email: 'Email',
+        phone: 'Phone',
+        country: 'Country',
+        preferredDate: 'Preferred Date',
+        preferredTime: 'Preferred Time',
+        notes: 'Notes',
+        notesPlaceholder: 'Any questions or special requests about this service...',
+        submit: 'Request Appointment',
+        submitting: 'Submitting...',
+        success: 'Your appointment has been successfully created!',
+        error: 'An error occurred while creating the appointment.',
+        close: 'Close'
+      },
+      gallery: {
+        title: 'Gallery',
+        beforeAfter: 'Before & After',
+        procedure: 'Procedure',
+        results: 'Results',
+        viewGallery: 'View Gallery',
+        noImages: 'No images added yet'
+      },
+      faq: {
+        title: 'Frequently Asked Questions',
+        noFaq: 'No FAQ added yet'
+      },
+      testimonials: {
+        title: 'Patient Reviews',
+        rating: 'Rating',
+        verified: 'Verified Patient',
+        noTestimonials: 'No reviews added yet',
+        review: 'review',
+        reviews: 'reviews',
+        loading: 'Loading reviews...',
+        noReviews: 'No reviews yet for this service.',
+        beFirst: 'Be the first to share your experience!'
+      },
+      relatedServices: {
+        title: 'Related Services',
+        exploreMore: 'Explore other services in this category',
+        subtitle: 'Explore similar treatments',
+        noServices: 'No related services found.',
+        browseAll: 'Browse all services',
+        viewAll: 'View all {category} services'
+      },
+      navigation: {
+        overview: 'Overview',
+        procedure: 'Procedure',
+        gallery: 'Gallery',
+        faq: 'FAQ',
+        booking: 'Book Now'
+      },
+      consultation: {
+        title: 'Free Consultation',
+        subtitle: 'Free consultation with our experts',
+        bookFreeConsultation: 'Book Free Consultation',
+        messageNow: 'Message Now',
+        freeConsultation: 'Free consultation',
+        expertCare: 'Expert care'
+      },
+      whyChooseUs: {
+        title: 'Why Choose Us',
+        happyClients: 'Happy Clients',
+        averageRating: 'Average Rating',
+        yearsExperience: 'Years Experience',
+        successRate: 'Success Rate'
+      },
+      quickOverview: 'Quick Overview',
+      readingTime: 'Reading Time',
+      minRead: 'min',
+      keyBenefits: 'Key Benefits',
+      sections: 'Sections',
+      topics: 'topics',
+      highlights: 'highlights',
+      jumpToSection: 'Jump to Section',
+      shareExperience: 'Share Your Experience',
+      exploreSimilar: 'Explore similar treatments'
+    },
     packageDetails: {
       title: 'Package Details',
       subtitle: 'Everything included in your medical journey',
@@ -166,7 +261,6 @@ export const enTranslations: Translations = {
     anyDuration: 'Any Duration',
     oneTwoHours: '1-2 Hours',
     halfDay: 'Half Day',
-    keyBenefits: 'Key Benefits',
     more: 'More',
     learnMore: 'Learn More',
     fullDay: 'Full Day',
@@ -336,50 +430,50 @@ export const enTranslations: Translations = {
       subtitle: 'We\'re here to help you start your medical tourism journey.',
       office: 'Office'
     },
+    button: 'Contact Us',
     form: {
-      title: 'Get in Touch',
+      title: 'Book Your',
       freeConsultation: 'Free Consultation',
-      sendMessage: 'Send Message',
-      subtitle: 'Ready to start your transformation journey?',
+      subtitle: 'Take the first step towards your transformation. Our expert medical team is ready to guide you through your journey.',
       personalInfo: 'Personal Information',
       serviceSchedule: 'Service & Schedule',
       fullName: 'Full Name',
-      fullNamePlaceholder: 'Your full name',
+      fullNamePlaceholder: 'Enter your full name',
       email: 'Email Address',
       emailPlaceholder: 'your.email@example.com',
       phone: 'Phone Number',
       phonePlaceholder: '+1 (555) 123-4567',
       country: 'Country',
-      countryPlaceholder: 'Select your country',
-      service: 'Service of Interest',
+      countryPlaceholder: 'United States',
+      service: 'Interested Service',
       loadingServices: 'Loading services...',
-      preferredDate: 'Preferred Date',
-      dateOptional: 'Optional',
+      preferredDate: 'Preferred Date & Time',
+      dateOptional: 'Optional: Leave blank and we\'ll contact you to schedule',
       notes: 'Additional Notes',
-      notesPlaceholder: 'Tell us more about your needs...',
+      notesPlaceholder: 'Tell us about your goals, concerns, or any questions you have...',
       bookConsultation: 'Book Consultation',
       bookFreeConsultation: 'Book Free Consultation',
       booking: 'Booking...',
-      bookingConsultation: 'Booking Consultation...',
+      bookingConsultation: 'Booking Your Consultation...',
       firstName: 'First Name',
       lastName: 'Last Name',
       message: 'Message',
       treatment: 'Treatment',
-      submit: 'Send Message',
-      submitting: 'Sending...'
+      submit: 'Submit',
+      submitting: 'Submitting...'
     },
     treatments: {
       dental: 'Dental Treatments',
       hair: 'Hair Transplant',
       aesthetic: 'Aesthetic Surgery',
-      other: 'Other'
+      other: 'Other Services'
     },
     messages: {
       success: 'Consultation Booked Successfully!',
       successDesc: 'Thank you for choosing us. Our team will contact you within 24 hours to confirm your appointment.',
       error: 'Booking Failed',
       errorDesc: 'We\'re sorry, something went wrong. Please try again or contact us directly.',
-      viewDetails: 'View Details →'
+      viewDetails: 'View Details'
     },
     info: {
       phone: 'Phone',

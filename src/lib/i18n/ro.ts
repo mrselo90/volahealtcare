@@ -1,43 +1,46 @@
+import { Translations } from './translations';
+
 export const roTranslations: Translations = {
   nav: {
     home: 'Acasă',
     services: 'Servicii',
-    about: 'Despre noi',
-    whyChooseUs: 'De ce să ne alegeți?',
+    about: 'Despre Noi',
+    whyChooseUs: 'De Ce Să Ne Alegeți?',
     results: 'Rezultate',
     gallery: 'Galerie',
     testimonials: 'Testimoniale',
     contact: 'Contact',
-    consultation: 'Consultație gratuită',
-    menu: 'Meniu',
+    consultation: 'Consultare Gratuită',
+    menu: 'Meniu'
   },
   buttons: {
-    viewAllServices: 'VEZI TOATE SERVICIILE',
+    viewAllServices: 'VĂD TOATE SERVICIILE',
+    freeConsultation: 'Consultare Gratuită'
   },
   cta: {
-    title: 'Începeți călătoria către o versiune mai bună a dumneavoastră',
-    subtitle: 'Alăturați-vă miilor de pacienți mulțumiți care au ales Vola Health Istanbul pentru călătoria lor de transformare.',
-    viewAll: 'Vezi tot',
-    freeConsultation: 'Consultație gratuită'
+    title: 'Gata pentru Transformarea Ta?',
+    subtitle: 'Alătură-te miilor de pacienți mulțumiți care au ales Vola Health Istanbul pentru călătoria lor de transformare.',
+    viewAll: 'Vezi Toate Transformările',
+    freeConsultation: 'Consultare Gratuită'
   },
   stats: {
-    successfulCases: 'Cazuri de succes',
-    satisfactionRate: 'Rata de satisfacție',
-    countriesServed: 'Țări deservite',
-    yearsExperience: 'Ani de experiență'
+    successfulCases: 'Cazuri de Succes',
+    satisfactionRate: 'Rata de Satisfacție',
+    countriesServed: 'Țări Servite',
+    yearsExperience: 'Ani de Experiență'
   },
   featured: {
-    realPatientTransformations: 'Transformări reale ale pacienților',
-    lifeChanging: 'Care schimbă viața',
+    realPatientTransformations: 'TRANSFORMĂRI REALE ALE PACIENȚILOR',
+    lifeChanging: 'Care Schimbă Viața',
     results: 'Rezultate',
-    witness: 'Fiți martorii transformărilor uimitoare ale pacienților care au avut încredere în Vola Health Istanbul pentru călătoria lor estetică și de wellness.',
+    witness: 'Asistă la transformările incredibile ale pacienților care au avut încredere în Vola Health Istanbul pentru călătoria lor estetică și de wellness.',
     loading: 'Se încarcă transformările...',
-    noCases: 'Nu există cazuri recomandate',
-    unableToLoad: 'Nu se pot încărca cazurile recomandate momentan.',
-    noTransformations: 'Nu există transformări recomandate disponibile momentan.',
+    noCases: 'Nu Există Cazuri Recomandate',
+    unableToLoad: 'Nu se pot încărca cazurile recomandate în acest moment.',
+    noTransformations: 'Nu există transformări recomandate disponibile în prezent.',
     result: '✨ REZULTAT',
     featured: '⭐ RECOMANDAT',
-    patientAge: 'Vârsta pacientului',
+    patientAge: 'Vârsta Pacientului',
     years: 'ani',
     timeline: 'Cronologie',
     na: 'N/A'
@@ -57,54 +60,54 @@ export const roTranslations: Translations = {
     back: 'Înapoi',
     next: 'Următorul',
     previous: 'Anterior',
-    viewAll: 'Vezi tot',
-    learnMore: 'Află mai multe',
+    viewAll: 'Vezi Totul',
+    learnMore: 'Află Mai Multe',
     getStarted: 'Începe',
-    bookNow: 'Rezervă acum',
-    messageNow: 'Trimite mesaj',
-    readMore: 'Citește mai mult',
-    showLess: 'Arată mai puțin',
-    noResults: 'Niciun rezultat',
-    comingSoon: 'În curând',
-    quickLinks: 'Link-uri rapide'
+    bookNow: 'Rezervă Acum',
+    messageNow: 'Trimite Mesaj Acum',
+    readMore: 'Citește Mai Multe',
+    showLess: 'Arată Mai Puțin',
+    noResults: 'Nu s-au găsit rezultate',
+    comingSoon: 'În Curând',
+    quickLinks: 'Link-uri Rapide'
   },
   home: {
     premiumBadge: 'ÎNGRIJIRE MEDICALĂ PREMIUM',
     hero: {
-      title: 'Transformați-vă viața cu serviciile noastre medicale de top',
-      subtitle: 'Expertiză medicală de clasă mondială în Istanbul',
-      cta: 'Programați o consultație gratuită',
-      trustBadge: 'Încredere și profesionalism',
+      title: 'Transformă-ți Viața cu Turismul Medical Premium',
+      subtitle: 'Experimentează îngrijire medicală de clasă mondială în Istanbul cu echipa noastră medicală expertă.',
+      cta: 'Începe Călătoria Ta',
+      trustBadge: 'De încredere pentru peste 10.000 de pacienți în întreaga lume',
       trustIndicators: {
-        successfulCases: '4500+ Cazuri de succes',
-        satisfactionRate: '98% Rata de satisfacție',
-        yearsExperience: '15+ Ani de experiență'
+        successfulCases: '4500+ Cazuri de Succes',
+        satisfactionRate: '98% Rata de Satisfacție',
+        yearsExperience: '15+ Ani de Experiență'
       }
     },
-    excellenceTitle: 'Excelență în îngrijirea medicală',
-    excellenceDesc: 'Vola Health Istanbul s-a stabilit ca o destinație de premier pentru soluții de sănătate și estetică transformatoare, combinând expertiza de clasă mondială cu tehnologia de vârf. Abordarea noastră cuprinzătoare acoperă tratamentele dentare, procedurile de transplant de păr și chirurgia plastică, oferind rezultate excepționale în frumoasa cetate Istanbul.',
-    discoverClinic: 'DESCOPERIȚI VOLA HEALTH',
-    ourServicesTitle: 'Serviciile noastre',
-    dentalTitle: 'Servicii dentare',
-    dentalDesc: 'Tratamente dentare avansate',
-    dentalCount: '{count} proceduri',
-    hairTitle: 'Transplant de păr',
-    hairDesc: 'Soluții naturale pentru păr',
-    hairCount: '{count} proceduri',
-    plasticTitle: 'Chirurgie plastică',
-    plasticDesc: 'Proceduri estetice de înaltă calitate',
-    plasticCount: '{count} proceduri',
-    viewAllServices: 'Vezi toate serviciile',
-    experienceTitle: 'Experiența noastră',
+    excellenceTitle: 'EXCELENȚA ÎN TURISMUL MEDICAL',
+    excellenceDesc: 'Vola Health Istanbul s-a stabilit ca o destinație de prim rang pentru soluții transformatoare de sănătate și estetică, combinând expertiza de clasă mondială cu tehnologia de ultimă generație. Abordarea noastră comprehensivă acoperă tratamente dentare, proceduri de transplant de păr și chirurgie plastică, oferind rezultate excepționale în frumoasa oraș Istanbul.',
+    discoverClinic: 'DESCOPERĂ VOLA HEALTH',
+    ourServicesTitle: 'SERVICIILE NOASTRE',
+    dentalTitle: 'TRATAMENTE DENTARE',
+    dentalDesc: 'Transformă-ți zâmbetul cu proceduri dentare avansate.',
+    dentalCount: '8 Servicii',
+    hairTitle: 'TRANSPLANT DE PĂR',
+    hairDesc: 'Restaurează-ți linia naturală de păr cu tehnici de ultimă generație.',
+    hairCount: '9 Servicii',
+    plasticTitle: 'CHIRURGIE PLASTICĂ',
+    plasticDesc: 'Îmbunătățește-ți frumusețea naturală cu proceduri estetice.',
+    plasticCount: '21 Servicii',
+    viewAllServices: 'VĂD TOATE SERVICIILE',
+    experienceTitle: 'EXPERIENȚA VOLA HEALTH',
     volaExperience: 'EXPERIENȚA VOLA HEALTH',
     experienceDesc1: 'La Vola Health Istanbul, combinăm tehnologia avansată cu îngrijirea personalizată pentru a crea rezultate estetice și de wellness care schimbă viața.',
-    experienceDesc2: 'Echipă de profesioniști dedicați',
-    learnProcess: 'Aflați despre proces',
-    testimonialsTitle: 'Ce spun pacienții noștri',
-    viewAllTestimonials: 'Vezi toate testimonialele',
-    contactTitle: 'Contactați-ne',
-    contactClinic: 'Clinica noastră',
-    contactAddress: 'Adresa noastră',
+    experienceDesc2: 'Abordarea noastră comprehensivă include consultația, procedurile și suportul post-operator.',
+    learnProcess: 'ÎNVAȚĂ PROCESUL NOSTRU',
+    testimonialsTitle: 'TESTIMONIALELE PACIENȚILOR',
+    viewAllTestimonials: 'VĂD TOATE TESTIMONIALELE',
+    contactTitle: 'CONTACTEAZĂ-NE',
+    contactClinic: 'VOLA HEALTH ISTANBUL',
+    contactAddress: 'Adresa:',
     contactPhone: 'Telefon:',
     contactEmail: 'Email:',
     contactHours: 'Program:',
@@ -120,66 +123,164 @@ export const roTranslations: Translations = {
       saturday: 'Sâmbătă'
     }
   },
+  about: {
+    title: 'Despre Vola Health Istanbul',
+    subtitle: 'Vola Health Istanbul',
+    p1: 'Bun venit la Vola Health Istanbul, o destinație de prim rang pentru îngrijire estetică și dentară avansată, situată în orașul vibrant Istanbul. Cu peste cincisprezece ani de serviciu dedicat, suntem mândri că ne-am stabilit ca un nume de încredere în domeniile chirurgiei dentare și plastice. Clinica noastră este dedicată îmbunătățirii vieții pacienților din întreaga lume prin oferirea excelenței în estetica medicală și îngrijire personalizată la cele mai înalte standarde.',
+    p2: 'La Vola Health, înțelegem că fiecare pacient este unic, cu propriile obiective și nevoi. Abordarea noastră este, prin urmare, foarte individualizată, și credem în formarea de conexiuni autentice cu pacienții noștri pentru a înțelege mai bine și a aborda aspirațiile lor. De la consultația inițială până la îngrijirea post-operatorie, fiecare pas al procesului nostru este meticulos elaborat pentru a ne asigura că pacienții nu doar primesc rezultate medicale excepționale, dar se simt și confortabil, susținuți și informați pe parcurs. Suntem onorați că am câștigat încrederea și încrederea clienților noștri internaționali, și suntem dedicați menținerii acestei încrederi prin rafinarea constantă a serviciilor noastre și extinderea expertizei noastre.',
+    p3: 'Alegea Vola Health înseamnă alegerea unei echipe care îți apreciază călătoria la fel de mult ca tine. Credem în mai mult decât îmbunătățiri estetice; credem în încrederea, fericirea și calitatea vieții care vin din simțirea cel mai bine. Cu o echipă dedicată alături de tine, te invităm să începi o călătorie transformatoare cu noi, unde obiectivele și așteptările tale nu sunt doar îndeplinite, ci depășite.',
+    slogan: 'Vola Health Istanbul – Pentru un Tu Mai Bun'
+  },
   services: {
     categories: {
-      dental: 'Servicii dentare',
-      hair: 'Transplant de păr',
-      aesthetic: 'Chirurgie estetică'
+      dental: 'Tratamente Dentare',
+      hair: 'Transplant de Păr',
+      aesthetic: 'Chirurgie Estetică'
+    },
+    detail: {
+      scrollDown: 'Derulează în Jos',
+      contactUs: 'Contactează-ne',
+      aboutTreatment: 'Despre Acest Tratament',
+      comprehensiveInfo: 'Informații comprehensive despre procedura ta',
+      minRead: 'min de citit',
+      keyBenefits: 'Beneficii Cheie',
+      tableOfContents: 'Cuprins',
+      serviceNotFound: 'Serviciul Nu a Fost Găsit',
+      goBack: 'Înapoi',
+      bookConsultation: 'Rezervă Consultație',
+      whatsappConsult: 'Consultație WhatsApp',
+      freeConsultation: 'Consultație Gratuită',
+      bookingForm: {
+        title: 'Rezervă Programare',
+        subtitle: 'Rezervă-ți programarea și începe călătoria ta de transformare',
+        name: 'Numele Complet',
+        email: 'Email',
+        phone: 'Telefon',
+        country: 'Țara',
+        preferredDate: 'Data Preferată',
+        preferredTime: 'Ora Preferată',
+        notes: 'Note',
+        notesPlaceholder: 'Orice întrebări sau cereri speciale despre acest serviciu...',
+        submit: 'Solicită Programare',
+        submitting: 'Se trimite...',
+        success: 'Programarea ta a fost creată cu succes!',
+        error: 'A apărut o eroare la crearea programării.',
+        close: 'Închide'
+      },
+      gallery: {
+        title: 'Galerie',
+        beforeAfter: 'Înainte & După',
+        procedure: 'Procedură',
+        results: 'Rezultate',
+        viewGallery: 'Vezi Galeria',
+        noImages: 'Nu au fost adăugate imagini încă'
+      },
+      faq: {
+        title: 'Întrebări Frecvente',
+        noFaq: 'Nu au fost adăugate FAQ încă'
+      },
+      testimonials: {
+        title: 'Recenziile Pacienților',
+        rating: 'Evaluare',
+        verified: 'Pacient Verificat',
+        noTestimonials: 'Nu au fost adăugate recenzii încă',
+        review: 'recenzie',
+        reviews: 'recenzii',
+        loading: 'Se încarcă recenziile...',
+        noReviews: 'Nu există recenzii încă pentru acest serviciu.',
+        beFirst: 'Fii primul care își împărtășește experiența!'
+      },
+      relatedServices: {
+        title: 'Servicii Asociate',
+        exploreMore: 'Explorează alte servicii în această categorie',
+        subtitle: 'Explorează tratamente similare',
+        noServices: 'Nu s-au găsit servicii asociate.',
+        browseAll: 'Răsfoiește toate serviciile',
+        viewAll: 'Vezi toate serviciile {category}'
+      },
+      navigation: {
+        overview: 'Prezentare Generală',
+        procedure: 'Procedură',
+        gallery: 'Galerie',
+        faq: 'FAQ',
+        booking: 'Rezervă Acum'
+      },
+      consultation: {
+        title: 'Consultație Gratuită',
+        subtitle: 'Consultație gratuită cu experții noștri',
+        bookFreeConsultation: 'Rezervă Consultație Gratuită',
+        messageNow: 'Trimite Mesaj Acum',
+        freeConsultation: 'Consultație gratuită',
+        expertCare: 'Îngrijire expertă'
+      },
+      whyChooseUs: {
+        title: 'De Ce Să Ne Alegeți',
+        happyClients: 'Clienți Mulțumiți',
+        averageRating: 'Evaluare Medie',
+        yearsExperience: 'Ani de Experiență',
+        successRate: 'Rata de Succes'
+      },
+      quickOverview: 'Prezentare Rapidă',
+      readingTime: 'Timp de Citire',
+      sections: 'Secțiuni',
+      topics: 'subiecte',
+      highlights: 'evidențieri',
+      jumpToSection: 'Sari la Secțiune',
+      shareExperience: 'Împărtășește Experiența Ta',
+      exploreSimilar: 'Explorează tratamente similare'
     },
     packageDetails: {
-      title: 'Detalii Pachet de Tratament',
-      subtitle: 'Tot ce trebuie să știți despre călătoria dumneavoastră de turism medical premium în Turcia',
-      timeInTurkey: 'Timp în Turcia',
-      timeInTurkeySubtitle: 'Durata șederii',
-      operationTime: 'Durata operației',
-      operationTimeSubtitle: 'Timpul procedurii',
-      hospitalStay: 'Spitalizare',
-      hospitalStaySubtitle: 'Perioada de internare',
-      recovery: 'Recuperare',
-      recoverySubtitle: 'Perioada de recuperare',
+      title: 'Detaliile Pachetului',
+      subtitle: 'Totul inclus în călătoria ta medicală',
+      timeInTurkey: 'Timpul în Turcia',
+      timeInTurkeySubtitle: 'Durata recomandată de ședere',
+      operationTime: 'Timpul Operației',
+      operationTimeSubtitle: 'Durata procedurii',
+      hospitalStay: 'Șederea în Spital',
+      hospitalStaySubtitle: 'Perioada de recuperare',
+      recovery: 'Timpul de Recuperare',
+      recoverySubtitle: 'Perioada completă de recuperare',
       accommodation: 'Cazare',
-      accommodationSubtitle: 'Unde veți sta',
+      accommodationSubtitle: 'Hotel 5 stele inclus',
       transportation: 'Transport',
-      transportationSubtitle: 'Cum vă deplasați',
-      premiumPackageTitle: 'Pachet Premium',
-      premiumPackageDescription: 'Servicii complete de lux',
-      reserveJourney: 'Rezervați călătoria'
+      transportationSubtitle: 'Transferuri VIP incluse',
+      premiumPackageTitle: 'Pachet Premium All-Inclusive',
+      premiumPackageDescription: 'Experiență completă de turism medical cu cazare de lux și îngrijire personalizată.',
+      reserveJourney: 'Rezervă Călătoria Ta'
     },
-    searchPlaceholder: 'Căutați servicii...',
-    allCategories: 'Toate categoriile',
-    sortByName: 'Sortare după nume',
-    sortByFeatured: 'Sortare după recomandări',
-    sortByDuration: 'Sortare după durată',
-    hideFilters: 'Ascunde filtrele',
-    moreFilters: 'Mai multe filtre',
+    searchPlaceholder: 'Caută servicii...',
+    allCategories: 'Toate Categoriile',
+    sortByName: 'Sortează după Nume',
+    sortByFeatured: 'Sortează după Recomandate',
+    sortByDuration: 'Sortează după Durată',
+    hideFilters: 'Ascunde Filtrele',
+    moreFilters: 'Mai Multe Filtre',
     duration: 'Durată',
-    anyDuration: 'Orice durată',
-    oneTwoHours: '1-2 ore',
-    halfDay: 'Jumătate de zi',
-    keyBenefits: 'Beneficii cheie',
-    more: 'Mai mult',
-    learnMore: 'Află mai multe',
-    fullDay: 'O zi întreagă',
-    multipleDays: 'Mai multe zile',
-    featuredOnly: 'Doar recomandate',
-    quickFilters: 'Filtre rapide:',
-    mostPopular: 'Cele mai populare',
-    quickProcedures: 'Proceduri rapide',
-    premiumServices: 'Servicii premium',
-    nonInvasive: 'Non-invazive',
-    headerTitle: 'Serviciile noastre medicale',
-    headerDesc: 'Descoperiți tratamente și proceduri de clasă mondială concepute pentru a vă îmbunătăți sănătatea, frumusețea și încrederea. Îngrijirea expertă întâlnește tehnologia de vârf.',
-    totalServices: '{count} servicii în total',
+    anyDuration: 'Orice Durată',
+    oneTwoHours: '1-2 Ore',
+    more: 'Mai Multe',
+    learnMore: 'Află Mai Multe',
+    fullDay: 'O Zi Completă',
+    multipleDays: 'Mai Multe Zile',
+    featuredOnly: 'Doar Recomandate',
+    quickFilters: 'Filtre Rapide',
+    mostPopular: 'Cele Mai Populare',
+    quickProcedures: 'Proceduri Rapide',
+    premiumServices: 'Servicii Premium',
+    nonInvasive: 'Non-Invazive',
+    headerTitle: 'Serviciile Noastre Medicale',
+    headerDesc: 'Descoperă tratamente și proceduri de clasă mondială.',
+    totalServices: '{count} Servicii Totale',
     showing: 'Se afișează {count}',
-    searchResults: 'Rezultate căutare',
-    allServices: 'Toate serviciile',
+    searchResults: 'Rezultatele Căutării',
+    allServices: 'Toate Serviciile',
     resultsFor: 'Rezultate pentru',
     inCategory: 'în categoria',
-    grid: 'Grilă',
+    grid: 'Grillă',
     list: 'Listă',
-    errorTitle: 'A apărut o eroare',
-    errorDesc: 'Nu s-au putut încărca serviciile.',
-    tryAgain: 'Încercați din nou'
+    errorTitle: 'Ceva nu a mers bine',
+    errorDesc: 'A apărut o eroare la încărcarea serviciilor.',
+    tryAgain: 'Încearcă Din Nou'
   },
   results: {
     beforeAfter: {
@@ -187,173 +288,189 @@ export const roTranslations: Translations = {
       results: 'Rezultate'
     },
     treatments: {
-      dental: 'Tratamentele noastre dentare oferă rezultate excelente atât estetic, cât și funcțional.',
-      hair: 'Aspectul natural este prioritar în transplantul și tratamentele noastre pentru păr.',
-      aesthetic: 'Siguranța pacientului și rezultatele naturale sunt prioritatea noastră în operațiile de chirurgie estetică.'
+      dental: 'Tratamentele dentare obțin rezultate excelente.',
+      hair: 'Aspect natural în tratamentele pentru păr.',
+      aesthetic: 'Rezultate estetice sigure și naturale.',
+      other: 'Alte tratamente'
     },
     dental: {
-      title: 'Rezultate tratamente dentare',
-      subtitle: 'Rezultate ale tratamentelor care vă transformă zâmbetul',
+      title: 'Rezultatele Tratamentele Dentare',
+      subtitle: 'Rezultate Care Îți Transformă Zâmbetul',
       treatments: {
-        smileDesign: 'Design zâmbet',
-        dentalImplant: 'Implant dentar',
-        veneers: 'Fațete dentare',
-        whitening: 'Albire dinți',
+        smileDesign: 'Design Zâmbet',
+        dentalImplant: 'Implant Dentar',
+        veneers: 'Fațete Dentare',
+        whitening: 'Albirea Dinților',
         orthodontics: 'Ortodonție',
-        gumAesthetics: 'Estetică gingivală',
-        allOn4: 'All-on-4',
-        zirconia: 'Coroană zirconiu'
+        gumAesthetics: 'Estetica Gingiei',
+        allOn4: 'Implant All-on-4',
+        zirconia: 'Coroană Zirconiu'
       },
       stats: {
-        treatments: 'Tratamente reușite',
-        satisfaction: 'Satisfacție pacienți',
-        experience: 'Ani de experiență',
-        dentists: 'Dentiști experți'
+        treatments: 'Tratamente de Succes',
+        satisfaction: 'Satisfacția Pacienților',
+        experience: 'Ani de Experiență',
+        dentists: 'Dentisti Experți'
       }
     },
     hair: {
-      title: 'Rezultate transplant de păr',
-      subtitle: 'Transformări naturale ale părului',
+      title: 'Rezultatele Transplantului de Păr',
+      subtitle: 'Rezultatele Transplantului de Păr cu Aspect Natural',
       treatments: {
-        fue: 'FUE',
-        dhi: 'DHI',
-        beard: 'Barbă',
-        eyebrow: 'Sprâncene',
-        prp: 'PRP',
-        mesotherapy: 'Mezoterapie',
-        analysis: 'Analiză',
-        women: 'Pentru femei'
+        fue: 'Transplant Păr FUE',
+        dhi: 'Transplant Păr DHI',
+        beard: 'Transplant Barbă',
+        eyebrow: 'Transplant Sprâncene',
+        prp: 'Tratament PRP',
+        mesotherapy: 'Mesoterapie',
+        analysis: 'Analiza Părului',
+        women: 'Transplant Păr Femei'
       },
       stats: {
-        transplants: 'Transplanturi reușite',
-        satisfaction: 'Satisfacție pacienți',
-        experience: 'Ani de experiență',
-        surgeons: 'Chirurgi experți'
+        transplants: 'Transplanturi de Succes',
+        satisfaction: 'Satisfacția Pacienților',
+        experience: 'Ani de Experiență',
+        surgeons: 'Chirurgi Experți'
       }
     },
     aesthetic: {
-      title: 'Rezultate chirurgie estetică',
-      subtitle: 'Transformări estetice naturale',
+      title: 'Rezultatele Chirurgiei Estetice',
+      subtitle: 'Rezultate Sigure și Naturale ale Chirurgiei Estetice',
       treatments: {
         rhinoplasty: 'Rinoplastie',
         liposuction: 'Liposucție',
-        breastAesthetics: 'Estetică sân',
-        tummyTuck: 'Abdominoplastie',
-        facelift: 'Lifting facial',
-        eyelidSurgery: 'Chirurgie pleoape',
-        bbl: 'BBL',
-        botoxFiller: 'Botox & Fillere'
+        breastAesthetics: 'Estetica Sânilor',
+        tummyTuck: 'Tuck Abdominal',
+        facelift: 'Ridicarea Feței',
+        eyelidSurgery: 'Chirurgia Pleoapelor',
+        bbl: 'Ridicarea Feselor Braziliene',
+        botoxFiller: 'Botox și Filler'
       },
       stats: {
-        operations: 'Operații reușite',
-        satisfaction: 'Satisfacție pacienți',
-        experience: 'Ani de experiență',
-        surgeons: 'Chirurgi experți'
+        operations: 'Operații de Succes',
+        satisfaction: 'Satisfacția Pacienților',
+        experience: 'Ani de Experiență',
+        surgeons: 'Chirurgi Experți'
       }
     },
-    backToGallery: 'Înapoi la galerie',
-    treatmentAreas: 'Zone de tratament',
-    treatmentAreasDesc: 'Explorați zonele noastre de tratament',
-    beforeAfterResults: 'Rezultate înainte și după',
-    discoverResults: 'Descoperiți rezultatele',
-    resultTime: 'Timp rezultat',
+    backToGallery: 'Înapoi la Galerie',
+    treatmentAreas: 'Zonele de Tratament',
+    treatmentAreasDesc: 'Opțiunile de tratament oferite de echipa noastră expertă',
+    beforeAfterResults: 'Rezultate Înainte & După',
+    discoverResults: 'Descoperă rezultatele reale ale pacienților noștri',
+    resultTime: 'Timpul Rezultatului',
     description: 'Descriere',
-    treatmentDetails: 'Detalii tratament',
+    treatmentDetails: 'Detaliile Tratamentului',
     results: 'Rezultate',
     cta: {
-      viewAllResults: 'Vezi toate rezultatele',
-      title: 'Începeți transformarea',
-      subtitle: 'Programați o consultație',
-      consultation: 'Consultație gratuită',
-      contact: 'Contactați-ne'
+      viewAllResults: 'Vezi Toate Rezultatele',
+      title: 'Vrei Să Obții și Tu Aceste Rezultate?',
+      subtitle: 'Obține o consultație gratuită cu echipa noastră expertă.',
+      consultation: 'Consultație Gratuită',
+      contact: 'Contact'
     },
-    treatmentResult: 'Rezultat tratament',
-    patientAge: 'Vârsta pacientului',
+    treatmentResult: 'Rezultatul Tratamentului',
+    patientAge: 'Vârsta Pacientului',
     years: 'ani',
     timeline: 'Cronologie',
     na: 'N/A',
-    resultsAchieved: 'Rezultate obținute',
+    resultsAchieved: 'Rezultate Obținute',
     previous: 'Anterior',
     next: 'Următorul',
     close: 'Închide'
   },
   gallery: {
     hero: {
-      title: 'Galeria noastră',
-      subtitle: 'Explorați transformările pacienților noștri',
-      consultation_btn: 'Programați o consultație',
-      contact_btn: 'Contactați-ne'
+      title: 'Galerie Înainte & După',
+      subtitle: 'Asistă la transformările reale ale pacienților noștri mulțumiți.',
+      consultation_btn: 'Consultație Gratuită',
+      contact_btn: 'Contact'
     },
     dental: {
-      title: 'Tratamente dentare',
-      description: 'Transformări ale zâmbetului'
+      title: 'Rezultatele Tratamentele Dentare',
+      description: 'Descoperă rezultatele impresionante ale tratamentelor noastre dentare.'
     },
     hair: {
-      title: 'Transplant de păr',
-      description: 'Rezultate naturale'
+      title: 'Rezultatele Transplantului de Păr',
+      description: 'Vezi rezultate naturale din tratamentele noastre pentru păr.'
     },
     aesthetic: {
-      title: 'Chirurgie estetică',
-      description: 'Transformări estetice'
+      title: 'Rezultatele Chirurgiei Plastice',
+      description: 'Rezultate impresionante din operațiile noastre de chirurgie plastică.'
     },
     testimonials: {
-      title: 'Ce spun pacienții',
-      subtitle: 'Experiențe reale',
-      testimonial1: 'Experiență excelentă',
-      testimonial2: 'Rezultate uimitoare',
-      testimonial3: 'Servicii profesioniste',
-      hair_patient: 'Pacient transplant păr',
-      dental_patient: 'Pacient tratament dentar',
-      plastic_patient: 'Pacient chirurgie plastică'
+      title: 'Testimonialele Pacienților',
+      subtitle: 'Ascultă experiențele pacienților noștri',
+      testimonial1: '"Rezultate excelente de transplant de păr și serviciu profesional."',
+      testimonial2: '"Tratament dentar uimitor. Zâmbetul meu s-a schimbat complet!"',
+      testimonial3: '"Chirurgia plastică a depășit așteptările mele. Rezultate naturale."',
+      hair_patient: 'Pacient Transplant Păr',
+      dental_patient: 'Pacient Tratament Dentar',
+      plastic_patient: 'Pacient Chirurgie Plastică'
     },
     cta: {
-      title: 'Începeți transformarea',
-      subtitle: 'Faceți primul pas',
-      consultation_btn: 'Consultație gratuită',
-      contact_btn: 'Contactați-ne'
+      title: 'Gata Să Începi Transformarea Ta?',
+      subtitle: 'Alătură-te miilor de pacienți mulțumiți.',
+      consultation_btn: 'Obține Consultație Gratuită',
+      contact_btn: 'Contact'
     },
     stats: {
-      transformations: 'Transformări',
-      satisfaction: 'Satisfacție',
-      experience: 'Experiență',
-      countries: 'Țări'
+      transformations: 'Transformări de Succes',
+      satisfaction: 'Rata de Satisfacție a Pacienților',
+      experience: 'Ani de Excelență',
+      countries: 'Țări Servite'
     }
-  },
-  about: {
-    title: 'Despre noi',
-    subtitle: 'Vola Health Istanbul',
-    p1: 'Bun venit la Vola Health Istanbul, o destinație de premier pentru îngrijire estetică și dentară avansată, situată în vibranta oraș Istanbul. Cu peste cincisprezece ani de serviciu dedicat, suntem mândri că ne-am stabilit ca un nume de încredere în domeniile stomatologiei și chirurgiei plastice. Clinica noastră este dedicată îmbunătățirii vieților pacienților din întreaga lume prin oferirea excelenței în estetica medicală și îngrijire personalizată la cele mai înalte standarde.',
-    p2: 'La Vola Health înțelegem că fiecare pacient este unic, cu propriile obiective și nevoi. Prin urmare, abordarea noastră este extrem de individualizată și credem în formarea de conexiuni autentice cu pacienții noștri pentru a înțelege și aborda mai bine aspirațiile lor. De la consultația inițială la îngrijirea postoperatorie, fiecare pas al procesului nostru este meticulos conceput pentru a se asigura că pacienții nu doar primesc rezultate medicale excepționale, ci se simt și confortabili, susținuți și informați pe tot parcursul călătoriei. Suntem onorați să fi câștigat încrederea clientelei noastre internaționale și suntem dedicați menținerii acestei încrederi prin rafinarea constantă a serviciilor noastre și extinderea expertizei noastre.',
-    p3: 'A alege Vola Health înseamnă a alege o echipă care valorează călătoria ta la fel de mult ca tine. Credem în mai mult decât îmbunătățiri estetice; credem în încrederea, fericirea și calitatea vieții care vin din a te simți cel mai bine. Cu o echipă dedicată alături de tine, te invităm să pornești într-o călătorie transformatoare cu noi, unde obiectivele și așteptările tale nu sunt doar îndeplinite, ci depășite.',
-    slogan: 'Vola Health Istanbul – Pentru un Tu Mai Bun'
   },
   contact: {
     hero: {
-      title: 'Contactați-ne',
-      subtitle: 'Suntem aici să vă ajutăm',
-      office: 'Biroul nostru'
+      title: 'Contactează Vola Health Istanbul',
+      subtitle: 'Suntem aici să te ajutăm să începi călătoria ta de turism medical.',
+      office: 'Birou'
     },
     form: {
-      firstName: 'Prenume',
-      lastName: 'Nume',
-      email: 'Email',
-      phone: 'Telefon',
+      title: 'Rezervă-ți',
+      freeConsultation: 'Consultație Gratuită',
+      sendMessage: 'Trimite Mesaj',
+      subtitle: 'Fă primul pas spre transformarea ta. Echipa noastră medicală expertă este gata să te ghideze prin călătoria ta.',
+      personalInfo: 'Informații Personale',
+      serviceSchedule: 'Serviciu & Program',
+      fullName: 'Numele Complet',
+      fullNamePlaceholder: 'Introdu numele tău complet',
+      email: 'Adresa de Email',
+      emailPlaceholder: 'email.tau@exemplu.com',
+      phone: 'Numărul de Telefon',
+      phonePlaceholder: '+1 (555) 123-4567',
       country: 'Țara',
-      countryPlaceholder: 'Selectați țara',
+      countryPlaceholder: 'Statele Unite',
+      service: 'Serviciul de Interes',
+      loadingServices: 'Se încarcă serviciile...',
+      preferredDate: 'Data & Ora Preferată',
+      dateOptional: 'Opțional: Lasă gol și te vom contacta pentru programare',
+      notes: 'Note Suplimentare',
+      notesPlaceholder: 'Spune-ne despre obiectivele tale, preocupări sau orice întrebări ai...',
+      bookConsultation: 'Rezervă Consultație',
+      bookFreeConsultation: 'Rezervă Consultație Gratuită',
+      booking: 'Se rezervă...',
+      bookingConsultation: 'Se rezervă consultația ta...',
+      firstName: 'Prenumele',
+      lastName: 'Numele de Familie',
       message: 'Mesaj',
       treatment: 'Tratament',
       submit: 'Trimite',
       submitting: 'Se trimite...'
     },
     treatments: {
-      dental: 'Tratamente dentare',
-      hair: 'Transplant de păr',
-      aesthetic: 'Chirurgie estetică'
+      dental: 'Tratamente Dentare',
+      hair: 'Transplant de Păr',
+      aesthetic: 'Chirurgie Estetică',
+      other: 'Alte Servicii'
     },
     messages: {
-      success: 'Mesaj trimis cu succes',
-      error: 'A apărut o eroare',
-      viewDetails: 'Vezi detalii'
+      success: 'Consultația Rezervată cu Succes!',
+      successDesc: 'Mulțumim că ne-ai ales. Echipa noastră te va contacta în 24 de ore pentru a-ți confirma programarea.',
+      error: 'Rezervarea a Eșuat',
+      errorDesc: 'Ne pare rău, ceva nu a mers bine. Te rugăm să încerci din nou sau să ne contactezi direct.',
+      viewDetails: 'Vezi Detaliile'
     },
     info: {
       phone: 'Telefon',
@@ -362,52 +479,52 @@ export const roTranslations: Translations = {
   },
   mockData: {
     patient: 'Pacient',
-    transformation: 'Transformare',
-    results: 'Rezultate',
-    procedure: 'Procedură',
-    male: 'Bărbat',
-    female: 'Femeie',
+    transformation: 'Transformare uimitoare',
+    results: 'Rezultate incredibile',
+    procedure: 'Procedură care schimbă viața',
+    male: 'Masculin',
+    female: 'Feminin',
     months: 'luni'
   },
   chatbot: {
-    title: 'Asistent virtual',
-    welcome: 'Hello! How can I support you on your journey to health and beauty at Vola Health Istanbul?',
-    contactRequest: 'Doriți să fiți contactat?',
-    standardResponse: 'Vă pot ajuta cu informații despre serviciile noastre.',
-    contactInfoReceived: 'Am primit datele de contact.',
-    contactInfoResponse: 'Vă vom contacta în curând.',
-    closeChat: 'Închide chat',
-    openChat: 'Deschide chat'
+    title: 'Chatbot',
+    welcome: 'Bună! Cum te pot ajuta în călătoria ta spre sănătate și frumusețe la Vola Health Istanbul?',
+    contactRequest: 'Am nevoie de o consultație',
+    standardResponse: 'Mulțumim pentru cererea ta.',
+    contactInfoReceived: 'Mulțumim pentru informațiile de contact.',
+    contactInfoResponse: 'Mulțumim că ne-ai contactat.',
+    closeChat: 'Închide Chat-ul',
+    openChat: 'Deschide Chat-ul'
   },
   whatsapp: {
-    defaultMessage: 'Bună! Sunt interesat de serviciile dumneavoastră.',
+    defaultMessage: 'Bună! Sunt interesat de serviciile tale.',
     srOnly: 'Deschide WhatsApp'
   },
   why: {
-    title: 'De ce să ne alegeți?',
-    teamTitle: 'Echipă profesională',
-    teamDesc: 'Echipa noastră medicală experimentată este dedicată siguranței și confortului dumneavoastră.',
+    title: 'De Ce Să Ne Alegeți?',
+    teamTitle: 'Echipă Profesională',
+    teamDesc: 'Echipa noastră medicală cu experiență este dedicată siguranței și confortului tău.',
     translatorTitle: 'Traducător 24/7',
-    translatorDesc: 'Oferim suport de traducere 24 de ore din 24.',
-    hotelTitle: 'Cazare în hotel de 5 stele',
-    hotelDesc: 'Bucurați-vă de un proces de tratament confortabil la luxosul Hotel Ramada Merter.',
+    translatorDesc: 'Oferim suport de traducere non-stop.',
+    hotelTitle: 'Cazare Hotel 5 Stele',
+    hotelDesc: 'Bucură-te de procesul de tratament confortabil la hotelul de lux Ramada Merter.',
     transferTitle: 'Transfer VIP',
-    transferDesc: 'Călătoriți confortabil cu vehiculele noastre private Vito.'
+    transferDesc: 'Călătorește confortabil cu vehiculele noastre private Vito.'
   },
   consultation: {
     header: {
-      backToHome: 'Înapoi la pagina principală',
+      backToHome: 'Înapoi la Acasă',
       title: 'Consultație Medicală Gratuită',
-      subtitle: 'Primiți sfaturi personalizate de la echipa noastră de experți medicali. Completați acest formular pentru a vă programa consultația gratuită.'
+      subtitle: 'Obține sfaturi personalizate de la echipa noastră medicală expertă. Completează acest formular pentru a-ți programa consultația gratuită.'
     },
     benefits: {
       free: {
         title: 'Complet Gratuit',
-        description: 'Consultație gratuită fără obligații cu experți medicali'
+        description: 'Consultație fără cost, fără obligații cu experți medicali'
       },
       time: {
         title: '15 Minute',
-        description: 'Evaluare completă și plan de tratament personalizat'
+        description: 'Evaluare comprehensivă și plan de tratament personalizat'
       },
       expert: {
         title: 'Îngrijire Expertă',
@@ -418,70 +535,70 @@ export const roTranslations: Translations = {
       hollywoodSmile: 'Zâmbet Hollywood',
       dentalVeneers: 'Fațete Dentare',
       dentalImplants: 'Implanturi Dentare',
-      zirconiumCrowns: 'Coroane de Zirconiu',
-      teethWhitening: 'Albire Dinți',
+      zirconiumCrowns: 'Coroane Zirconiu',
+      teethWhitening: 'Albirea Dinților',
       rhinoplasty: 'Rinoplastie',
-      facelift: 'Lifting Facial',
-      browLift: 'Lifting Sprâncene',
-      eyelidSurgery: 'Chirurgie Pleoape',
-      breastAugmentation: 'Mărire Sâni',
-      breastLift: 'Lifting Sâni',
-      tummyTuck: 'Abdominoplastie',
+      facelift: 'Ridicarea Feței',
+      browLift: 'Ridicarea Sprâncenelor',
+      eyelidSurgery: 'Chirurgia Pleoapelor',
+      breastAugmentation: 'Mărirea Sânilor',
+      breastLift: 'Ridicarea Sânilor',
+      tummyTuck: 'Tuck Abdominal',
       liposuction: 'Liposucție',
-      hairTransplant: 'Transplant Păr',
-      other: 'Altele'
+      hairTransplant: 'Transplant de Păr',
+      other: 'Altul'
     },
     step1: {
       title: 'Informații Personale',
-      firstName: 'Prenume',
-      firstNamePlaceholder: 'Introduceți prenumele',
-      lastName: 'Nume',
-      lastNamePlaceholder: 'Introduceți numele',
-      email: 'Adresă Email',
-      emailPlaceholder: 'email@exemplu.com',
-      phone: 'Număr Telefon',
-      phonePlaceholder: '+40 (555) 123-4567',
+      firstName: 'Prenumele',
+      firstNamePlaceholder: 'Introdu prenumele tău',
+      lastName: 'Numele de Familie',
+      lastNamePlaceholder: 'Introdu numele de familie',
+      email: 'Adresa de Email',
+      emailPlaceholder: 'email.tau@exemplu.com',
+      phone: 'Numărul de Telefon',
+      phonePlaceholder: '+1 (555) 123-4567',
       country: 'Țara',
-      countryPlaceholder: 'România',
+      countryPlaceholder: 'Statele Unite',
       age: 'Vârsta',
       agePlaceholder: '25',
-      gender: 'Gen',
-      selectGender: 'Selectați genul',
+      gender: 'Genul',
+      selectGender: 'Selectează genul',
       male: 'Masculin',
       female: 'Feminin',
       other: 'Altul',
       preferNotToSay: 'Prefer să nu spun'
     },
     step2: {
-      title: 'Servicii de Interes',
-      subtitle: 'Selectați toate procedurile despre care ați dori să aflați mai multe:'
+      title: 'Serviciile de Interes',
+      subtitle: 'Selectează toate procedurile despre care ești interesat să afli:'
     },
     step3: {
-      title: 'Preferințe Consultație',
+      title: 'Preferințele de Consultație',
       preferredDate: 'Data Preferată',
       preferredTime: 'Ora Preferată',
-      selectTime: 'Selectați ora preferată',
-      contactMethod: 'Metoda de Contact Preferată',
+      selectTime: 'Selectează ora',
+      contactMethod: 'Metoda Preferată de Contact',
       email: 'Email',
       phoneCall: 'Apel Telefonic',
       whatsapp: 'WhatsApp'
     },
     step4: {
       title: 'Informații Medicale',
-      medicalHistory: 'Istoric Medical',
-      medicalHistoryPlaceholder: 'Descrieți orice istoric medical relevant, operații anterioare sau condiții...',
-      currentMedications: 'Medicamente Actuale',
-      medicationsPlaceholder: 'Enumerați orice medicamente pe care le luați în prezent...',
+      medicalHistory: 'Istoricul Medical',
+      medicalHistoryPlaceholder: 'Te rugăm să descrii orice istoric medical relevant...',
+      currentMedications: 'Medicamentele Actuale',
+      medicationsPlaceholder: 'Listează orice medicamente pe care le iei în prezent...',
       additionalInfo: 'Informații Suplimentare',
-      additionalInfoPlaceholder: 'Orice întrebări, preocupări sau informații suplimentare pe care ați dori să le împărtășiți...'
+      additionalInfoPlaceholder: 'Orice alte informații pe care ai vrea să le împărtășești...'
     },
     errors: {
       firstNameRequired: 'Prenumele este obligatoriu',
-      lastNameRequired: 'Numele este obligatoriu',
+      lastNameRequired: 'Numele de familie este obligatoriu',
       emailRequired: 'Email-ul este obligatoriu',
-      phoneRequired: 'Telefonul este obligatoriu',
+      phoneRequired: 'Numărul de telefon este obligatoriu',
       countryRequired: 'Țara este obligatorie',
-      serviceRequired: 'Selectați cel puțin un serviciu',
+      serviceRequired: 'Te rugăm să selectezi cel puțin un serviciu',
       dateRequired: 'Data preferată este obligatorie'
     },
     progress: {
@@ -491,88 +608,63 @@ export const roTranslations: Translations = {
     },
     navigation: {
       previous: 'Anterior',
-      nextStep: 'Pasul Următor',
+      nextStep: 'Următorul Pas',
       submitting: 'Se trimite...',
       schedule: 'Programează Consultația'
     },
     success: {
-      title: 'Cererea de Consultație Trimisă!',
-      message: 'Vă mulțumim pentru interesul față de Vola Health Istanbul. Am primit cererea dumneavoastră de consultație și echipa noastră vă va contacta în 24 de ore pentru a programa consultația gratuită.',
-      returnHome: 'Înapoi la pagina principală',
-      questions: 'Întrebări? Trimite-ne un mesaj'
+      title: 'Consultația Programată cu Succes!',
+      message: 'Mulțumim că ai ales Vola Health Istanbul. Echipa noastră medicală te va contacta în 24 de ore pentru a-ți confirma programarea de consultație.',
+      returnHome: 'Înapoi la Acasă',
+      questions: 'Întrebări? Trimite-ne mesaj'
     },
     contact: {
-      preferDirect: 'Preferați să vorbiți direct cu noi?'
+      preferDirect: 'Preferi să ne contactezi direct?'
     }
   },
-  testimonials: {
-    title: 'Mărturii ale Pacienților',
-    subtitle: 'Experiențe Reale',
-    loading: 'Se încarcă mărturiile...',
-    noTestimonials: 'Nu sunt disponibile mărturii în acest moment.',
-    readMore: 'Citește Mai Mult',
-    showLess: 'Arată Mai Puțin',
-    verified: 'Verificat',
-    page: {
-      heroTitle: 'Povești Reale de la',
-      heroSubtitle: 'Pacienți Reali',
-      heroDescription: 'Descoperă experiențe autentice de la pacienți din întreaga lume care au ales Vola Health Istanbul pentru călătoria lor de transformare.',
-      patientTestimonials: 'MĂRTURII PACIENȚI',
-      stats: {
-        happyPatients: 'Pacienți Fericiți',
-        successRate: 'Rata de Succes',
-        countriesServed: 'Țări Deservite',
-        yearsExperience: 'Ani de Experiență'
-      },
-      filters: {
-        title: 'Filtrează Mărturiile',
-        description: 'Găsește mărturii după tipul de tratament, țară sau doar mărturii video.',
-        allTreatments: 'Toate Tratamentele',
-        hairTransplant: 'Transplant Păr',
-        dentalAesthetics: 'Estetică Dentară',
-        facialAesthetics: 'Estetică Facială',
-        bodyAesthetics: 'Estetică Corporală',
-        allCountries: 'Toate Țările',
-        videoOnly: 'Doar mărturii video',
-        showing: 'Arată',
-        of: 'din',
-        testimonials: 'mărturii'
-      },
-      featured: {
-        title: 'Povești de Pacienți Recomandate',
-        subtitle: 'Ascultă direct de la pacienții noștri despre călătoria lor de transformare',
-        videoTestimonial: 'Mărturie Video'
-      },
-      allTestimonials: {
-        title: 'Toate Mărturiile Pacienților',
-        subtitle: 'Răsfoiește toate poveștile și experiențele pacienților noștri'
-      },
-      noResults: {
-        title: 'Nu s-au găsit mărturii',
-        description: 'Nicio mărturie nu se potrivește cu filtrele tale actuale.',
-        clearFilters: 'Șterge toate filtrele'
-      },
-      cta: {
-        title: 'Gata să Începi',
-        subtitle: 'Călătoria Ta de Transformare?',
-        description: 'Alătură-te miilor de pacienți mulțumiți care au ales Vola Health Istanbul pentru experiența lor de turism medical.',
-        freeConsultation: 'Obține Consultație Gratuită',
-        contactUs: 'Contactează-ne'
-      }
+  admin: {
+    sidebar: {
+      dashboard: 'Panou de Control',
+      dashboardDesc: 'Prezentare generală și analitice',
+      categories: 'Categorii',
+      categoriesDesc: 'Gestionează categoriile de servicii',
+      services: 'Servicii',
+      servicesDesc: 'Gestionează serviciile medicale',
+      beforeAfter: 'Înainte/După',
+      beforeAfterDesc: 'Gestionează galeria înainte/după',
+      appointments: 'Programări',
+      appointmentsDesc: 'Vezi și gestionează programările',
+      consultations: 'Consultații',
+      consultationsDesc: 'Gestionează cererile de consultație',
+      messages: 'Mesaje',
+      messagesDesc: 'Comunicările cu pacienții',
+      testimonials: 'Testimoniale',
+      testimonialsDesc: 'Gestionează recenziile pacienților',
+      translations: 'Traduceri',
+      translationsDesc: 'Gestionează limbile site-ului',
+      settings: 'Setări',
+      settingsDesc: 'Configurația site-ului',
+      signOut: 'Deconectare'
+    },
+    header: {
+      language: 'Limba'
+    },
+    settings: {
+      siteDescription: 'Descrierea Site-ului'
     }
   },
   footer: {
-    companyDesc: 'Destinație premier pentru turismul medical în Istanbul, oferind servicii de sănătate de clasă mondială cu îngrijire personalizată.',
+    companyDesc: 'Destinație de prim rang pentru turism medical în Istanbul, oferind servicii de sănătate de clasă mondială cu îngrijire personalizată.',
     privacyPolicy: 'Politica de Confidențialitate',
-    termsOfService: 'Termeni de Serviciu',
+    termsOfService: 'Termenii de Serviciu',
     allRightsReserved: 'Toate drepturile rezervate.',
     istanbul: 'Istanbul, Turcia'
   },
   heroSlider: {
     slides: {
       hair: {
-        title: 'Excelență în Transplantul de Păr',
-        subtitle: 'Tehnici avansate FUE și DHI pentru rezultate naturale',
+        title: 'Excelența Transplantului de Păr',
+        subtitle: 'Tehnici avansate FUE & DHI pentru rezultate naturale',
         category: 'Restaurarea Părului'
       },
       aesthetic: {
@@ -581,16 +673,72 @@ export const roTranslations: Translations = {
         category: 'Chirurgie Plastică'
       },
       dental: {
-        title: 'Excelență Dentară',
-        subtitle: 'Zâmbet de Hollywood și îngrijire dentară cuprinzătoare',
+        title: 'Excelența Dentară',
+        subtitle: 'Zâmbet Hollywood și îngrijire dentară comprehensivă',
         category: 'Servicii Dentare'
       }
     },
     navigation: {
-      previous: 'Anterior',
-      next: 'Următor',
-      pause: 'Pauză',
-      play: 'Redare'
+      previous: 'Diapozitivul anterior',
+      next: 'Următorul diapozitiv',
+      pause: 'Pune pauză la prezentarea de diapozitive',
+      play: 'Pornește prezentarea de diapozitive'
+    }
+  },
+  testimonials: {
+    title: 'Testimonialele Pacienților',
+    subtitle: 'Experiențe Reale',
+    loading: 'Se încarcă testimonialele...',
+    noTestimonials: 'Nu sunt testimoniale disponibile',
+    readMore: 'Citește Mai Multe',
+    showLess: 'Arată Mai Puțin',
+    verified: 'Verificat',
+    page: {
+      heroTitle: 'Povești Reale de la',
+      heroSubtitle: 'Pacienți Reali',
+      heroDescription: 'Descoperă experiențe autentice de la pacienți din întreaga lume care au ales Vola Health Istanbul pentru călătoria lor de transformare.',
+      patientTestimonials: 'TESTIMONIALELE PACIENȚILOR',
+      stats: {
+        happyPatients: 'Pacienți Mulțumiți',
+        successRate: 'Rata de Succes',
+        countriesServed: 'Țări Servite',
+        yearsExperience: 'Ani de Experiență'
+      },
+      filters: {
+        title: 'Filtrează Testimonialele',
+        description: 'Găsește testimoniale după tipul de tratament, țară sau vezi doar testimoniale video.',
+        allTreatments: 'Toate Tratamentele',
+        hairTransplant: 'Transplant de Păr',
+        dentalAesthetics: 'Estetica Dentară',
+        facialAesthetics: 'Estetica Facială',
+        bodyAesthetics: 'Estetica Corpului',
+        allCountries: 'Toate Țările',
+        videoOnly: 'Doar testimoniale video',
+        showing: 'Se afișează',
+        of: 'din',
+        testimonials: 'testimoniale'
+      },
+      featured: {
+        title: 'Povești Recomandate ale Pacienților',
+        subtitle: 'Ascultă direct de la pacienții noștri despre călătoria lor de transformare',
+        videoTestimonial: 'Testimonial Video'
+      },
+      allTestimonials: {
+        title: 'Toate Testimonialele Pacienților',
+        subtitle: 'Răsfoiește toate poveștile și experiențele pacienților noștri'
+      },
+      noResults: {
+        title: 'Nu s-au găsit testimoniale',
+        description: 'Niciun testimonial nu corespunde filtrelor tale actuale.',
+        clearFilters: 'Șterge toate filtrele'
+      },
+      cta: {
+        title: 'Gata Să Începi Călătoria Ta de',
+        subtitle: 'Transformare?',
+        description: 'Alătură-te miilor de pacienți mulțumiți care au ales Vola Health Istanbul pentru călătoria lor de transformare.',
+        freeConsultation: 'Obține Consultație Gratuită',
+        contactUs: 'Contactează-ne'
+      }
     }
   }
 }; 

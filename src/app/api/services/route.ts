@@ -4,15 +4,41 @@ export const dynamic = 'force-dynamic';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get('category');
+    const exclude = searchParams.get('exclude');
+    const limit = searchParams.get('limit');
+
+    // Build where clause
+    const where: any = {};
+    
+    if (category) {
+      // Find category by slug
+      const categoryRecord = await prisma.category.findFirst({
+        where: { slug: category }
+      });
+      if (categoryRecord) {
+        where.categoryId = categoryRecord.id;
+      }
+    }
+    
+    if (exclude) {
+      where.NOT = { id: exclude };
+    }
+
     const services = await prisma.service.findMany({
+      where,
       include: {
         translations: true,
         images: true,
         category: true,
       },
+      orderBy: { createdAt: 'desc' },
+      ...(limit ? { take: parseInt(limit) } : {}),
     });
+    
     return NextResponse.json(services);
   } catch (error) {
     console.error('Failed to fetch services:', error);

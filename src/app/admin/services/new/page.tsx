@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { RiSaveLine, RiCheckLine, RiErrorWarningLine, RiCloseLine } from 'react-icons/ri';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { useTranslation } from '@/lib/i18n/hooks';
 
 const supportedLanguages = [
   { code: 'en', name: 'English' },
@@ -25,12 +25,56 @@ const defaultTranslations = supportedLanguages.map(lang => ({
   description: ''
 }));
 
-export default function NewService() {
+interface ServiceFormData {
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  currency: string;
+  anesthesia: string;
+  recovery: string;
+  featured: boolean;
+  minAge?: number;
+  maxAge?: number;
+  availability: string;
+  timeInTurkey: string;
+  operationTime: string;
+  hospitalStay: string;
+  accommodation: string;
+  transportation: string;
+}
+
+export default function NewServicePage() {
   const router = useRouter();
-  const { t } = useTranslation();
-  const [error, setError] = useState('');
-  const [uploading, setUploading] = useState(false);
-  const [categories, setCategories] = useState<{ id: string; name: string; slug: string }[]>([]);
+  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [categories, setCategories] = useState<Array<{ id: string; name: string; slug: string }>>([]);
+  const [service, setService] = useState({
+    title: '',
+    slug: '',
+    description: '',
+    category: '', // Start empty so the placeholder shows
+    translations: defaultTranslations,
+    images: [] as Array<{ id?: string; url: string; alt: string }>,
+    // Package Details
+    timeInTurkey: '',
+    operationTime: '',
+    hospitalStay: '',
+    recovery: '',
+    accommodation: '',
+    transportation: '',
+    // Additional fields
+    featured: false,
+    availability: 'always',
+    minAge: 18,
+    maxAge: 99,
+    prerequisites: '',
+    aftercare: '',
+    benefits: '',
+    risks: '',
+    anesthesia: '',
+  });
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -74,31 +118,6 @@ export default function NewService() {
     };
     fetchCategories();
   }, []);
-  const [service, setService] = useState({
-    title: '',
-    slug: '',
-    description: '',
-    category: '', // Start empty so the placeholder shows
-    translations: defaultTranslations,
-    images: [] as Array<{ id?: string; url: string; alt: string }>,
-    // Package Details
-    timeInTurkey: '',
-    operationTime: '',
-    hospitalStay: '',
-    recovery: '',
-    accommodation: '',
-    transportation: '',
-    // Additional fields
-    featured: false,
-    availability: 'always',
-    minAge: 18,
-    maxAge: 99,
-    prerequisites: '',
-    aftercare: '',
-    benefits: '',
-    risks: '',
-    anesthesia: '',
-  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -128,7 +147,7 @@ export default function NewService() {
     const files = e.target.files;
     if (!files?.length) return;
 
-    setUploading(true);
+    setSaving(true);
     try {
       const uploadedImages = [];
       
@@ -163,12 +182,12 @@ export default function NewService() {
       });
       
       // Clear the error if upload was successful
-      setError('');
+      setMessage(null);
     } catch (err) {
       console.error('Upload error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to upload images');
+      setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Failed to upload images' });
     } finally {
-      setUploading(false);
+      setSaving(false);
     }
   };
 
@@ -197,9 +216,9 @@ export default function NewService() {
       router.refresh();
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        setMessage({ type: 'error', text: err.message });
       } else {
-        setError('Failed to create service');
+        setMessage({ type: 'error', text: 'Failed to create service' });
       }
     }
   };
@@ -207,9 +226,9 @@ export default function NewService() {
   return (
     <div className="p-4 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Create New Service</h1>
-      {error && (
-        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded mb-4">
-          {error}
+      {message && (
+        <div className={`bg-${message.type === 'success' ? 'green' : 'red'}-50 border border-${message.type === 'success' ? 'green' : 'red'}-200 text-${message.type === 'success' ? 'green' : 'red'}-600 px-4 py-3 rounded mb-4`}>
+          {message.text}
         </div>
       )}
 
@@ -244,10 +263,6 @@ export default function NewService() {
               ))}
             </select>
           </div>
-
-
-
-
 
           <div>
             <label className="block mb-2">Availability</label>
@@ -482,7 +497,7 @@ export default function NewService() {
                 file:bg-blue-50 file:text-blue-700
                 hover:file:bg-blue-100"
             />
-            {uploading && <p className="mt-2 text-sm text-gray-500">Uploading...</p>}
+            {saving && <p className="mt-2 text-sm text-gray-500">Uploading...</p>}
           </div>
         </div>
 

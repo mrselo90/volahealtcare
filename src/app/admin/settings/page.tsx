@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { RiSaveLine, RiCheckLine, RiErrorWarningLine } from 'react-icons/ri';
-import { useTranslation } from '@/lib/i18n/hooks';
 
 interface Settings {
   siteName: string;
@@ -23,7 +22,6 @@ interface Settings {
 }
 
 export default function SettingsPage() {
-  const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -198,7 +196,7 @@ export default function SettingsPage() {
 
             <div className="sm:col-span-2">
               <label htmlFor="description" className="block text-sm font-medium text-gray-900">
-                {t('admin.settings.siteDescription') || 'Site Description'}
+                Site Description
               </label>
               <textarea
                 name="description"

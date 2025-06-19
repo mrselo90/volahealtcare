@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from '@/lib/i18n/hooks';
 import { languages, Language } from '@/lib/i18n/config';
@@ -8,6 +9,8 @@ import { languages, Language } from '@/lib/i18n/config';
 export function LanguageSelector() {
   const [isOpen, setIsOpen] = useState(false);
   const { language, setLanguage } = useTranslation();
+  const router = useRouter();
+  const pathname = usePathname();
   
 
 
@@ -16,6 +19,41 @@ export function LanguageSelector() {
   const handleLanguageChange = (langCode: Language) => {
     setLanguage(langCode);
     setIsOpen(false);
+    
+    // Save language preference in cookie
+    document.cookie = `vola-language=${langCode}; max-age=${60 * 60 * 24 * 365}; path=/; SameSite=Lax`;
+    
+    // Get current path without language prefix
+    const pathSegments = pathname.split('/');
+    const currentLangInPath = pathSegments[1];
+    
+    // Check if current path has language prefix
+    const hasLanguagePrefix = languages.some(lang => lang.code === currentLangInPath);
+    
+    let basePath;
+    if (hasLanguagePrefix) {
+      // Remove existing language prefix
+      basePath = '/' + pathSegments.slice(2).join('/');
+    } else {
+      // Use current path as base
+      basePath = pathname;
+    }
+    
+    // Clean up path
+    if (basePath === '/' || basePath === '') {
+      basePath = '/';
+    }
+    
+    let newPath;
+    if (langCode === 'tr') {
+      // For Turkish (default), use clean URL without prefix
+      newPath = basePath;
+    } else {
+      // For other languages, add language prefix
+      newPath = `/${langCode}${basePath}`;
+    }
+    
+    router.push(newPath);
   };
 
   return (

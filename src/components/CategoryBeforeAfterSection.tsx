@@ -65,33 +65,63 @@ export default function CategoryBeforeAfterSection({
   const mockCases = [
     {
       id: '1',
-      title: `${t('mockData.patient')} 1`,
-      beforeImage: '/images/placeholder-before.jpg',
-      afterImage: '/images/placeholder-result.jpg',
-      description: t('mockData.transformation'),
+      title: 'Patient Transformation 1',
+      beforeImage: 'https://via.placeholder.com/400x400/e5e7eb/6b7280?text=Before',
+      afterImage: 'https://via.placeholder.com/400x400/dcfce7/16a34a?text=After',
+      description: 'Amazing transformation results',
       patientAge: 28,
-      patientGender: t('mockData.female'),
-      timeframe: `3 ${t('mockData.months')}`
+      patientGender: 'Female',
+      timeframe: '3 months'
     },
     {
       id: '2',
-      title: `${t('mockData.patient')} 2`,
-      beforeImage: '/images/placeholder-before.jpg',
-      afterImage: '/images/placeholder-result.jpg',
-      description: t('mockData.results'),
+      title: 'Patient Transformation 2',
+      beforeImage: 'https://via.placeholder.com/400x400/e5e7eb/6b7280?text=Before',
+      afterImage: 'https://via.placeholder.com/400x400/dbeafe/2563eb?text=After',
+      description: 'Excellent results achieved',
       patientAge: 35,
-      patientGender: t('mockData.male'),
-      timeframe: `6 ${t('mockData.months')}`
+      patientGender: 'Male',
+      timeframe: '6 months'
     },
     {
       id: '3',
-      title: `${t('mockData.patient')} 3`,
-      beforeImage: '/images/placeholder-before.jpg',
-      afterImage: '/images/placeholder-result.jpg',
-      description: t('mockData.procedure'),
+      title: 'Patient Transformation 3',
+      beforeImage: 'https://via.placeholder.com/400x400/e5e7eb/6b7280?text=Before',
+      afterImage: 'https://via.placeholder.com/400x400/fce7f3/be185d?text=After',
+      description: 'Professional procedure completed',
       patientAge: 42,
-      patientGender: t('mockData.female'),
-      timeframe: `4 ${t('mockData.months')}`
+      patientGender: 'Female',
+      timeframe: '4 months'
+    },
+    {
+      id: '4',
+      title: 'Patient Transformation 4',
+      beforeImage: 'https://via.placeholder.com/400x400/e5e7eb/6b7280?text=Before',
+      afterImage: 'https://via.placeholder.com/400x400/f3e8ff/7c3aed?text=After',
+      description: 'Outstanding transformation',
+      patientAge: 31,
+      patientGender: 'Female',
+      timeframe: '5 months'
+    },
+    {
+      id: '5',
+      title: 'Patient Transformation 5',
+      beforeImage: 'https://via.placeholder.com/400x400/e5e7eb/6b7280?text=Before',
+      afterImage: 'https://via.placeholder.com/400x400/ecfdf5/059669?text=After',
+      description: 'Natural-looking results',
+      patientAge: 29,
+      patientGender: 'Male',
+      timeframe: '2 months'
+    },
+    {
+      id: '6',
+      title: 'Patient Transformation 6',
+      beforeImage: 'https://via.placeholder.com/400x400/e5e7eb/6b7280?text=Before',
+      afterImage: 'https://via.placeholder.com/400x400/fef3c7/d97706?text=After',
+      description: 'Perfect aesthetic results',
+      patientAge: 38,
+      patientGender: 'Female',
+      timeframe: '4 months'
     },
   ];
 
@@ -127,9 +157,9 @@ export default function CategoryBeforeAfterSection({
   const getRouteFromCategoryId = (categoryId: string) => {
     // Map category IDs to the correct existing routes
     const routeMap: Record<string, string> = {
-      'cmbxi8jym00006qsy4b8dagzk': 'dental',     // Dental category ID
-      'cmbxiawkb0000uxvzc1in2i7v': 'hair',      // Hair category ID  
-      'cmbxi8jzv001j6qsyv769abfx': 'aesthetic', // Aesthetic category ID
+      'cmc2g9jq400017kw78mx3v07k': 'dental',     // Dental category ID
+      'cmc2g9jq500027kw73m9vh455': 'hair',      // Hair category ID  
+      'cmc2g9jq200007kw7t4b2pi3d': 'aesthetic', // Aesthetic category ID
     };
     
     return routeMap[categoryId] || 'dental'; // Default to dental if not found

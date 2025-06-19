@@ -1,6 +1,6 @@
 export type Language = 'en' | 'tr' | 'es' | 'pt' | 'de' | 'fr' | 'ru' | 'ro' | 'it' | 'pl' | 'ar';
 
-export const defaultLanguage: Language = 'en';
+export const defaultLanguage: Language = 'tr';
 
 export const languages = [
   {

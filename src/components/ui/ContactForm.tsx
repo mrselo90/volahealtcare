@@ -366,7 +366,7 @@ export default function ContactForm({ isModal = false, onClose }: ContactFormPro
                     </>
                   ) : (
                     <>
-                      📅 {t('contact.form.bookFreeConsultation') || 'Book Free Consultation'}
+                      📅 {t('contact.form.bookFreeConsultation') || 'Free Consultation'}
                     </>
                   )}
           </button>

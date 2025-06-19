@@ -8,6 +8,7 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string, params?: Record<string, string | number>) => string;
+  isClient: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -19,19 +20,25 @@ interface LanguageProviderProps {
 
 export function LanguageProvider({ children, initialLanguage }: LanguageProviderProps) {
   const [language, setLanguageState] = useState<Language>(initialLanguage || defaultLanguage);
+  const [isClient, setIsClient] = useState(false);
+
+  // Client-side hydration protection
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedLanguage = localStorage.getItem('language') as Language;
-      if (savedLanguage && savedLanguage !== language) {
-        setLanguageState(savedLanguage);
-      }
+    if (!isClient) return;
+    
+    const savedLanguage = localStorage.getItem('language') as Language;
+    if (savedLanguage && savedLanguage !== language) {
+      setLanguageState(savedLanguage);
     }
-  }, [language]);
+  }, [language, isClient]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    if (typeof window !== 'undefined') {
+    if (isClient) {
       localStorage.setItem('language', lang);
     }
   };
@@ -43,7 +50,8 @@ export function LanguageProvider({ children, initialLanguage }: LanguageProvider
   const contextValue = {
     language,
     setLanguage,
-    t
+    t,
+    isClient
   };
 
   return (
@@ -68,6 +76,7 @@ export function useLanguage() {
   }
   return { 
     language: context.language, 
-    setLanguage: context.setLanguage 
+    setLanguage: context.setLanguage,
+    isClient: context.isClient
   };
 } 

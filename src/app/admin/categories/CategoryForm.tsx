@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { RiErrorWarningLine, RiCloseLine } from 'react-icons/ri';
 import { CategoryData, CategoryFormData as BaseCategoryFormData } from './types';
-import { useTranslation } from '@/lib/i18n/hooks';
 
 interface CategoryFormData extends BaseCategoryFormData {
   imageFile?: File;
@@ -22,14 +21,19 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   onCancel,
   loading = false 
 }) => {
-  const { t } = useTranslation();
-
-  interface FormDataState {
-    name: string; // JSON string
-    description: string; // JSON string
-    slug: string;
-    imageUrl?: string;
-  }
+  const [formData, setFormData] = useState<CategoryFormData>({
+    name: JSON.stringify(category?.name || { en: '' }),
+    description: JSON.stringify(category?.description || { en: '' }),
+    slug: category?.slug || '',
+    imageUrl: category?.imageUrl || '',
+  });
+  const [imagePreview, setImagePreview] = useState<string | null>(category?.imageUrl || null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
+  const [slugError, setSlugError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [dragActive, setDragActive] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Helper to parse JSON or fallback to default
   const safeParse = (val: string | undefined) => {
@@ -41,20 +45,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       return { en: val };
     }
   };
-
-  const [formData, setFormData] = useState<FormDataState>({
-    name: JSON.stringify(safeParse(category?.name)),
-    description: JSON.stringify(safeParse(category?.description)),
-    slug: category?.slug || '',
-    imageUrl: category?.imageUrl || ''
-  });
-  const [imagePreview, setImagePreview] = useState<string | null>(category?.imageUrl || null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imageError, setImageError] = useState<string | null>(null);
-  const [slugError, setSlugError] = useState<string | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
-  const [dragActive, setDragActive] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Remove image handler
   const handleRemoveImage = () => {
@@ -105,7 +95,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     };
     reader.readAsDataURL(file);
   };
-
 
   // Helper to safely parse JSON with fallback
   const parseJsonField = (jsonString: string, fallback: any = { en: '' }) => {
@@ -305,7 +294,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
         {/* Description */}
         <div>
           <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-            {t('results.description') || 'Description'}
+            Description
           </label>
           <div className="mt-1">
             <textarea

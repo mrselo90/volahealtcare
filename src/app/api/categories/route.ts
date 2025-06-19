@@ -25,6 +25,15 @@ export async function GET() {
             recovery: true,
             accommodation: true,
             transportation: true,
+            // Include translations for multilingual support
+            translations: {
+              select: {
+                language: true,
+                title: true,
+                description: true,
+                content: true,
+              },
+            },
           },
         },
       },

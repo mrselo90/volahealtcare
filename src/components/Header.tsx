@@ -3,14 +3,44 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
 import { Bars3Icon, XMarkIcon, ChatBubbleLeftRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { LanguageSelector } from './LanguageSelector';
 import { useTranslation } from '@/lib/i18n/hooks';
+import { languages } from '@/lib/i18n/config';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { t } = useTranslation();
+  const [isClient, setIsClient] = useState(false);
+  const { t, language } = useTranslation();
+  const pathname = usePathname();
+  
+  // Client-side hydration protection
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  
+  // Get current language from URL
+  const pathSegments = pathname.split('/');
+  const currentLangInPath = pathSegments[1];
+  const hasLanguagePrefix = languages.some(lang => lang.code === currentLangInPath);
+  const currentLang = hasLanguagePrefix ? currentLangInPath : 'tr'; // Default to Turkish
+  
+  // Helper function to create language-aware links
+  const createLink = (href: string) => {
+    if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+      return href;
+    }
+    
+    // For default language (Turkish), use clean URLs without prefix
+    if (currentLang === 'tr') {
+      return href;
+    }
+    
+    // For other languages, use language prefix
+    return `/${currentLang}${href}`;
+  };
 
   const handleScroll = useCallback(() => {
     setScrolled(window.scrollY > 10);
@@ -25,17 +55,18 @@ export function Header() {
     setMobileMenuOpen(false);
   }, []);
 
+  // Use static text during SSR to prevent hydration mismatch
   const navigation = [
-    { name: t('nav.home') || 'Home', href: '/' },
-    { name: t('nav.services') || 'Services', href: '/services' },
-    { name: t('nav.about') || 'About', href: '/about' },
-    { name: t('nav.whyChooseUs') || 'Why Choose Us?', href: '/why-choose-us' },
-    { name: t('nav.results') || 'Results', href: '/gallery' },
-    { name: t('nav.testimonials') || 'Testimonials', href: '/testimonials' },
-    { name: t('nav.contact') || 'Contact', href: '/contact' },
+    { name: isClient ? (t('nav.home') || 'Home') : 'Home', href: createLink('/') },
+    { name: isClient ? (t('nav.services') || 'Services') : 'Services', href: createLink('/services') },
+    { name: isClient ? (t('nav.about') || 'About') : 'About', href: createLink('/about') },
+    { name: isClient ? (t('nav.whyChooseUs') || 'Why Choose Us?') : 'Why Choose Us?', href: createLink('/why-choose-us') },
+    { name: isClient ? (t('nav.results') || 'Results') : 'Results', href: createLink('/gallery') },
+    { name: isClient ? (t('nav.testimonials') || 'Testimonials') : 'Testimonials', href: createLink('/testimonials') },
+    { name: isClient ? (t('nav.contact') || 'Contact') : 'Contact', href: createLink('/contact') },
   ];
 
-  const whatsappMessage = encodeURIComponent(t('whatsapp.defaultMessage') || 'Hello! I am interested in your services.');
+  const whatsappMessage = encodeURIComponent(isClient ? (t('whatsapp.defaultMessage') || 'Hello! I am interested in your services.') : 'Hello! I am interested in your services.');
   const whatsappUrl = `https://wa.me/905444749881?text=${whatsappMessage}`;
 
   return (
@@ -47,7 +78,7 @@ export function Header() {
           {/* Logo */}
           <div className="flex items-center flex-shrink-0 min-w-0">
             <Link 
-              href="/" 
+              href={createLink('/')} 
               className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-2.5 group focus:outline-none rounded-lg p-0.5 sm:p-1 min-w-0"
               aria-label="Vola Health - Home"
             >
@@ -96,16 +127,16 @@ export function Header() {
                 aria-label="Contact us via WhatsApp"
               >
                 <ChatBubbleLeftRightIcon className="w-4 h-4 mr-1 lg:mr-1.5" aria-hidden="true" />
-                <span className="hidden lg:inline">{t('common.messageNow') || 'Message Now'}</span>
-                <span className="lg:hidden">{t('common.messageNow') || 'Message'}</span>
+                <span className="hidden lg:inline">{isClient ? (t('common.messageNow') || 'Message Now') : 'Message Now'}</span>
+                <span className="lg:hidden">{isClient ? (t('common.messageNow') || 'Message') : 'Message'}</span>
               </a>
               <Link
-                href="/consultation"
+                href={createLink('/consultation')}
                 className="inline-flex items-center px-3 md:px-4 lg:px-5 xl:px-6 py-2 md:py-2.5 bg-green-600 hover:bg-green-700 text-white text-xs lg:text-xs xl:text-sm font-medium rounded-md lg:rounded-lg transition-colors duration-200 shadow-sm hover:shadow whitespace-nowrap"
               >
                 <SparklesIcon className="w-4 h-4 mr-1 lg:mr-1.5" aria-hidden="true" />
-                <span className="hidden lg:inline">{t('nav.consultation') || 'Free Consultation'}</span>
-                <span className="lg:hidden">{t('nav.consultation') || 'Consult'}</span>
+                <span className="hidden lg:inline">{isClient ? (t('nav.consultation') || 'Free Consultation') : 'Free Consultation'}</span>
+                <span className="lg:hidden">{isClient ? (t('nav.consultation') || 'Consult') : 'Consult'}</span>
               </Link>
             </div>
 
@@ -180,23 +211,21 @@ export function Header() {
                   aria-label="Contact us via WhatsApp"
                 >
                   <ChatBubbleLeftRightIcon className="w-4 h-4 mr-1.5 sm:mr-2" aria-hidden="true" />
-                  {t('common.messageNow') || 'Message Now'}
+                  {isClient ? (t('common.messageNow') || 'Message Now') : 'Message Now'}
                 </a>
-                
                 <Link
-                  href="/consultation"
+                  href={createLink('/consultation')}
                   className="flex items-center justify-center w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-green-600 hover:bg-green-700 text-white text-xs sm:text-sm font-medium rounded-md sm:rounded-lg transition-colors duration-200"
                   onClick={closeMobileMenu}
                 >
                   <SparklesIcon className="w-4 h-4 mr-1.5 sm:mr-2" aria-hidden="true" />
-                  {t('nav.consultation') || 'Free Consultation'}
+                  {isClient ? (t('nav.consultation') || 'Free Consultation') : 'Free Consultation'}
                 </Link>
               </div>
-
+              
               {/* Language Selector */}
               <div className="pt-3 sm:pt-4 border-t border-gray-200">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs sm:text-sm font-medium text-gray-700">Language</span>
+                <div className="px-3 sm:px-4">
                   <LanguageSelector />
                 </div>
               </div>

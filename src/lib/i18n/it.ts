@@ -1,45 +1,48 @@
+import { Translations } from './translations';
+
 export const itTranslations: Translations = {
   nav: {
     home: 'Home',
     services: 'Servizi',
-    about: 'Chi siamo',
-    whyChooseUs: 'Perché sceglierci',
+    about: 'Chi Siamo',
+    whyChooseUs: 'Perché Scegliere Noi?',
     results: 'Risultati',
     gallery: 'Galleria',
     testimonials: 'Testimonianze',
     contact: 'Contatti',
-    consultation: 'Consulenza gratuita',
-    menu: 'Menu',
+    consultation: 'Consulenza Gratuita',
+    menu: 'Menu'
   },
   buttons: {
     viewAllServices: 'VEDI TUTTI I SERVIZI',
+    freeConsultation: 'Consulenza Gratuita'
   },
   cta: {
-    title: 'Inizia il tuo viaggio verso una versione migliore di te',
-    subtitle: 'Unisciti a migliaia di pazienti soddisfatti che hanno scelto Vola Health Istanbul per il loro viaggio di trasformazione.',
-    viewAll: 'Vedi tutto',
-    freeConsultation: 'Consulenza gratuita'
+    title: 'Pronto per la Tua Trasformazione?',
+    subtitle: 'Unisciti a migliaia di pazienti soddisfatti che hanno scelto Vola Health Istanbul per il loro percorso di trasformazione.',
+    viewAll: 'Vedi Tutte le Trasformazioni',
+    freeConsultation: 'Consulenza Gratuita'
   },
   stats: {
-    successfulCases: 'Casi di successo',
-    satisfactionRate: 'Tasso di soddisfazione',
-    countriesServed: 'Paesi serviti',
-    yearsExperience: 'Anni di esperienza'
+    successfulCases: 'Casi di Successo',
+    satisfactionRate: 'Tasso di Soddisfazione',
+    countriesServed: 'Paesi Serviti',
+    yearsExperience: 'Anni di Esperienza'
   },
   featured: {
-    realPatientTransformations: 'Trasformazioni reali dei pazienti',
-    lifeChanging: 'Che cambiano la vita',
+    realPatientTransformations: 'TRASFORMAZIONI REALI DI PAZIENTI',
+    lifeChanging: 'Che Cambia la Vita',
     results: 'Risultati',
-    witness: 'Testimonia le incredibili trasformazioni di pazienti che hanno affidato a Vola Health Istanbul il loro percorso estetico e di benessere.',
+    witness: 'Assisti alle incredibili trasformazioni di pazienti che si sono fidati di Vola Health Istanbul per il loro percorso estetico e di benessere.',
     loading: 'Caricamento trasformazioni...',
-    noCases: 'Nessun caso in evidenza',
-    unableToLoad: 'Impossibile caricare i casi in evidenza al momento',
-    noTransformations: 'Nessuna trasformazione in evidenza disponibile',
+    noCases: 'Nessun Caso in Evidenza',
+    unableToLoad: 'Impossibile caricare i casi in evidenza al momento.',
+    noTransformations: 'Nessuna trasformazione in evidenza attualmente disponibile.',
     result: '✨ RISULTATO',
     featured: '⭐ IN EVIDENZA',
-    patientAge: 'Età del paziente',
+    patientAge: 'Età del Paziente',
     years: 'anni',
-    timeline: 'Timeline',
+    timeline: 'Cronologia',
     na: 'N/D'
   },
   common: {
@@ -57,54 +60,54 @@ export const itTranslations: Translations = {
     back: 'Indietro',
     next: 'Avanti',
     previous: 'Precedente',
-    viewAll: 'Vedi tutto',
-    learnMore: 'Scopri di più',
+    viewAll: 'Vedi Tutto',
+    learnMore: 'Scopri di Più',
     getStarted: 'Inizia',
-    bookNow: 'Prenota ora',
-    messageNow: 'Invia messaggio',
-    readMore: 'Leggi di più',
-    showLess: 'Mostra meno',
-    noResults: 'Nessun risultato',
+    bookNow: 'Prenota Ora',
+    messageNow: 'Invia Messaggio Ora',
+    readMore: 'Leggi di Più',
+    showLess: 'Mostra Meno',
+    noResults: 'Nessun risultato trovato',
     comingSoon: 'Prossimamente',
-    quickLinks: 'Link rapidi'
+    quickLinks: 'Link Rapidi'
   },
   home: {
     premiumBadge: 'ASSISTENZA SANITARIA PREMIUM',
     hero: {
-      title: 'Trasforma la tua vita con i nostri servizi medici di eccellenza',
-      subtitle: 'Esperienza medica di livello mondiale a Istanbul',
-      cta: 'Prenota una consulenza gratuita',
-      trustBadge: 'Fiducia e professionalità',
+      title: 'Trasforma la Tua Vita con il Turismo Medico Premium',
+      subtitle: 'Sperimenta assistenza sanitaria di livello mondiale a Istanbul con il nostro team medico esperto.',
+      cta: 'Inizia il Tuo Percorso',
+      trustBadge: 'Fiducia di oltre 10.000 pazienti in tutto il mondo',
       trustIndicators: {
-        successfulCases: '4500+ Casi di successo',
-        satisfactionRate: '98% Tasso di soddisfazione',
-        yearsExperience: '15+ Anni di esperienza'
+        successfulCases: '4500+ Casi di Successo',
+        satisfactionRate: '98% Tasso di Soddisfazione',
+        yearsExperience: '15+ Anni di Esperienza'
       }
     },
-    excellenceTitle: 'Eccellenza nelle cure mediche',
-    excellenceDesc: 'Vola Health Istanbul si è affermata come una destinazione di primo piano per soluzioni di salute ed estetica trasformative, combinando competenze di livello mondiale con tecnologie all\'avanguardia. Il nostro approccio completo copre trattamenti dentali, procedure di trapianto di capelli e chirurgia plastica, offrendo risultati eccezionali nella bellissima città di Istanbul.',
+    excellenceTitle: 'ECCELLENZA NEL TURISMO MEDICO',
+    excellenceDesc: 'Vola Health Istanbul si è affermata come destinazione di primo livello per soluzioni trasformative di salute ed estetica, combinando competenze di livello mondiale con tecnologia all\'avanguardia. Il nostro approccio completo copre trattamenti dentali, procedure di trapianto di capelli e chirurgia plastica, fornendo risultati eccezionali nella bellissima città di Istanbul.',
     discoverClinic: 'SCOPRI VOLA HEALTH',
-    ourServicesTitle: 'I nostri servizi',
-    dentalTitle: 'Servizi dentali',
-    dentalDesc: 'Trattamenti dentali avanzati',
-    dentalCount: '{count} procedure',
-    hairTitle: 'Trapianto di capelli',
-    hairDesc: 'Soluzioni naturali per i capelli',
-    hairCount: '{count} procedure',
-    plasticTitle: 'Chirurgia plastica',
-    plasticDesc: 'Procedure estetiche di alta qualità',
-    plasticCount: '{count} procedure',
-    viewAllServices: 'Vedi tutti i servizi',
-    experienceTitle: 'La nostra esperienza',
+    ourServicesTitle: 'I NOSTRI SERVIZI',
+    dentalTitle: 'TRATTAMENTI DENTALI',
+    dentalDesc: 'Trasforma il tuo sorriso con procedure dentali avanzate.',
+    dentalCount: '8 Servizi',
+    hairTitle: 'TRAPIANTO DI CAPELLI',
+    hairDesc: 'Ripristina la tua attaccatura naturale con tecniche all\'avanguardia.',
+    hairCount: '9 Servizi',
+    plasticTitle: 'CHIRURGIA PLASTICA',
+    plasticDesc: 'Migliora la tua bellezza naturale con procedure estetiche.',
+    plasticCount: '21 Servizi',
+    viewAllServices: 'VEDI TUTTI I SERVIZI',
+    experienceTitle: 'L\'ESPERIENZA VOLA HEALTH',
     volaExperience: 'L\'ESPERIENZA VOLA HEALTH',
-    experienceDesc1: 'A Vola Health Istanbul, uniamo tecnologia avanzata con cure personalizzate per creare risultati estetici e di benessere che cambiano la vita.',
-    experienceDesc2: 'Team di professionisti dedicati',
-    learnProcess: 'Scopri il processo',
-    testimonialsTitle: 'Cosa dicono i nostri pazienti',
-    viewAllTestimonials: 'Vedi tutte le testimonianze',
-    contactTitle: 'Contattaci',
-    contactClinic: 'La nostra clinica',
-    contactAddress: 'Il nostro indirizzo',
+    experienceDesc1: 'A Vola Health Istanbul, combiniamo tecnologia avanzata con cure personalizzate per creare risultati estetici e di benessere che cambiano la vita.',
+    experienceDesc2: 'Il nostro approccio completo include consulenza, procedure e supporto post-operatorio.',
+    learnProcess: 'CONOSCI IL NOSTRO PROCESSO',
+    testimonialsTitle: 'TESTIMONIANZE DEI PAZIENTI',
+    viewAllTestimonials: 'VEDI TUTTE LE TESTIMONIANZE',
+    contactTitle: 'CONTATTACI',
+    contactClinic: 'VOLA HEALTH ISTANBUL',
+    contactAddress: 'Indirizzo:',
     contactPhone: 'Telefono:',
     contactEmail: 'Email:',
     contactHours: 'Orari:',
@@ -120,65 +123,163 @@ export const itTranslations: Translations = {
       saturday: 'Sabato'
     }
   },
+  about: {
+    title: 'Chi Siamo - Vola Health Istanbul',
+    subtitle: 'Vola Health Istanbul',
+    p1: 'Benvenuto a Vola Health Istanbul, una destinazione di primo livello per cure estetiche e dentali avanzate, situata nella vibrante città di Istanbul. Con oltre quindici anni di servizio dedicato, siamo orgogliosi di esserci affermati come un nome affidabile nei campi della chirurgia dentale e plastica. La nostra clinica si dedica a migliorare la vita di pazienti in tutto il mondo fornendo eccellenza in estetica medica e cure personalizzate ai massimi standard.',
+    p2: 'A Vola Health, comprendiamo che ogni paziente è unico, con i propri obiettivi e bisogni. Il nostro approccio è quindi altamente individualizzato, e crediamo nella formazione di connessioni genuine con i nostri pazienti per comprendere meglio e affrontare le loro aspirazioni. Dalla consulenza iniziale alle cure post-operatorie, ogni passo del nostro processo è meticolosamente progettato per assicurare che i pazienti non solo ricevano risultati medici eccezionali ma si sentano anche a proprio agio, supportati e informati lungo tutto il percorso. Siamo onorati di aver guadagnato la fiducia e la confidenza della nostra clientela internazionale, e ci dedichiamo a mantenere questa fiducia raffinando costantemente i nostri servizi ed espandendo la nostra esperienza.',
+    p3: 'Scegliere Vola Health significa scegliere un team che valorizza il tuo percorso tanto quanto te. Crediamo in più che semplici miglioramenti estetici; crediamo nella fiducia, felicità e qualità della vita che derivano dal sentirsi al meglio. Con un team dedicato al tuo fianco, ti invitiamo a intraprendere un viaggio trasformativo con noi, dove i tuoi obiettivi e aspettative non sono solo soddisfatti ma superati.',
+    slogan: 'Vola Health Istanbul – Per un Te Migliore'
+  },
   services: {
     categories: {
-      dental: 'Servizi dentali',
-      hair: 'Trapianto di capelli',
-      aesthetic: 'Chirurgia estetica'
+      dental: 'Trattamenti Dentali',
+      hair: 'Trapianto di Capelli',
+      aesthetic: 'Chirurgia Estetica'
+    },
+    detail: {
+      scrollDown: 'Scorri Giù',
+      contactUs: 'Contattaci',
+      aboutTreatment: 'Su Questo Trattamento',
+      comprehensiveInfo: 'Informazioni complete sul tuo procedimento',
+      minRead: 'min di lettura',
+      keyBenefits: 'Benefici Principali',
+      tableOfContents: 'Indice',
+      serviceNotFound: 'Servizio Non Trovato',
+      goBack: 'Torna Indietro',
+      bookConsultation: 'Prenota Consulenza',
+      whatsappConsult: 'Consulenza WhatsApp',
+      freeConsultation: 'Consulenza Gratuita',
+      bookingForm: {
+        title: 'Prenota Appuntamento',
+        subtitle: 'Prenota il tuo appuntamento e inizia il tuo percorso di trasformazione',
+        name: 'Nome Completo',
+        email: 'Email',
+        phone: 'Telefono',
+        country: 'Paese',
+        preferredDate: 'Data Preferita',
+        preferredTime: 'Orario Preferito',
+        notes: 'Note',
+        notesPlaceholder: 'Qualsiasi domanda o richiesta speciale su questo servizio...',
+        submit: 'Richiedi Appuntamento',
+        submitting: 'Invio...',
+        success: 'Il tuo appuntamento è stato creato con successo!',
+        error: 'Si è verificato un errore durante la creazione dell\'appuntamento.',
+        close: 'Chiudi'
+      },
+      gallery: {
+        title: 'Galleria',
+        beforeAfter: 'Prima & Dopo',
+        procedure: 'Procedura',
+        results: 'Risultati',
+        viewGallery: 'Vedi Galleria',
+        noImages: 'Nessuna immagine aggiunta ancora'
+      },
+      faq: {
+        title: 'Domande Frequenti',
+        noFaq: 'Nessuna FAQ aggiunta ancora'
+      },
+      testimonials: {
+        title: 'Recensioni dei Pazienti',
+        rating: 'Valutazione',
+        verified: 'Paziente Verificato',
+        noTestimonials: 'Nessuna recensione aggiunta ancora',
+        review: 'recensione',
+        reviews: 'recensioni',
+        loading: 'Caricamento recensioni...',
+        noReviews: 'Nessuna recensione ancora per questo servizio.',
+        beFirst: 'Sii il primo a condividere la tua esperienza!'
+      },
+      relatedServices: {
+        title: 'Servizi Correlati',
+        exploreMore: 'Esplora altri servizi in questa categoria',
+        subtitle: 'Esplora trattamenti simili',
+        noServices: 'Nessun servizio correlato trovato.',
+        browseAll: 'Sfoglia tutti i servizi',
+        viewAll: 'Vedi tutti i servizi {category}'
+      },
+      navigation: {
+        overview: 'Panoramica',
+        procedure: 'Procedura',
+        gallery: 'Galleria',
+        faq: 'FAQ',
+        booking: 'Prenota Ora'
+      },
+      consultation: {
+        title: 'Consulenza Gratuita',
+        subtitle: 'Consulenza gratuita con i nostri esperti',
+        bookFreeConsultation: 'Prenota Consulenza Gratuita',
+        messageNow: 'Invia Messaggio Ora',
+        freeConsultation: 'Consulenza Gratuita',
+        expertCare: 'Cura Esperta'
+      },
+      whyChooseUs: {
+        title: 'Perché Scegliere Noi',
+        happyClients: 'Clienti Felici',
+        averageRating: 'Valutazione Media',
+        yearsExperience: 'Anni di Esperienza',
+        successRate: 'Tasso di Successo'
+      },
+      quickOverview: 'Panoramica Rapida',
+      readingTime: 'Tempo di Lettura',
+      sections: 'Sezioni',
+      topics: 'argomenti',
+      highlights: 'evidenze',
+      jumpToSection: 'Salta alla Sezione',
+      shareExperience: 'Condividi la Tua Esperienza',
+      exploreSimilar: 'Esplora trattamenti simili'
     },
     packageDetails: {
-      title: 'Dettagli del Pacchetto di Trattamento',
-      subtitle: 'Tutto quello che devi sapere sul tuo viaggio di turismo medico premium in Turchia',
+      title: 'Dettagli del Pacchetto',
+      subtitle: 'Tutto incluso nel tuo viaggio medico',
       timeInTurkey: 'Tempo in Turchia',
-      timeInTurkeySubtitle: 'Durata del soggiorno',
-      operationTime: 'Tempo operazione',
-      operationTimeSubtitle: 'Durata della procedura',
-      hospitalStay: 'Degenza ospedaliera',
-      hospitalStaySubtitle: 'Periodo di ricovero',
-      recovery: 'Recupero',
-      recoverySubtitle: 'Periodo di recupero',
+      timeInTurkeySubtitle: 'Durata consigliata di permanenza',
+      operationTime: 'Tempo di Operazione',
+      operationTimeSubtitle: 'Durata del Procedimento',
+      hospitalStay: 'Permanenza in Ospedale',
+      hospitalStaySubtitle: 'Periodo di Recupero',
+      recovery: 'Tempo di Recupero',
+      recoverySubtitle: 'Periodo di Recupero Completo',
       accommodation: 'Alloggio',
-      accommodationSubtitle: 'Dove soggiornerai',
+      accommodationSubtitle: 'Hotel 5 stelle incluso',
       transportation: 'Trasporto',
-      transportationSubtitle: 'Come ti sposterai',
-      premiumPackageTitle: 'Pacchetto Premium',
-      premiumPackageDescription: 'Servizi di lusso completi',
-      reserveJourney: 'Prenota il tuo viaggio'
+      transportationSubtitle: 'Trasferimenti VIP inclusi',
+      premiumPackageTitle: 'Pacchetto Premium Completo Inclusivo',
+      premiumPackageDescription: 'Esperienza di Turismo Medico completa con lusso alloggio e cura personalizzata.',
+      reserveJourney: 'Pianifica il Tuo Viaggio'
     },
     searchPlaceholder: 'Cerca servizi...',
-    allCategories: 'Tutte le categorie',
-    sortByName: 'Ordina per nome',
-    sortByFeatured: 'Ordina per in evidenza',
-    sortByDuration: 'Ordina per durata',
-    hideFilters: 'Nascondi filtri',
-    moreFilters: 'Più filtri',
+    allCategories: 'Tutte le Categorie',
+    sortByName: 'Ordina per Nome',
+    sortByFeatured: 'Ordina per Evidenza',
+    sortByDuration: 'Ordina per Durata',
+    hideFilters: 'Nascondi Filtri',
+    moreFilters: 'Filtri Aggiuntivi',
     duration: 'Durata',
-    anyDuration: 'Qualsiasi durata',
-    oneTwoHours: '1-2 ore',
-    halfDay: 'Mezza giornata',
-    keyBenefits: 'Benefici chiave',
-    more: 'Altro',
-    learnMore: 'Scopri di più',
-    fullDay: 'Giornata intera',
-    multipleDays: 'Più giorni',
-    featuredOnly: 'Solo in evidenza',
-    quickFilters: 'Filtri rapidi:',
-    mostPopular: 'Più popolari',
-    quickProcedures: 'Procedure veloci',
-    premiumServices: 'Servizi premium',
-    nonInvasive: 'Non invasivi',
-    headerTitle: 'I nostri servizi medici',
-    headerDesc: 'Scopri trattamenti e procedure di livello mondiale progettati per migliorare la tua salute, bellezza e fiducia. Cure esperte incontrano tecnologia all\'avanguardia.',
-    totalServices: '{count} servizi totali',
-    showing: 'Mostrando {count}',
-    searchResults: 'Risultati ricerca',
-    allServices: 'Tutti i servizi',
+    anyDuration: 'Qualunque Durata',
+    oneTwoHours: '1-2 Ore',
+    more: 'Di Più',
+    learnMore: 'Scopri di Più',
+    fullDay: 'Giornata Completa',
+    multipleDays: 'Multipli Giorni',
+    featuredOnly: 'Solo Evidenza',
+    quickFilters: 'Filtri Rapidi',
+    mostPopular: 'Mai Popolari',
+    quickProcedures: 'Procedimenti Rapidi',
+    premiumServices: 'Servizi Premium',
+    nonInvasive: 'Non Invasivo',
+    headerTitle: 'I Nostri Servizi Medici',
+    headerDesc: 'Scopri trattamenti e procedure di livello mondiale.',
+    totalServices: '{count} Totali Servizi',
+    showing: 'Mostra {count}',
+    searchResults: 'Risultati Ricerca',
+    allServices: 'Tutti Servizi',
     resultsFor: 'Risultati per',
-    inCategory: 'nella categoria',
+    inCategory: 'in categoria',
     grid: 'Griglia',
-    list: 'Lista',
+    list: 'Elenco',
     errorTitle: 'Qualcosa è andato storto',
-    errorDesc: 'Impossibile caricare i servizi.',
+    errorDesc: 'Si è verificato un errore durante il caricamento dei servizi.',
     tryAgain: 'Riprova'
   },
   results: {
@@ -187,196 +288,189 @@ export const itTranslations: Translations = {
       results: 'Risultati'
     },
     treatments: {
-      dental: 'I nostri trattamenti dentali offrono risultati eccellenti sia esteticamente che funzionalmente.',
-      hair: 'L\'aspetto naturale è la priorità nei nostri trapianti e trattamenti per capelli.',
-      aesthetic: 'La sicurezza del paziente e i risultati naturali sono la nostra priorità negli interventi di chirurgia estetica.'
+      dental: 'Trattamenti Dentali ottengono risultati eccezionali.',
+      hair: 'Aspetto Naturale nei Trattamenti di Capelli.',
+      aesthetic: 'Risultati Sicuri e Naturali nei Trattamenti Estetici.',
+      other: 'Altri Trattamenti'
     },
     dental: {
-      title: 'Risultati trattamenti dentali',
-      subtitle: 'Risultati che trasformano il tuo sorriso',
+      title: 'Risultati Trattamento Dentale',
+      subtitle: 'Risultati che Trasformano il Tuo Sorriso',
       treatments: {
-        smileDesign: 'Design del sorriso',
-        dentalImplant: 'Impianto dentale',
-        veneers: 'Faccette dentali',
-        whitening: 'Sbiancamento denti',
-        orthodontics: 'Ortodonzia',
-        gumAesthetics: 'Estetica gengivale',
-        allOn4: 'All-on-4',
-        zirconia: 'Corona in zirconia'
+        smileDesign: 'Design Sorriso',
+        dentalImplant: 'Implante Dentale',
+        veneers: 'Veneers Dentali',
+        whitening: 'Whitening Dentale',
+        orthodontics: 'Ortodontica',
+        gumAesthetics: 'Aestetica Gengivale',
+        allOn4: 'All-on-4 Implant',
+        zirconia: 'Cranio Zirconia'
       },
       stats: {
-        treatments: 'Trattamenti riusciti',
-        satisfaction: 'Soddisfazione pazienti',
-        experience: 'Anni di esperienza',
-        dentists: 'Dentisti esperti'
+        treatments: 'Trattamenti di Successo',
+        satisfaction: 'Soddisfazione Paziente',
+        experience: 'Anni di Esperienza',
+        dentists: 'Esperti Dentisti'
       }
     },
     hair: {
-      title: 'Risultati trapianto capelli',
-      subtitle: 'Trasformazioni naturali dei capelli',
+      title: 'Risultati Trapianto Capelli',
+      subtitle: 'Trapianto Capelli Naturali Risultati',
       treatments: {
-        fue: 'FUE',
-        dhi: 'DHI',
-        beard: 'Barba',
-        eyebrow: 'Sopracciglia',
-        prp: 'PRP',
+        fue: 'Trapianto Capelli FUE',
+        dhi: 'Trapianto Capelli DHI',
+        beard: 'Trapianto Barba',
+        eyebrow: 'Trapianto Sopracciglia',
+        prp: 'Trattamento PRP',
         mesotherapy: 'Mesoterapia',
-        analysis: 'Analisi',
-        women: 'Per donne'
+        analysis: 'Analisi Capelli',
+        women: 'Trapianto Capelli Femminile'
       },
       stats: {
-        transplants: 'Trapianti riusciti',
-        satisfaction: 'Soddisfazione pazienti',
-        experience: 'Anni di esperienza',
-        surgeons: 'Chirurghi esperti'
+        transplants: 'Trapianti di Successo',
+        satisfaction: 'Soddisfazione Paziente',
+        experience: 'Anni di Esperienza',
+        surgeons: 'Esperti Chirurghi'
       }
     },
     aesthetic: {
-      title: 'Risultati chirurgia estetica',
-      subtitle: 'Trasformazioni estetiche naturali',
+      title: 'Risultati Chirurgia Estetica',
+      subtitle: 'Risultati Sicuri e Naturali Chirurgia Estetica',
       treatments: {
-        rhinoplasty: 'Rinoplastica',
+        rhinoplasty: 'Rhinoplasty',
         liposuction: 'Liposuzione',
-        breastAesthetics: 'Estetica del seno',
-        tummyTuck: 'Addominoplastica',
-        facelift: 'Lifting facciale',
-        eyelidSurgery: 'Chirurgia palpebrale',
-        bbl: 'BBL',
+        breastAesthetics: 'Aestetica Mammella',
+        tummyTuck: 'Tuck Tummy',
+        facelift: 'Facelift',
+        eyelidSurgery: 'Chirurgia Palpebre',
+        bbl: 'Bbl Brazilian Butt Lift',
         botoxFiller: 'Botox e Filler'
       },
       stats: {
-        operations: 'Operazioni riuscite',
-        satisfaction: 'Soddisfazione pazienti',
-        experience: 'Anni di esperienza',
-        surgeons: 'Chirurghi esperti'
+        operations: 'Operazioni di Successo',
+        satisfaction: 'Soddisfazione Paziente',
+        experience: 'Anni di Esperienza',
+        surgeons: 'Esperti Chirurghi'
       }
     },
-    backToGallery: 'Torna alla galleria',
-    treatmentAreas: 'Aree di trattamento',
-    treatmentAreasDesc: 'Esplora le nostre aree di trattamento',
-    beforeAfterResults: 'Risultati prima e dopo',
-    discoverResults: 'Scopri i risultati',
-    resultTime: 'Tempo risultato',
+    backToGallery: 'Torna alla Galleria',
+    treatmentAreas: 'Aree di Trattamento',
+    treatmentAreasDesc: 'Opzioni di Trattamento fornite dal nostro team esperto',
+    beforeAfterResults: 'Risultati Prima & Dopo',
+    discoverResults: 'Scopri i nostri risultati dei pazienti reali',
+    resultTime: 'Tempo Risultato',
     description: 'Descrizione',
-    treatmentDetails: 'Dettagli trattamento',
+    treatmentDetails: 'Dettagli Trattamento',
     results: 'Risultati',
     cta: {
-      viewAllResults: 'Vedi tutti i risultati',
-      title: 'Inizia la trasformazione',
-      subtitle: 'Prenota una consulenza',
-      consultation: 'Consulenza gratuita',
+      viewAllResults: 'Vedi Tutti i Risultati',
+      title: 'Vuoi Ottenere Anche Questi Risultati?',
+      subtitle: 'Ottieni consulenza gratuita con il nostro team esperto.',
+      consultation: 'Consulenza Gratuita',
       contact: 'Contattaci'
     },
-    treatmentResult: 'Risultato trattamento',
-    patientAge: 'Età del paziente',
+    treatmentResult: 'Risultato Trattamento',
+    patientAge: 'Età Paziente',
     years: 'anni',
-    timeline: 'Timeline',
+    timeline: 'Cronologia',
     na: 'N/D',
-    resultsAchieved: 'Risultati ottenuti',
+    resultsAchieved: 'Risultati Ottenuti',
     previous: 'Precedente',
     next: 'Successivo',
     close: 'Chiudi'
   },
   gallery: {
     hero: {
-      title: 'La nostra galleria',
-      subtitle: 'Esplora le trasformazioni dei nostri pazienti',
-      consultation_btn: 'Prenota una consulenza',
+      title: 'Prima & Dopo Galleria',
+      subtitle: 'Assisti alle incredibili trasformazioni dei nostri pazienti soddisfatti.',
+      consultation_btn: 'Consulenza Gratuita',
       contact_btn: 'Contattaci'
     },
     dental: {
-      title: 'Trattamenti dentali',
-      description: 'Trasformazioni del sorriso'
+      title: 'Risultati Trattamento Dentale',
+      description: 'Scopri risultati impressionanti dei nostri trattamenti dentali.'
     },
     hair: {
-      title: 'Trapianto di capelli',
-      description: 'Risultati naturali'
+      title: 'Risultati Trapianto Capelli',
+      description: 'Vedi risultati naturali dai nostri trattamenti di capelli.'
     },
     aesthetic: {
-      title: 'Chirurgia estetica',
-      description: 'Trasformazioni estetiche'
+      title: 'Risultati Chirurgia Estetica',
+      description: 'Risultati impressionanti dalle operazioni di chirurgia estetica.'
     },
     testimonials: {
-      title: 'Cosa dicono i pazienti',
-      subtitle: 'Esperienze reali',
-      testimonial1: 'Esperienza eccellente',
-      testimonial2: 'Risultati sorprendenti',
-      testimonial3: 'Servizi professionali',
-      hair_patient: 'Paziente trapianto capelli',
-      dental_patient: 'Paziente trattamento dentale',
-      plastic_patient: 'Paziente chirurgia plastica'
+      title: 'Testimonianze dei Pazienti',
+      subtitle: 'Ascolta le esperienze dei nostri pazienti',
+      testimonial1: '"Risultati incredibili e servizio professionale."',
+      testimonial2: '"Trattamento dentale incredibile. Il mio sorriso è completamente cambiato!"',
+      testimonial3: '"Chirurgia plastica superata le mie aspettative. Risultati naturali."',
+      hair_patient: 'Paziente Trapianto Capelli',
+      dental_patient: 'Paziente Trattamento Dentale',
+      plastic_patient: 'Paziente Chirurgia Estetica'
     },
     cta: {
-      title: 'Inizia la trasformazione',
-      subtitle: 'Fai il primo passo',
-      consultation_btn: 'Consulenza gratuita',
+      title: 'Pronto per la Tua Trasformazione?',
+      subtitle: 'Unisciti a migliaia di pazienti soddisfatti.',
+      consultation_btn: 'Ottieni Consulenza Gratuita',
       contact_btn: 'Contattaci'
     },
     stats: {
-      transformations: 'Trasformazioni',
-      satisfaction: 'Soddisfazione',
-      experience: 'Esperienza',
-      countries: 'Paesi'
+      transformations: 'Trasformazioni di Successo',
+      satisfaction: 'Tasso di Soddisfazione Paziente',
+      experience: 'Anni di Eccellenza',
+      countries: 'Paesi Serviti'
     }
-  },
-  about: {
-    title: 'Chi siamo',
-    subtitle: 'Vola Health Istanbul',
-    p1: 'Benvenuti a Vola Health Istanbul, una destinazione premier per cure estetiche e dentali avanzate, situata nella vibrante città di Istanbul. Con oltre quindici anni di servizio dedicato, siamo orgogliosi di esserci affermati come un nome di fiducia nei settori dell\'odontoiatria e della chirurgia plastica. La nostra clinica è dedicata a migliorare la vita dei pazienti di tutto il mondo offrendo eccellenza nell\'estetica medica e cure personalizzate ai più alti standard.',
-    p2: 'A Vola Health comprendiamo che ogni paziente è unico, con i propri obiettivi e bisogni. Il nostro approccio è quindi altamente individualizzato e crediamo nel creare connessioni autentiche con i nostri pazienti per comprendere meglio e soddisfare le loro aspirazioni. Dalla consultazione iniziale alle cure post-operatorie, ogni passo del nostro processo è meticolosamente progettato per assicurare che i pazienti non solo ricevano risultati medici eccezionali, ma si sentano anche a proprio agio, supportati e informati lungo tutto il percorso. Siamo onorati di aver guadagnato la fiducia della nostra clientela internazionale e siamo impegnati a mantenere questa fiducia raffinando costantemente i nostri servizi ed espandendo la nostra competenza.',
-    p3: 'Scegliere Vola Health significa scegliere un team che valorizza il vostro percorso quanto lo fate voi. Crediamo in qualcosa di più dei semplici miglioramenti estetici; crediamo nella fiducia, nella felicità e nella qualità della vita che derivano dal sentirsi al meglio. Con un team dedicato al vostro fianco, vi invitiamo a intraprendere un viaggio trasformativo con noi, dove i vostri obiettivi e aspettative non vengono solo raggiunti ma superati.',
-    slogan: 'Vola Health Istanbul – Per un Te Migliore'
   },
   contact: {
     hero: {
-      title: 'Contattaci',
-      subtitle: 'Siamo qui per aiutarti',
-      office: 'Il nostro ufficio'
+      title: 'Contattaci - Vola Health Istanbul',
+      subtitle: 'Siamo qui per aiutarti a iniziare il tuo viaggio turistico medico.',
+      office: 'Ufficio'
     },
     form: {
-      title: 'Prenota la tua',
-      freeConsultation: 'Consultazione gratuita',
-      sendMessage: 'Inviaci un messaggio',
-      subtitle: 'Fai il primo passo verso la tua trasformazione. Il nostro team di esperti medici è pronto a guidarti nel tuo percorso.',
-      personalInfo: 'Informazioni personali',
-      serviceSchedule: 'Servizio e programma',
-      fullName: 'Nome completo',
+      title: 'Pianifica il Tuo',
+      sendMessage: 'Invia Messaggio',
+      freeConsultation: 'Consulenza Gratuita',
+      subtitle: 'Prendi il primo passo verso la tua trasformazione. Il nostro team medico esperto è pronto a guidarti attraverso il tuo viaggio.',
+      personalInfo: 'Informazioni Personali',
+      serviceSchedule: 'Servizio & Pianificazione',
+      fullName: 'Nome Completo',
       fullNamePlaceholder: 'Inserisci il tuo nome completo',
-      email: 'Indirizzo email',
-      emailPlaceholder: 'tua.email@esempio.com',
-      phone: 'Numero di telefono',
-      phonePlaceholder: '+39 (555) 123-4567',
+      email: 'Indirizzo Email',
+      emailPlaceholder: 'la.tua.email@esempio.com',
+      phone: 'Numero di Telefono',
+      phonePlaceholder: '+1 (555) 123-4567',
       country: 'Paese',
-      countryPlaceholder: 'Italia',
-      service: 'Servizio di interesse',
+      countryPlaceholder: 'Stati Uniti',
+      service: 'Servizio di Interesse',
       loadingServices: 'Caricamento servizi...',
-      preferredDate: 'Data e ora preferite',
-      dateOptional: 'Opzionale: Lascia vuoto e ti contatteremo per fissare un appuntamento',
-      notes: 'Note aggiuntive',
-      notesPlaceholder: 'Raccontaci dei tuoi obiettivi, preoccupazioni o domande...',
-      bookConsultation: 'Prenota consultazione',
-      bookFreeConsultation: 'Prenota consultazione gratuita',
-      booking: 'Prenotazione...',
-      bookingConsultation: 'Prenotando la tua consultazione...',
+      preferredDate: 'Data & Orario Preferiti',
+      dateOptional: 'Opzionale: Lascia vuoto e ti contatteremo per pianificare',
+      notes: 'Note Aggiuntive',
+      notesPlaceholder: 'Dimmi di più sulle tue esigenze, preoccupazioni o qualsiasi domanda tu abbia...',
+      bookConsultation: 'Prenota Consulenza',
+      bookFreeConsultation: 'Prenota Consulenza Gratuita',
+      booking: 'Pianificazione...',
+      bookingConsultation: 'Pianificazione della Tua Consulenza...',
       firstName: 'Nome',
       lastName: 'Cognome',
       message: 'Messaggio',
       treatment: 'Trattamento',
       submit: 'Invia',
-      submitting: 'Invio in corso...'
+      submitting: 'Invio...'
     },
     treatments: {
-      dental: 'Trattamenti dentali',
-      hair: 'Trapianto di capelli',
-      aesthetic: 'Chirurgia estetica',
-      other: 'Altri servizi'
+      dental: 'Trattamenti Dentali',
+      hair: 'Trapianto di Capelli',
+      aesthetic: 'Chirurgia Estetica',
+      other: 'Altri Servizi'
     },
     messages: {
-      success: 'Consultazione prenotata con successo!',
-      successDesc: 'Grazie per averci scelto. Il nostro team ti contatterà entro 24 ore per confermare l\'appuntamento.',
-      error: 'Prenotazione fallita',
-      errorDesc: 'Ci dispiace, qualcosa è andato storto. Riprova o contattaci direttamente.',
-      viewDetails: 'Vedi dettagli'
+      success: 'Consulenza Pianificata con Successo!',
+      successDesc: 'Grazie per aver scelto la nostra. Il nostro team ti contatterà entro 24 ore per confermare la tua prenotazione.',
+      error: 'Pianificazione Fallita',
+      errorDesc: 'Ci dispiace, qualcosa è andato storto. Per favore riprova o contattaci direttamente.',
+      viewDetails: 'Visualizza Dettagli'
     },
     info: {
       phone: 'Telefono',
@@ -385,52 +479,52 @@ export const itTranslations: Translations = {
   },
   mockData: {
     patient: 'Paziente',
-    transformation: 'Trasformazione',
-    results: 'Risultati',
-    procedure: 'Procedura',
-    male: 'Uomo',
-    female: 'Donna',
+    transformation: 'Trasformazione Incredibile',
+    results: 'Risultati Incredibili',
+    procedure: 'Procedimento che Cambia la Vita',
+    male: 'Maschio',
+    female: 'Femmina',
     months: 'mesi'
   },
   chatbot: {
     title: 'Chatbot',
-    welcome: 'Hello! How can I support you on your journey to health and beauty at Vola Health Istanbul?',
-    contactRequest: 'Vuoi essere contattato?',
-    standardResponse: 'Posso aiutarti con informazioni sui nostri servizi.',
-    contactInfoReceived: 'Ho ricevuto i tuoi dati di contatto.',
-    contactInfoResponse: 'Ti contatteremo presto.',
-    closeChat: 'Chiudi chat',
-    openChat: 'Apri chat'
+    welcome: 'Ciao! Come posso supportarti nel tuo viaggio verso salute e bellezza a Vola Health Istanbul?',
+    contactRequest: 'Ho bisogno di consulenza',
+    standardResponse: 'Grazie per la tua richiesta.',
+    contactInfoReceived: 'Grazie per le tue informazioni di contatto.',
+    contactInfoResponse: 'Grazie per averci contattato.',
+    closeChat: 'Chiudi Chat',
+    openChat: 'Apri Chat'
   },
   whatsapp: {
-    defaultMessage: 'Ciao! Sono interessato ai vostri servizi.',
+    defaultMessage: 'Ciao! Sono interessato ai tuoi servizi.',
     srOnly: 'Apri WhatsApp'
   },
   why: {
-    title: 'Perché sceglierci?',
-    teamTitle: 'Team professionale',
-    teamDesc: 'Il nostro team medico esperto è dedicato alla vostra sicurezza e comfort.',
+    title: 'Perché Scegliere Noi?',
+    teamTitle: 'Team Professionale',
+    teamDesc: 'Il nostro team medico esperto è dedicato alla tua sicurezza e comfort.',
     translatorTitle: 'Traduttore 24/7',
     translatorDesc: 'Forniamo supporto di traduzione 24 ore su 24.',
-    hotelTitle: 'Alloggio in hotel 5 stelle',
-    hotelDesc: 'Godetevi un processo di trattamento confortevole nel lussuoso Hotel Ramada Merter.',
-    transferTitle: 'Transfer VIP',
-    transferDesc: 'Viaggiate comodamente con i nostri veicoli Vito privati.'
+    hotelTitle: 'Alloggio Hotel 5 Stelle',
+    hotelDesc: 'Goditi processo di trattamento in comfort al lusso Ramada Merter Hotel.',
+    transferTitle: 'Trasferimento VIP',
+    transferDesc: 'Viaggia in comfort con i nostri veicoli privati Vito.'
   },
   consultation: {
     header: {
-      backToHome: 'Torna alla Home',
+      backToHome: 'Torna a Casa',
       title: 'Consulenza Medica Gratuita',
-      subtitle: 'Ricevi consigli personalizzati dal nostro team medico esperto. Compila questo modulo per programmare la tua consulenza gratuita.'
+      subtitle: 'Ottieni consigli personalizzati dal nostro team medico esperto. Completa questo modulo per pianificare la tua consulenza gratuita.'
     },
     benefits: {
       free: {
         title: 'Completamente Gratuito',
-        description: 'Consulenza gratuita senza impegno con esperti medici'
+        description: 'Consulenza gratuita, senza costi, senza obbligo con esperti medici'
       },
       time: {
         title: '15 Minuti',
-        description: 'Valutazione completa e piano di trattamento personalizzato'
+        description: 'Valutazione completa e pianificazione di trattamento personalizzata'
       },
       expert: {
         title: 'Cura Esperta',
@@ -438,18 +532,18 @@ export const itTranslations: Translations = {
       }
     },
     services: {
-      hollywoodSmile: 'Hollywood Smile',
-      dentalVeneers: 'Faccette Dentali',
-      dentalImplants: 'Impianti Dentali',
-      zirconiumCrowns: 'Corone in Zirconia',
-      teethWhitening: 'Sbiancamento Denti',
-      rhinoplasty: 'Rinoplastica',
-      facelift: 'Lifting Facciale',
-      browLift: 'Lifting Sopracciglia',
+      hollywoodSmile: 'Sorriso Hollywood',
+      dentalVeneers: 'Veneers Dentali',
+      dentalImplants: 'Implanti Dentali',
+      zirconiumCrowns: 'Crani Zirconio',
+      teethWhitening: 'Whitening Dentale',
+      rhinoplasty: 'Rhinoplasty',
+      facelift: 'Facelift',
+      browLift: 'Facelift Sopracciglia',
       eyelidSurgery: 'Chirurgia Palpebre',
-      breastAugmentation: 'Aumento Seno',
-      breastLift: 'Lifting Seno',
-      tummyTuck: 'Addominoplastica',
+      breastAugmentation: 'Aumento Mammella',
+      breastLift: 'Aumento Mammella',
+      tummyTuck: 'Tuck Tummy',
       liposuction: 'Liposuzione',
       hairTransplant: 'Trapianto Capelli',
       other: 'Altro'
@@ -461,11 +555,11 @@ export const itTranslations: Translations = {
       lastName: 'Cognome',
       lastNamePlaceholder: 'Inserisci il tuo cognome',
       email: 'Indirizzo Email',
-      emailPlaceholder: 'tua.email@esempio.com',
+      emailPlaceholder: 'la.tua.email@esempio.com',
       phone: 'Numero di Telefono',
-      phonePlaceholder: '+39 (555) 123-4567',
+      phonePlaceholder: '+1 (555) 123-4567',
       country: 'Paese',
-      countryPlaceholder: 'Italia',
+      countryPlaceholder: 'Stati Uniti',
       age: 'Età',
       agePlaceholder: '25',
       gender: 'Genere',
@@ -473,17 +567,17 @@ export const itTranslations: Translations = {
       male: 'Maschio',
       female: 'Femmina',
       other: 'Altro',
-      preferNotToSay: 'Preferisco non dire'
+      preferNotToSay: 'Preferire non dirlo'
     },
     step2: {
       title: 'Servizi di Interesse',
-      subtitle: 'Seleziona tutte le procedure su cui vorresti saperne di più:'
+      subtitle: 'Seleziona tutti i procedimenti che ti interessano di conoscere:'
     },
     step3: {
       title: 'Preferenze Consulenza',
       preferredDate: 'Data Preferita',
       preferredTime: 'Orario Preferito',
-      selectTime: 'Seleziona orario preferito',
+      selectTime: 'Seleziona ora',
       contactMethod: 'Metodo di Contatto Preferito',
       email: 'Email',
       phoneCall: 'Chiamata Telefonica',
@@ -491,55 +585,121 @@ export const itTranslations: Translations = {
     },
     step4: {
       title: 'Informazioni Mediche',
-      medicalHistory: 'Storia Medica',
-      medicalHistoryPlaceholder: 'Descrivi eventuali storia medica rilevante, interventi precedenti o condizioni...',
-      currentMedications: 'Farmaci Attuali',
-      medicationsPlaceholder: 'Elenca eventuali farmaci che stai assumendo attualmente...',
+      medicalHistory: 'Cronologia Medica',
+      medicalHistoryPlaceholder: 'Descrivi qualsiasi cronologia medica pertinente...',
+      currentMedications: 'Medicamenti Attuali',
+      medicationsPlaceholder: 'Elenca qualsiasi medicamento che stai assumendo attualmente...',
       additionalInfo: 'Informazioni Aggiuntive',
-      additionalInfoPlaceholder: 'Eventuali domande, preoccupazioni o informazioni aggiuntive che vorresti condividere...'
+      additionalInfoPlaceholder: 'Qualsiasi altra informazione che desideri condividere...'
     },
     errors: {
-      firstNameRequired: 'Il nome è obbligatorio',
-      lastNameRequired: 'Il cognome è obbligatorio',
-      emailRequired: 'L\'email è obbligatoria',
-      phoneRequired: 'Il telefono è obbligatorio',
-      countryRequired: 'Il paese è obbligatorio',
+      firstNameRequired: 'Nome è obbligatorio',
+      lastNameRequired: 'Cognome è obbligatorio',
+      emailRequired: 'Email è obbligatoria',
+      phoneRequired: 'Numero di telefono è obbligatorio',
+      countryRequired: 'Paese è obbligatorio',
       serviceRequired: 'Seleziona almeno un servizio',
-      dateRequired: 'La data preferita è obbligatoria'
+      dateRequired: 'Data preferita è obbligatoria'
     },
     progress: {
       step: 'Passo',
       of: 'di',
-      complete: 'Completato'
+      complete: 'Completo'
     },
     navigation: {
       previous: 'Precedente',
       nextStep: 'Passo Successivo',
-      submitting: 'Invio in corso...',
-      schedule: 'Programma Consulenza'
+      submitting: 'Invio...',
+      schedule: 'Pianifica Consulenza'
     },
     success: {
-      title: 'Richiesta di Consulenza Inviata!',
-      message: 'Grazie per il tuo interesse in Vola Health Istanbul. Abbiamo ricevuto la tua richiesta di consulenza e il nostro team ti contatterà entro 24 ore per programmare la tua consulenza gratuita.',
-      returnHome: 'Torna alla Homepage',
-      questions: 'Domande? Scrivici'
+      title: 'Consulenza Pianificata con Successo!',
+      message: 'Grazie per aver scelto Vola Health Istanbul. Il nostro team medico ti contatterà entro 24 ore per confermare la tua consulenza.',
+      returnHome: 'Torna a Casa',
+      questions: 'Domande? Mandaci un messaggio'
     },
     contact: {
-      preferDirect: 'Preferisci parlare direttamente con noi?'
+      preferDirect: 'Preferire contattarci direttamente?'
+    }
+  },
+  // Admin çevirileri ekleyelim
+  admin: {
+    sidebar: {
+      dashboard: 'Dashboard',
+      dashboardDesc: 'Panoramica e analisi',
+      categories: 'Categorie',
+      categoriesDesc: 'Gestisci categorie servizio',
+      services: 'Servizi',
+      servicesDesc: 'Gestisci servizi medici',
+      beforeAfter: 'Prima & Dopo',
+      beforeAfterDesc: 'Gestisci prima & dopo galleria',
+      appointments: 'Appuntamenti',
+      appointmentsDesc: 'Visualizza e gestisci appuntamenti',
+      consultations: 'Consulenzze',
+      consultationsDesc: 'Gestisci richieste consulenza',
+      messages: 'Messaggi',
+      messagesDesc: 'Comunicazioni paziente',
+      testimonials: 'Testimonianze',
+      testimonialsDesc: 'Gestisci recensioni paziente',
+      translations: 'Traduzioni',
+      translationsDesc: 'Gestisci lingue sito',
+      settings: 'Impostazioni',
+      settingsDesc: 'Configurazione sito',
+      signOut: 'Esci'
+    },
+    header: {
+      language: 'Lingua'
+    },
+    settings: {
+      siteDescription: 'Descrizione Sito'
+    }
+  },
+  // Footer için ek çeviriler
+  footer: {
+    companyDesc: 'Destinazione turistica medica di primo livello a Istanbul, offrendo servizi sanitari mondiali con cura personalizzata.',
+    privacyPolicy: 'Politica Privacy',
+    termsOfService: 'Termini di Servizio',
+    allRightsReserved: 'Tutti i diritti riservati.',
+    istanbul: 'Istanbul, Turchia'
+  },
+  // HeroSlider için çeviriler
+  heroSlider: {
+    slides: {
+      hair: {
+        title: 'Eccellenza Trapianto Capelli',
+        subtitle: 'Tecniche avanzate FUE & DHI per risultati naturali',
+        category: 'Ripristino Capelli'
+      },
+      aesthetic: {
+        title: 'Chirurgia Estetica',
+        subtitle: 'Trasforma la tua apparizione con precisione esperta',
+        category: 'Chirurgia Plastica'
+      },
+      dental: {
+        title: 'Eccellenza Dentale',
+        subtitle: 'Sorriso Hollywood e cura dentale completa',
+        category: 'Servizi Dentali'
+      }
+    },
+    navigation: {
+      previous: 'Slide Precedente',
+      next: 'Slide Successiva',
+      pause: 'Pausa Presentazione',
+      play: 'Riproduci Presentazione'
     }
   },
   testimonials: {
     title: 'Testimonianze dei Pazienti',
     subtitle: 'Esperienze Reali',
     loading: 'Caricamento testimonianze...',
-    noTestimonials: 'Nessuna testimonianza disponibile al momento.',
+    noTestimonials: 'Nessuna testimonianza disponibile',
     readMore: 'Leggi di Più',
     showLess: 'Mostra Meno',
     verified: 'Verificato',
     page: {
-      heroTitle: 'Storie Reali di',
+      heroTitle: 'Storie Reali da',
       heroSubtitle: 'Pazienti Reali',
-      heroDescription: 'Scopri esperienze autentiche di pazienti da tutto il mondo che hanno scelto Vola Health Istanbul per il loro percorso di trasformazione.',
+      heroDescription: 'Scopri esperienze autentiche da pazienti attorno al mondo che hanno scelto Vola Health Istanbul per il loro viaggio di trasformazione.',
       patientTestimonials: 'TESTIMONIANZE DEI PAZIENTI',
       stats: {
         happyPatients: 'Pazienti Felici',
@@ -549,71 +709,39 @@ export const itTranslations: Translations = {
       },
       filters: {
         title: 'Filtra Testimonianze',
-        description: 'Trova testimonianze per tipo di trattamento, paese o solo testimonianze video.',
-        allTreatments: 'Tutti i Trattamenti',
-        hairTransplant: 'Trapianto di Capelli',
-        dentalAesthetics: 'Estetica Dentale',
-        facialAesthetics: 'Estetica Facciale',
-        bodyAesthetics: 'Estetica del Corpo',
-        allCountries: 'Tutti i Paesi',
-        videoOnly: 'Solo testimonianze video',
-        showing: 'Mostrando',
+        description: 'Trova testimonianze per tipo di trattamento, paese o vedi solo testimonianze video.',
+        allTreatments: 'Tutti Trattamenti',
+        hairTransplant: 'Trapianto Capelli',
+        dentalAesthetics: 'Aestetica Dentale',
+        facialAesthetics: 'Aestetica Facciale',
+        bodyAesthetics: 'Aestetica Corporea',
+        allCountries: 'Tutti Paesi',
+        videoOnly: 'Solo Testimonianze Video',
+        showing: 'Mostra',
         of: 'di',
         testimonials: 'testimonianze'
       },
       featured: {
-        title: 'Storie di Pazienti in Evidenza',
-        subtitle: 'Ascolta direttamente dai nostri pazienti il loro percorso di trasformazione',
-        videoTestimonial: 'Testimonianza Video'
+        title: 'Storie di Paziente Evidenza',
+        subtitle: 'Ascolta direttamente dai nostri pazienti sul loro viaggio di trasformazione',
+        videoTestimonial: 'Testimoniale Video'
       },
       allTestimonials: {
         title: 'Tutte le Testimonianze dei Pazienti',
-        subtitle: 'Sfoglia tutte le nostre storie ed esperienze dei pazienti'
+        subtitle: 'Esplora attraverso tutte le nostre storie e esperienze dei pazienti'
       },
       noResults: {
         title: 'Nessuna testimonianza trovata',
-        description: 'Nessuna testimonianza corrisponde ai tuoi filtri attuali.',
-        clearFilters: 'Cancella tutti i filtri'
+        description: 'Nessuna testimonianza corrisponde ai filtri attuali.',
+        clearFilters: 'Cancella tutti filtri'
       },
       cta: {
-        title: 'Pronto a Iniziare il Tuo',
-        subtitle: 'Percorso di Trasformazione?',
-        description: 'Unisciti a migliaia di pazienti soddisfatti che hanno scelto Vola Health Istanbul per la loro esperienza di turismo medico.',
+        title: 'Pronto per la Tua',
+        subtitle: 'Trasformazione?',
+        description: 'Unisciti a migliaia di pazienti soddisfatti che hanno scelto Vola Health Istanbul per il loro viaggio di trasformazione.',
         freeConsultation: 'Ottieni Consulenza Gratuita',
         contactUs: 'Contattaci'
       }
-    }
-  },
-  footer: {
-    companyDesc: 'Destinazione premier del turismo medico a Istanbul, che offre servizi sanitari di classe mondiale con cure personalizzate.',
-    privacyPolicy: 'Informativa sulla Privacy',
-    termsOfService: 'Termini di Servizio',
-    allRightsReserved: 'Tutti i diritti riservati.',
-    istanbul: 'Istanbul, Turchia'
-  },
-  heroSlider: {
-    slides: {
-      hair: {
-        title: 'Eccellenza nel Trapianto di Capelli',
-        subtitle: 'Tecniche avanzate FUE e DHI per risultati naturali',
-        category: 'Restauro Capillare'
-      },
-      aesthetic: {
-        title: 'Chirurgia Estetica',
-        subtitle: 'Trasforma il tuo aspetto con precisione esperta',
-        category: 'Chirurgia Plastica'
-      },
-      dental: {
-        title: 'Eccellenza Dentale',
-        subtitle: 'Sorriso hollywoodiano e cure dentali complete',
-        category: 'Servizi Dentali'
-      }
-    },
-    navigation: {
-      previous: 'Precedente',
-      next: 'Successivo',
-      pause: 'Pausa',
-      play: 'Riproduci'
     }
   }
 }; 

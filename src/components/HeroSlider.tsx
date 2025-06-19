@@ -33,13 +33,21 @@ export default function HeroSlider() {
   const [slides, setSlides] = useState<SlideData[]>([]);
   const [loading, setLoading] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
+  const [isClient, setIsClient] = useState(false);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
   const autoPlayIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isSliderVisible, setIsSliderVisible] = useState(false);
 
+  // Client-side hydration protection
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   // Fetch slides from database
   useEffect(() => {
+    if (!isClient) return;
+    
     const fetchSlides = async () => {
       try {
         const response = await fetch('/api/hero-slides');
@@ -142,7 +150,7 @@ export default function HeroSlider() {
     };
 
     fetchSlides();
-  }, [t]);
+  }, [t, isClient]);
 
   // Helper function to get localized content
   const getLocalizedContent = useCallback((slide: SlideData, field: 'title' | 'subtitle' | 'category') => {
@@ -257,7 +265,7 @@ export default function HeroSlider() {
     }
   };
 
-  if (loading) {
+  if (!isClient || loading) {
     return (
       <div className="relative w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse rounded-2xl overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center">
@@ -322,22 +330,29 @@ export default function HeroSlider() {
                     Your browser does not support the video tag.
                   </video>
                 </div>
-              ) : (
+              ) : slide.imageUrl && slide.imageUrl.trim() !== '' ? (
                 <Image
                   src={slide.imageUrl}
-                  alt={getLocalizedContent(slide, 'title')}
+                  alt={getLocalizedContent(slide, 'title') || 'Slide image'}
                   fill
                   className="object-cover"
                   priority={index === 0}
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, 50vw"
+                  onError={(e) => {
+                    console.error('Image error for slide:', slide.id, slide.imageUrl);
+                  }}
                 />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                  <p className="text-gray-500">No image available</p>
+                </div>
               )}
               
               {/* Fallback image for videos that fail to load */}
-              {slide.mediaType === 'video' && slide.videoUrl && (
+              {slide.mediaType === 'video' && slide.videoUrl && slide.imageUrl && slide.imageUrl.trim() !== '' && (
                 <Image
                   src={slide.imageUrl}
-                  alt={getLocalizedContent(slide, 'title')}
+                  alt={getLocalizedContent(slide, 'title') || 'Video poster'}
                   fill
                   className="object-cover"
                   priority={index === 0}
