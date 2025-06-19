@@ -44,7 +44,7 @@ export default function WhyChooseUsPage() {
               <Image src="/Vola-VIP Transfer.jpg" alt="Vola VIP Transfer 1" fill style={{objectFit:'cover'}} className="rounded-lg" />
             </div>
             <div className="relative w-[220px] h-[140px] max-w-full flex-1 min-w-[140px]">
-              <Image src="/Vola VIP Transfer2.jpg" alt="Vola VIP Transfer 2" fill style={{objectFit:'cover'}} className="rounded-lg" />
+              <Image src="/Vola-VIP Transfer.jpg" alt="Vola VIP Transfer" fill style={{objectFit:'cover'}} className="rounded-lg" />
             </div>
           </div>
           <p className="text-gray-700">{t('why.transferDesc') || 'Travel in style and comfort with our private Vito vehicles, providing seamless airport and clinic transfers.'}</p>

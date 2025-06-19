@@ -222,8 +222,6 @@ export const enTranslations: Translations = {
       },
       quickOverview: 'Quick Overview',
       readingTime: 'Reading Time',
-      minRead: 'min',
-      keyBenefits: 'Key Benefits',
       sections: 'Sections',
       topics: 'topics',
       highlights: 'highlights',
