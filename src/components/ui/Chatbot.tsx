@@ -8,9 +8,14 @@ import { useTranslation } from '@/lib/i18n/hooks';
 interface Message {
   id: string;
   text: string;
-  sender: 'user' | 'bot';
+  sender: 'user' | 'bot' | 'ai';
   timestamp: Date;
+  isTyping?: boolean;
 }
+
+const WHATSAPP_URL = 'https://wa.me/905444749881';
+const APPOINTMENT_URL = '/consultation';
+const redirectMessage = `For detailed information and prices, please contact us on WhatsApp or request a free consultation appointment.\n\n👉 <a href="${WHATSAPP_URL}" target="_blank" rel="noopener">Contact on WhatsApp</a>\n👉 <a href="${APPOINTMENT_URL}" target="_blank" rel="noopener">Request Appointment</a>`;
 
 export default function Chatbot() {
   const { t } = useTranslation();
@@ -19,7 +24,7 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: uuidv4(),
-      text: t('chatbot.welcome') || 'Hello! How can I help you with your medical tourism needs at Vola Health Istanbul today?',
+      text: redirectMessage,
       sender: 'bot',
       timestamp: new Date(),
     },
@@ -35,6 +40,7 @@ export default function Chatbot() {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isAiTyping, setIsAiTyping] = useState(false);
 
   // Generate a session ID when the component mounts
   useEffect(() => {
@@ -160,70 +166,50 @@ export default function Chatbot() {
     // Save user message to database
     await saveMessageToDatabase(userMessage);
 
-    // If this is the first user message, ask for contact info
-    if (!showContactForm && !userName && !userEmail) {
-      setTimeout(() => {
-        const contactRequestMessage: Message = {
-          id: uuidv4(),
-          text: t('chatbot.contactRequest') || 'Thank you for your message. To better assist you, could you please provide your contact information?',
-          sender: 'bot',
-          timestamp: new Date(),
-        };
-        setMessages((prevMessages) => [...prevMessages, contactRequestMessage]);
-        // Only save contact request message to database (not standard responses)
-        saveMessageToDatabase(contactRequestMessage);
-        setShowContactForm(true);
-      }, 1000);
-    } else if (userName && userEmail) {
-      // Only show standard response if contact info is already provided
-      setTimeout(() => {
-        const botMessage: Message = {
-          id: uuidv4(),
-          text: t('chatbot.standardResponse') || 'Thank you for your message. One of our medical consultants will get back to you shortly.',
-          sender: 'bot',
-          timestamp: new Date(),
-        };
-        setMessages((prevMessages) => [...prevMessages, botMessage]);
-        // Don't save standard bot responses to reduce database clutter
-      }, 1000);
-    }
-  };
+    // Show typing indicator
+    setIsAiTyping(true);
 
-  const handleContactSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Create a message summarizing the contact info
-    const contactInfoMessage: Message = {
-      id: uuidv4(),
-      text: t('chatbot.contactInfoReceived', {
-        name: userName,
-        email: userEmail,
-        phone: userPhone,
-        country: userCountry
-      }) || `Contact information received:
-Name: ${userName}
-Email: ${userEmail}
-Phone: ${userPhone}
-Country: ${userCountry}`,
-      sender: 'user',
-      timestamp: new Date(),
-    };
-    
-    setMessages(prevMessages => [...prevMessages, contactInfoMessage]);
-    saveMessageToDatabase(contactInfoMessage);
-    setShowContactForm(false);
-    
-    // Bot response after contact info submission (shown but not saved to reduce clutter)
-    setTimeout(() => {
-      const botMessage: Message = {
+    // Get Smart AI response (free version)
+    try {
+      const aiResponse = await fetch('/api/chat/smart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: inputValue,
+          sessionId,
+        }),
+      });
+
+      const aiData = await aiResponse.json();
+      
+      // Hide typing indicator
+      setIsAiTyping(false);
+
+      if (aiData.response) {
+        const aiMessage: Message = {
+          id: uuidv4(),
+          text: aiData.response,
+          sender: 'ai',
+          timestamp: new Date(),
+        };
+        setMessages((prevMessages) => [...prevMessages, aiMessage]);
+      }
+
+    } catch (error) {
+      console.error('AI chat error:', error);
+      setIsAiTyping(false);
+      
+      // Fallback to basic response
+      const fallbackMessage: Message = {
         id: uuidv4(),
-        text: t('chatbot.contactInfoResponse') || 'Thank you for providing your contact information. How else can I assist you with your medical tourism needs at Vola Health Istanbul?',
+        text: t('chatbot.errorResponse') || 'I apologize for the technical issue. One of our medical consultants will contact you shortly.',
         sender: 'bot',
         timestamp: new Date(),
       };
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
-      // Don't save standard bot responses to reduce database clutter
-    }, 1000);
+      setMessages((prevMessages) => [...prevMessages, fallbackMessage]);
+    }
   };
 
   // Touch handlers for pull-to-close functionality
@@ -356,30 +342,37 @@ Country: ${userCountry}`,
               </div>
               
               {/* Header - Mobile optimized */}
-              <div className="flex items-center justify-between border-b bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-3 sm:p-4 md:rounded-t-2xl flex-shrink-0">
-                <div className="flex items-center gap-3">
-                  <div className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
-                  <h3 className="text-base sm:text-lg font-semibold truncate">{t('chatbot.title') || 'Vola Health Chat'}</h3>
+              <div className="border-b bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex-shrink-0">
+                <div className="flex items-center justify-between p-3 sm:p-4 md:rounded-t-2xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
+                    <div>
+                      <h3 className="text-base sm:text-lg font-semibold truncate">{t('chatbot.title') || 'Vola Health AI Assistant'}</h3>
+                      <p className="text-xs text-white/70">Powered by AI • Multilingual Support</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setIsOpen(false)}
+                      className="text-white hover:text-white transition-all p-2 hover:bg-white/20 rounded-full min-w-[48px] min-h-[48px] flex items-center justify-center bg-white/10 hover:scale-105 active:scale-95 shadow-lg"
+                      aria-label={t('chatbot.closeChat') || 'Close chat'}
+                    >
+                      <svg
+                        className="h-6 w-6 sm:h-7 sm:w-7 stroke-[3]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={3}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="text-white hover:text-white transition-all p-2 hover:bg-white/20 rounded-full min-w-[48px] min-h-[48px] flex items-center justify-center bg-white/10 hover:scale-105 active:scale-95 shadow-lg"
-                  aria-label={t('chatbot.closeChat') || 'Close chat'}
-                >
-                  <svg
-                    className="h-6 w-6 sm:h-7 sm:w-7 stroke-[3]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={3}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
               </div>
 
               {/* Messages container - Mobile responsive height */}
@@ -401,9 +394,11 @@ Country: ${userCountry}`,
                       <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold ${
                         message.sender === 'user' 
                           ? 'bg-indigo-600 text-white' 
+                          : message.sender === 'ai'
+                          ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white'
                           : 'bg-gray-300 text-gray-700'
                       }`}>
-                        {message.sender === 'user' ? 'U' : 'V'}
+                        {message.sender === 'user' ? 'U' : message.sender === 'ai' ? '🤖' : 'V'}
                       </div>
                       
                       {/* Message bubble */}
@@ -411,176 +406,147 @@ Country: ${userCountry}`,
                         className={`rounded-2xl px-3 py-2 sm:px-4 sm:py-3 ${
                           message.sender === 'user'
                             ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-br-md'
+                            : message.sender === 'ai'
+                            ? 'bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-gray-900 rounded-bl-md'
                             : 'bg-gray-100 text-gray-900 rounded-bl-md'
                         }`}
                       >
-                        <div className="whitespace-pre-wrap text-sm sm:text-base break-words leading-relaxed">{message.text}</div>
-                        <div className={`mt-1 text-xs ${
+                        {message.sender === 'user' ? (
+                          <div className="whitespace-pre-wrap text-sm sm:text-base break-words leading-relaxed">{message.text}</div>
+                        ) : (
+                          <div className="whitespace-pre-wrap text-sm sm:text-base break-words leading-relaxed" dangerouslySetInnerHTML={{ __html: message.text }} />
+                        )}
+                        <div className={`mt-1 text-xs flex items-center gap-1 ${
                           message.sender === 'user' ? 'text-white/70' : 'text-gray-500'
                         }`}>
+                          {message.sender === 'ai' && (
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                              AI
+                            </span>
+                          )}
                           {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </div>
                       </div>
                     </div>
                   </motion.div>
                 ))}
+
+                {/* AI Typing Indicator */}
+                {isAiTyping && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="mb-3 sm:mb-4 flex justify-start"
+                  >
+                    <div className="flex items-start gap-2 max-w-[85%] sm:max-w-[80%]">
+                      <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white">
+                        🤖
+                      </div>
+                      <div className="rounded-2xl px-3 py-2 sm:px-4 sm:py-3 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-gray-900 rounded-bl-md">
+                        <div className="flex items-center space-x-1">
+                          <div className="flex space-x-1">
+                            <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                          </div>
+                          <span className="text-sm text-amber-600 ml-2">AI is thinking...</span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
                 
-                {/* Typing indicator placeholder */}
+                {/* Spacing */}
                 <div className="h-4"></div>
               </div>
 
-              {/* Contact form - Mobile responsive */}
-              {showContactForm ? (
-                <motion.form 
-                  onSubmit={handleContactSubmit} 
-                  className="border-t p-3 sm:p-4 bg-gray-50 flex-shrink-0"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="mb-2 text-center">
-                    <p className="text-xs sm:text-sm text-gray-600 font-medium">Please provide your contact information</p>
-                  </div>
-                  <div className="mb-3 grid grid-cols-1 gap-3">
-                    <div>
-                      <label htmlFor="name" className="mb-1 block text-xs sm:text-sm font-medium text-gray-700">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px] transition-all"
-                        placeholder="Enter your full name"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="mb-1 block text-xs sm:text-sm font-medium text-gray-700">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        value={userEmail}
-                        onChange={(e) => setUserEmail(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px] transition-all"
-                        placeholder="your@email.com"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="phone" className="mb-1 block text-xs sm:text-sm font-medium text-gray-700">
-                        Phone Number *
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        value={userPhone}
-                        onChange={(e) => setUserPhone(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px] transition-all"
-                        placeholder="+1 234 567 8900"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="country" className="mb-1 block text-xs sm:text-sm font-medium text-gray-700">
-                        Country *
-                      </label>
-                      <input
-                        type="text"
-                        id="country"
-                        value={userCountry}
-                        onChange={(e) => setUserCountry(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 min-h-[44px] transition-all"
-                        placeholder="Your country"
-                        required
-                      />
-                    </div>
+              {/* Message input - Mobile responsive */}
+              <form onSubmit={handleSubmit} className="border-t p-3 sm:p-4 bg-white flex-shrink-0">
+                <div className="flex gap-2 sm:gap-3 items-end">
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      placeholder="Type your message..."
+                      className="w-full rounded-2xl border border-gray-300 px-4 py-3 sm:px-4 sm:py-3 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-sm sm:text-base min-h-[44px] transition-all resize-none"
+                      autoComplete="off"
+                      autoFocus={false}
+                    />
                   </div>
                   <button
                     type="submit"
-                    className="w-full rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 px-4 py-3 text-white transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] min-h-[44px] font-medium shadow-lg hover:shadow-xl"
+                    disabled={!inputValue.trim()}
+                    className={`rounded-full px-3 py-3 sm:px-4 sm:py-3 text-white transition-all duration-300 transform min-h-[44px] min-w-[44px] flex items-center justify-center shadow-lg ${
+                      inputValue.trim()
+                        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 hover:scale-105 active:scale-95 hover:shadow-xl'
+                        : 'bg-gray-300 cursor-not-allowed'
+                    }`}
+                    aria-label="Send message"
                   >
-                    ✓ Submit Contact Information
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
                   </button>
-                  
-                  {/* Mobile close button for contact form */}
-                  <div className="mt-3 md:hidden">
+                </div>
+                
+                {/* Smart AI-Powered Quick Suggestions */}
+                <div className="mt-3 space-y-2">
+                  <div className="grid grid-cols-2 gap-2">
                     <button
                       type="button"
-                      onClick={() => setIsOpen(false)}
-                      className="w-full py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+                      onClick={() => setInputValue('I need dental veneers. What is included in the package?')}
+                      className="text-left bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg px-3 py-2 text-xs hover:from-blue-100 hover:to-indigo-100 transition-all duration-300 text-gray-700 font-medium"
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                      </svg>
-                      Close Chat
+                      🦷 Dental Veneers
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setInputValue('I am interested in rhinoplasty. How long should I stay in Istanbul?')}
+                      className="text-left bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg px-3 py-2 text-xs hover:from-green-100 hover:to-emerald-100 transition-all duration-300 text-gray-700 font-medium"
+                    >
+                      👃 Rhinoplasty
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setInputValue('What does your hair transplant package include? What is the price?')}
+                      className="text-left bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg px-3 py-2 text-xs hover:from-purple-100 hover:to-pink-100 transition-all duration-300 text-gray-700 font-medium"
+                    >
+                      💇‍♂️ Hair Transplant
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setInputValue('I want to combine surgery with vacation. What do you recommend?')}
+                      className="text-left bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg px-3 py-2 text-xs hover:from-amber-100 hover:to-orange-100 transition-all duration-300 text-gray-700 font-medium"
+                    >
+                      🏖️ Medical Tourism
                     </button>
                   </div>
-                </motion.form>
-                              ) : (
-                  /* Message input - Mobile responsive */
-                  <form onSubmit={handleSubmit} className="border-t p-3 sm:p-4 bg-white flex-shrink-0">
-                    <div className="flex gap-2 sm:gap-3 items-end">
-                      <div className="flex-1">
-                        <input
-                          type="text"
-                          value={inputValue}
-                          onChange={(e) => setInputValue(e.target.value)}
-                          placeholder="Type your message..."
-                          className="w-full rounded-2xl border border-gray-300 px-4 py-3 sm:px-4 sm:py-3 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-sm sm:text-base min-h-[44px] transition-all resize-none"
-                          autoComplete="off"
-                          autoFocus={false}
-                        />
-                      </div>
-                      <button
-                        type="submit"
-                        disabled={!inputValue.trim()}
-                        className={`rounded-full px-3 py-3 sm:px-4 sm:py-3 text-white transition-all duration-300 transform min-h-[44px] min-w-[44px] flex items-center justify-center shadow-lg ${
-                          inputValue.trim()
-                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 hover:scale-105 active:scale-95 hover:shadow-xl'
-                            : 'bg-gray-300 cursor-not-allowed'
-                        }`}
-                        aria-label="Send message"
-                      >
-                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                        </svg>
-                      </button>
+                  
+                  {/* AI Info Badge */}
+                  <div className="p-2 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm">🤖</span>
+                      <span className="text-xs font-semibold text-amber-800">AI Assistant</span>
+                      <span className="text-xs text-amber-700">• Multilingual • Medical Expert</span>
                     </div>
-                    
-                    {/* Quick action buttons */}
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {['Dental Services', 'Hair Transplant', 'Plastic Surgery', 'Pricing Info'].map((quickAction) => (
-                        <button
-                          key={quickAction}
-                          type="button"
-                          onClick={() => setInputValue(quickAction)}
-                          className="px-3 py-1.5 text-xs bg-gray-100 hover:bg-indigo-50 hover:text-indigo-600 text-gray-600 rounded-full transition-all duration-200 border border-gray-200 hover:border-indigo-200"
-                        >
-                          {quickAction}
-                        </button>
-                      ))}
-                    </div>
-                    
-                    {/* Mobile close button */}
-                    <div className="mt-3 md:hidden">
-                      <button
-                        onClick={() => setIsOpen(false)}
-                        className="w-full py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                        </svg>
-                        Close Chat
-                      </button>
-                    </div>
-                  </form>
-                )}
+                  </div>
+                </div>
+                
+                {/* Mobile close button */}
+                <div className="mt-3 md:hidden">
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="w-full py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                    Close Chat
+                  </button>
+                </div>
+              </form>
             </motion.div>
           </>
         )}

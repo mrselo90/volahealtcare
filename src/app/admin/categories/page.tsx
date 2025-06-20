@@ -205,12 +205,32 @@ export default function CategoriesPage() {
   const handleMoveCategory = async (id: string, direction: 'up' | 'down') => {
     try {
       setIsSaving(true);
-      const response = await fetch(`/api/admin/categories/${id}/reorder`, {
-        method: 'POST',
+      
+      // Find the category and calculate new order
+      const categoryIndex = categories.findIndex(cat => cat.id === id);
+      if (categoryIndex === -1) return;
+      
+      const newCategories = [...categories];
+      const targetIndex = direction === 'up' ? categoryIndex - 1 : categoryIndex + 1;
+      
+      if (targetIndex < 0 || targetIndex >= newCategories.length) return;
+      
+      // Swap categories
+      [newCategories[categoryIndex], newCategories[targetIndex]] = 
+      [newCategories[targetIndex], newCategories[categoryIndex]];
+      
+      // Update order indices
+      const updatedCategories = newCategories.map((cat, index) => ({
+        id: cat.id,
+        orderIndex: index
+      }));
+      
+      const response = await fetch('/api/admin/categories/reorder', {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ direction }),
+        body: JSON.stringify({ categories: updatedCategories }),
       });
       
       if (!response.ok) {

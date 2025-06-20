@@ -8,14 +8,21 @@ export interface ServiceWithImages {
  * Validate if a URL is a proper image URL
  */
 export const isValidImageUrl = (url: string): boolean => {
-  if (!url || typeof url !== 'string') return false;
+  if (!url || typeof url !== 'string') {
+    console.log('Invalid URL - empty or not string:', url);
+    return false;
+  }
   
   try {
     const parsedUrl = new URL(url);
-    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+    const isValid = parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+    console.log('URL validation (absolute):', url, 'valid:', isValid);
+    return isValid;
   } catch {
     // Check if it's a relative path
-    return url.startsWith('/');
+    const isRelative = url.startsWith('/');
+    console.log('URL validation (relative):', url, 'valid:', isRelative);
+    return isRelative;
   }
 };
 

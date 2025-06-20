@@ -81,9 +81,9 @@ export async function POST(request: Request) {
     console.log('POST /api/admin/services request body:', JSON.stringify(data, null, 2));
     const { translations = [], images = [], faqs = [], beforeAfterImages = [], ...serviceData } = data;
 
-    // Look up the category by name
-    const category = await prisma.category.findFirst({
-      where: { slug: serviceData.category }
+    // Look up the category by ID (categoryId from form)
+    const category = await prisma.category.findUnique({
+      where: { id: serviceData.categoryId }
     });
 
     if (!category) {
@@ -201,9 +201,9 @@ export async function PUT(request: Request) {
       );
     }
 
-    // Look up the category by name
-    const category = await prisma.category.findFirst({
-      where: { slug: serviceData.category }
+    // Look up the category by ID (categoryId from form)
+    const category = await prisma.category.findUnique({
+      where: { id: serviceData.categoryId }
     });
 
     if (!category) {

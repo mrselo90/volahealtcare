@@ -501,7 +501,8 @@ export const trTranslations: Translations = {
     contactInfoReceived: 'İletişim bilgileriniz için teşekkürler.',
     contactInfoResponse: 'Bizimle iletişime geçtiğiniz için teşekkürler.',
     closeChat: 'Sohbeti Kapat',
-    openChat: 'Sohbeti Aç'
+    openChat: 'Sohbeti Aç',
+    errorResponse: 'Teknik sorun için özür dilerim. Tıbbi danışmanlarımızdan biri sorununuza yardımcı olmak için kısa süre içinde sizinle iletişime geçecek.'
   },
   whatsapp: {
     defaultMessage: 'Merhaba! Hizmetlerinizle ilgileniyorum.',

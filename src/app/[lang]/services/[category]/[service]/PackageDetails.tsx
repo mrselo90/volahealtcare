@@ -32,17 +32,17 @@ export const PackageDetails = ({ data, t }) => {
       </div>
 
       {/* Package Details Grid */}
-      <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
+      <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 max-w-6xl mx-auto">
         {/* Time in Turkey */}
         {data.timeInTurkey && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
-                <CalendarIcon className="h-5 w-5 text-blue-600" />
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex flex-col h-full min-h-[220px]">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-10 h-10 bg-blue-100 rounded flex items-center justify-center flex-shrink-0 mt-1">
+                <CalendarIcon className="h-6 w-6 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.timeInTurkey')}</div>
-                <div className="text-xs text-gray-500">{t('services.packageDetails.timeInTurkeySubtitle')}</div>
+                <div className="text-sm font-semibold text-blue-700 break-all leading-tight mb-2">{t('services.packageDetails.timeInTurkey')}</div>
+                <div className="text-xs text-gray-500 leading-tight">{t('services.packageDetails.timeInTurkeySubtitle')}</div>
               </div>
             </div>
             <div className="mt-auto text-2xl font-bold text-blue-900">{data.timeInTurkey}</div>
@@ -51,14 +51,14 @@ export const PackageDetails = ({ data, t }) => {
 
         {/* Operation Time */}
         {data.operationTime && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
-                <ClockIcon className="h-5 w-5 text-blue-600" />
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex flex-col h-full min-h-[220px]">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-10 h-10 bg-blue-100 rounded flex items-center justify-center flex-shrink-0 mt-1">
+                <ClockIcon className="h-6 w-6 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.operationTime')}</div>
-                <div className="text-xs text-gray-500">{t('services.packageDetails.operationTimeSubtitle')}</div>
+                <div className="text-sm font-semibold text-blue-700 break-all leading-tight mb-2">{t('services.packageDetails.operationTime')}</div>
+                <div className="text-xs text-gray-500 leading-tight">{t('services.packageDetails.operationTimeSubtitle')}</div>
               </div>
             </div>
             <div className="mt-auto text-2xl font-bold text-blue-900">{data.operationTime}</div>
@@ -67,14 +67,14 @@ export const PackageDetails = ({ data, t }) => {
 
         {/* Hospital Stay */}
         {data.hospitalStay && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
-                <BuildingOffice2Icon className="h-5 w-5 text-blue-600" />
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex flex-col h-full min-h-[220px]">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-10 h-10 bg-blue-100 rounded flex items-center justify-center flex-shrink-0 mt-1">
+                <BuildingOffice2Icon className="h-6 w-6 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.hospitalStay')}</div>
-                <div className="text-xs text-gray-500">{t('services.packageDetails.hospitalStaySubtitle')}</div>
+                <div className="text-sm font-semibold text-blue-700 break-all leading-tight mb-2">{t('services.packageDetails.hospitalStay')}</div>
+                <div className="text-xs text-gray-500 leading-tight">{t('services.packageDetails.hospitalStaySubtitle')}</div>
               </div>
             </div>
             <div className="mt-auto text-2xl font-bold text-blue-900">{data.hospitalStay}</div>
@@ -83,14 +83,14 @@ export const PackageDetails = ({ data, t }) => {
 
         {/* Recovery */}
         {data.recovery && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
-                <HeartIcon className="h-5 w-5 text-blue-600" />
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex flex-col h-full min-h-[220px]">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-10 h-10 bg-blue-100 rounded flex items-center justify-center flex-shrink-0 mt-1">
+                <HeartIcon className="h-6 w-6 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.recovery')}</div>
-                <div className="text-xs text-gray-500">{t('services.packageDetails.recoverySubtitle')}</div>
+                <div className="text-sm font-semibold text-blue-700 break-all leading-tight mb-2">{t('services.packageDetails.recovery')}</div>
+                <div className="text-xs text-gray-500 leading-tight">{t('services.packageDetails.recoverySubtitle')}</div>
               </div>
             </div>
             <div className="mt-auto text-2xl font-bold text-blue-900">{data.recovery}</div>
@@ -99,14 +99,14 @@ export const PackageDetails = ({ data, t }) => {
 
         {/* Accommodation */}
         {data.accommodation && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
-                <HomeIcon className="h-5 w-5 text-blue-600" />
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex flex-col h-full min-h-[220px]">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-10 h-10 bg-blue-100 rounded flex items-center justify-center flex-shrink-0 mt-1">
+                <HomeIcon className="h-6 w-6 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.accommodation')}</div>
-                <div className="text-xs text-gray-500">{t('services.packageDetails.accommodationSubtitle')}</div>
+                <div className="text-sm font-semibold text-blue-700 break-all leading-tight mb-2">{t('services.packageDetails.accommodation')}</div>
+                <div className="text-xs text-gray-500 leading-tight">{t('services.packageDetails.accommodationSubtitle')}</div>
               </div>
             </div>
             <div className="mt-auto text-2xl font-bold text-blue-900">{data.accommodation}</div>
@@ -115,14 +115,14 @@ export const PackageDetails = ({ data, t }) => {
 
         {/* Transportation */}
         {data.transportation && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
-                <TruckIcon className="h-5 w-5 text-blue-600" />
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 flex flex-col h-full min-h-[220px]">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-10 h-10 bg-blue-100 rounded flex items-center justify-center flex-shrink-0 mt-1">
+                <TruckIcon className="h-6 w-6 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.transportation')}</div>
-                <div className="text-xs text-gray-500">{t('services.packageDetails.transportationSubtitle')}</div>
+                <div className="text-sm font-semibold text-blue-700 break-all leading-tight mb-2">{t('services.packageDetails.transportation')}</div>
+                <div className="text-xs text-gray-500 leading-tight">{t('services.packageDetails.transportationSubtitle')}</div>
               </div>
             </div>
             <div className="mt-auto text-2xl font-bold text-blue-900">{data.transportation}</div>

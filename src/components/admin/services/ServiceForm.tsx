@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Service, ServiceTranslation, Image, FAQ, BeforeAfterImage } from '@prisma/client';
 import { Tab } from '@headlessui/react';
@@ -28,11 +28,7 @@ const languages = [
   { code: 'ar', name: 'العربية', dir: 'rtl' },
 ];
 
-const categories = [
-  'Dental Aesthetics',
-  'Facial Aesthetics',
-  'Body Aesthetics',
-];
+// Categories will be loaded from API
 
 interface ServiceFormProps {
   service: ServiceWithRelations | null;
@@ -43,12 +39,16 @@ function classNames(...classes: string[]) {
 }
 
 export function ServiceForm({ service }: ServiceFormProps) {
+  console.log('🔥 ServiceForm component loaded!', service ? 'EDIT mode' : 'CREATE mode');
+  
   const formTitle = service ? 'Edit Service' : 'Create Service';
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const [imagesModified, setImagesModified] = useState(false);
+  const [categories, setCategories] = useState<Array<{id: string; name: string; slug: string}>>([]);
   const [formData, setFormData] = useState<Partial<ServiceWithRelations>>(() => {
     if (service) {
       return {
@@ -126,6 +126,40 @@ export function ServiceForm({ service }: ServiceFormProps) {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // Load categories from API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/categories');
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Categories fetched:', data);
+          
+          // Parse category names if they are JSON strings
+          const parsedCategories = data.map((cat: any) => {
+            let name = cat.name;
+            try {
+              // If name is a JSON string, parse it and get the English name
+              if (typeof name === 'string' && name.startsWith('{')) {
+                const parsed = JSON.parse(name);
+                name = parsed.en || name;
+              }
+            } catch (e) {
+              // If parsing fails, use the original name
+              console.log('Category name parsing failed for:', cat.name);
+            }
+            return { ...cat, name };
+          });
+          
+          setCategories(parsedCategories);
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
@@ -154,7 +188,7 @@ export function ServiceForm({ service }: ServiceFormProps) {
       const englishTitle = formData.translations?.find(t => t.language === 'en')?.title || '';
       const slug = service?.slug || englishTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
-      const submitData = {
+      const submitData: any = {
         id: service?.id,
         slug,
         categoryId: formData.categoryId,
@@ -171,12 +205,6 @@ export function ServiceForm({ service }: ServiceFormProps) {
           title: t.title,
           description: t.description,
           id: t.id,
-        })),
-        images: formData.images?.map(img => ({
-          url: img.url,
-          alt: img.alt || '',
-          type: img.type || 'gallery',
-          id: img.id,
         })),
         faqs: formData.faqs?.map(f => ({
           question: f.question,
@@ -197,7 +225,30 @@ export function ServiceForm({ service }: ServiceFormProps) {
         })),
       };
 
-      const response = await fetch('/api/services', {
+      // Only include images and updateImages flag if they have been modified or if creating new service
+      if (!service || imagesModified) {
+        console.log('Including images in request because:', !service ? 'new service' : 'images modified');
+        submitData.images = formData.images?.map(img => ({
+          url: img.url,
+          alt: img.alt || '',
+          type: img.type || 'gallery',
+          id: img.id,
+        }));
+        submitData.updateImages = true; // Explicit flag to update images
+      } else {
+        console.log('NOT including images in request - no modifications detected');
+        // Don't include images or updateImages flag - preserve existing images
+      }
+
+      console.log('=== DEBUG INFO ===');
+      console.log('service exists:', !!service);
+      console.log('imagesModified:', imagesModified);
+      console.log('submitData includes images:', 'images' in submitData);
+      console.log('submitData.images:', submitData.images);
+      console.log('formData.images length:', formData.images?.length);
+      console.log('==================');
+
+      const response = await fetch('/api/admin/services', {
         method: service ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(submitData),
@@ -247,13 +298,27 @@ export function ServiceForm({ service }: ServiceFormProps) {
   };
 
   function getSlug(service: ServiceWithRelations | null, formData: Partial<ServiceWithRelations>) {
+    if (service?.slug) return service.slug;
+    
     const englishTitle = formData.translations?.find(t => t.language === 'en')?.title || '';
-    return service?.slug || englishTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    if (englishTitle) {
+      return englishTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    }
+    
+    // Fallback to timestamp if no title
+    return `new-service-${Date.now()}`;
   }
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files?.length) return;
+    console.log('=== IMAGE UPLOAD STARTED ===');
+    
+    if (!e.target.files?.length) {
+      console.log('No files selected');
+      return;
+    }
+    
     const file = e.target.files[0];
+    console.log('File selected:', file.name, file.size, file.type);
     setUploadingImage(true);
 
     if (file.size > 5 * 1024 * 1024) {
@@ -262,39 +327,72 @@ export function ServiceForm({ service }: ServiceFormProps) {
       return;
     }
 
+    const slug = getSlug(service, formData);
+    console.log('Generated slug for upload:', slug);
+
     const form = new FormData();
     form.append('file', file);
-    form.append('slug', getSlug(service, formData));
+    form.append('slug', slug);
 
     try {
+      console.log('Sending upload request to /api/admin/services/upload');
       const response = await fetch('/api/admin/services/upload', {
         method: 'POST',
         body: form,
       });
 
+      console.log('Upload response status:', response.status);
+      
       if (!response.ok) {
-        const error = await response.json();
+        const errorText = await response.text();
+        console.log('Upload error response:', errorText);
+        let error;
+        try {
+          error = JSON.parse(errorText);
+        } catch {
+          error = { error: errorText || 'Failed to upload image' };
+        }
         throw new Error(error.error || 'Failed to upload image');
       }
 
-      const { url } = await response.json();
+      const result = await response.json();
+      console.log('Upload response:', result);
+      const { url } = result;
+      
+      if (!url) {
+        throw new Error('No URL returned from upload');
+      }
+      
+      console.log('Image uploaded successfully:', url);
+      setImagesModified(true);
+      console.log('imagesModified set to true after upload');
+      
+      const newImage = {
+        url,
+        alt: '',
+        id: '',
+        serviceId: service?.id || '',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        type: 'gallery',
+      };
+      console.log('Adding new image to formData:', newImage);
+      
       setFormData((prev: Partial<ServiceWithRelations>) => ({
         ...prev,
         images: [
           ...(prev.images || []),
-          {
-            url,
-            alt: '',
-            id: '',
-            serviceId: service?.id || '',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            type: 'gallery',
-          },
+          newImage,
         ],
       }));
+
+      // Clear the file input
+      e.target.value = '';
+      alert('Image uploaded successfully!');
+      
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Upload error:', error);
+      alert(error instanceof Error ? error.message : 'Failed to upload image. Please try again.');
     } finally {
       setUploadingImage(false);
     }
@@ -355,7 +453,7 @@ export function ServiceForm({ service }: ServiceFormProps) {
                     >
                       <option value="">Select a category</option>
                       {categories.map((cat) => (
-                        <option key={cat} value={cat}>{cat}</option>
+                        <option key={cat.id} value={cat.id}>{cat.name}</option>
                       ))}
                     </select>
                     {errors.categoryId && (
@@ -555,12 +653,45 @@ export function ServiceForm({ service }: ServiceFormProps) {
                       <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <button
                           type="button"
-                          onClick={() =>
+                          onClick={async () => {
+                            console.log('=== IMAGE DELETE CLICKED ===');
+                            console.log('Deleting image at index:', index);
+                            console.log('Image URL:', image.url);
+                            
+                            // Confirm deletion
+                            if (!confirm('Are you sure you want to delete this image?')) {
+                              return;
+                            }
+                            
+                            // Delete from server if it exists
+                            if (image.url && image.url.startsWith('/uploads/')) {
+                              try {
+                                console.log('Deleting from server:', image.url);
+                                const response = await fetch(`/api/admin/services/upload?url=${encodeURIComponent(image.url)}`, {
+                                  method: 'DELETE',
+                                });
+                                
+                                console.log('Delete response status:', response.status);
+                                
+                                if (response.ok) {
+                                  console.log('Image deleted from server successfully');
+                                } else {
+                                  console.error('Failed to delete image from server:', response.status);
+                                }
+                              } catch (error) {
+                                console.error('Error deleting image from server:', error);
+                              }
+                            }
+                            
+                            setImagesModified(true);
+                            console.log('imagesModified set to true after delete');
                             setFormData((prev) => ({
                               ...prev,
                               images: prev.images?.filter((_, i) => i !== index),
-                            }))
-                          }
+                            }));
+                            
+                            alert('Image deleted successfully!');
+                          }}
                           className="text-white hover:text-red-500 transition-colors"
                         >
                           <svg
@@ -580,7 +711,7 @@ export function ServiceForm({ service }: ServiceFormProps) {
                       </div>
                     </div>
                   ))}
-                  <label className={`flex h-40 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 hover:border-amber-500 transition-colors${uploadingImage ? ' opacity-50 cursor-not-allowed' : ''}`}>
+                  <label className={`flex h-40 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 hover:border-amber-500 transition-colors ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}>
                     <input
                       type="file"
                       accept="image/*"

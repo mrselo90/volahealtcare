@@ -1104,7 +1104,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                     </div>
 
                                          {/* Cards Grid */}
-                     <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+                     <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 mb-10">
                       {data.timeInTurkey && (
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
                           <div className="flex items-center gap-3 mb-2">

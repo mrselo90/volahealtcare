@@ -502,7 +502,8 @@ export const enTranslations: Translations = {
     contactInfoReceived: 'Thank you for your contact information.',
     contactInfoResponse: 'Thank you for contacting us.',
     closeChat: 'Close Chat',
-    openChat: 'Open Chat'
+    openChat: 'Open Chat',
+    errorResponse: 'I apologize for the technical issue. One of our medical consultants will contact you shortly to assist with your inquiry.'
   },
   whatsapp: {
     defaultMessage: 'Hello! I am interested in your services.',

@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { writeFile, mkdir } from 'fs/promises';
+import { writeFile, mkdir, unlink } from 'fs/promises';
 import { join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import { existsSync } from 'fs';
 
 export async function POST(request: Request) {
   try {
@@ -91,6 +92,50 @@ export async function POST(request: Request) {
     console.error('Error uploading image:', error);
     return NextResponse.json(
       { error: 'Failed to upload image' },
+      { status: 500 }
+    );
+  }
+}
+
+// Delete image
+export async function DELETE(request: Request) {
+  try {
+    console.log('Admin delete image request received');
+    
+    const session = await getServerSession(authOptions);
+    if (!session?.user || session.user.role !== 'admin') {
+      console.log('Error: Unauthorized access attempt');
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const imageUrl = searchParams.get('url');
+
+    if (!imageUrl) {
+      return NextResponse.json(
+        { error: 'Image URL is required' },
+        { status: 400 }
+      );
+    }
+
+    // Extract the file path from the URL
+    // URL format: /uploads/services/slug/filename.ext
+    const urlPath = imageUrl.startsWith('/') ? imageUrl.slice(1) : imageUrl;
+    const filePath = join(process.cwd(), 'public', urlPath);
+
+    // Check if file exists and delete it
+    if (existsSync(filePath)) {
+      await unlink(filePath);
+      console.log('File deleted successfully:', filePath);
+    } else {
+      console.log('File not found:', filePath);
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete image' },
       { status: 500 }
     );
   }

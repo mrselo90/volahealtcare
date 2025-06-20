@@ -90,7 +90,15 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   try {
     const data = await request.json();
-    const { id, translations, images, category, ...serviceData } = data;
+    const { id, translations, images, category, updateImages, ...serviceData } = data;
+
+    console.log('=== API DEBUG INFO ===');
+    console.log('Request contains images:', 'images' in data);
+    console.log('updateImages flag:', updateImages);
+    console.log('Images array:', images);
+    console.log('Images is array:', Array.isArray(images));
+    console.log('Images length:', images?.length);
+    console.log('======================');
 
     // Handle category - use categoryId instead of category
     const updateData = {
@@ -98,13 +106,33 @@ export async function PUT(request: Request) {
       ...(category ? { categoryId: category } : {}),
     };
 
-    // Prepare images update logic
+    // Get current service to check existing images
+    const currentService = await prisma.service.findUnique({
+      where: { id },
+      include: { images: true }
+    });
+
+    if (!currentService) {
+      return NextResponse.json(
+        { error: 'Service not found' },
+        { status: 404 }
+      );
+    }
+
+    // ONLY update images if explicitly requested with updateImages flag
     let imagesUpdate = undefined;
-    if (Array.isArray(images)) {
+    if (updateImages === true && Array.isArray(images)) {
+      console.log('Updating images because updateImages flag is true');
       imagesUpdate = {
         deleteMany: {}, // delete all existing images for this service
-        create: images.map(({ id, ...img }) => img), // create new images (ignore empty id)
+        create: images.filter(img => img.url).map(({ id, ...img }) => ({
+          ...img,
+          alt: img.alt || '',
+          type: img.type || 'gallery'
+        })), // create new images (ignore empty id and ensure required fields)
       };
+    } else {
+      console.log('Preserving existing images - no updateImages flag');
     }
 
     // Prepare faqs and beforeAfterImages update logic

@@ -576,6 +576,7 @@ export interface Translations {
     contactInfoResponse: string;
     closeChat: string;
     openChat: string;
+    errorResponse: string;
   };
   whatsapp: {
     defaultMessage: string;
