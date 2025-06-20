@@ -28,20 +28,20 @@ export const PackageDetails = ({ data, t }) => {
           <InformationCircleIcon className="h-8 w-8 text-white" />
         </div>
         <h3 className="text-3xl sm:text-4xl font-bold text-white mb-3">{t('services.packageDetails.title')}</h3>
-        <p className="text-lg text-blue-100/80">{t('services.packageDetails.subtitle')}</p>
+        <p className="text-lg text-gray-600">{t('services.packageDetails.subtitle')}</p>
       </div>
 
       {/* Package Details Grid */}
-      <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
         {/* Time in Turkey */}
         {data.timeInTurkey && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <CalendarIcon className="h-5 w-5 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.timeInTurkey')}</div>
+                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.timeInTurkey')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.timeInTurkeySubtitle')}</div>
               </div>
             </div>
@@ -51,13 +51,13 @@ export const PackageDetails = ({ data, t }) => {
 
         {/* Operation Time */}
         {data.operationTime && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <ClockIcon className="h-5 w-5 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.operationTime')}</div>
+                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.operationTime')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.operationTimeSubtitle')}</div>
               </div>
             </div>
@@ -67,13 +67,13 @@ export const PackageDetails = ({ data, t }) => {
 
         {/* Hospital Stay */}
         {data.hospitalStay && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <BuildingOffice2Icon className="h-5 w-5 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.hospitalStay')}</div>
+                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.hospitalStay')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.hospitalStaySubtitle')}</div>
               </div>
             </div>
@@ -83,13 +83,13 @@ export const PackageDetails = ({ data, t }) => {
 
         {/* Recovery */}
         {data.recovery && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <HeartIcon className="h-5 w-5 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.recovery')}</div>
+                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.recovery')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.recoverySubtitle')}</div>
               </div>
             </div>
@@ -99,13 +99,13 @@ export const PackageDetails = ({ data, t }) => {
 
         {/* Accommodation */}
         {data.accommodation && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <HomeIcon className="h-5 w-5 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.accommodation')}</div>
+                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.accommodation')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.accommodationSubtitle')}</div>
               </div>
             </div>
@@ -115,13 +115,13 @@ export const PackageDetails = ({ data, t }) => {
 
         {/* Transportation */}
         {data.transportation && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <TruckIcon className="h-5 w-5 text-blue-600" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.transportation')}</div>
+                <div className="text-base font-semibold text-blue-700 break-all">{t('services.packageDetails.transportation')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.transportationSubtitle')}</div>
               </div>
             </div>
