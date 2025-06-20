@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import { motion, PanInfo } from 'framer-motion';
+import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import ImageLightbox from './ImageLightbox';
 import { useTranslation } from '@/lib/i18n/hooks';
 
@@ -41,6 +41,12 @@ export default function CategoryBeforeAfterSection({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // New state for drag/scroll functionality
+  const [isDragging, setIsDragging] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
   useEffect(() => {
     fetchCases();
   }, [categoryId]);
@@ -59,7 +65,59 @@ export default function CategoryBeforeAfterSection({
     }
   };
 
+  // New scroll utility functions
+  const updateScrollButtons = useCallback(() => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+    }
+  }, []);
 
+  const scrollToLeft = () => {
+    if (scrollContainerRef.current) {
+      const cardWidth = 350; // Updated for larger cards + gap
+      scrollContainerRef.current.scrollBy({ left: -cardWidth * 2, behavior: 'smooth' });
+    }
+  };
+
+  const scrollToRight = () => {
+    if (scrollContainerRef.current) {
+      const cardWidth = 350; // Updated for larger cards + gap
+      scrollContainerRef.current.scrollBy({ left: cardWidth * 2, behavior: 'smooth' });
+    }
+  };
+
+  // Handle drag end for navigation
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    setIsDragging(false);
+    
+    // Prevent click events when dragging
+    if (Math.abs(info.offset.x) > 10) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (Math.abs(info.offset.x) > 50) {
+      if (info.offset.x > 0) {
+        scrollToLeft();
+      } else {
+        scrollToRight();
+      }
+    }
+  };
+
+  // Update scroll buttons on scroll
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      const handleScroll = () => updateScrollButtons();
+      container.addEventListener('scroll', handleScroll);
+      updateScrollButtons(); // Initial check
+      
+      return () => container.removeEventListener('scroll', handleScroll);
+    }
+  }, [updateScrollButtons]);
 
   // Mock data for demonstration if API doesn't return data
   const mockCases = [
@@ -138,8 +196,10 @@ export default function CategoryBeforeAfterSection({
 
   // Lightbox handlers
   const openLightbox = (index: number) => {
-    setCurrentImageIndex(index);
-    setLightboxOpen(true);
+    if (!isDragging) {
+      setCurrentImageIndex(index);
+      setLightboxOpen(true);
+    }
   };
 
   const closeLightbox = () => {
@@ -194,6 +254,7 @@ export default function CategoryBeforeAfterSection({
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex justify-center"
         >
           <Link
             href={`/results/${resultRoute}`}
@@ -205,46 +266,116 @@ export default function CategoryBeforeAfterSection({
         </motion.div>
       </div>
 
-      {/* Grid Gallery */}
+      {/* Horizontal Scrollable Gallery */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden animate-pulse">
-                <div className="aspect-square bg-gray-200"></div>
-              </div>
-            ))}
+        {/* Navigation Buttons - Positioned above gallery */}
+        <div className="hidden md:flex justify-end mb-4">
+          <div className="flex gap-2 gallery-indicators">
+            <button
+              onClick={scrollToLeft}
+              disabled={!canScrollLeft}
+              className={`p-3 rounded-full border-2 transition-all duration-200 touch-target ${
+                canScrollLeft 
+                  ? 'border-white/50 text-white hover:bg-white/10 hover:border-white/70' 
+                  : 'border-gray-500 text-gray-500 cursor-not-allowed'
+              }`}
+            >
+              <ChevronLeftIcon className="h-5 w-5" />
+            </button>
+            <button
+              onClick={scrollToRight}
+              disabled={!canScrollRight}
+              className={`p-3 rounded-full border-2 transition-all duration-200 touch-target ${
+                canScrollRight 
+                  ? 'border-white/50 text-white hover:bg-white/10 hover:border-white/70' 
+                  : 'border-gray-500 text-gray-500 cursor-not-allowed'
+              }`}
+            >
+              <ChevronRightIcon className="h-5 w-5" />
+            </button>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {displayCases.map((caseItem, index) => (
-              <motion.div
-                key={caseItem.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
-                onClick={() => openLightbox(index)}
-              >
-                <div className="relative aspect-square">
-                  <img
-                    src={caseItem.afterImage || '/images/placeholder.svg'}
-                    alt="Case image"
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      console.error('Grid image failed to load:', caseItem.afterImage);
-                      const target = e.currentTarget as HTMLImageElement;
-                      target.src = 'https://via.placeholder.com/400x400/cccccc/666666?text=No+Image';
-                    }}
-                  />
-                  
-                  {/* Minimal hover effect */}
-                  <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-all duration-300" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+        </div>
+        
+        <div className="relative">
+          {loading ? (
+            <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
+                             {Array.from({ length: 8 }).map((_, index) => (
+                 <div key={index} className="flex-shrink-0 w-72 md:w-80 lg:w-[23rem] bg-white/10 rounded-xl overflow-hidden animate-pulse">
+                   <div className="aspect-square bg-gray-600"></div>
+                 </div>
+               ))}
+            </div>
+          ) : (
+            <motion.div
+              ref={scrollContainerRef}
+              className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide swipeable-gallery drag-cursor"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragStart={() => setIsDragging(true)}
+              onDragEnd={handleDragEnd}
+              dragElastic={0.1}
+            >
+              {displayCases.map((caseItem, index) => (
+                <motion.div
+                  key={caseItem.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                                     className="flex-shrink-0 w-72 md:w-80 lg:w-[23rem] bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-white/20 transition-all duration-300 cursor-pointer gallery-card border border-white/10"
+                  onClick={() => openLightbox(index)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  drag={false} // Prevent individual card drag
+                >
+                  <div className="relative aspect-square">
+                                         <img
+                       src={caseItem.afterImage || '/images/placeholder.svg'}
+                       alt="Case image"
+                       className="w-full h-full object-contain bg-gray-100"
+                       onError={(e) => {
+                         console.error('Grid image failed to load:', caseItem.afterImage);
+                         const target = e.currentTarget as HTMLImageElement;
+                         target.src = 'https://via.placeholder.com/400x400/cccccc/666666?text=No+Image';
+                       }}
+                     />
+                    
+                                         {/* Enhanced overlay gradient */}
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                    
+                    {/* Case details overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      {caseItem.title && (
+                        <h3 className="text-white font-bold text-lg mb-2 line-clamp-2 drop-shadow-lg">
+                          {caseItem.title}
+                        </h3>
+                      )}
+
+                    </div>
+                    
+                    {/* Hover effect overlay */}
+                    <div className="absolute inset-0 bg-white/0 hover:bg-white/10 transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
+                      <div className="text-white text-center">
+                        <div className="text-2xl mb-2">👁️</div>
+                        <div className="text-sm font-medium">View Details</div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+
+          {/* Gradient Fade Edges */}
+          <div className="absolute top-0 left-0 bottom-0 w-8 bg-gradient-to-r from-gray-800 to-transparent pointer-events-none z-10" />
+          <div className="absolute top-0 right-0 bottom-0 w-8 bg-gradient-to-l from-gray-800 to-transparent pointer-events-none z-10" />
+        </div>
+
+        {/* Mobile Swipe Hint */}
+        <div className="text-center mt-4 md:hidden">
+          <p className="text-sm text-gray-400 flex items-center justify-center gap-2 swipe-hint">
+            <span>👆 Swipe to see more results</span>
+          </p>
+        </div>
       </div>
 
       {/* Image Lightbox */}

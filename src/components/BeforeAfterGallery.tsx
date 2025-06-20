@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { XMarkIcon, ChevronLeftIcon, ChevronRightIcon, StarIcon } from '@heroicons/react/24/outline';
 import { getPlaceholderImage } from '@/lib/placeholders';
 import SafeImage from './SafeImage';
@@ -70,6 +70,12 @@ export default function BeforeAfterGallery({
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedService, setSelectedService] = useState<string>('all');
   const [retryCount, setRetryCount] = useState(0);
+  
+  // New state for drag/scroll functionality
+  const [isDragging, setIsDragging] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
 
   // Memoize expensive operations
   const filteredCases = useMemo(() => {
@@ -201,6 +207,71 @@ export default function BeforeAfterGallery({
   const featuredBadge = { ...badgeStyle, background: '#facc15', color: '#fff' };
   const publishedBadge = { ...badgeStyle, background: '#22c55e', color: '#fff' };
 
+  // New scroll utility functions
+  const updateScrollButtons = useCallback(() => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+    }
+  }, []);
+
+  const scrollToLeft = () => {
+    if (scrollContainerRef.current) {
+      const cardWidth = 400; // Updated for larger cards + gap
+      scrollContainerRef.current.scrollBy({ left: -cardWidth * 2, behavior: 'smooth' });
+    }
+  };
+
+  const scrollToRight = () => {
+    if (scrollContainerRef.current) {
+      const cardWidth = 400; // Updated for larger cards + gap
+      scrollContainerRef.current.scrollBy({ left: cardWidth * 2, behavior: 'smooth' });
+    }
+  };
+
+  // Handle drag end for navigation
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    setIsDragging(false);
+    
+    // Prevent click events when dragging
+    if (Math.abs(info.offset.x) > 10) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (Math.abs(info.offset.x) > 50) {
+      if (info.offset.x > 0) {
+        scrollToLeft();
+      } else {
+        scrollToRight();
+      }
+    }
+  };
+
+  // Modal navigation with swipe
+  const handleModalSwipe = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    if (Math.abs(info.offset.x) > 100) {
+      if (info.offset.x > 0) {
+        prevCase();
+      } else {
+        nextCase();
+      }
+    }
+  };
+
+  // Update scroll buttons on scroll
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      const handleScroll = () => updateScrollButtons();
+      container.addEventListener('scroll', handleScroll);
+      updateScrollButtons(); // Initial check
+      
+      return () => container.removeEventListener('scroll', handleScroll);
+    }
+  }, [updateScrollButtons]);
+
   if (loading) {
     return (
       <div className="flex flex-col justify-center items-center h-64">
@@ -326,80 +397,137 @@ export default function BeforeAfterGallery({
         </div>
       )}
 
-      {/* Gallery Grid */}
-      <div className={`grid ${getGridClass()} gap-6`} role="grid" aria-label="Before and after transformation gallery">
-        {filteredCases.map((caseItem, index) => (
-          <div 
-            key={caseItem.id} 
-            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
-            role="gridcell"
-            aria-rowindex={Math.floor(index / gridCols) + 1}
-            aria-colindex={(index % gridCols) + 1}
-            onClick={() => openModal(caseItem)}
-          >
-            <div className="relative aspect-square">
-              <SafeImage
-                src={caseItem.beforeImage}
-                alt={caseItem.beforeImageAlt || `Before treatment for ${caseItem.title}`}
-                fill
-                className="object-cover"
-                fallbackType="before"
-                fallbackIndex={1}
-              />
-              
-              {/* Enhanced overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              
-              {/* RESULT badge */}
-              <div className="absolute top-4 right-4">
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-500 text-white shadow-lg">
-                  RESULT
-                </span>
-              </div>
-              
-              {/* Category badge */}
-              {caseItem.category && (
-                <div className="absolute top-4 left-4">
-                  <span 
-                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500/90 text-white shadow-lg backdrop-blur-sm"
-                    role="tag"
-                    aria-label={`Category: ${caseItem.category.name}`}
-                  >
-                    {caseItem.category.name}
-                  </span>
-                </div>
-              )}
-              
-              {/* Title overlay - improved positioning and styling */}
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="text-white font-serif font-bold text-xl mb-2 line-clamp-2 drop-shadow-lg">
-                  {caseItem.title}
-                </h3>
-                {caseItem.patientAge && (
-                  <div className="flex items-center gap-2 text-white/90 text-sm">
-                    <span className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
-                      👤 {caseItem.patientAge} years
+      {/* Enhanced Gallery Header with Navigation */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-serif font-bold text-gray-900">
+            Transformation Gallery
+          </h2>
+          <p className="text-gray-600 text-sm mt-1">
+            Swipe or drag to explore more results
+          </p>
+        </div>
+        
+                 {/* Scroll Navigation Buttons */}
+         <div className="hidden md:flex gap-2 gallery-indicators">
+           <button
+             onClick={scrollToLeft}
+             disabled={!canScrollLeft}
+             className={`p-2 rounded-full border-2 transition-all duration-200 touch-target ${
+               canScrollLeft 
+                 ? 'border-blue-500 text-blue-500 hover:bg-blue-50' 
+                 : 'border-gray-300 text-gray-300 cursor-not-allowed'
+             }`}
+           >
+             <ChevronLeftIcon className="h-5 w-5" />
+           </button>
+           <button
+             onClick={scrollToRight}
+             disabled={!canScrollRight}
+             className={`p-2 rounded-full border-2 transition-all duration-200 touch-target ${
+               canScrollRight 
+                 ? 'border-blue-500 text-blue-500 hover:bg-blue-50' 
+                 : 'border-gray-300 text-gray-300 cursor-not-allowed'
+             }`}
+           >
+             <ChevronRightIcon className="h-5 w-5" />
+           </button>
+         </div>
+      </div>
+
+      {/* Horizontal Scrollable Gallery */}
+      <div className="relative">
+        <motion.div
+          ref={scrollContainerRef}
+          className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide swipeable-gallery drag-cursor"
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          onDragStart={() => setIsDragging(true)}
+          onDragEnd={handleDragEnd}
+          dragElastic={0.1}
+        >
+          {filteredCases.map((caseItem, index) => (
+                         <motion.div 
+               key={caseItem.id} 
+               className="flex-shrink-0 w-80 md:w-96 lg:w-[23rem] bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer gallery-card"
+               onClick={(e) => {
+                 if (!isDragging) {
+                   openModal(caseItem);
+                 }
+               }}
+               whileHover={{ scale: 1.02 }}
+               whileTap={{ scale: 0.98 }}
+               drag={false} // Prevent individual card drag
+             >
+              <div className="relative aspect-square">
+                                 <SafeImage
+                   src={caseItem.beforeImage}
+                   alt={caseItem.beforeImageAlt || `Before treatment for ${caseItem.title}`}
+                   fill
+                   className="object-contain bg-gray-100"
+                   fallbackType="before"
+                   fallbackIndex={1}
+                 />
+                
+                                 {/* Enhanced overlay gradient */}
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                
+                {/* Category badge */}
+                {caseItem.category && (
+                  <div className="absolute top-4 left-4">
+                    <span 
+                      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500/90 text-white shadow-lg backdrop-blur-sm"
+                      role="tag"
+                      aria-label={`Category: ${caseItem.category.name}`}
+                    >
+                      {caseItem.category.name}
                     </span>
-                    {caseItem.timeframe && (
-                      <span className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full">
-                        ⏱️ {caseItem.timeframe}
-                      </span>
-                    )}
                   </div>
                 )}
-              </div>
-              
-              {/* Hover effect overlay */}
-              <div className="absolute inset-0 bg-blue-600/20 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div className="text-white text-center">
-                  <div className="text-2xl mb-2">👁️</div>
-                  <div className="text-sm font-medium">View Details</div>
+                
+                {/* Title overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <h3 className="text-white font-serif font-bold text-xl mb-2 line-clamp-2 drop-shadow-lg">
+                    {caseItem.title}
+                  </h3>
+
+                </div>
+                
+                {/* Hover effect overlay */}
+                <div className="absolute inset-0 bg-blue-600/20 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="text-white text-center">
+                    <div className="text-2xl mb-2">👁️</div>
+                    <div className="text-sm font-medium">View Details</div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Mobile Scroll Indicators */}
+        <div className="flex justify-center mt-4 md:hidden">
+          <div className="flex gap-2">
+            {Array.from({ length: Math.ceil(filteredCases.length / 2) }).map((_, index) => (
+              <div
+                key={index}
+                className="w-2 h-2 rounded-full bg-gray-300"
+              />
+            ))}
           </div>
-        ))}
+        </div>
+
+        {/* Gradient Fade Edges */}
+        <div className="absolute top-0 left-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 right-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
       </div>
+
+             {/* Mobile Swipe Hint */}
+       <div className="text-center mt-4 md:hidden">
+         <p className="text-sm text-gray-500 flex items-center justify-center gap-2 swipe-hint">
+           <span>👆 Swipe to see more cases</span>
+         </p>
+       </div>
 
       {filteredCases.length === 0 && (
         <div className="text-center py-12">
@@ -415,7 +543,7 @@ export default function BeforeAfterGallery({
         </div>
       )}
 
-      {/* Modal */}
+      {/* Enhanced Modal with Swipe */}
       <AnimatePresence>
         {selectedCase && (
           <motion.div
@@ -429,18 +557,52 @@ export default function BeforeAfterGallery({
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto relative modal-container"
               onClick={(e) => e.stopPropagation()}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragEnd={handleModalSwipe}
+              dragElastic={0.2}
             >
               {/* Modal Header */}
               <div className="flex justify-between items-center p-6 border-b">
-                <h2 className="text-2xl font-serif font-bold">{selectedCase.title}</h2>
-                <button
-                  onClick={closeModal}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <XMarkIcon className="h-6 w-6" />
-                </button>
+                <div>
+                  <h2 className="text-2xl font-serif font-bold">{selectedCase.title}</h2>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Swipe left/right to navigate between cases
+                  </p>
+                </div>
+                <div className="flex items-center gap-4">
+                  {/* Navigation Buttons */}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={prevCase}
+                      className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                    >
+                      <ChevronLeftIcon className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={nextCase}
+                      className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                    >
+                      <ChevronRightIcon className="h-5 w-5" />
+                    </button>
+                  </div>
+                  <button
+                    onClick={closeModal}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    <XMarkIcon className="h-6 w-6" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Swipe Indicator */}
+              <div className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 z-10 md:hidden modal-swipe-indicator">
+                <ChevronLeftIcon className="h-8 w-8 opacity-50" />
+              </div>
+              <div className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 z-10 md:hidden modal-swipe-indicator">
+                <ChevronRightIcon className="h-8 w-8 opacity-50" />
               </div>
 
               {/* Modal Content */}
@@ -454,7 +616,7 @@ export default function BeforeAfterGallery({
                         src={showBeforeImage ? selectedCase.beforeImage : selectedCase.afterImage}
                         alt={showBeforeImage ? (selectedCase.beforeImageAlt || 'Before treatment') : (selectedCase.afterImageAlt || 'After treatment')}
                         fill
-                        className="object-cover"
+                        className="object-contain bg-gray-100"
                         fallbackType={showBeforeImage ? 'before' : 'after'}
                         fallbackIndex={1}
                         priority={true}
@@ -496,17 +658,168 @@ export default function BeforeAfterGallery({
                       </button>
                     </div>
 
-                    {/* Quick Stats */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-blue-50 p-4 rounded-lg text-center">
-                        <div className="text-2xl font-serif font-bold text-blue-600">{selectedCase.patientAge || 'N/A'}</div>
-                        <div className="text-sm text-blue-800">Years Old</div>
-                      </div>
-                      <div className="bg-green-50 p-4 rounded-lg text-center">
-                        <div className="text-2xl font-serif font-bold text-green-600">{selectedCase.timeframe || 'N/A'}</div>
-                        <div className="text-sm text-green-800">Results Time</div>
+
+                  </div>
+
+                  {/* Details Section */}
+                  <div className="space-y-8">
+                    {/* Case Information */}
+                    <div>
+                      <h3 className="text-2xl font-serif font-bold text-gray-900 mb-4">Case Details</h3>
+                      <div className="space-y-4">
+                        {selectedCase.patientGender && (
+                          <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+                            <span className="text-purple-500 text-xl">⚥</span>
+                            <div>
+                              <span className="text-sm text-professional text-gray-600">Gender</span>
+                              <p className="font-medium text-gray-900">{selectedCase.patientGender}</p>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {selectedCase.patientCountry && (
+                          <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+                            <span className="text-blue-500 text-xl">🌍</span>
+                            <div>
+                              <span className="text-sm text-professional text-gray-600">Country</span>
+                              <p className="font-medium text-gray-900">{selectedCase.patientCountry}</p>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {selectedCase.category && (
+                          <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+                            <span className="text-indigo-500 text-xl">🏷️</span>
+                            <div>
+                              <span className="text-sm text-professional text-gray-600">Category</span>
+                              <p className="font-medium text-gray-900">{selectedCase.category.name}</p>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
+
+                    {/* Treatment Details */}
+                    {selectedCase.treatmentDetails && (
+                      <div>
+                        <h4 className="text-lg font-serif font-bold text-gray-900 mb-3 flex items-center gap-2">
+                          <span className="text-blue-500">🏥</span> Treatment Details
+                        </h4>
+                        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                          <p className="text-gray-700">{selectedCase.treatmentDetails}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Results */}
+                    {selectedCase.results && (
+                      <div>
+                        <h4 className="text-lg font-serif font-bold text-gray-900 mb-3 flex items-center gap-2">
+                          <span className="text-green-500">✨</span> Results Achieved
+                        </h4>
+                        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                          <p className="text-gray-700">{selectedCase.results}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Description */}
+                    {selectedCase.description && (
+                      <div>
+                        <h4 className="text-lg font-serif font-bold text-gray-900 mb-3 flex items-center gap-2">
+                          <span className="text-purple-500">📝</span> Additional Notes
+                        </h4>
+                        <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                          <p className="text-gray-700">{selectedCase.description}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Featured Badge */}
+                    {selectedCase.isFeatured && (
+                      <div className="flex items-center gap-2 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-200">
+                        <StarIcon className="h-6 w-6 text-yellow-500" />
+                        <span className="font-medium text-yellow-800">Featured Case</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Enhanced Navigation Footer */}
+                <div className="flex justify-between items-center p-6 bg-gray-50 border-t mt-8 -mx-8 -mb-8 rounded-b-lg">
+                  <button
+                    onClick={prevCase}
+                    className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium shadow-sm"
+                  >
+                    <ChevronLeftIcon className="h-5 w-5" />
+                    Previous Case
+                  </button>
+                  
+                  <div className="flex items-center gap-4">
+                    <span className="text-gray-500 font-medium">
+                      {filteredCases.findIndex(c => c.id === selectedCase.id) + 1} of {filteredCases.length}
+                    </span>
+                    <div className="flex gap-2">
+                      {filteredCases.slice(0, 5).map((_, index) => (
+                        <div
+                          key={index}
+                          className={`w-2 h-2 rounded-full ${
+                            index === filteredCases.findIndex(c => c.id === selectedCase.id)
+                              ? 'bg-blue-500'
+                              : 'bg-gray-300'
+                          }`}
+                        />
+                      ))}
+                      {filteredCases.length > 5 && (
+                        <span className="text-gray-400 text-sm">...</span>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <button
+                    onClick={nextCase}
+                    className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 font-medium shadow-sm"
+                  >
+                    Next Case
+                    <ChevronRightIcon className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm text-professional shadow-lg ${
+                          showBeforeImage 
+                            ? 'bg-red-500 text-white' 
+                            : 'bg-green-500 text-white'
+                        }`}>
+                          {showBeforeImage ? '📷 Before' : '✨ After'}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* Enhanced Toggle Buttons */}
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => setShowBeforeImage(true)}
+                        className={`flex-1 py-4 px-6 rounded-xl text-professional-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
+                          showBeforeImage 
+                            ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-red-200' 
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
+                        📷 Before Treatment
+                      </button>
+                      <button
+                        onClick={() => setShowBeforeImage(false)}
+                        className={`flex-1 py-4 px-6 rounded-xl text-professional-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
+                          !showBeforeImage 
+                            ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-blue-200' 
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
+                        ✨ After Treatment
+                      </button>
+                    </div>
+
+
                   </div>
 
                   {/* Enhanced Details Section */}
@@ -518,12 +831,7 @@ export default function BeforeAfterGallery({
                         Patient Information
                       </h3>
                       <div className="grid grid-cols-1 gap-3">
-                        {selectedCase.patientAge && (
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-600 font-medium">Age:</span>
-                            <span className="text-gray-800 font-semibold">{selectedCase.patientAge} years</span>
-                          </div>
-                        )}
+
                         {selectedCase.patientGender && (
                           <div className="flex justify-between items-center">
                             <span className="text-gray-600 font-medium">Gender:</span>
@@ -598,43 +906,6 @@ export default function BeforeAfterGallery({
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Enhanced Navigation */}
-              <div className="flex justify-between items-center p-8 bg-gray-50 border-t">
-                <button
-                  onClick={prevCase}
-                  className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium shadow-sm"
-                >
-                  <ChevronLeftIcon className="h-5 w-5" />
-                  Previous Case
-                </button>
-                
-                <div className="flex items-center gap-4">
-                  <span className="text-gray-500 font-medium">
-                    {filteredCases.findIndex(c => c.id === selectedCase.id) + 1} of {filteredCases.length}
-                  </span>
-                  <div className="flex gap-2">
-                    {filteredCases.map((_, index) => (
-                      <div
-                        key={index}
-                        className={`w-2 h-2 rounded-full ${
-                          index === filteredCases.findIndex(c => c.id === selectedCase.id)
-                            ? 'bg-blue-500'
-                            : 'bg-gray-300'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-                
-                <button
-                  onClick={nextCase}
-                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 font-medium shadow-sm"
-                >
-                  Next Case
-                  <ChevronRightIcon className="h-5 w-5" />
-                </button>
               </div>
             </motion.div>
           </motion.div>
