@@ -347,50 +347,97 @@ export default function Home({ params }: { params: { lang: string } }) {
       {isClient && (
         <div className="fixed right-3 sm:right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col space-y-2 sm:space-y-3">
           <div className="bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-2 sm:p-3 shadow-lg border border-gray-200/50">
-            <a 
-              href={socialUrls.social_instagram || "https://instagram.com/volahealthistanbul"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 touch-manipulation"
-              title="Follow us on Instagram"
-            >
-              <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
-                {getSocialIcon('instagram')}
-              </div>
-            </a>
-            <a 
-              href={socialUrls.social_facebook || "https://facebook.com/volahealthistanbul"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 touch-manipulation"
-              title="Follow us on Facebook"
-            >
-              <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
-                {getSocialIcon('facebook')}
-              </div>
-            </a>
-            <a 
-              href={socialUrls.social_linkedin || "https://linkedin.com/company/volahealthistanbul"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 touch-manipulation"
-              title="Connect on LinkedIn"
-            >
-              <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
-                {getSocialIcon('linkedin')}
-              </div>
-            </a>
-            <a 
-              href={socialUrls.social_youtube || "https://youtube.com/@volahealthistanbul"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-red-50 to-pink-50 hover:from-red-100 hover:to-pink-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 touch-manipulation"
-              title="Subscribe to our YouTube"
-            >
-              <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
-                {getSocialIcon('youtube')}
-              </div>
-            </a>
+            {socialUrls.social_instagram && (
+              <a 
+                href={socialUrls.social_instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 touch-manipulation"
+                title="Follow us on Instagram"
+              >
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon('instagram')}
+                </div>
+              </a>
+            )}
+            {socialUrls.social_facebook && (
+              <a 
+                href={socialUrls.social_facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 touch-manipulation"
+                title="Follow us on Facebook"
+              >
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon('facebook')}
+                </div>
+              </a>
+            )}
+            {socialUrls.social_trustpilot && (
+              <a 
+                href={socialUrls.social_trustpilot}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-green-50 to-lime-50 hover:from-green-100 hover:to-lime-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 touch-manipulation"
+                title="Read our Trustpilot reviews"
+              >
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon('trustpilot')}
+                </div>
+              </a>
+            )}
+            {socialUrls.social_googlemaps && (
+              <a 
+                href={socialUrls.social_googlemaps}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-yellow-50 to-red-50 hover:from-yellow-100 hover:to-red-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 touch-manipulation"
+                title="Find us on Google Maps"
+              >
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon('googlemaps')}
+                </div>
+              </a>
+            )}
+            {socialUrls.social_linkedin && (
+              <a 
+                href={socialUrls.social_linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 mb-1.5 sm:mb-2 touch-manipulation"
+                title="Connect on LinkedIn"
+              >
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon('linkedin')}
+                </div>
+              </a>
+            )}
+            {socialUrls.social_youtube && (
+              <a 
+                href={socialUrls.social_youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-red-50 to-pink-50 hover:from-red-100 hover:to-pink-100 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 touch-manipulation"
+                title="Subscribe to our YouTube"
+              >
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon('youtube')}
+                </div>
+              </a>
+            )}
+            {socialUrls.social_twitter && (
+              <a 
+                href={socialUrls.social_twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-r from-gray-50 to-gray-200 hover:from-gray-100 hover:to-gray-300 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 touch-manipulation"
+                title="Follow us on Twitter"
+              >
+                <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
+                  {getSocialIcon('twitter')}
+                </div>
+              </a>
+            )}
           </div>
         </div>
       )}

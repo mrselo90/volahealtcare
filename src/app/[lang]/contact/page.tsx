@@ -315,7 +315,7 @@ export default function ContactPage() {
       {/* Map section */}
       <div className="relative h-64 sm:h-96">
         <iframe
-          src="https://www.google.com/maps?q=40.990963,28.900390&hl=tr&z=16&output=embed"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3009.4441434!2d28.900389999999998!3d40.990963!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab1c0c0c0c0c0%3A0x0!2sVeliefendi%2C%20Prof.%20Dr.%20Turan%20G%C3%BCne%C5%9F%20Cd.%20No%3A103%2C%2034025%20Zeytinburnu%2F%C4%B0stanbul!5e0!3m2!1str!2str!4v1234567890!5m2!1str!2str"
           width="100%"
           height="100%"
           style={{ border: 0 }}

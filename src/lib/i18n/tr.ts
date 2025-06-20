@@ -74,7 +74,7 @@ export const trTranslations: Translations = {
   home: {
     premiumBadge: 'PREMIUM SAĞLIK HİZMETİ',
     hero: {
-      title: 'Premium Medikal Turizm ile Hayatınızı Dönüştürün',
+      title: 'Vola Health İstanbul ile Premium Bakım ile Hayatınızı Dönüştürün',
       subtitle: 'Uzman medikal ekibimizle İstanbul\'da dünya standartlarında sağlık hizmeti deneyimi yaşayın.',
       cta: 'Yolculuğunuza Başlayın',
       trustBadge: 'Dünya çapında 10.000\'den fazla hasta tarafından güvenilir',
@@ -431,6 +431,7 @@ export const trTranslations: Translations = {
     form: {
       title: 'Randevunuzu Alın',
       freeConsultation: 'Ücretsiz Danışma',
+      sendMessage: 'Bize Mesaj Gönderin',
       subtitle: 'Dönüşümünüze doğru ilk adımı atın. Uzman medikal ekibimiz yolculuğunuz boyunca size rehberlik etmeye hazır.',
       personalInfo: 'Kişisel Bilgiler',
       serviceSchedule: 'Hizmet & Program',

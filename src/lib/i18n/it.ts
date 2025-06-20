@@ -74,7 +74,7 @@ export const itTranslations: Translations = {
   home: {
     premiumBadge: 'ASSISTENZA SANITARIA PREMIUM',
     hero: {
-      title: 'Trasforma la Tua Vita con il Turismo Medico Premium',
+      title: 'Trasforma la Tua Vita con Cure Premium presso Vola Health Istanbul',
       subtitle: 'Sperimenta assistenza sanitaria di livello mondiale a Istanbul con il nostro team medico esperto.',
       cta: 'Inizia il Tuo Percorso',
       trustBadge: 'Fiducia di oltre 10.000 pazienti in tutto il mondo',

@@ -74,7 +74,7 @@ export const enTranslations: Translations = {
   home: {
     premiumBadge: 'PREMIUM HEALTH CARE',
     hero: {
-      title: 'Transform Your Life with Premium Medical Tourism',
+      title: 'Transform Your Life with Premium Care at Vola Health Istanbul',
       subtitle: 'Experience world-class healthcare in Istanbul with our expert medical team.',
       cta: 'Start Your Journey',
       trustBadge: 'Trusted by over 10,000 patients worldwide',
@@ -432,6 +432,7 @@ export const enTranslations: Translations = {
     form: {
       title: 'Book Your',
       freeConsultation: 'Free Consultation',
+      sendMessage: 'Send Us A Message',
       subtitle: 'Take the first step towards your transformation. Our expert medical team is ready to guide you through your journey.',
       personalInfo: 'Personal Information',
       serviceSchedule: 'Service & Schedule',

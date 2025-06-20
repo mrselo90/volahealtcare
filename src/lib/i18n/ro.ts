@@ -74,7 +74,7 @@ export const roTranslations: Translations = {
   home: {
     premiumBadge: 'ÎNGRIJIRE MEDICALĂ PREMIUM',
     hero: {
-      title: 'Transformă-ți Viața cu Turismul Medical Premium',
+      title: 'Transformă-ți Viața cu Îngrijire Premium la Vola Health Istanbul',
       subtitle: 'Experimentează îngrijire medicală de clasă mondială în Istanbul cu echipa noastră medicală expertă.',
       cta: 'Începe Călătoria Ta',
       trustBadge: 'De încredere pentru peste 10.000 de pacienți în întreaga lume',

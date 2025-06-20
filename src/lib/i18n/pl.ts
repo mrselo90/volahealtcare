@@ -74,7 +74,7 @@ export const plTranslations: Translations = {
   home: {
     premiumBadge: 'PREMIUM OPIEKA ZDROWOTNA',
     hero: {
-      title: 'Przekształć Swoje Życie z Premium Turystyką Medyczną',
+      title: 'Przekształć Swoje Życie z Premium Opieką w Vola Health Istanbul',
       subtitle: 'Doświadcz światowej klasy opieki zdrowotnej w Stambule z naszym eksperckim zespołem medycznym.',
       cta: 'Rozpocznij Swoją Podróż',
       trustBadge: 'Zaufało nam ponad 10 000 pacjentów na całym świecie',

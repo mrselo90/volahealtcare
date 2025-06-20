@@ -1304,8 +1304,10 @@ export default function ServicePage({ params }: ServicePageProps) {
           <div className="lg:col-span-1">
             <div className="lg:sticky lg:top-32 space-y-4 sm:space-y-6 lg:space-y-8">
               
-              {/* Quick Info Card */}
-              <QuickOverviewCard t={t} />
+              {/* Quick Info Card - Desktop Only */}
+              <div className="hidden lg:block">
+                <QuickOverviewCard t={t} />
+              </div>
 
               {/* Navigation Card */}
               {tableOfContents.length > 0 && (

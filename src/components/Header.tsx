@@ -74,26 +74,26 @@ export function Header() {
       scrolled ? 'bg-white shadow-md' : 'bg-white'
     }`}>
       <div className="max-w-full xl:max-w-8xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12">
-        <nav className="flex items-center h-14 sm:h-16 lg:h-20 gap-2 sm:gap-3 md:gap-4 lg:gap-8" role="navigation" aria-label="Main navigation">
+        <nav className="flex items-center justify-between h-16 sm:h-18 lg:h-20 gap-2 sm:gap-3 md:gap-4 lg:gap-8" role="navigation" aria-label="Main navigation">
           {/* Logo */}
           <div className="flex items-center flex-shrink-0 min-w-0">
             <Link 
               href={createLink('/')} 
-              className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-2.5 group focus:outline-none rounded-lg p-0.5 sm:p-1 min-w-0"
+              className="flex items-center space-x-2 sm:space-x-3 md:space-x-2.5 group focus:outline-none rounded-lg p-1 sm:p-1.5 min-w-0"
               aria-label="Vola Health - Home"
             >
               <div className="relative flex-shrink-0">
                 <Image 
                   src="/Vola_edited.jpg" 
                   alt="Vola Health Logo" 
-                  width={28}
-                  height={28}
-                  className="rounded-lg w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9"
+                  width={32}
+                  height={32}
+                  className="rounded-lg w-8 h-8 sm:w-10 sm:h-10 md:w-9 md:h-9"
                   priority
                 />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xs sm:text-sm md:text-base lg:text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
+                <span className="text-sm sm:text-base md:text-base lg:text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
                   Vola Health
                 </span>
               </div>
@@ -146,25 +146,33 @@ export function Header() {
             </div>
 
             {/* Mobile Actions - Flexible */}
-            <div className="flex md:hidden items-center gap-1.5 sm:gap-2 flex-shrink-0">
+            <div className="flex md:hidden items-center gap-2 sm:gap-3 flex-shrink-0">
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 sm:p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md sm:rounded-lg transition-colors duration-200 flex-shrink-0"
+                className="p-3 sm:p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg sm:rounded-xl transition-colors duration-200 flex-shrink-0"
                 aria-label="Contact us via WhatsApp"
               >
-                <ChatBubbleLeftRightIcon className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
+                <ChatBubbleLeftRightIcon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
               </a>
+              
+              <Link
+                href={createLink('/consultation')}
+                className="p-3 sm:p-4 bg-green-600 hover:bg-green-700 text-white rounded-lg sm:rounded-xl transition-colors duration-200 flex-shrink-0"
+                aria-label="Free Consultation"
+              >
+                <SparklesIcon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
+              </Link>
               
               <button
                 type="button"
-                className="p-1.5 sm:p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md sm:rounded-lg transition-colors duration-200 flex-shrink-0"
+                className="p-3 sm:p-4 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg sm:rounded-xl transition-colors duration-200 flex-shrink-0"
                 onClick={() => setMobileMenuOpen(true)}
                 aria-label="Open main menu"
                 aria-expanded={mobileMenuOpen}
               >
-                <Bars3Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
+                <Bars3Icon className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -185,7 +193,7 @@ export function Header() {
             aria-label="Close menu"
           />
           
-          <div className="absolute top-14 sm:top-16 lg:top-20 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+          <div className="absolute top-16 sm:top-18 lg:top-20 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
             <div className="px-3 sm:px-4 py-3 sm:py-4 space-y-1">
               {/* Navigation Links */}
               <nav className="space-y-0.5 sm:space-y-1" role="navigation" aria-label="Mobile navigation">
