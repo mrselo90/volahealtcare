@@ -218,15 +218,21 @@ export default function BeforeAfterGallery({
 
   const scrollToLeft = () => {
     if (scrollContainerRef.current) {
-      const cardWidth = 400; // Updated for larger cards + gap
-      scrollContainerRef.current.scrollBy({ left: -cardWidth * 2, behavior: 'smooth' });
+      // Mobile: scroll 1 card, Desktop: scroll 2 cards
+      const isMobile = window.innerWidth < 768;
+      const cardWidth = isMobile ? 312 : 400; // Mobile: 288px + 24px gap, Desktop: 376px + 24px gap
+      const scrollAmount = isMobile ? cardWidth : cardWidth * 2;
+      scrollContainerRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     }
   };
 
   const scrollToRight = () => {
     if (scrollContainerRef.current) {
-      const cardWidth = 400; // Updated for larger cards + gap
-      scrollContainerRef.current.scrollBy({ left: cardWidth * 2, behavior: 'smooth' });
+      // Mobile: scroll 1 card, Desktop: scroll 2 cards
+      const isMobile = window.innerWidth < 768;
+      const cardWidth = isMobile ? 312 : 400; // Mobile: 288px + 24px gap, Desktop: 376px + 24px gap
+      const scrollAmount = isMobile ? cardWidth : cardWidth * 2;
+      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
