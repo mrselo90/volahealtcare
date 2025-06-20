@@ -234,6 +234,25 @@ export default function CategoryBeforeAfterSection({
   // Get the correct route for this category
   const resultRoute = getRouteFromCategoryId(categoryId);
 
+  // --- Otomatik kaydırma için interval ---
+  useEffect(() => {
+    if (!loading && displayCases.length > 1 && scrollContainerRef.current) {
+      const interval = setInterval(() => {
+        const container = scrollContainerRef.current;
+        if (container) {
+          const { scrollLeft, scrollWidth, clientWidth } = container;
+          // Eğer en sağa geldiyse başa sar
+          if (scrollLeft + clientWidth >= scrollWidth - 10) {
+            container.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            container.scrollBy({ left: 312, behavior: 'smooth' }); // 1 kart genişliği kadar kaydır
+          }
+        }
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [loading, displayCases.length]);
+
   return (
     <section className="relative py-4">
       {/* Section Header */}
@@ -274,34 +293,6 @@ export default function CategoryBeforeAfterSection({
 
       {/* Horizontal Scrollable Gallery */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Navigation Buttons - Positioned above gallery */}
-        <div className="hidden md:flex justify-end mb-4">
-          <div className="flex gap-2 gallery-indicators">
-            <button
-              onClick={scrollToLeft}
-              disabled={!canScrollLeft}
-              className={`p-3 rounded-full border-2 transition-all duration-200 touch-target ${
-                canScrollLeft 
-                  ? 'border-white/50 text-white hover:bg-white/10 hover:border-white/70' 
-                  : 'border-gray-500 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              <ChevronLeftIcon className="h-5 w-5" />
-            </button>
-            <button
-              onClick={scrollToRight}
-              disabled={!canScrollRight}
-              className={`p-3 rounded-full border-2 transition-all duration-200 touch-target ${
-                canScrollRight 
-                  ? 'border-white/50 text-white hover:bg-white/10 hover:border-white/70' 
-                  : 'border-gray-500 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              <ChevronRightIcon className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-        
         <div className="relative">
           {loading ? (
             <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
@@ -349,22 +340,21 @@ export default function CategoryBeforeAfterSection({
                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                     
                     {/* Case details overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                    {/* KALDIRILDI: <div className="absolute bottom-0 left-0 right-0 p-4">
                       {caseItem.title && (
                         <h3 className="text-white font-bold text-lg mb-2 line-clamp-2 drop-shadow-lg">
                           {caseItem.title}
                         </h3>
                       )}
-
-                    </div>
+                    </div> */}
                     
                     {/* Hover effect overlay */}
-                    <div className="absolute inset-0 bg-white/0 hover:bg-white/10 transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
+                    {/* KALDIRILDI: <div className="absolute inset-0 bg-white/0 hover:bg-white/10 transition-all duration-300 flex items-center justify-center opacity-0 hover:opacity-100">
                       <div className="text-white text-center">
                         <div className="text-2xl mb-2">👁️</div>
                         <div className="text-sm font-medium">View Details</div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </motion.div>
               ))}
