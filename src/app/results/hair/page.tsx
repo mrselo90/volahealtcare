@@ -8,7 +8,7 @@ export default function HairResultsPage() {
 
   return (
     <ResultsPageTemplate
-      categoryId="cmbxiawkb0000uxvzc1in2i7v"
+      categoryId="cmc2g9jq500027kw73m9vh455"
       title={t('results.hair.title') || 'Hair Transplant Results'}
       subtitle={t('results.hair.subtitle') || 'Our Natural-Looking Hair Transplant Results'}
       description={t('results.treatments.hair')}

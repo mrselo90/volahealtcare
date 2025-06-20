@@ -240,7 +240,6 @@ export default function FeaturedBeforeAfter({
                   
                   {currentCase.results && (
                     <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 rounded-lg p-4 mb-6">
-                      <div className="text-green-200 text-sm mb-2">{t('featured.resultsAchieved') || 'RESULTS ACHIEVED'}</div>
                       <p className="text-white">{currentCase.results}</p>
                     </div>
                   )}

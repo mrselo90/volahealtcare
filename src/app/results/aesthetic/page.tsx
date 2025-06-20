@@ -8,7 +8,7 @@ export default function AestheticResultsPage() {
 
   return (
     <ResultsPageTemplate
-      categoryId="cmbxi8jzv001j6qsyv769abfx"
+      categoryId="cmc2g9jq200007kw7t4b2pi3d"
       title={t('results.aesthetic.title') || 'Aesthetic Surgery Results'}
       subtitle={t('results.aesthetic.subtitle') || 'Our Safe and Natural Aesthetic Surgery Results'}
       description={t('results.treatments.aesthetic')}

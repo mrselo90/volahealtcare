@@ -14,7 +14,7 @@ export default function DentalResultsPage({ params }: DentalResultsPageProps) {
 
   return (
     <ResultsPageTemplate
-      categoryId="cmbxi8jym00006qsy4b8dagzk"
+      categoryId="cmc2g9jq400017kw78mx3v07k"
       title={t('results.dental.title') || 'Dental Treatment Results'}
       subtitle={t('results.dental.subtitle') || 'Results of Our Treatments That Transform Your Smile'}
       description={t('results.treatments.dental')}

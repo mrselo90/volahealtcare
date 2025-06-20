@@ -69,10 +69,14 @@ export default function ResultsPageTemplate({
 
   const fetchCases = async () => {
     try {
+      console.log('Fetching cases for category:', categoryId);
       const response = await fetch(`/api/before-after?category=${categoryId}`);
       if (response.ok) {
         const data = await response.json();
+        console.log('Fetched cases:', data);
         setCases(data);
+      } else {
+        console.error('Failed to fetch cases:', response.status);
       }
     } catch (error) {
       console.error('Error fetching cases:', error);
@@ -95,6 +99,7 @@ export default function ResultsPageTemplate({
     results: 'Mükemmel sonuç, hasta çok memnun'
   }));
 
+  // Always prefer real cases over mock data
   const displayCases = cases.length > 0 ? cases : mockCases;
   const totalPages = Math.ceil(displayCases.length / casesPerPage);
   const currentCases = displayCases.slice(
@@ -335,16 +340,17 @@ export default function ResultsPageTemplate({
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                   {/* Image Section */}
                   <div className="space-y-6">
-                    <div className="relative w-full h-96 rounded-xl overflow-hidden bg-gray-200 shadow-lg border-2 border-gray-300">
+                    {/* Image Container */}
+                    <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 shadow-lg">
                       {selectedCase.afterImage ? (
-                        <Image
+                        <img
                           src={selectedCase.afterImage}
                           alt={t('results.treatmentResult') || 'Treatment Result'}
-                          fill
-                          className="object-cover"
+                          className="w-full h-full object-contain bg-white"
                           onError={(e) => {
                             console.error('Modal image failed to load:', selectedCase.afterImage);
-                            e.currentTarget.src = 'https://picsum.photos/400/400?random=999';
+                            const target = e.currentTarget as HTMLImageElement;
+                            target.src = 'https://via.placeholder.com/600x450/f3f4f6/6b7280?text=Image+Not+Available';
                           }}
                         />
                       ) : (
@@ -355,9 +361,11 @@ export default function ResultsPageTemplate({
                           </div>
                         </div>
                       )}
+                      
+                      {/* Result Badge */}
                       <div className="absolute top-4 right-4">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm text-professional shadow-lg bg-green-500 text-white">
-                          ✨ Result
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium shadow-lg bg-green-500 text-white">
+                          ✨ Before & After
                         </span>
                       </div>
                     </div>

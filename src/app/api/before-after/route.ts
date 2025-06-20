@@ -79,13 +79,34 @@ export async function GET(request: Request) {
       take: limit ? parseInt(limit) : undefined,
     });
 
-    // Parse tags if they exist
-    const casesWithTags = cases.map(caseItem => ({
+    // Parse tags and category names if they exist
+    const casesWithParsedData = cases.map(caseItem => ({
       ...caseItem,
       tags: caseItem.tags ? JSON.parse(caseItem.tags) : [],
+      category: caseItem.category ? {
+        ...caseItem.category,
+        // Parse category name if it's JSON
+        name: (() => {
+          try {
+            const parsedName = JSON.parse(caseItem.category.name);
+            return parsedName.en || parsedName.tr || caseItem.category.name;
+          } catch {
+            return caseItem.category.name;
+          }
+        })(),
+        // Parse description if it's JSON
+        description: (() => {
+          try {
+            const parsedDesc = JSON.parse(caseItem.category.description || '{}');
+            return parsedDesc.en || parsedDesc.tr || caseItem.category.description;
+          } catch {
+            return caseItem.category.description;
+          }
+        })()
+      } : null,
     }));
 
-    return NextResponse.json(casesWithTags);
+    return NextResponse.json(casesWithParsedData);
   } catch (error) {
     console.error('Failed to fetch before/after cases:', error);
     return NextResponse.json(
