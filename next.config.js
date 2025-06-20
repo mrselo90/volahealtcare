@@ -1,5 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/services/plastic-surgery',
+        destination: '/services/aesthetic',
+        permanent: true,
+      },
+      {
+        source: '/:lang/services/plastic-surgery',
+        destination: '/:lang/services/aesthetic',
+        permanent: true,
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       {

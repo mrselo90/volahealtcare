@@ -180,7 +180,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href={createLink('/services/aesthetic')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/services/plastic-surgery')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('services.categories.aesthetic') || 'Plastic Surgery'}
                 </Link>
               </li>
