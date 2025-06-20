@@ -129,38 +129,52 @@ export const deTranslations: Translations = {
     p1: 'Willkommen bei Vola Health Istanbul, einem erstklassigen Ziel für fortschrittliche ästhetische und zahnärztliche Versorgung, gelegen in der pulsierenden Stadt Istanbul. Mit über fünfzehn Jahren engagiertem Service sind wir stolz darauf, uns als vertrauenswürdiger Name in den Bereichen Zahn- und plastische Chirurgie etabliert zu haben. Unsere Klinik widmet sich der Verbesserung des Lebens von Patienten weltweit durch die Bereitstellung von Exzellenz in medizinischer Ästhetik und personalisierter Pflege nach höchsten Standards.',
     p2: 'Bei Vola Health verstehen wir, dass jeder Patient einzigartig ist, mit eigenen Zielen und Bedürfnissen. Unser Ansatz ist daher hochgradig individualisiert, und wir glauben daran, echte Verbindungen mit unseren Patienten zu knüpfen, um ihre Bestrebungen besser zu verstehen und zu erfüllen. Von der ersten Beratung bis zur postoperativen Versorgung ist jeder Schritt unseres Prozesses sorgfältig gestaltet, um sicherzustellen, dass Patienten nicht nur außergewöhnliche medizinische Ergebnisse erhalten, sondern sich auch wohl, unterstützt und informiert fühlen. Wir fühlen uns geehrt, das Vertrauen und die Zuversicht unserer internationalen Kundschaft gewonnen zu haben, und wir widmen uns der Aufrechterhaltung dieses Vertrauens durch ständige Verfeinerung unserer Dienstleistungen und Erweiterung unserer Expertise.',
     p3: 'Vola Health zu wählen bedeutet, ein Team zu wählen, das Ihre Reise genauso schätzt wie Sie. Wir glauben an mehr als nur ästhetische Verbesserungen; wir glauben an das Selbstvertrauen, Glück und die Lebensqualität, die daraus entstehen, sich am besten zu fühlen. Mit einem engagierten Team an Ihrer Seite laden wir Sie ein, eine transformative Reise mit uns zu beginnen, bei der Ihre Ziele und Erwartungen nicht nur erfüllt, sondern übertroffen werden.',
-    slogan: 'Vola Health Istanbul – Für ein besseres Sie'
+    slogan: 'Vola Health Istanbul – Für ein besseres Ich'
   },
   services: {
     categories: {
       dental: 'Zahnbehandlungen',
       hair: 'Haartransplantation',
-      aesthetic: 'Ästhetische Chirurgie'
+      plastic: 'Plastische Chirurgie'
+    },
+    category: {
+      'hair-transplant': {
+        title: 'Haartransplantation',
+        description: 'Fortschrittliche Haarwiederherstellungstechniken für natürliche und dauerhafte Ergebnisse.'
+      },
+      'dental-treatments': {
+        title: 'Zahnbehandlungen',
+        description: 'Komplette zahnärztliche Lösungen für ein perfektes und gesundes Lächeln.'
+      },
+      'plastic-surgery': {
+        title: 'Plastische Chirurgie',
+        description: 'Umfassende plastische Chirurgie und ästhetische Behandlungen.'
+      }
     },
     detail: {
       scrollDown: 'Nach unten scrollen',
-      contactUs: 'Kontaktieren Sie uns',
+      contactUs: 'Kontaktiere uns',
       aboutTreatment: 'Über diese Behandlung',
+      comprehensiveInfo: 'Umfassende Informationen zu Ihrem Eingriff',
       minRead: 'Min. Lesezeit',
-      keyBenefits: 'Hauptvorteile',
-      comprehensiveInfo: 'Umfassende Informationen über Ihren Eingriff',
+      keyBenefits: 'Wichtige Vorteile',
       tableOfContents: 'Inhaltsverzeichnis',
-      serviceNotFound: 'Leistung nicht gefunden',
+      serviceNotFound: 'Dienst nicht gefunden',
       goBack: 'Zurück',
       bookConsultation: 'Beratung buchen',
       whatsappConsult: 'WhatsApp-Beratung',
       freeConsultation: 'Kostenlose Beratung',
       bookingForm: {
         title: 'Termin buchen',
-        subtitle: 'Buchen Sie Ihren Termin und beginnen Sie Ihre Transformationsreise',
+        subtitle: 'Buchen Sie Ihren Termin und beginnen Sie Ihre Verwandlungsreise',
         name: 'Vollständiger Name',
         email: 'E-Mail',
         phone: 'Telefon',
         country: 'Land',
         preferredDate: 'Bevorzugtes Datum',
-        preferredTime: 'Bevorzugte Uhrzeit',
-        notes: 'Notizen',
-        notesPlaceholder: 'Fragen oder besondere Wünsche zu dieser Leistung...',
+        preferredTime: 'Bevorzugte Zeit',
+        notes: 'Anmerkungen',
+        notesPlaceholder: 'Fragen oder spezielle Wünsche zu diesem Service...',
         submit: 'Termin anfragen',
         submitting: 'Wird gesendet...',
         success: 'Ihr Termin wurde erfolgreich erstellt!',
@@ -172,12 +186,12 @@ export const deTranslations: Translations = {
         beforeAfter: 'Vorher & Nachher',
         procedure: 'Eingriff',
         results: 'Ergebnisse',
-        viewGallery: 'Galerie anzeigen',
+        viewGallery: 'Galerie ansehen',
         noImages: 'Noch keine Bilder hinzugefügt'
       },
       faq: {
         title: 'Häufig gestellte Fragen',
-        noFaq: 'Noch keine FAQ hinzugefügt'
+        noFaq: 'Noch keine FAQs hinzugefügt'
       },
       testimonials: {
         title: 'Patientenbewertungen',
@@ -187,19 +201,19 @@ export const deTranslations: Translations = {
         review: 'Bewertung',
         reviews: 'Bewertungen',
         loading: 'Bewertungen werden geladen...',
-        noReviews: 'Noch keine Bewertungen für diese Leistung.',
-        beFirst: 'Seien Sie der Erste, der Ihre Erfahrung teilt!'
+        noReviews: 'Für diesen Service gibt es noch keine Bewertungen.',
+        beFirst: 'Seien Sie der Erste, der Ihre Erfahrungen teilt!'
       },
       relatedServices: {
-        title: 'Verwandte Leistungen',
-        exploreMore: 'Entdecken Sie andere Leistungen in dieser Kategorie',
-        subtitle: 'Entdecken Sie ähnliche Behandlungen',
-        noServices: 'Keine verwandten Leistungen gefunden.',
-        browseAll: 'Alle Leistungen durchsuchen',
-        viewAll: 'Alle {category} Leistungen anzeigen'
+        title: 'Verwandte Dienstleistungen',
+        exploreMore: 'Entdecken Sie weitere Dienstleistungen in dieser Kategorie',
+        subtitle: 'Ähnliche Behandlungen entdecken',
+        noServices: 'Keine verwandten Dienstleistungen gefunden.',
+        browseAll: 'Alle Dienstleistungen durchsuchen',
+        viewAll: 'Alle {category} Dienstleistungen anzeigen'
       },
       navigation: {
-        overview: 'Übersicht',
+        overview: 'Überblick',
         procedure: 'Eingriff',
         gallery: 'Galerie',
         faq: 'FAQ',
@@ -207,79 +221,69 @@ export const deTranslations: Translations = {
       },
       consultation: {
         title: 'Kostenlose Beratung',
-        subtitle: 'Kostenlose Beratung mit unseren Experten',
+        subtitle: 'Kostenlose Beratung mit unseren Spezialisten',
         bookFreeConsultation: 'Kostenlose Beratung buchen',
         messageNow: 'Jetzt Nachricht senden',
         freeConsultation: 'Kostenlose Beratung',
         expertCare: 'Expertenpflege'
       },
       whyChooseUs: {
-        title: 'Warum uns wählen?',
-        happyClients: 'Zufriedene Patienten',
+        title: 'Warum Sie uns wählen sollten',
+        happyClients: 'Zufriedene Kunden',
         averageRating: 'Durchschnittliche Bewertung',
         yearsExperience: 'Jahre Erfahrung',
-        successRate: 'Erfolgsrate'
+        successRate: 'Erfolgsquote'
       },
-      quickOverview: 'Schnelle Übersicht',
+      quickOverview: 'Schneller Überblick',
       readingTime: 'Lesezeit',
       sections: 'Abschnitte',
       topics: 'Themen',
-      highlights: 'Hervorhebungen',
+      highlights: 'Highlights',
       jumpToSection: 'Zum Abschnitt springen',
-      shareExperience: 'Teilen Sie Ihre Erfahrung',
-      exploreSimilar: 'Ähnliche Behandlungen erkunden'
+      shareExperience: 'Teilen Sie Ihre Erfahrungen',
+      exploreSimilar: 'Ähnliche Behandlungen entdecken'
     },
     packageDetails: {
       title: 'Paketdetails',
-      subtitle: 'Alles, was Sie für Ihre medizinische Reise benötigen',
+      subtitle: 'Alles, was auf Ihrer medizinischen Reise enthalten ist',
       timeInTurkey: 'Zeit in der Türkei',
       timeInTurkeySubtitle: 'Empfohlene Aufenthaltsdauer',
-      operationTime: 'Operationstime',
-      operationTimeSubtitle: 'Behandlungsdauer',
+      operationTime: 'Operationszeit',
+      operationTimeSubtitle: 'Dauer des Eingriffs',
       hospitalStay: 'Krankenhausaufenthalt',
-      hospitalStaySubtitle: 'Wiederaufbauzeitraum',
-      recovery: 'Wiederaufbauzeit',
-      recoverySubtitle: 'Vollständiger Wiederaufbauzeitraum',
+      hospitalStaySubtitle: 'Erholungsphase',
+      recovery: 'Erholung',
+      recoverySubtitle: 'Vollständige Erholungsphase',
       accommodation: 'Unterkunft',
-      accommodationSubtitle: '5-Sterne-Hotel inklusive',
+      accommodationSubtitle: '5-Sterne-Hotel inbegriffen',
       transportation: 'Transport',
-      transportationSubtitle: 'VIP-Transfer inklusive',
-      premiumPackageTitle: 'Premium All-Inclusive Paket',
-      premiumPackageDescription: 'Vollständige medizinische Tourismusreise mit Luxusunterkunft und persönlicher Pflege.',
-      reserveJourney: 'Reise buchen'
+      transportationSubtitle: 'VIP-Transfers inbegriffen',
+      premiumPackageTitle: 'Premium All-Inclusive-Paket',
+      premiumPackageDescription: 'Vollständiges Medizintourismus-Erlebnis mit Luxusunterkunft und persönlicher Betreuung.',
+      reserveJourney: 'Reservieren Sie Ihre Reise'
     },
-    searchPlaceholder: 'Leistungen durchsuchen...',
+    hero: {
+      title: 'Unsere Dienstleistungen',
+      subtitle: 'Entdecken Sie unser breites Angebot an erstklassigen medizinischen und ästhetischen Behandlungen.'
+    },
+    searchPlaceholder: 'Behandlungen, Eingriffe suchen...',
     allCategories: 'Alle Kategorien',
     sortByName: 'Nach Name sortieren',
-    sortByFeatured: 'Nach Hervorgehoben sortieren',
-    sortByDuration: 'Nach Dauer sortieren',
-    hideFilters: 'Filter verstecken',
-    moreFilters: 'Mehr Filter',
-    duration: 'Dauer',
-    anyDuration: 'Beliebige Dauer',
-    oneTwoHours: '1-2 Stunden',
-    more: 'Mehr',
+    sortByFeatured: 'Besondere zuerst',
+    sortByDuration: 'Dauer',
+    hideFilters: 'Filter ausblenden',
+    moreFilters: 'Weitere Filter',
+    noServicesFound: 'Keine Dienste gefunden',
+    clearFilters: 'Filter löschen',
+    totalServices: '{count} Dienste insgesamt',
+    showing: '{count} wird angezeigt',
     learnMore: 'Mehr erfahren',
-    fullDay: 'Ganzer Tag',
-    multipleDays: 'Mehrere Tage',
-    featuredOnly: 'Nur hervorgehoben',
-    quickFilters: 'Schnelle Filter',
-    mostPopular: 'Am beliebtesten',
-    quickProcedures: 'Schnelle Verfahren',
-    premiumServices: 'Premium-Leistungen',
-    nonInvasive: 'Nicht-Invasiv',
-    headerTitle: 'Unsere Medizinischen Leistungen',
-    headerDesc: 'Weltklasse-Behandlungen und Verfahren entdecken.',
-    totalServices: '{count} Leistungen insgesamt',
-    showing: 'Zeigt {count}',
-    searchResults: 'Suchergebnisse',
-    allServices: 'Alle Leistungen',
-    resultsFor: 'Ergebnisse für',
-    inCategory: 'in Kategorie',
-    grid: 'Gitter',
-    list: 'Liste',
+    keyBenefits: 'Wichtige Vorteile',
+    more: 'mehr',
+    headerTitle: 'Unsere medizinischen Dienstleistungen',
+    headerDesc: 'Entdecken Sie erstklassige medizinische Behandlungen und Eingriffe, die darauf abzielen, Ihre Gesundheit, Schönheit und Ihr Selbstvertrauen zu verbessern. Fachkundige Betreuung mit modernster Technologie.',
     errorTitle: 'Etwas ist schiefgelaufen',
-    errorDesc: 'Beim Laden der Leistungen ist ein Fehler aufgetreten.',
+    errorDesc: 'Beim Laden der Dienste ist ein Fehler aufgetreten.',
     tryAgain: 'Erneut versuchen'
   },
   results: {
@@ -377,7 +381,8 @@ export const deTranslations: Translations = {
     resultsAchieved: 'Erreichte Ergebnisse',
     previous: 'Vorherige',
     next: 'Nächste',
-    close: 'Schließen'
+    close: 'Schließen',
+    pageTitle: 'Vorher-Nachher-Ergebnisse'
   },
   gallery: {
     hero: {
@@ -475,7 +480,8 @@ export const deTranslations: Translations = {
     info: {
       phone: 'Telefon',
       email: 'E-Mail'
-    }
+    },
+    title: 'Kontaktiere uns'
   },
   mockData: {
     patient: 'Patient',

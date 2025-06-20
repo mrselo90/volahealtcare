@@ -1,19 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async redirects() {
-    return [
-      {
-        source: '/services/plastic-surgery',
-        destination: '/services/aesthetic',
-        permanent: true,
-      },
-      {
-        source: '/:lang/services/plastic-surgery',
-        destination: '/:lang/services/aesthetic',
-        permanent: true,
-      },
-    ]
-  },
   images: {
     remotePatterns: [
       {
@@ -43,10 +29,11 @@ const nextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     unoptimized: false,
+    domains: ['localhost', 'res.cloudinary.com', 'vola-health-istanbul.s3.eu-west-3.amazonaws.com'],
   },
   typescript: {
     ignoreBuildErrors: false,
-  }
+  },
 };
 
 module.exports = nextConfig;

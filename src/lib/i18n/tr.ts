@@ -135,7 +135,21 @@ export const trTranslations: Translations = {
     categories: {
       dental: 'Diş Tedavileri',
       hair: 'Saç Ekimi',
-      aesthetic: 'Estetik Cerrahi'
+      plastic: 'Plastik Cerrahi'
+    },
+    category: {
+      'hair-transplant': {
+        title: 'Saç Ekimi',
+        description: 'Doğal ve kalıcı sonuçlar için gelişmiş saç restorasyon teknikleri.'
+      },
+      'dental-treatments': {
+        title: 'Diş Tedavileri',
+        description: 'Mükemmel ve sağlıklı bir gülümseme için eksiksiz diş çözümleri.'
+      },
+      'plastic-surgery': {
+        title: 'Plastik Cerrahi',
+        description: 'Kapsamlı plastik cerrahi ve estetik tedaviler.'
+      }
     },
     detail: {
       scrollDown: 'Aşağı Kaydır',
@@ -248,41 +262,32 @@ export const trTranslations: Translations = {
       premiumPackageDescription: 'Lüks konaklama ve kişiselleştirilmiş bakım ile tam medikal turizm deneyimi.',
       reserveJourney: 'Yolculuğunuzu Rezerve Edin'
     },
+    hero: {
+      title: 'Hizmetlerimiz',
+      subtitle: 'Dünya standartlarındaki geniş medikal ve estetik tedavilerimizi keşfedin.'
+    },
     searchPlaceholder: 'Hizmet ara...',
     allCategories: 'Tüm Kategoriler',
-    sortByName: 'Ada Göre Sırala',
-    sortByFeatured: 'Öne Çıkanlara Göre Sırala',
-    sortByDuration: 'Süreye Göre Sırala',
+    sortByName: 'İsme Göre Sırala',
+    sortByFeatured: 'Öne Çıkanlar',
+    sortByDuration: 'Süre',
     hideFilters: 'Filtreleri Gizle',
     moreFilters: 'Daha Fazla Filtre',
-    duration: 'Süre',
-    anyDuration: 'Herhangi Bir Süre',
-    oneTwoHours: '1-2 Saat',
-    more: 'Daha Fazla',
-    learnMore: 'Daha Fazla Bilgi',
-    fullDay: 'Tam Gün',
-    multipleDays: 'Çoklu Gün',
-    featuredOnly: 'Sadece Öne Çıkanlar',
-    quickFilters: 'Hızlı Filtreler',
-    mostPopular: 'En Popüler',
-    quickProcedures: 'Hızlı Prosedürler',
-    premiumServices: 'Premium Hizmetler',
-    nonInvasive: 'Non-Invaziv',
-    headerTitle: 'Medikal Hizmetlerimiz',
-    headerDesc: 'Dünya standartlarında tedavi ve prosedürleri keşfedin.',
+    noServicesFound: 'Hizmet bulunamadı',
+    clearFilters: 'Filtreleri Temizle',
     totalServices: '{count} Toplam Hizmet',
     showing: '{count} gösteriliyor',
-    searchResults: 'Arama Sonuçları',
-    allServices: 'Tüm Hizmetler',
-    resultsFor: 'Sonuçlar',
-    inCategory: 'kategorisinde',
-    grid: 'Izgara',
-    list: 'Liste',
+    learnMore: 'Daha Fazla Bilgi',
+    keyBenefits: 'Temel Faydalar',
+    more: 'daha fazla',
+    headerTitle: 'Medikal Hizmetlerimiz',
+    headerDesc: 'Sağlığınızı, güzelliğinizi ve güveninizi artırmak için tasarlanmış dünya standartlarında tıbbi tedavileri ve prosedürleri keşfedin. En son teknoloji ile uzman bakımı.',
     errorTitle: 'Bir şeyler ters gitti',
     errorDesc: 'Hizmetler yüklenirken bir hata oluştu.',
     tryAgain: 'Tekrar Dene'
   },
   results: {
+    pageTitle: 'Öncesi ve Sonrası Sonuçları',
     beforeAfter: {
       age: 'yaşında',
       results: 'Sonuçlar'
@@ -290,7 +295,7 @@ export const trTranslations: Translations = {
     treatments: {
       dental: 'Diş tedavileri mükemmel sonuçlar elde eder.',
       hair: 'Saç tedavilerinde doğal görünüm.',
-      aesthetic: 'Güvenli ve doğal estetik sonuçlar.',
+      plastic: 'Güvenli ve doğal estetik sonuçlar.',
       other: 'Diğer tedaviler'
     },
     dental: {
@@ -333,7 +338,7 @@ export const trTranslations: Translations = {
         surgeons: 'Uzman Cerrah'
       }
     },
-    aesthetic: {
+    plastic: {
       title: 'Estetik Cerrahi Sonuçları',
       subtitle: 'Güvenli ve Doğal Estetik Cerrahi Sonuçları',
       treatments: {
@@ -394,7 +399,7 @@ export const trTranslations: Translations = {
       title: 'Saç Ekimi Sonuçları',
       description: 'Saç tedavilerimizden doğal sonuçları görün.'
     },
-    aesthetic: {
+    plastic: {
       title: 'Plastik Cerrahi Sonuçları',
       description: 'Plastik cerrahi operasyonlarımızdan etkileyici sonuçlar.'
     },
@@ -463,7 +468,7 @@ export const trTranslations: Translations = {
     treatments: {
       dental: 'Diş Tedavileri',
       hair: 'Saç Ekimi',
-      aesthetic: 'Estetik Cerrahi',
+      plastic: 'Plastik Cerrahi',
       other: 'Diğer Hizmetler'
     },
     messages: {
@@ -671,7 +676,7 @@ export const trTranslations: Translations = {
         subtitle: 'Doğal sonuçlar için gelişmiş FUE & DHI teknikleri',
         category: 'Saç Restorasyonu'
       },
-      aesthetic: {
+      plastic: {
         title: 'Estetik Cerrahi',
         subtitle: 'Uzman hassasiyeti ile görünümünüzü dönüştürün',
         category: 'Plastik Cerrahi'

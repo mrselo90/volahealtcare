@@ -129,39 +129,53 @@ export const roTranslations: Translations = {
     p1: 'Bun venit la Vola Health Istanbul, o destinație de prim rang pentru îngrijire estetică și dentară avansată, situată în orașul vibrant Istanbul. Cu peste cincisprezece ani de serviciu dedicat, suntem mândri că ne-am stabilit ca un nume de încredere în domeniile chirurgiei dentare și plastice. Clinica noastră este dedicată îmbunătățirii vieții pacienților din întreaga lume prin oferirea excelenței în estetica medicală și îngrijire personalizată la cele mai înalte standarde.',
     p2: 'La Vola Health, înțelegem că fiecare pacient este unic, cu propriile obiective și nevoi. Abordarea noastră este, prin urmare, foarte individualizată, și credem în formarea de conexiuni autentice cu pacienții noștri pentru a înțelege mai bine și a aborda aspirațiile lor. De la consultația inițială până la îngrijirea post-operatorie, fiecare pas al procesului nostru este meticulos elaborat pentru a ne asigura că pacienții nu doar primesc rezultate medicale excepționale, dar se simt și confortabil, susținuți și informați pe parcurs. Suntem onorați că am câștigat încrederea și încrederea clienților noștri internaționali, și suntem dedicați menținerii acestei încrederi prin rafinarea constantă a serviciilor noastre și extinderea expertizei noastre.',
     p3: 'Alegea Vola Health înseamnă alegerea unei echipe care îți apreciază călătoria la fel de mult ca tine. Credem în mai mult decât îmbunătățiri estetice; credem în încrederea, fericirea și calitatea vieții care vin din simțirea cel mai bine. Cu o echipă dedicată alături de tine, te invităm să începi o călătorie transformatoare cu noi, unde obiectivele și așteptările tale nu sunt doar îndeplinite, ci depășite.',
-    slogan: 'Vola Health Istanbul – Pentru un Tu Mai Bun'
+    slogan: 'Vola Health Istanbul – Pentru un tine mai bun'
   },
   services: {
     categories: {
-      dental: 'Tratamente Dentare',
-      hair: 'Transplant de Păr',
-      aesthetic: 'Chirurgie Estetică'
+      dental: 'Tratamente dentare',
+      hair: 'Transplant de păr',
+      plastic: 'Chirurgie plastică'
+    },
+    category: {
+      'hair-transplant': {
+        title: 'Transplant de păr',
+        description: 'Tehnici avansate de restaurare a părului pentru rezultate naturale și permanente.'
+      },
+      'dental-treatments': {
+        title: 'Tratamente dentare',
+        description: 'Soluții dentare complete pentru un zâmbet perfect și sănătos.'
+      },
+      'plastic-surgery': {
+        title: 'Chirurgie plastică',
+        description: 'Chirurgie plastică completă și tratamente estetice.'
+      }
     },
     detail: {
-      scrollDown: 'Derulează în Jos',
+      scrollDown: 'Derulează în jos',
       contactUs: 'Contactează-ne',
-      aboutTreatment: 'Despre Acest Tratament',
-      comprehensiveInfo: 'Informații comprehensive despre procedura ta',
-      minRead: 'min de citit',
-      keyBenefits: 'Beneficii Cheie',
+      aboutTreatment: 'Despre acest tratament',
+      comprehensiveInfo: 'Informații complete despre procedura ta',
+      minRead: 'min. de citit',
+      keyBenefits: 'Beneficii cheie',
       tableOfContents: 'Cuprins',
-      serviceNotFound: 'Serviciul Nu a Fost Găsit',
+      serviceNotFound: 'Serviciul nu a fost găsit',
       goBack: 'Înapoi',
-      bookConsultation: 'Rezervă Consultație',
+      bookConsultation: 'Rezervă o consultație',
       whatsappConsult: 'Consultație WhatsApp',
-      freeConsultation: 'Consultație Gratuită',
+      freeConsultation: 'Consultație gratuită',
       bookingForm: {
-        title: 'Rezervă Programare',
-        subtitle: 'Rezervă-ți programarea și începe călătoria ta de transformare',
-        name: 'Numele Complet',
-        email: 'Email',
+        title: 'Rezervă o programare',
+        subtitle: 'Rezervă-ți programarea și începe-ți călătoria de transformare',
+        name: 'Nume complet',
+        email: 'E-mail',
         phone: 'Telefon',
-        country: 'Țara',
-        preferredDate: 'Data Preferată',
-        preferredTime: 'Ora Preferată',
+        country: 'Țară',
+        preferredDate: 'Data preferată',
+        preferredTime: 'Ora preferată',
         notes: 'Note',
-        notesPlaceholder: 'Orice întrebări sau cereri speciale despre acest serviciu...',
-        submit: 'Solicită Programare',
+        notesPlaceholder: 'Întrebări sau solicitări speciale despre acest serviciu...',
+        submit: 'Solicită o programare',
         submitting: 'Se trimite...',
         success: 'Programarea ta a fost creată cu succes!',
         error: 'A apărut o eroare la crearea programării.',
@@ -169,118 +183,108 @@ export const roTranslations: Translations = {
       },
       gallery: {
         title: 'Galerie',
-        beforeAfter: 'Înainte & După',
+        beforeAfter: 'Înainte și După',
         procedure: 'Procedură',
         results: 'Rezultate',
-        viewGallery: 'Vezi Galeria',
-        noImages: 'Nu au fost adăugate imagini încă'
+        viewGallery: 'Vezi galeria',
+        noImages: 'Nu au fost adăugate încă imagini'
       },
       faq: {
-        title: 'Întrebări Frecvente',
-        noFaq: 'Nu au fost adăugate FAQ încă'
+        title: 'Întrebări frecvente',
+        noFaq: 'Nu au fost adăugate încă întrebări frecvente'
       },
       testimonials: {
-        title: 'Recenziile Pacienților',
+        title: 'Recenzii ale pacienților',
         rating: 'Evaluare',
-        verified: 'Pacient Verificat',
-        noTestimonials: 'Nu au fost adăugate recenzii încă',
+        verified: 'Pacient verificat',
+        noTestimonials: 'Nu au fost adăugate încă recenzii',
         review: 'recenzie',
         reviews: 'recenzii',
         loading: 'Se încarcă recenziile...',
-        noReviews: 'Nu există recenzii încă pentru acest serviciu.',
+        noReviews: 'Nu există încă recenzii pentru acest serviciu.',
         beFirst: 'Fii primul care își împărtășește experiența!'
       },
       relatedServices: {
-        title: 'Servicii Asociate',
-        exploreMore: 'Explorează alte servicii în această categorie',
+        title: 'Servicii conexe',
+        exploreMore: 'Explorează alte servicii din această categorie',
         subtitle: 'Explorează tratamente similare',
-        noServices: 'Nu s-au găsit servicii asociate.',
+        noServices: 'Nu au fost găsite servicii conexe.',
         browseAll: 'Răsfoiește toate serviciile',
         viewAll: 'Vezi toate serviciile {category}'
       },
       navigation: {
-        overview: 'Prezentare Generală',
+        overview: 'Prezentare generală',
         procedure: 'Procedură',
         gallery: 'Galerie',
         faq: 'FAQ',
-        booking: 'Rezervă Acum'
+        booking: 'Rezervă acum'
       },
       consultation: {
-        title: 'Consultație Gratuită',
-        subtitle: 'Consultație gratuită cu experții noștri',
-        bookFreeConsultation: 'Rezervă Consultație Gratuită',
-        messageNow: 'Trimite Mesaj Acum',
+        title: 'Consultație gratuită',
+        subtitle: 'Consultație gratuită cu specialiștii noștri',
+        bookFreeConsultation: 'Rezervă o consultație gratuită',
+        messageNow: 'Trimite mesaj acum',
         freeConsultation: 'Consultație gratuită',
-        expertCare: 'Îngrijire expertă'
+        expertCare: 'Îngrijire de specialitate'
       },
       whyChooseUs: {
-        title: 'De Ce Să Ne Alegeți',
-        happyClients: 'Clienți Mulțumiți',
-        averageRating: 'Evaluare Medie',
-        yearsExperience: 'Ani de Experiență',
-        successRate: 'Rata de Succes'
+        title: 'De ce să ne alegi',
+        happyClients: 'Clienți fericiți',
+        averageRating: 'Evaluare medie',
+        yearsExperience: 'Ani de experiență',
+        successRate: 'Rata de succes'
       },
-      quickOverview: 'Prezentare Rapidă',
-      readingTime: 'Timp de Citire',
+      quickOverview: 'Prezentare rapidă',
+      readingTime: 'Timp de citire',
       sections: 'Secțiuni',
       topics: 'subiecte',
-      highlights: 'evidențieri',
-      jumpToSection: 'Sari la Secțiune',
-      shareExperience: 'Împărtășește Experiența Ta',
+      highlights: 'puncte culminante',
+      jumpToSection: 'Sari la secțiune',
+      shareExperience: 'Împărtășește-ți experiența',
       exploreSimilar: 'Explorează tratamente similare'
     },
     packageDetails: {
-      title: 'Detaliile Pachetului',
-      subtitle: 'Totul inclus în călătoria ta medicală',
-      timeInTurkey: 'Timpul în Turcia',
-      timeInTurkeySubtitle: 'Durata recomandată de ședere',
-      operationTime: 'Timpul Operației',
+      title: 'Detalii pachet',
+      subtitle: 'Tot ce este inclus în călătoria ta medicală',
+      timeInTurkey: 'Timp în Turcia',
+      timeInTurkeySubtitle: 'Durata recomandată a șederii',
+      operationTime: 'Timpul operației',
       operationTimeSubtitle: 'Durata procedurii',
-      hospitalStay: 'Șederea în Spital',
+      hospitalStay: 'Spitalizare',
       hospitalStaySubtitle: 'Perioada de recuperare',
-      recovery: 'Timpul de Recuperare',
+      recovery: 'Recuperare',
       recoverySubtitle: 'Perioada completă de recuperare',
       accommodation: 'Cazare',
-      accommodationSubtitle: 'Hotel 5 stele inclus',
+      accommodationSubtitle: 'Hotel de 5 stele inclus',
       transportation: 'Transport',
       transportationSubtitle: 'Transferuri VIP incluse',
       premiumPackageTitle: 'Pachet Premium All-Inclusive',
       premiumPackageDescription: 'Experiență completă de turism medical cu cazare de lux și îngrijire personalizată.',
-      reserveJourney: 'Rezervă Călătoria Ta'
+      reserveJourney: 'Rezervă-ți călătoria'
     },
-    searchPlaceholder: 'Caută servicii...',
-    allCategories: 'Toate Categoriile',
-    sortByName: 'Sortează după Nume',
-    sortByFeatured: 'Sortează după Recomandate',
-    sortByDuration: 'Sortează după Durată',
-    hideFilters: 'Ascunde Filtrele',
-    moreFilters: 'Mai Multe Filtre',
-    duration: 'Durată',
-    anyDuration: 'Orice Durată',
-    oneTwoHours: '1-2 Ore',
-    more: 'Mai Multe',
-    learnMore: 'Află Mai Multe',
-    fullDay: 'O Zi Completă',
-    multipleDays: 'Mai Multe Zile',
-    featuredOnly: 'Doar Recomandate',
-    quickFilters: 'Filtre Rapide',
-    mostPopular: 'Cele Mai Populare',
-    quickProcedures: 'Proceduri Rapide',
-    premiumServices: 'Servicii Premium',
-    nonInvasive: 'Non-Invazive',
-    headerTitle: 'Serviciile Noastre Medicale',
-    headerDesc: 'Descoperă tratamente și proceduri de clasă mondială.',
-    totalServices: '{count} Servicii Totale',
+    hero: {
+      title: 'Serviciile noastre',
+      subtitle: 'Explorează gama noastră largă de tratamente medicale și estetice de talie mondială.'
+    },
+    searchPlaceholder: 'Caută tratamente, proceduri...',
+    allCategories: 'Toate categoriile',
+    sortByName: 'Sortează după nume',
+    sortByFeatured: 'Recomandate primele',
+    sortByDuration: 'Durată',
+    hideFilters: 'Ascunde filtrele',
+    moreFilters: 'Mai multe filtre',
+    noServicesFound: 'Nu au fost găsite servicii',
+    clearFilters: 'Șterge filtrele',
+    totalServices: '{count} servicii totale',
     showing: 'Se afișează {count}',
-    searchResults: 'Rezultatele Căutării',
-    allServices: 'Toate Serviciile',
-    resultsFor: 'Rezultate pentru',
-    inCategory: 'în categoria',
-    grid: 'Grillă',
-    list: 'Listă',
+    learnMore: 'Află mai mult',
+    keyBenefits: 'Beneficii cheie',
+    more: 'mai mult',
+    headerTitle: 'Serviciile noastre medicale',
+    headerDesc: 'Descoperă tratamente și proceduri medicale de talie mondială, concepute pentru a-ți îmbunătăți sănătatea, frumusețea și încrederea. Îngrijire de specialitate cu tehnologie de ultimă oră.',
     errorTitle: 'Ceva nu a mers bine',
     errorDesc: 'A apărut o eroare la încărcarea serviciilor.',
-    tryAgain: 'Încearcă Din Nou'
+    tryAgain: 'Încearcă din nou'
   },
   results: {
     beforeAfter: {
@@ -475,7 +479,8 @@ export const roTranslations: Translations = {
     info: {
       phone: 'Telefon',
       email: 'Email'
-    }
+    },
+    title: 'Contactează-ne'
   },
   mockData: {
     patient: 'Pacient',

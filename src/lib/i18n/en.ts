@@ -135,7 +135,21 @@ export const enTranslations: Translations = {
     categories: {
       dental: 'Dental Treatments',
       hair: 'Hair Transplant',
-      aesthetic: 'Aesthetic Surgery'
+      plastic: 'Plastic Surgery'
+    },
+    category: {
+      'hair-transplant': {
+        title: 'Hair Transplant',
+        description: 'Advanced hair restoration techniques for natural and permanent results.'
+      },
+      'dental-treatments': {
+        title: 'Dental Treatments',
+        description: 'Complete dental solutions for a perfect and healthy smile.'
+      },
+      'plastic-surgery': {
+        title: 'Plastic Surgery',
+        description: 'Comprehensive plastic surgery and aesthetic treatments.'
+      }
     },
     detail: {
       scrollDown: 'Scroll Down',
@@ -148,7 +162,7 @@ export const enTranslations: Translations = {
       serviceNotFound: 'Service Not Found',
       goBack: 'Go Back',
       bookConsultation: 'Book Consultation',
-      whatsappConsult: 'WhatsApp Consultation',
+      whatsappConsult: 'WhatsApp Consult',
       freeConsultation: 'Free Consultation',
       bookingForm: {
         title: 'Book Appointment',
@@ -163,8 +177,8 @@ export const enTranslations: Translations = {
         notesPlaceholder: 'Any questions or special requests about this service...',
         submit: 'Request Appointment',
         submitting: 'Submitting...',
-        success: 'Your appointment has been successfully created!',
-        error: 'An error occurred while creating the appointment.',
+        success: 'Your appointment was created successfully!',
+        error: 'There was an error creating the appointment.',
         close: 'Close'
       },
       gallery: {
@@ -177,7 +191,7 @@ export const enTranslations: Translations = {
       },
       faq: {
         title: 'Frequently Asked Questions',
-        noFaq: 'No FAQ added yet'
+        noFaq: 'No FAQs added yet'
       },
       testimonials: {
         title: 'Patient Reviews',
@@ -187,7 +201,7 @@ export const enTranslations: Translations = {
         review: 'review',
         reviews: 'reviews',
         loading: 'Loading reviews...',
-        noReviews: 'No reviews yet for this service.',
+        noReviews: 'There are no reviews for this service yet.',
         beFirst: 'Be the first to share your experience!'
       },
       relatedServices: {
@@ -207,7 +221,7 @@ export const enTranslations: Translations = {
       },
       consultation: {
         title: 'Free Consultation',
-        subtitle: 'Free consultation with our experts',
+        subtitle: 'Free consultation with our specialists',
         bookFreeConsultation: 'Book Free Consultation',
         messageNow: 'Message Now',
         freeConsultation: 'Free consultation',
@@ -217,7 +231,7 @@ export const enTranslations: Translations = {
         title: 'Why Choose Us',
         happyClients: 'Happy Clients',
         averageRating: 'Average Rating',
-        yearsExperience: 'Years Experience',
+        yearsExperience: 'Years of Experience',
         successRate: 'Success Rate'
       },
       quickOverview: 'Quick Overview',
@@ -227,58 +241,47 @@ export const enTranslations: Translations = {
       highlights: 'highlights',
       jumpToSection: 'Jump to Section',
       shareExperience: 'Share Your Experience',
-      exploreSimilar: 'Explore similar treatments'
+      exploreSimilar: 'Explore Similar Treatments'
     },
     packageDetails: {
       title: 'Package Details',
       subtitle: 'Everything included in your medical journey',
       timeInTurkey: 'Time in Turkey',
-      timeInTurkeySubtitle: 'Recommended stay duration',
+      timeInTurkeySubtitle: 'Recommended duration of stay',
       operationTime: 'Operation Time',
-      operationTimeSubtitle: 'Procedure duration',
+      operationTimeSubtitle: 'Duration of the Procedure',
       hospitalStay: 'Hospital Stay',
       hospitalStaySubtitle: 'Recovery period',
-      recovery: 'Recovery Time',
-      recoverySubtitle: 'Full recovery period',
+      recovery: 'Recovery',
+      recoverySubtitle: 'Full Recovery Period',
       accommodation: 'Accommodation',
       accommodationSubtitle: '5-star hotel included',
       transportation: 'Transportation',
       transportationSubtitle: 'VIP transfers included',
       premiumPackageTitle: 'Premium All-Inclusive Package',
-      premiumPackageDescription: 'Complete medical tourism experience with luxury accommodation and personalized care.',
+      premiumPackageDescription: 'Full medical tourism experience with luxury accommodation and personalized care.',
       reserveJourney: 'Reserve Your Journey'
     },
-    searchPlaceholder: 'Search services...',
+    hero: {
+      title: 'Our Services',
+      subtitle: 'Explore our wide range of world-class medical and aesthetic treatments.'
+    },
+    searchPlaceholder: 'Search treatments, procedures...',
     allCategories: 'All Categories',
     sortByName: 'Sort by Name',
-    sortByFeatured: 'Sort by Featured',
-    sortByDuration: 'Sort by Duration',
+    sortByFeatured: 'Featured First',
+    sortByDuration: 'Duration',
     hideFilters: 'Hide Filters',
     moreFilters: 'More Filters',
-    duration: 'Duration',
-    anyDuration: 'Any Duration',
-    oneTwoHours: '1-2 Hours',
-    halfDay: 'Half Day',
-    more: 'More',
-    learnMore: 'Learn More',
-    fullDay: 'Full Day',
-    multipleDays: 'Multiple Days',
-    featuredOnly: 'Featured Only',
-    quickFilters: 'Quick Filters',
-    mostPopular: 'Most Popular',
-    quickProcedures: 'Quick Procedures',
-    premiumServices: 'Premium Services',
-    nonInvasive: 'Non-Invasive',
-    headerTitle: 'Our Medical Services',
-    headerDesc: 'Discover world-class treatments and procedures.',
+    noServicesFound: 'No services found',
+    clearFilters: 'Clear Filters',
     totalServices: '{count} Total Services',
     showing: 'Showing {count}',
-    searchResults: 'Search Results',
-    allServices: 'All Services',
-    resultsFor: 'Results for',
-    inCategory: 'in category',
-    grid: 'Grid',
-    list: 'List',
+    learnMore: 'Learn More',
+    keyBenefits: 'Key Benefits',
+    more: 'more',
+    headerTitle: 'Our Medical Services',
+    headerDesc: 'Discover world-class medical treatments and procedures designed to enhance your health, beauty, and confidence. Expert care with cutting-edge technology.',
     errorTitle: 'Something went wrong',
     errorDesc: 'There was an error loading the services.',
     tryAgain: 'Try Again'
@@ -378,7 +381,8 @@ export const enTranslations: Translations = {
     resultsAchieved: 'Results Achieved',
     previous: 'Previous',
     next: 'Next',
-    close: 'Close'
+    close: 'Close',
+    pageTitle: 'Before & After Results'
   },
   gallery: {
     hero: {
@@ -468,7 +472,7 @@ export const enTranslations: Translations = {
       other: 'Other Services'
     },
     messages: {
-      success: 'Consultation Booked Successfully!',
+      success: 'Message Received Successfully!',
       successDesc: 'Thank you for choosing us. Our team will contact you within 24 hours to confirm your appointment.',
       error: 'Booking Failed',
       errorDesc: 'We\'re sorry, something went wrong. Please try again or contact us directly.',
@@ -477,7 +481,8 @@ export const enTranslations: Translations = {
     info: {
       phone: 'Phone',
       email: 'Email'
-    }
+    },
+    title: 'Contact Us'
   },
   mockData: {
     patient: 'Patient',

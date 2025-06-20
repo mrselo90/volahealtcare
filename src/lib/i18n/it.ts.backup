@@ -469,7 +469,7 @@ export const itTranslations: Translations = {
       other: 'Other Services'
     },
     messages: {
-      success: 'Consultation Booked Successfully!',
+      success: 'Message Received Successfully!',
       successDesc: 'Thank you for choosing us. Our team will contact you within 24 hours to confirm your appointment.',
       error: 'Booking Failed',
       errorDesc: 'We\'re sorry, something went wrong. Please try again or contact us directly.',

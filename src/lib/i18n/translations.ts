@@ -140,6 +140,20 @@ export interface Translations {
       hair: string;
       aesthetic: string;
     };
+    category: {
+      'hair-transplant': {
+        title: string;
+        description: string;
+      };
+      'dental-treatments': {
+        title: string;
+        description: string;
+      };
+      'plastic-surgery': {
+        title: string;
+        description: string;
+      };
+    };
     detail: {
       scrollDown: string;
       contactUs: string;

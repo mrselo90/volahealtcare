@@ -249,10 +249,10 @@ export const plTranslations: Translations = {
       reserveJourney: 'Zarezerwuj Swoją Podróż'
     },
     searchPlaceholder: 'Szukaj usług...',
-    allCategories: 'Wszystkie Kategorie',
-    sortByName: 'Sortuj według Nazwy',
-    sortByFeatured: 'Sortuj według Wyróżnienia',
-    sortByDuration: 'Sortuj według Czasu',
+    allCategories: 'Wszystkie kategorie',
+    sortByName: 'Sortuj według nazwy',
+    sortByFeatured: 'Wyróżnione na początku',
+    sortByDuration: 'Czas trwania',
     hideFilters: 'Ukryj Filtry',
     moreFilters: 'Więcej Filtrów',
     duration: 'Czas Trwania',
@@ -280,7 +280,21 @@ export const plTranslations: Translations = {
     list: 'Lista',
     errorTitle: 'Coś poszło nie tak',
     errorDesc: 'Wystąpił błąd podczas ładowania usług.',
-    tryAgain: 'Spróbuj Ponownie'
+    tryAgain: 'Spróbuj Ponownie',
+    category: {
+      'hair-transplant': {
+        title: 'Przeszczep włosów',
+        description: 'Zaawansowane techniki odbudowy włosów dla naturalnych i trwałych rezultatów.'
+      },
+      'dental-treatments': {
+        title: 'Zabiegi stomatologiczne',
+        description: 'Kompleksowe rozwiązania stomatologiczne dla idealnego i zdrowego uśmiechu.'
+      },
+      'plastic-surgery': {
+        title: 'Chirurgia plastyczna',
+        description: 'Kompleksowa chirurgia plastyczna i zabiegi estetyczne.'
+      }
+    }
   },
   results: {
     beforeAfter: {
@@ -475,7 +489,8 @@ export const plTranslations: Translations = {
     info: {
       phone: 'Telefon',
       email: 'Email'
-    }
+    },
+    title: 'Skontaktuj się z nami'
   },
   mockData: {
     patient: 'Pacjent',

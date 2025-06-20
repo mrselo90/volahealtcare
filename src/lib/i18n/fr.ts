@@ -133,38 +133,52 @@ export const frTranslations: Translations = {
   },
   services: {
     categories: {
-      dental: 'Soins dentaires',
-      hair: 'Greffe de cheveux',
-      aesthetic: 'Chirurgie esthétique'
+      dental: 'Traitements Dentaires',
+      hair: 'Greffe de Cheveux',
+      plastic: 'Chirurgie Plastique'
+    },
+    category: {
+      'hair-transplant': {
+        title: 'Greffe de Cheveux',
+        description: 'Techniques avancées de restauration capillaire pour des résultats naturels et permanents.'
+      },
+      'dental-treatments': {
+        title: 'Traitements Dentaires',
+        description: 'Solutions dentaires complètes pour un sourire parfait et sain.'
+      },
+      'plastic-surgery': {
+        title: 'Chirurgie Plastique',
+        description: 'Chirurgie plastique complète et traitements esthétiques.'
+      }
     },
     detail: {
-      scrollDown: 'Faites défiler vers le bas',
-      contactUs: 'Contactez-nous',
+      scrollDown: 'Faire défiler vers le bas',
+      contactUs: 'Nous contacter',
       aboutTreatment: 'À propos de ce traitement',
       comprehensiveInfo: 'Informations complètes sur votre procédure',
-      tableOfContents: 'Table des matières',
       minRead: 'min de lecture',
-      keyBenefits: 'Avantages Clés',
-      serviceNotFound: 'Service introuvable',
+      keyBenefits: 'Principaux avantages',
+      tableOfContents: 'Table des matières',
+      serviceNotFound: 'Service non trouvé',
       goBack: 'Retour',
       bookConsultation: 'Réserver une consultation',
       whatsappConsult: 'Consultation WhatsApp',
       freeConsultation: 'Consultation gratuite',
       bookingForm: {
         title: 'Prendre rendez-vous',
-        subtitle: 'Prenez votre rendez-vous et commencez votre parcours de transformation',
+        subtitle: 'Prenez rendez-vous et commencez votre voyage de transformation',
         name: 'Nom complet',
-        email: 'Email',
+        email: 'E-mail',
         phone: 'Téléphone',
         country: 'Pays',
         preferredDate: 'Date préférée',
         preferredTime: 'Heure préférée',
-        notes: 'Notes',
-        notesPlaceholder: 'Questions ou demandes spéciales concernant ce service…',
+        notes: 'Remarques',
+        notesPlaceholder: 'Questions ou demandes spéciales concernant ce service...',
         submit: 'Demander un rendez-vous',
-        submitting: 'Envoi…',
-        success: 'Votre rendez-vous a été créé avec succès !',
-        error: 'Une erreur est survenue lors de la création du rendez-vous.',
+        submitting: 'Envoi en cours...',
+        success: 'Votre rendez-vous a été créé avec succès !',
+        error: 'Une erreur s\'est produite lors de la création du rendez-vous.',
         close: 'Fermer'
       },
       gallery: {
@@ -173,50 +187,50 @@ export const frTranslations: Translations = {
         procedure: 'Procédure',
         results: 'Résultats',
         viewGallery: 'Voir la galerie',
-        noImages: 'Aucune image ajoutée pour l’instant'
+        noImages: 'Aucune image ajoutée pour le moment'
       },
       faq: {
-        title: 'Foire aux questions',
-        noFaq: 'Aucune FAQ ajoutée pour l’instant'
+        title: 'Questions fréquemment posées',
+        noFaq: 'Aucune FAQ ajoutée pour le moment'
       },
       testimonials: {
         title: 'Avis des patients',
         rating: 'Évaluation',
         verified: 'Patient vérifié',
-        noTestimonials: 'Aucun avis ajouté pour l’instant',
+        noTestimonials: 'Aucun avis ajouté pour le moment',
         review: 'avis',
         reviews: 'avis',
-        loading: 'Chargement des avis…',
-        noReviews: 'Aucun avis pour ce service.',
-        beFirst: 'Soyez le premier à partager votre expérience !'
+        loading: 'Chargement des avis...',
+        noReviews: 'Il n\'y a pas encore d\'avis pour ce service.',
+        beFirst: 'Soyez le premier à partager votre expérience !'
       },
       relatedServices: {
         title: 'Services associés',
-        exploreMore: 'Explorez d’autres services dans cette catégorie',
+        exploreMore: 'Découvrez d\'autres services dans cette catégorie',
         subtitle: 'Découvrez des traitements similaires',
         noServices: 'Aucun service associé trouvé.',
         browseAll: 'Parcourir tous les services',
-        viewAll: 'Voir tous les services {category}'
+        viewAll: 'Voir tous les services de {category}'
       },
       navigation: {
         overview: 'Aperçu',
         procedure: 'Procédure',
         gallery: 'Galerie',
         faq: 'FAQ',
-        booking: 'Réserver'
+        booking: 'Réserver maintenant'
       },
       consultation: {
         title: 'Consultation gratuite',
-        subtitle: 'Consultation gratuite avec nos experts',
+        subtitle: 'Consultation gratuite avec nos spécialistes',
         bookFreeConsultation: 'Réserver une consultation gratuite',
-        messageNow: 'Envoyer un message',
+        messageNow: 'Envoyer un message maintenant',
         freeConsultation: 'Consultation gratuite',
         expertCare: 'Soins experts'
       },
       whyChooseUs: {
         title: 'Pourquoi nous choisir',
         happyClients: 'Clients satisfaits',
-        averageRating: 'Note moyenne',
+        averageRating: 'Évaluation moyenne',
         yearsExperience: 'Années d\'expérience',
         successRate: 'Taux de réussite'
       },
@@ -231,53 +245,43 @@ export const frTranslations: Translations = {
     },
     packageDetails: {
       title: 'Détails du forfait',
-      subtitle: 'Tout compris dans votre voyage médical',
-      timeInTurkey: 'Durée en Turquie',
+      subtitle: 'Tout ce qui est inclus dans votre voyage médical',
+      timeInTurkey: 'Temps en Turquie',
       timeInTurkeySubtitle: 'Durée de séjour recommandée',
-      operationTime: 'Durée de l’opération',
+      operationTime: 'Temps d\'opération',
       operationTimeSubtitle: 'Durée de la procédure',
-      hospitalStay: 'Séjour à l’hôpital',
+      hospitalStay: 'Séjour à l\'hôpital',
       hospitalStaySubtitle: 'Période de récupération',
-      recovery: 'Temps de récupération',
-      recoverySubtitle: 'Durée de la convalescence complète',
+      recovery: 'Récupération',
+      recoverySubtitle: 'Période de récupération complète',
       accommodation: 'Hébergement',
       accommodationSubtitle: 'Hôtel 5 étoiles inclus',
       transportation: 'Transport',
       transportationSubtitle: 'Transferts VIP inclus',
-      premiumPackageTitle: 'Forfait premium tout compris',
+      premiumPackageTitle: 'Forfait Premium tout compris',
       premiumPackageDescription: 'Expérience complète de tourisme médical avec hébergement de luxe et soins personnalisés.',
-      reserveJourney: 'Réserver votre parcours'
+      reserveJourney: 'Réservez votre voyage'
     },
-    searchPlaceholder: 'Rechercher des services…',
+    hero: {
+      title: 'Nos services',
+      subtitle: 'Découvrez notre large gamme de traitements médicaux et esthétiques de classe mondiale.'
+    },
+    searchPlaceholder: 'Rechercher des traitements, des procédures...',
     allCategories: 'Toutes les catégories',
     sortByName: 'Trier par nom',
-    sortByFeatured: 'Trier par mis en avant',
-    sortByDuration: 'Trier par durée',
+    sortByFeatured: 'En vedette en premier',
+    sortByDuration: 'Durée',
     hideFilters: 'Masquer les filtres',
     moreFilters: 'Plus de filtres',
-    duration: 'Durée',
-    anyDuration: 'Toute durée',
-    oneTwoHours: '1–2 heures',
-    more: 'Plus',
-    learnMore: 'En savoir plus',
-    fullDay: 'Journée complète',
-    multipleDays: 'Plusieurs jours',
-    featuredOnly: 'Uniquement mis en avant',
-    quickFilters: 'Filtres rapides',
-    mostPopular: 'Les plus populaires',
-    quickProcedures: 'Procédures rapides',
-    premiumServices: 'Services premium',
-    nonInvasive: 'Non invasif',
-    headerTitle: 'Nos services médicaux',
-    headerDesc: 'Découvrez des traitements et procédures de classe mondiale.',
+    noServicesFound: 'Aucun service trouvé',
+    clearFilters: 'Effacer les filtres',
     totalServices: '{count} services au total',
     showing: 'Affichage de {count}',
-    searchResults: 'Résultats de recherche',
-    allServices: 'Tous les services',
-    resultsFor: 'Résultats pour',
-    inCategory: 'dans la catégorie',
-    grid: 'Grille',
-    list: 'Liste',
+    learnMore: 'En savoir plus',
+    keyBenefits: 'Principaux avantages',
+    more: 'plus',
+    headerTitle: 'Nos services médicaux',
+    headerDesc: 'Découvrez des traitements et des procédures médicales de classe mondiale conçus pour améliorer votre santé, votre beauté et votre confiance. Des soins experts avec une technologie de pointe.',
     errorTitle: 'Quelque chose a mal tourné',
     errorDesc: 'Une erreur est survenue lors du chargement des services.',
     tryAgain: 'Réessayer'
@@ -377,7 +381,8 @@ export const frTranslations: Translations = {
     resultsAchieved: 'Résultats obtenus',
     previous: 'Précédent',
     next: 'Suivant',
-    close: 'Fermer'
+    close: 'Fermer',
+    pageTitle: 'Résultats Avant & Après'
   },
   gallery: {
     hero: {
@@ -475,7 +480,8 @@ export const frTranslations: Translations = {
     info: {
       phone: 'Téléphone',
       email: 'Email'
-    }
+    },
+    title: 'Nous contacter'
   },
   mockData: {
     patient: 'Patient',

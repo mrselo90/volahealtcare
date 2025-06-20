@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getCategoryName } from '@/utils/categoryUtils';
 import { getServiceImageUrl, getServiceImageAlt } from '@/utils/imageUtils';
 import { getTranslation } from '@/utils/translationUtils';
+import { translations, getTranslation as getTranslationFromKey } from '@/lib/i18n/translations';
 
 interface Props {
   params: {
@@ -46,6 +47,46 @@ function getServiceDescription(service: any, language: string) {
   return service.description || '';
 }
 
+// Helper function to get translation by key path
+function getTranslationByPath(lang: string, path: string, fallback: string = '') {
+  const langTranslations = translations[lang as keyof typeof translations];
+  if (!langTranslations) return fallback;
+  
+  const keys = path.split('.');
+  let value: any = langTranslations;
+  
+  for (const key of keys) {
+    if (value && typeof value === 'object' && key in value) {
+      value = value[key];
+    } else {
+      return fallback;
+    }
+  }
+  
+  return typeof value === 'string' ? value : fallback;
+}
+
+// Helper functions for category titles and descriptions
+function getCategoryTitle(category: any, lang: string) {
+  const key = `services.category.${category.slug}.title`;
+  console.log('getCategoryTitle - key:', key, 'lang:', lang, 'category.slug:', category.slug);
+  const translated = getTranslationFromKey(lang as any, key);
+  console.log('getCategoryTitle - translated:', translated);
+  const fallback = getCategoryName(category);
+  console.log('getCategoryTitle - fallback:', fallback);
+  return translated || fallback;
+}
+
+function getCategoryDescription(category: any, lang: string) {
+  const key = `services.category.${category.slug}.description`;
+  console.log('getCategoryDescription - key:', key, 'lang:', lang);
+  const translated = getTranslationFromKey(lang as any, key);
+  console.log('getCategoryDescription - translated:', translated);
+  const fallback = getLocalizedText(category.description);
+  console.log('getCategoryDescription - fallback:', fallback);
+  return translated || fallback;
+}
+
 export default async function ServiceCategoryPage({ params }: Props) {
   const category = await getCategoryWithServices(params.category);
 
@@ -58,13 +99,11 @@ export default async function ServiceCategoryPage({ params }: Props) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-            {getCategoryName(category)}
+            {getCategoryTitle(category, params.lang)}
           </h1>
-          {category.description && (
-            <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
-              {getLocalizedText(category.description)}
-            </p>
-          )}
+          <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
+            {getCategoryDescription(category, params.lang)}
+          </p>
         </div>
 
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -88,7 +127,7 @@ export default async function ServiceCategoryPage({ params }: Props) {
                 </h3>
                 <p className="mt-2 text-gray-500">{getServiceDescription(service, params.lang)}</p>
                 <div className="mt-4 flex items-center text-primary font-medium">
-                  Learn more
+                  {getTranslationFromKey(params.lang as any, 'services.learnMore') || 'Learn more'}
                   <svg
                     className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform"
                     fill="none"

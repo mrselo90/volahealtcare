@@ -129,32 +129,46 @@ export const esTranslations: Translations = {
     p1: 'Bienvenido a Vola Health Estambul, un destino de primer nivel para atención estética y dental avanzada, ubicado en la vibrante ciudad de Estambul. Con más de quince años de servicio dedicado, estamos orgullosos de habernos establecido como un nombre confiable en los campos de cirugía dental y plástica. Nuestra clínica se dedica a mejorar las vidas de pacientes de todo el mundo entregando excelencia en estética médica y atención personalizada con los más altos estándares.',
     p2: 'En Vola Health, entendemos que cada paciente es único, con sus propios objetivos y necesidades. Nuestro enfoque es, por tanto, altamente individualizado, y creemos en formar conexiones genuinas con nuestros pacientes para comprender mejor y abordar sus aspiraciones. Desde la consulta inicial hasta el cuidado postoperatorio, cada paso de nuestro proceso está meticulosamente diseñado para asegurar que los pacientes no solo reciban resultados médicos excepcionales sino que también se sientan cómodos, apoyados e informados durante todo el camino. Nos sentimos honrados de haber ganado la confianza y confianza de nuestra clientela internacional, y nos dedicamos a mantener esta confianza refinando constantemente nuestros servicios y expandiendo nuestra experiencia.',
     p3: 'Elegir Vola Health significa elegir un equipo que valora tu viaje tanto como tú. Creemos en más que solo mejoras estéticas; creemos en la confianza, felicidad y calidad de vida que vienen de sentirse lo mejor posible. Con un equipo dedicado a tu lado, te invitamos a embarcarte en un viaje transformador con nosotros, donde tus objetivos y expectativas no solo se cumplen sino que se superan.',
-    slogan: 'Vola Health Estambul – Para un Mejor Tú'
+    slogan: 'Vola Health Istanbul – Para un Mejor Tú'
   },
   services: {
     categories: {
       dental: 'Tratamientos Dentales',
       hair: 'Trasplante Capilar',
-      aesthetic: 'Cirugía Estética'
+      plastic: 'Cirugía Plástica'
+    },
+    category: {
+      'hair-transplant': {
+        title: 'Trasplante de Cabello',
+        description: 'Técnicas avanzadas de restauración capilar para resultados naturales y permanentes.'
+      },
+      'dental-treatments': {
+        title: 'Tratamientos Dentales',
+        description: 'Soluciones dentales completas para una sonrisa perfecta y saludable.'
+      },
+      'plastic-surgery': {
+        title: 'Cirugía Plástica',
+        description: 'Cirugía plástica integral y tratamientos estéticos.'
+      }
     },
     detail: {
       scrollDown: 'Desplázate Hacia Abajo',
-      contactUs: 'Contáctanos',
+      contactUs: 'Contáctenos',
       aboutTreatment: 'Sobre Este Tratamiento',
-      comprehensiveInfo: 'Información integral sobre tu procedimiento',
+      comprehensiveInfo: 'Información completa sobre su procedimiento',
       minRead: 'min de lectura',
       keyBenefits: 'Beneficios Clave',
       tableOfContents: 'Tabla de Contenidos',
       serviceNotFound: 'Servicio No Encontrado',
       goBack: 'Volver',
       bookConsultation: 'Reservar Consulta',
-      whatsappConsult: 'Consulta WhatsApp',
+      whatsappConsult: 'Consulta por WhatsApp',
       freeConsultation: 'Consulta Gratuita',
       bookingForm: {
         title: 'Reservar Cita',
-        subtitle: 'Reserva tu cita y comienza tu viaje de transformación',
+        subtitle: 'Reserve su cita y comience su viaje de transformación',
         name: 'Nombre Completo',
-        email: 'Email',
+        email: 'Correo Electrónico',
         phone: 'Teléfono',
         country: 'País',
         preferredDate: 'Fecha Preferida',
@@ -163,39 +177,39 @@ export const esTranslations: Translations = {
         notesPlaceholder: 'Cualquier pregunta o solicitud especial sobre este servicio...',
         submit: 'Solicitar Cita',
         submitting: 'Enviando...',
-        success: '¡Tu cita ha sido creada exitosamente!',
+        success: '¡Su cita ha sido creada con éxito!',
         error: 'Ocurrió un error al crear la cita.',
         close: 'Cerrar'
       },
       gallery: {
         title: 'Galería',
-        beforeAfter: 'Antes & Después',
+        beforeAfter: 'Antes y Después',
         procedure: 'Procedimiento',
         results: 'Resultados',
         viewGallery: 'Ver Galería',
-        noImages: 'Aún no se han agregado imágenes'
+        noImages: 'No se han añadido imágenes todavía'
       },
       faq: {
         title: 'Preguntas Frecuentes',
-        noFaq: 'Aún no se han agregado FAQ'
+        noFaq: 'No se han añadido preguntas frecuentes todavía'
       },
       testimonials: {
-        title: 'Reseñas de Pacientes',
+        title: 'Opiniones de Pacientes',
         rating: 'Calificación',
         verified: 'Paciente Verificado',
-        noTestimonials: 'Aún no se han agregado reseñas',
-        review: 'reseña',
-        reviews: 'reseñas',
-        loading: 'Cargando reseñas...',
-        noReviews: 'Aún no hay reseñas para este servicio.',
+        noTestimonials: 'No se han añadido opiniones todavía',
+        review: 'opinión',
+        reviews: 'opiniones',
+        loading: 'Cargando opiniones...',
+        noReviews: 'Todavía no hay opiniones para este servicio.',
         beFirst: '¡Sé el primero en compartir tu experiencia!'
       },
       relatedServices: {
         title: 'Servicios Relacionados',
-        exploreMore: 'Explora otros servicios en esta categoría',
-        subtitle: 'Explora tratamientos similares',
+        exploreMore: 'Explore otros servicios en esta categoría',
+        subtitle: 'Explore tratamientos similares',
         noServices: 'No se encontraron servicios relacionados.',
-        browseAll: 'Explorar todos los servicios',
+        browseAll: 'Ver todos los servicios',
         viewAll: 'Ver todos los servicios de {category}'
       },
       navigation: {
@@ -203,15 +217,15 @@ export const esTranslations: Translations = {
         procedure: 'Procedimiento',
         gallery: 'Galería',
         faq: 'Preguntas Frecuentes',
-        booking: 'Reservar'
+        booking: 'Reservar Ahora'
       },
       consultation: {
         title: 'Consulta Gratuita',
-        subtitle: 'Consulta con nuestros expertos',
+        subtitle: 'Consulta gratuita con nuestros especialistas',
         bookFreeConsultation: 'Reservar Consulta Gratuita',
         messageNow: 'Enviar Mensaje Ahora',
-        freeConsultation: 'Consulta Gratuita',
-        expertCare: 'Cuidado Experto'
+        freeConsultation: 'Consulta gratuita',
+        expertCare: 'Atención experta'
       },
       whyChooseUs: {
         title: '¿Por Qué Elegirnos?',
@@ -224,60 +238,50 @@ export const esTranslations: Translations = {
       readingTime: 'Tiempo de Lectura',
       sections: 'Secciones',
       topics: 'temas',
-      highlights: 'resaltos',
-      jumpToSection: 'Saltar a Sección',
-      shareExperience: 'Compartir Tu Experiencia',
-      exploreSimilar: 'Explorar Tratamientos Similares'
+      highlights: 'destacados',
+      jumpToSection: 'Saltar a la Sección',
+      shareExperience: 'Comparta Su Experiencia',
+      exploreSimilar: 'Explore Tratamientos Similares'
     },
     packageDetails: {
       title: 'Detalles del Paquete',
-      subtitle: 'Todo lo incluido en tu viaje médico',
+      subtitle: 'Todo incluido en su viaje médico',
       timeInTurkey: 'Tiempo en Turquía',
-      timeInTurkeySubtitle: 'Duración recomendada de estancia',
+      timeInTurkeySubtitle: 'Duración recomendada de la estancia',
       operationTime: 'Tiempo de Operación',
       operationTimeSubtitle: 'Duración del Procedimiento',
-      hospitalStay: 'Estancia en Hospital',
-      hospitalStaySubtitle: 'Período de Recuperación',
-      recovery: 'Tiempo de Recuperación',
-      recoverySubtitle: 'Período Completo de Recuperación',
+      hospitalStay: 'Estancia en el Hospital',
+      hospitalStaySubtitle: 'Período de recuperación',
+      recovery: 'Recuperación',
+      recoverySubtitle: 'Período de Recuperación Completo',
       accommodation: 'Alojamiento',
       accommodationSubtitle: 'Hotel de 5 estrellas incluido',
-      transportation: 'Transportación',
-      transportationSubtitle: 'Transferencias VIP incluidas',
-      premiumPackageTitle: 'Paquete Premium Incluyente',
-      premiumPackageDescription: 'Experiencia de Turismo Médico con Lujo de Alojamiento y Cuidado Personalizado.',
-      reserveJourney: 'Reservar Tu Viaje'
+      transportation: 'Transporte',
+      transportationSubtitle: 'Traslados VIP incluidos',
+      premiumPackageTitle: 'Paquete Premium Todo Incluido',
+      premiumPackageDescription: 'Experiencia completa de turismo médico con alojamiento de lujo y atención personalizada.',
+      reserveJourney: 'Reserve Su Viaje'
     },
-    searchPlaceholder: 'Buscar servicios...',
-    allCategories: 'Todas las Categorías',
-    sortByName: 'Ordenar por Nombre',
-    sortByFeatured: 'Ordenar por Destacado',
-    sortByDuration: 'Ordenar por Duración',
+    hero: {
+      title: 'Nuestros Servicios',
+      subtitle: 'Explore nuestra amplia gama de tratamientos médicos y estéticos de clase mundial.'
+    },
+    searchPlaceholder: 'Buscar tratamientos, procedimientos...',
+    allCategories: 'Todas las categorías',
+    sortByName: 'Ordenar por nombre',
+    sortByFeatured: 'Destacados primero',
+    sortByDuration: 'Duración',
     hideFilters: 'Ocultar Filtros',
     moreFilters: 'Más Filtros',
-    duration: 'Duración',
-    anyDuration: 'Cualquier Duración',
-    oneTwoHours: '1-2 Horas',
-    more: 'Más',
-    learnMore: 'Saber Más',
-    fullDay: 'Día Completo',
-    multipleDays: 'Múltiples Días',
-    featuredOnly: 'Solo Destacado',
-    quickFilters: 'Filtros Rápidos',
-    mostPopular: 'Más Popular',
-    quickProcedures: 'Procedimientos Rápidos',
-    premiumServices: 'Servicios Premium',
-    nonInvasive: 'No Invasivo',
-    headerTitle: 'Nuestros Servicios Médicos',
-    headerDesc: 'Descubre tratamientos y procedimientos de clase mundial.',
-    totalServices: '{count} Total de Servicios',
+    noServicesFound: 'No se encontraron servicios',
+    clearFilters: 'Limpiar Filtros',
+    totalServices: '{count} Servicios Totales',
     showing: 'Mostrando {count}',
-    searchResults: 'Resultados de Búsqueda',
-    allServices: 'Todos los Servicios',
-    resultsFor: 'Resultados para',
-    inCategory: 'en la categoría',
-    grid: 'Cuadrícula',
-    list: 'Lista',
+    learnMore: 'Aprende Más',
+    keyBenefits: 'Beneficios Clave',
+    more: 'más',
+    headerTitle: 'Nuestros Servicios Médicos',
+    headerDesc: 'Descubra tratamientos y procedimientos médicos de clase mundial diseñados para mejorar su salud, belleza y confianza. Atención experta con tecnología de vanguardia.',
     errorTitle: 'Algo salió mal',
     errorDesc: 'Hubo un error al cargar los servicios.',
     tryAgain: 'Intentar de Nuevo'
@@ -290,7 +294,7 @@ export const esTranslations: Translations = {
     treatments: {
       dental: 'Los tratamientos dentales logran excelentes resultados.',
       hair: 'Apariencia natural en tratamientos de cabello.',
-      aesthetic: 'Resultados seguros y naturales de cirugía estética.',
+              'plastic-surgery': 'Resultados seguros y naturales de cirugía estética.',
       other: 'Otros tratamientos'
     },
     dental: {
@@ -333,9 +337,9 @@ export const esTranslations: Translations = {
         surgeons: 'Cirujanos Expertos'
       }
     },
-    aesthetic: {
-      title: 'Resultados de Cirugía Estética',
-      subtitle: 'Resultados Seguros y Naturales de Cirugía Estética',
+          'plastic-surgery': {
+        title: 'Resultados de Cirugía Estética',
+        subtitle: 'Resultados Seguros y Naturales de Cirugía Estética',
       treatments: {
         rhinoplasty: 'Rinoplastia',
         liposuction: 'Liposucción',
@@ -394,9 +398,9 @@ export const esTranslations: Translations = {
       title: 'Resultados de Trasplante Capilar',
       description: 'Véase resultados naturales de nuestros tratamientos de cabello.'
     },
-    aesthetic: {
-      title: 'Resultados de Cirugía Estética',
-      description: 'Resultados impresionantes de nuestras operaciones de cirugía estética.'
+          'plastic-surgery': {
+        title: 'Resultados de Cirugía Estética',
+        description: 'Resultados impresionantes de nuestras operaciones de cirugía estética.'
     },
     testimonials: {
       title: 'Testimonios de Pacientes',
@@ -462,7 +466,7 @@ export const esTranslations: Translations = {
     treatments: {
       dental: 'Tratamientos Dentales',
       hair: 'Trasplante Capilar',
-      aesthetic: 'Cirugía Estética',
+              'plastic-surgery': 'Cirugía Estética',
       other: 'Otros Servicios'
     },
     messages: {
@@ -475,7 +479,8 @@ export const esTranslations: Translations = {
     info: {
       phone: 'Teléfono',
       email: 'Correo Electrónico'
-    }
+    },
+    title: 'Contáctenos'
   },
   mockData: {
     patient: 'Paciente',
@@ -670,9 +675,9 @@ export const esTranslations: Translations = {
         subtitle: 'Técnicas avanzadas FUE & DHI para resultados naturales',
         category: 'Restauración Capilar'
       },
-      aesthetic: {
-        title: 'Cirugía Estética',
-        subtitle: 'Transforma tu apariencia con precisión experta',
+              'plastic-surgery': {
+          title: 'Cirugía Estética',
+          subtitle: 'Transforma tu apariencia con precisión experta',
         category: 'Cirugía Plástica'
       },
       dental: {

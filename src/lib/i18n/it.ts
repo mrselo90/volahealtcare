@@ -129,155 +129,159 @@ export const itTranslations: Translations = {
     p1: 'Benvenuto a Vola Health Istanbul, una destinazione di primo livello per cure estetiche e dentali avanzate, situata nella vibrante città di Istanbul. Con oltre quindici anni di servizio dedicato, siamo orgogliosi di esserci affermati come un nome affidabile nei campi della chirurgia dentale e plastica. La nostra clinica si dedica a migliorare la vita di pazienti in tutto il mondo fornendo eccellenza in estetica medica e cure personalizzate ai massimi standard.',
     p2: 'A Vola Health, comprendiamo che ogni paziente è unico, con i propri obiettivi e bisogni. Il nostro approccio è quindi altamente individualizzato, e crediamo nella formazione di connessioni genuine con i nostri pazienti per comprendere meglio e affrontare le loro aspirazioni. Dalla consulenza iniziale alle cure post-operatorie, ogni passo del nostro processo è meticolosamente progettato per assicurare che i pazienti non solo ricevano risultati medici eccezionali ma si sentano anche a proprio agio, supportati e informati lungo tutto il percorso. Siamo onorati di aver guadagnato la fiducia e la confidenza della nostra clientela internazionale, e ci dedichiamo a mantenere questa fiducia raffinando costantemente i nostri servizi ed espandendo la nostra esperienza.',
     p3: 'Scegliere Vola Health significa scegliere un team che valorizza il tuo percorso tanto quanto te. Crediamo in più che semplici miglioramenti estetici; crediamo nella fiducia, felicità e qualità della vita che derivano dal sentirsi al meglio. Con un team dedicato al tuo fianco, ti invitiamo a intraprendere un viaggio trasformativo con noi, dove i tuoi obiettivi e aspettative non sono solo soddisfatti ma superati.',
-    slogan: 'Vola Health Istanbul – Per un Te Migliore'
+    slogan: 'Vola Health Istanbul – Per un te migliore'
   },
   services: {
     categories: {
       dental: 'Trattamenti Dentali',
       hair: 'Trapianto di Capelli',
-      aesthetic: 'Chirurgia Estetica'
+      plastic: 'Chirurgia Plastica'
+    },
+    category: {
+      'hair-transplant': {
+        title: 'Trapianto di Capelli',
+        description: 'Tecniche avanzate di ripristino dei capelli per risultati naturali e permanenti.'
+      },
+      'dental-treatments': {
+        title: 'Trattamenti Dentali',
+        description: 'Soluzioni dentali complete per un sorriso perfetto e sano.'
+      },
+      'plastic-surgery': {
+        title: 'Chirurgia Plastica',
+        description: 'Chirurgia plastica completa e trattamenti estetici.'
+      }
     },
     detail: {
-      scrollDown: 'Scorri Giù',
+      scrollDown: 'Scorri verso il basso',
       contactUs: 'Contattaci',
-      aboutTreatment: 'Su Questo Trattamento',
-      comprehensiveInfo: 'Informazioni complete sul tuo procedimento',
+      aboutTreatment: 'Informazioni su questo trattamento',
+      comprehensiveInfo: 'Informazioni complete sulla tua procedura',
       minRead: 'min di lettura',
-      keyBenefits: 'Benefici Principali',
+      keyBenefits: 'Vantaggi principali',
       tableOfContents: 'Indice',
-      serviceNotFound: 'Servizio Non Trovato',
-      goBack: 'Torna Indietro',
-      bookConsultation: 'Prenota Consulenza',
+      serviceNotFound: 'Servizio non trovato',
+      goBack: 'Indietro',
+      bookConsultation: 'Prenota una consulenza',
       whatsappConsult: 'Consulenza WhatsApp',
-      freeConsultation: 'Consulenza Gratuita',
+      freeConsultation: 'Consulenza gratuita',
       bookingForm: {
-        title: 'Prenota Appuntamento',
+        title: 'Prenota un appuntamento',
         subtitle: 'Prenota il tuo appuntamento e inizia il tuo percorso di trasformazione',
-        name: 'Nome Completo',
+        name: 'Nome completo',
         email: 'Email',
         phone: 'Telefono',
         country: 'Paese',
-        preferredDate: 'Data Preferita',
-        preferredTime: 'Orario Preferito',
+        preferredDate: 'Data preferita',
+        preferredTime: 'Orario preferito',
         notes: 'Note',
-        notesPlaceholder: 'Qualsiasi domanda o richiesta speciale su questo servizio...',
-        submit: 'Richiedi Appuntamento',
-        submitting: 'Invio...',
+        notesPlaceholder: 'Domande o richieste speciali su questo servizio...',
+        submit: 'Richiedi un appuntamento',
+        submitting: 'Invio in corso...',
         success: 'Il tuo appuntamento è stato creato con successo!',
         error: 'Si è verificato un errore durante la creazione dell\'appuntamento.',
         close: 'Chiudi'
       },
       gallery: {
         title: 'Galleria',
-        beforeAfter: 'Prima & Dopo',
+        beforeAfter: 'Prima e Dopo',
         procedure: 'Procedura',
         results: 'Risultati',
-        viewGallery: 'Vedi Galleria',
-        noImages: 'Nessuna immagine aggiunta ancora'
+        viewGallery: 'Visualizza la galleria',
+        noImages: 'Nessuna immagine ancora aggiunta'
       },
       faq: {
-        title: 'Domande Frequenti',
-        noFaq: 'Nessuna FAQ aggiunta ancora'
+        title: 'Domande frequenti',
+        noFaq: 'Nessuna FAQ ancora aggiunta'
       },
       testimonials: {
-        title: 'Recensioni dei Pazienti',
+        title: 'Recensioni dei pazienti',
         rating: 'Valutazione',
-        verified: 'Paziente Verificato',
-        noTestimonials: 'Nessuna recensione aggiunta ancora',
+        verified: 'Paziente verificato',
+        noTestimonials: 'Nessuna recensione ancora aggiunta',
         review: 'recensione',
         reviews: 'recensioni',
         loading: 'Caricamento recensioni...',
-        noReviews: 'Nessuna recensione ancora per questo servizio.',
+        noReviews: 'Non ci sono ancora recensioni per questo servizio.',
         beFirst: 'Sii il primo a condividere la tua esperienza!'
       },
       relatedServices: {
-        title: 'Servizi Correlati',
+        title: 'Servizi correlati',
         exploreMore: 'Esplora altri servizi in questa categoria',
         subtitle: 'Esplora trattamenti simili',
         noServices: 'Nessun servizio correlato trovato.',
         browseAll: 'Sfoglia tutti i servizi',
-        viewAll: 'Vedi tutti i servizi {category}'
+        viewAll: 'Visualizza tutti i servizi di {category}'
       },
       navigation: {
         overview: 'Panoramica',
         procedure: 'Procedura',
         gallery: 'Galleria',
         faq: 'FAQ',
-        booking: 'Prenota Ora'
+        booking: 'Prenota ora'
       },
       consultation: {
-        title: 'Consulenza Gratuita',
-        subtitle: 'Consulenza gratuita con i nostri esperti',
-        bookFreeConsultation: 'Prenota Consulenza Gratuita',
-        messageNow: 'Invia Messaggio Ora',
-        freeConsultation: 'Consulenza Gratuita',
-        expertCare: 'Cura Esperta'
+        title: 'Consulenza gratuita',
+        subtitle: 'Consulenza gratuita con i nostri specialisti',
+        bookFreeConsultation: 'Prenota una consulenza gratuita',
+        messageNow: 'Invia un messaggio ora',
+        freeConsultation: 'Consulenza gratuita',
+        expertCare: 'Cura esperta'
       },
       whyChooseUs: {
-        title: 'Perché Scegliere Noi',
-        happyClients: 'Clienti Felici',
-        averageRating: 'Valutazione Media',
-        yearsExperience: 'Anni di Esperienza',
-        successRate: 'Tasso di Successo'
+        title: 'Perché sceglierci',
+        happyClients: 'Clienti felici',
+        averageRating: 'Valutazione media',
+        yearsExperience: 'Anni di esperienza',
+        successRate: 'Tasso di successo'
       },
-      quickOverview: 'Panoramica Rapida',
-      readingTime: 'Tempo di Lettura',
+      quickOverview: 'Panoramica rapida',
+      readingTime: 'Tempo di lettura',
       sections: 'Sezioni',
       topics: 'argomenti',
-      highlights: 'evidenze',
-      jumpToSection: 'Salta alla Sezione',
-      shareExperience: 'Condividi la Tua Esperienza',
+      highlights: 'punti salienti',
+      jumpToSection: 'Vai alla sezione',
+      shareExperience: 'Condividi la tua esperienza',
       exploreSimilar: 'Esplora trattamenti simili'
     },
     packageDetails: {
-      title: 'Dettagli del Pacchetto',
+      title: 'Dettagli del pacchetto',
       subtitle: 'Tutto incluso nel tuo viaggio medico',
       timeInTurkey: 'Tempo in Turchia',
-      timeInTurkeySubtitle: 'Durata consigliata di permanenza',
-      operationTime: 'Tempo di Operazione',
-      operationTimeSubtitle: 'Durata del Procedimento',
-      hospitalStay: 'Permanenza in Ospedale',
-      hospitalStaySubtitle: 'Periodo di Recupero',
-      recovery: 'Tempo di Recupero',
-      recoverySubtitle: 'Periodo di Recupero Completo',
+      timeInTurkeySubtitle: 'Durata del soggiorno consigliata',
+      operationTime: 'Tempo di operazione',
+      operationTimeSubtitle: 'Durata della procedura',
+      hospitalStay: 'Soggiorno in ospedale',
+      hospitalStaySubtitle: 'Periodo di recupero',
+      recovery: 'Recupero',
+      recoverySubtitle: 'Periodo di recupero completo',
       accommodation: 'Alloggio',
-      accommodationSubtitle: 'Hotel 5 stelle incluso',
+      accommodationSubtitle: 'Hotel a 5 stelle incluso',
       transportation: 'Trasporto',
       transportationSubtitle: 'Trasferimenti VIP inclusi',
-      premiumPackageTitle: 'Pacchetto Premium Completo Inclusivo',
-      premiumPackageDescription: 'Esperienza di Turismo Medico completa con lusso alloggio e cura personalizzata.',
-      reserveJourney: 'Pianifica il Tuo Viaggio'
+      premiumPackageTitle: 'Pacchetto Premium tutto compreso',
+      premiumPackageDescription: 'Esperienza completa di turismo medico con alloggio di lusso e cure personalizzate.',
+      reserveJourney: 'Prenota il tuo viaggio'
     },
-    searchPlaceholder: 'Cerca servizi...',
-    allCategories: 'Tutte le Categorie',
-    sortByName: 'Ordina per Nome',
-    sortByFeatured: 'Ordina per Evidenza',
-    sortByDuration: 'Ordina per Durata',
-    hideFilters: 'Nascondi Filtri',
-    moreFilters: 'Filtri Aggiuntivi',
-    duration: 'Durata',
-    anyDuration: 'Qualunque Durata',
-    oneTwoHours: '1-2 Ore',
-    more: 'Di Più',
-    learnMore: 'Scopri di Più',
-    fullDay: 'Giornata Completa',
-    multipleDays: 'Multipli Giorni',
-    featuredOnly: 'Solo Evidenza',
-    quickFilters: 'Filtri Rapidi',
-    mostPopular: 'Mai Popolari',
-    quickProcedures: 'Procedimenti Rapidi',
-    premiumServices: 'Servizi Premium',
-    nonInvasive: 'Non Invasivo',
-    headerTitle: 'I Nostri Servizi Medici',
-    headerDesc: 'Scopri trattamenti e procedure di livello mondiale.',
-    totalServices: '{count} Totali Servizi',
-    showing: 'Mostra {count}',
-    searchResults: 'Risultati Ricerca',
-    allServices: 'Tutti Servizi',
-    resultsFor: 'Risultati per',
-    inCategory: 'in categoria',
-    grid: 'Griglia',
-    list: 'Elenco',
+    hero: {
+      title: 'I nostri servizi',
+      subtitle: 'Esplora la nostra vasta gamma di trattamenti medici ed estetici di livello mondiale.'
+    },
+    searchPlaceholder: 'Cerca trattamenti, procedure...',
+    allCategories: 'Tutte le categorie',
+    sortByName: 'Ordina per nome',
+    sortByFeatured: 'In primo piano',
+    sortByDuration: 'Durata',
+    hideFilters: 'Nascondi filtri',
+    moreFilters: 'Altri filtri',
+    noServicesFound: 'Nessun servizio trovato',
+    clearFilters: 'Cancella filtri',
+    totalServices: '{count} servizi totali',
+    showing: 'Mostrando {count}',
+    learnMore: 'Scopri di più',
+    keyBenefits: 'Vantaggi principali',
+    more: 'altro',
+    headerTitle: 'I nostri servizi medici',
+    headerDesc: 'Scopri trattamenti e procedure mediche di livello mondiale progettati per migliorare la tua salute, bellezza e fiducia. Cure esperte con tecnologia all\'avanguardia.',
     errorTitle: 'Qualcosa è andato storto',
     errorDesc: 'Si è verificato un errore durante il caricamento dei servizi.',
     tryAgain: 'Riprova'
@@ -377,7 +381,8 @@ export const itTranslations: Translations = {
     resultsAchieved: 'Risultati Ottenuti',
     previous: 'Precedente',
     next: 'Successivo',
-    close: 'Chiudi'
+    close: 'Chiudi',
+    pageTitle: 'Risultati Prima e Dopo'
   },
   gallery: {
     hero: {
@@ -475,7 +480,8 @@ export const itTranslations: Translations = {
     info: {
       phone: 'Telefono',
       email: 'Email'
-    }
+    },
+    title: 'Contattaci'
   },
   mockData: {
     patient: 'Paziente',

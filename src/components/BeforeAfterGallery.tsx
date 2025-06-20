@@ -484,28 +484,10 @@ export default function BeforeAfterGallery({
                     <span 
                       className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500/90 text-white shadow-lg backdrop-blur-sm"
                       role="tag"
-                      aria-label={`Category: ${caseItem.category.name}`}
                     >
-                      {caseItem.category.name}
                     </span>
                   </div>
                 )}
-                
-                {/* Title overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-white font-serif font-bold text-xl mb-2 line-clamp-2 drop-shadow-lg">
-                    {caseItem.title}
-                  </h3>
-
-                </div>
-                
-                {/* Hover effect overlay */}
-                <div className="absolute inset-0 bg-blue-600/20 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="text-white text-center">
-                    <div className="text-2xl mb-2">👁️</div>
-                    <div className="text-sm font-medium">View Details</div>
-                  </div>
-                </div>
               </div>
             </motion.div>
           ))}
@@ -789,128 +771,6 @@ export default function BeforeAfterGallery({
                     Next Case
                     <ChevronRightIcon className="h-5 w-5" />
                   </button>
-                </div>
-              </div>
-                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm text-professional shadow-lg ${
-                          showBeforeImage 
-                            ? 'bg-red-500 text-white' 
-                            : 'bg-green-500 text-white'
-                        }`}>
-                          {showBeforeImage ? '📷 Before' : '✨ After'}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    {/* Enhanced Toggle Buttons */}
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => setShowBeforeImage(true)}
-                        className={`flex-1 py-4 px-6 rounded-xl text-professional-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
-                          showBeforeImage 
-                            ? 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-red-200' 
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                        }`}
-                      >
-                        📷 Before Treatment
-                      </button>
-                      <button
-                        onClick={() => setShowBeforeImage(false)}
-                        className={`flex-1 py-4 px-6 rounded-xl text-professional-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-md ${
-                          !showBeforeImage 
-                            ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-blue-200' 
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                        }`}
-                      >
-                        ✨ After Treatment
-                      </button>
-                    </div>
-
-
-                  </div>
-
-                  {/* Enhanced Details Section */}
-                  <div className="space-y-8">
-                    {/* Patient Info Card */}
-                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl">
-                      <h3 className="text-xl font-serif font-bold text-gray-800 mb-4 flex items-center">
-                        <span className="bg-blue-500 text-white p-2 rounded-lg mr-3">👤</span>
-                        Patient Information
-                      </h3>
-                      <div className="grid grid-cols-1 gap-3">
-
-                        {selectedCase.patientGender && (
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-600 font-medium">Gender:</span>
-                            <span className="text-gray-800 font-semibold capitalize">{selectedCase.patientGender}</span>
-                          </div>
-                        )}
-                        {selectedCase.patientCountry && (
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-600 font-medium">Country:</span>
-                            <span className="text-gray-800 font-semibold">{selectedCase.patientCountry}</span>
-                          </div>
-                        )}
-                        {selectedCase.timeframe && (
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-600 font-medium">Timeline:</span>
-                            <span className="text-green-600 font-semibold">{selectedCase.timeframe}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Description Card */}
-                    {selectedCase.description && (
-                      <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl">
-                        <h3 className="text-xl font-serif font-bold text-gray-800 mb-4 flex items-center">
-                          <span className="bg-amber-500 text-white p-2 rounded-lg mr-3">📝</span>
-                          {t('results.description') || 'Description'}
-                        </h3>
-                        <p className="text-gray-700 leading-relaxed">{selectedCase.description}</p>
-                      </div>
-                    )}
-
-                    {/* Treatment Details Card */}
-                    {selectedCase.treatmentDetails && (
-                      <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl">
-                        <h3 className="text-xl font-serif font-bold text-gray-800 mb-4 flex items-center">
-                          <span className="bg-purple-500 text-white p-2 rounded-lg mr-3">🏥</span>
-                          Treatment Details
-                        </h3>
-                        <p className="text-gray-700 leading-relaxed">{selectedCase.treatmentDetails}</p>
-                      </div>
-                    )}
-
-                    {/* Results Card */}
-                    {selectedCase.results && (
-                      <div className="bg-gradient-to-br from-blue-50 to-slate-50 p-6 rounded-xl">
-                        <h3 className="text-xl font-serif font-bold text-gray-800 mb-4 flex items-center">
-                          <span className="bg-green-500 text-white p-2 rounded-lg mr-3">🎯</span>
-                          Results
-                        </h3>
-                        <p className="text-gray-700 leading-relaxed">{selectedCase.results}</p>
-                      </div>
-                    )}
-
-                    {/* Category & Service Tags */}
-                    <div className="flex flex-wrap gap-3">
-                      {selectedCase.category && (
-                        <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                          🏷️ {selectedCase.category.name}
-                        </span>
-                      )}
-                      {selectedCase.service && (
-                        <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                          🔧 {selectedCase.service.title}
-                        </span>
-                      )}
-                      {selectedCase.isFeatured && (
-                        <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-                          ⭐ Featured Case
-                        </span>
-                      )}
-                    </div>
-                  </div>
                 </div>
               </div>
             </motion.div>

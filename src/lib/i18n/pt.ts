@@ -248,39 +248,43 @@ export const ptTranslations: Translations = {
       premiumPackageDescription: 'Experiência completa de turismo médico com luxo de acomodação e cuidados personalizados.',
       reserveJourney: 'Reservar Sua Jornada'
     },
-    searchPlaceholder: 'Pesquisar serviços...',
-    allCategories: 'Todas as Categorias',
-    sortByName: 'Ordenar por Nome',
-    sortByFeatured: 'Ordenar por Destaque',
-    sortByDuration: 'Ordenar por Duração',
+    hero: {
+      title: 'Nossos Serviços',
+      subtitle: 'Explore nossa ampla gama de tratamentos médicos e estéticos de classe mundial.'
+    },
+    searchPlaceholder: 'Pesquisar tratamentos, procedimentos...',
+    allCategories: 'Todas as categorias',
+    sortByName: 'Ordenar por nome',
+    sortByFeatured: 'Destaques primeiro',
+    sortByDuration: 'Duração',
     hideFilters: 'Esconder Filtros',
     moreFilters: 'Mais Filtros',
-    duration: 'Duração',
-    anyDuration: 'Qualquer Duração',
-    oneTwoHours: '1-2 Horas',
-    more: 'Mais',
-    learnMore: 'Saiba Mais',
-    fullDay: 'Dia Inteiro',
-    multipleDays: 'Múltiplos Dias',
-    featuredOnly: 'Destaque Apenas',
-    quickFilters: 'Filtros Rápidos',
-    mostPopular: 'Mais Popular',
-    quickProcedures: 'Procedimentos Rápidos',
-    premiumServices: 'Serviços Premium',
-    nonInvasive: 'Não Invasivo',
-    headerTitle: 'Nossos Serviços Médicos',
-    headerDesc: 'Descubra tratamentos e procedimentos de classe mundial.',
-    totalServices: '{count} Total de Serviços',
+    noServicesFound: 'Nenhum serviço encontrado',
+    clearFilters: 'Limpar Filtros',
+    totalServices: '{count} Serviços Totais',
     showing: 'Mostrando {count}',
-    searchResults: 'Resultados da Pesquisa',
-    allServices: 'Todos os Serviços',
-    resultsFor: 'Resultados para',
-    inCategory: 'em categoria',
-    grid: 'Grade',
-    list: 'Lista',
+    learnMore: 'Saiba Mais',
+    keyBenefits: 'Benefícios Chave',
+    more: 'mais',
+    headerTitle: 'Nossos Serviços Médicos',
+    headerDesc: 'Descubra tratamentos e procedimentos médicos de classe mundial projetados para aprimorar sua saúde, beleza e confiança. Cuidados especializados com tecnologia de ponta.',
     errorTitle: 'Algo deu errado',
     errorDesc: 'Houve um erro ao carregar os serviços.',
-    tryAgain: 'Tentar Novamente'
+    tryAgain: 'Tentar Novamente',
+    category: {
+      'hair-transplant': {
+        title: 'Transplante Capilar',
+        description: 'Técnicas avançadas de restauração capilar para resultados naturais e permanentes.'
+      },
+      'dental-treatments': {
+        title: 'Tratamentos Dentários',
+        description: 'Soluções dentárias completas para um sorriso perfeito e saudável.'
+      },
+      'plastic-surgery': {
+        title: 'Cirurgia Plástica',
+        description: 'Cirurgia plástica abrangente e tratamentos estéticos.'
+      }
+    }
   },
   results: {
     beforeAfter: {

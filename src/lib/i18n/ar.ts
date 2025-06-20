@@ -129,30 +129,44 @@ export const arTranslations: Translations = {
     p1: 'مرحباً بكم في فولا هيلث إسطنبول، وجهة رائدة للرعاية التجميلية والسنية المتقدمة، تقع في مدينة إسطنبول النابضة بالحياة. مع أكثر من خمسة عشر عاماً من الخدمة المتفانية، نفخر بأننا أسسنا أنفسنا كاسم موثوق في مجالات جراحة الأسنان والجراحة التجميلية. عيادتنا مكرسة لتحسين حياة المرضى حول العالم من خلال تقديم التميز في الجمال الطبي والرعاية المخصصة بأعلى المعايير.',
     p2: 'في فولا هيلث، نفهم أن كل مريض فريد، بأهدافه واحتياجاته الخاصة. لذلك نهجنا فردي للغاية، ونؤمن بتكوين روابط حقيقية مع مرضانا لفهم وتلبية تطلعاتهم بشكل أفضل. من الاستشارة الأولية إلى الرعاية بعد الجراحة، كل خطوة في عملية عملنا مصممة بدقة لضمان أن المرضى لا يحصلون على نتائج طبية استثنائية فحسب، بل يشعرون أيضاً بالراحة والدعم والإطلاع على طول الطريق. نشعر بالفخر لكوننا حصلنا على ثقة وثقة عملائنا الدوليين، ونحن مكرسون للحفاظ على هذه الثقة من خلال تحسين خدماتنا وتوسيع خبرتنا باستمرار.',
     p3: 'اختيار فولا هيلث يعني اختيار فريق يقدر رحلتك بقدر ما تفعل أنت. نؤمن بأكثر من مجرد تحسينات جمالية؛ نؤمن بالثقة والسعادة وجودة الحياة التي تأتي من الشعور بأفضل ما لديك. مع فريق مكرس إلى جانبك، ندعوك للانطلاق في رحلة تحويلية معنا، حيث لا يتم تلبية أهدافك وتوقعاتك فحسب، بل تجاوزها.',
-    slogan: 'فولا هيلث إسطنبول – لشخص أفضل'
+    slogan: 'فولا هيلث اسطنبول - من أجل نسخة أفضل منك'
   },
   services: {
     categories: {
-      dental: 'العلاجات السنية',
+      dental: 'علاجات الأسنان',
       hair: 'زراعة الشعر',
-      aesthetic: 'الجراحة التجميلية'
+      plastic: 'الجراحة التجميلية'
+    },
+    category: {
+      'hair-transplant': {
+        title: 'زراعة الشعر',
+        description: 'تقنيات متقدمة لاستعادة الشعر لنتائج طبيعية ودائمة.'
+      },
+      'dental-treatments': {
+        title: 'علاجات الأسنان',
+        description: 'حلول أسنان متكاملة لابتسامة مثالية وصحية.'
+      },
+      'plastic-surgery': {
+        title: 'الجراحة التجميلية',
+        description: 'جراحة تجميلية شاملة وعلاجات جمالية.'
+      }
     },
     detail: {
       scrollDown: 'مرر للأسفل',
       contactUs: 'اتصل بنا',
       aboutTreatment: 'عن هذا العلاج',
-      comprehensiveInfo: 'معلومات شاملة عن إجراءك',
-      minRead: 'دقائق للقراءة',
+      comprehensiveInfo: 'معلومات شاملة عن الإجراء الخاص بك',
+      minRead: 'دقيقة قراءة',
       keyBenefits: 'الفوائد الرئيسية',
       tableOfContents: 'جدول المحتويات',
       serviceNotFound: 'الخدمة غير موجودة',
-      goBack: 'رجوع',
+      goBack: 'العودة',
       bookConsultation: 'احجز استشارة',
-      whatsappConsult: 'استشارة واتساب',
+      whatsappConsult: 'استشارة عبر الواتساب',
       freeConsultation: 'استشارة مجانية',
       bookingForm: {
-        title: 'احجز موعد',
-        subtitle: 'احجز موعدك وابدأ رحلة تحولك',
+        title: 'احجز موعدًا',
+        subtitle: 'احجز موعدك وابدأ رحلة التحول الخاصة بك',
         name: 'الاسم الكامل',
         email: 'البريد الإلكتروني',
         phone: 'الهاتف',
@@ -161,8 +175,8 @@ export const arTranslations: Translations = {
         preferredTime: 'الوقت المفضل',
         notes: 'ملاحظات',
         notesPlaceholder: 'أي أسئلة أو طلبات خاصة حول هذه الخدمة...',
-        submit: 'طلب موعد',
-        submitting: 'جاري الإرسال...',
+        submit: 'اطلب موعدًا',
+        submitting: 'جارٍ الإرسال...',
         success: 'تم إنشاء موعدك بنجاح!',
         error: 'حدث خطأ أثناء إنشاء الموعد.',
         close: 'إغلاق'
@@ -173,33 +187,33 @@ export const arTranslations: Translations = {
         procedure: 'الإجراء',
         results: 'النتائج',
         viewGallery: 'عرض المعرض',
-        noImages: 'لم يتم إضافة صور بعد'
+        noImages: 'لم تتم إضافة صور بعد'
       },
       faq: {
         title: 'الأسئلة الشائعة',
-        noFaq: 'لم يتم إضافة أسئلة شائعة بعد'
+        noFaq: 'لم تتم إضافة أسئلة شائعة بعد'
       },
       testimonials: {
         title: 'تقييمات المرضى',
         rating: 'التقييم',
-        verified: 'مريض موثق',
-        noTestimonials: 'لم يتم إضافة تقييمات بعد',
+        verified: 'مريض معتمد',
+        noTestimonials: 'لم تتم إضافة تقييمات بعد',
         review: 'تقييم',
         reviews: 'تقييمات',
         loading: 'جاري تحميل التقييمات...',
-        noReviews: 'لا توجد تقييمات لهذه الخدمة بعد.',
+        noReviews: 'لا توجد تقييمات لهذه الخدمة حتى الآن.',
         beFirst: 'كن أول من يشارك تجربته!'
       },
       relatedServices: {
         title: 'الخدمات ذات الصلة',
         exploreMore: 'استكشف خدمات أخرى في هذه الفئة',
-        subtitle: 'استكشف العلاجات المشابهة',
+        subtitle: 'استكشف علاجات مماثلة',
         noServices: 'لم يتم العثور على خدمات ذات صلة.',
         browseAll: 'تصفح جميع الخدمات',
         viewAll: 'عرض جميع خدمات {category}'
       },
       navigation: {
-        overview: 'الملخص',
+        overview: 'نظرة عامة',
         procedure: 'الإجراء',
         gallery: 'المعرض',
         faq: 'الأسئلة الشائعة',
@@ -209,80 +223,71 @@ export const arTranslations: Translations = {
         title: 'استشارة مجانية',
         subtitle: 'استشارة مجانية مع خبرائنا',
         bookFreeConsultation: 'احجز استشارة مجانية',
-        messageNow: 'راسل الآن',
+        messageNow: 'راسلنا الآن',
         freeConsultation: 'استشارة مجانية',
-        expertCare: 'رعاية خبير'
+        expertCare: 'رعاية متخصصة'
       },
       whyChooseUs: {
-        title: 'لماذا نحن؟',
-        happyClients: 'المرضى الراضين',
-        averageRating: 'معدل الرضا',
-        yearsExperience: 'سنوات الخبرة',
+        title: 'لماذا تختارنا',
+        happyClients: 'عملاء سعداء',
+        averageRating: 'متوسط التقييم',
+        yearsExperience: 'سنوات من الخبرة',
         successRate: 'معدل النجاح'
       },
-      quickOverview: 'ملخص سريع',
-      readingTime: 'مدة القراءة',
+      quickOverview: 'نظرة سريعة',
+      readingTime: 'وقت القراءة',
       sections: 'الأقسام',
-      topics: 'المواضيع',
-      highlights: 'الإيجازات',
-      jumpToSection: 'إنتقل إلى القسم',
+      topics: 'مواضيع',
+      highlights: 'أبرز النقاط',
+      jumpToSection: 'انتقل إلى القسم',
       shareExperience: 'شارك تجربتك',
-      exploreSimilar: 'استكشف العلاجات المشابهة'
+      exploreSimilar: 'استكشف علاجات مماثلة'
     },
     packageDetails: {
-      title: 'تفاصيل الحزمة',
-      subtitle: 'كل شيء مضمن في رحلتك الطبية',
-      timeInTurkey: 'مدة البقاء في تركيا',
-      timeInTurkeySubtitle: 'مدة البقاء الموصى بها',
-      operationTime: 'مدة العملية',
+      title: 'تفاصيل الباقة',
+      subtitle: 'كل ما هو مدرج في رحلتك الطبية',
+      timeInTurkey: 'الوقت في تركيا',
+      timeInTurkeySubtitle: 'مدة الإقامة الموصى بها',
+      operationTime: 'وقت العملية',
       operationTimeSubtitle: 'مدة الإجراء',
-      hospitalStay: 'البقاء في المستشفى',
-      hospitalStaySubtitle: 'مدة التعافي',
-      recovery: 'مدة التعافي',
-      recoverySubtitle: 'مدة التعافي الكاملة',
+      hospitalStay: 'الإقامة في المستشفى',
+      hospitalStaySubtitle: 'فترة النقاهة',
+      recovery: 'التعافي',
+      recoverySubtitle: 'فترة التعافي الكاملة',
       accommodation: 'الإقامة',
-      accommodationSubtitle: 'فندق 5 نجوم مضمن',
-      transportation: 'النقل',
-      transportationSubtitle: 'نقل VIP مضمن',
-      premiumPackageTitle: 'حزمة جميلة كلية مميزة',
-      premiumPackageDescription: 'تجربة سياحة طبية عالية المستوى مع إقامة عالية ورعاية مخصصة.',
+      accommodationSubtitle: 'شامل فندق 5 نجوم',
+      transportation: 'المواصلات',
+      transportationSubtitle: 'شامل انتقالات كبار الشخصيات',
+      premiumPackageTitle: 'باقة بريميوم شاملة كليًا',
+      premiumPackageDescription: 'تجربة سياحة علاجية كاملة مع إقامة فاخرة ورعاية شخصية.',
       reserveJourney: 'احجز رحلتك'
     },
-    searchPlaceholder: 'ابحث عن الخدمات...',
+    hero: {
+      title: 'خدماتنا',
+      subtitle: 'استكشف مجموعتنا الواسعة من العلاجات الطبية والتجميلية ذات المستوى العالمي.'
+    },
+    searchPlaceholder: 'ابحث عن علاجات، إجراءات...',
     allCategories: 'جميع الفئات',
-    sortByName: 'ترتيب حسب الاسم',
-    sortByFeatured: 'ترتيب حسب المميز',
-    sortByDuration: 'ترتيب حسب المدة',
-    hideFilters: 'إخفاء المرشحات',
-    moreFilters: 'مزيد من المرشحات',
-    duration: 'المدة',
-    anyDuration: 'أي مدة',
-    oneTwoHours: '1-2 ساعة',
-    more: 'أكثر',
+    sortByName: 'الترتيب حسب الاسم',
+    sortByFeatured: 'المميزة أولاً',
+    sortByDuration: 'المدة',
+    hideFilters: 'إخفاء الفلاتر',
+    moreFilters: 'المزيد من الفلاتر',
+    noServicesFound: 'لم يتم العثور على خدمات',
+    clearFilters: 'مسح الفلاتر',
+    totalServices: '{count} إجمالي الخدمات',
+    showing: 'عرض {count}',
     learnMore: 'اعرف المزيد',
-    fullDay: 'يوم كامل',
-    multipleDays: 'أيام متعددة',
-    featuredOnly: 'المميزة فقط',
-    quickFilters: 'مرشحات سريعة',
-    mostPopular: 'الأكثر شعبية',
-    quickProcedures: 'الإجراءات السريعة',
-    premiumServices: 'الخدمات المميزة',
-    nonInvasive: 'غير التدميري',
-    headerTitle: 'خدمات طبية عالية المستوى',
-    headerDesc: 'اكتشف علاجات وإجراءات عالية المستوى.',
-    totalServices: '{count} خدمات عامة',
-    showing: 'إظهار {count}',
-    searchResults: 'نتائج البحث',
-    allServices: 'جميع الخدمات',
-    resultsFor: 'نتائج لـ',
-    inCategory: 'في الفئة',
-    grid: 'شبكة',
-    list: 'قائمة',
-    errorTitle: 'هناك خطأ',
+    keyBenefits: 'الفوائد الرئيسية',
+    more: 'المزيد',
+    headerTitle: 'خدماتنا الطبية',
+    headerDesc: 'اكتشف علاجات وإجراءات طبية عالمية المستوى مصممة لتعزيز صحتك وجمالك وثقتك بنفسك. رعاية متخصصة بأحدث التقنيات.',
+    errorTitle: 'حدث خطأ ما',
     errorDesc: 'حدث خطأ أثناء تحميل الخدمات.',
     tryAgain: 'حاول مرة أخرى'
   },
   results: {
+    pageTitle: 'نتائج قبل وبعد',
     beforeAfter: {
       age: 'سنوات',
       results: 'النتائج'
@@ -475,7 +480,8 @@ export const arTranslations: Translations = {
     info: {
       phone: 'الهاتف',
       email: 'البريد الإلكتروني'
-    }
+    },
+    title: 'اتصل بنا'
   },
   mockData: {
     patient: 'المريض',
