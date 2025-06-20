@@ -284,7 +284,8 @@ export const trTranslations: Translations = {
     headerDesc: 'Sağlığınızı, güzelliğinizi ve güveninizi artırmak için tasarlanmış dünya standartlarında tıbbi tedavileri ve prosedürleri keşfedin. En son teknoloji ile uzman bakımı.',
     errorTitle: 'Bir şeyler ters gitti',
     errorDesc: 'Hizmetler yüklenirken bir hata oluştu.',
-    tryAgain: 'Tekrar Dene'
+    tryAgain: 'Tekrar Dene',
+    allServices: 'Tüm Hizmetler'
   },
   results: {
     pageTitle: 'Öncesi ve Sonrası Sonuçları',

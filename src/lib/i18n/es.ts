@@ -284,7 +284,8 @@ export const esTranslations: Translations = {
     headerDesc: 'Descubra tratamientos y procedimientos médicos de clase mundial diseñados para mejorar su salud, belleza y confianza. Atención experta con tecnología de vanguardia.',
     errorTitle: 'Algo salió mal',
     errorDesc: 'Hubo un error al cargar los servicios.',
-    tryAgain: 'Intentar de Nuevo'
+    tryAgain: 'Intentar de Nuevo',
+    allServices: 'Todos los Servicios'
   },
   results: {
     beforeAfter: {

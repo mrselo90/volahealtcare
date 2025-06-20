@@ -284,7 +284,8 @@ export const enTranslations: Translations = {
     headerDesc: 'Discover world-class medical treatments and procedures designed to enhance your health, beauty, and confidence. Expert care with cutting-edge technology.',
     errorTitle: 'Something went wrong',
     errorDesc: 'There was an error loading the services.',
-    tryAgain: 'Try Again'
+    tryAgain: 'Try Again',
+    allServices: 'All Services'
   },
   results: {
     beforeAfter: {

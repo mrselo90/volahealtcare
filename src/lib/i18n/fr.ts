@@ -284,7 +284,8 @@ export const frTranslations: Translations = {
     headerDesc: 'Découvrez des traitements et des procédures médicales de classe mondiale conçus pour améliorer votre santé, votre beauté et votre confiance. Des soins experts avec une technologie de pointe.',
     errorTitle: 'Quelque chose a mal tourné',
     errorDesc: 'Une erreur est survenue lors du chargement des services.',
-    tryAgain: 'Réessayer'
+    tryAgain: 'Réessayer',
+    allServices: 'Tous les Services'
   },
   results: {
     beforeAfter: {

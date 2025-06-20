@@ -273,7 +273,6 @@ export const plTranslations: Translations = {
     totalServices: '{count} Wszystkich Usług',
     showing: 'Wyświetlanie {count}',
     searchResults: 'Wyniki Wyszukiwania',
-    allServices: 'Wszystkie Usługi',
     resultsFor: 'Wyniki dla',
     inCategory: 'w kategorii',
     grid: 'Siatka',
@@ -281,6 +280,7 @@ export const plTranslations: Translations = {
     errorTitle: 'Coś poszło nie tak',
     errorDesc: 'Wystąpił błąd podczas ładowania usług.',
     tryAgain: 'Spróbuj Ponownie',
+    allServices: 'Wszystkie Usługi',
     category: {
       'hair-transplant': {
         title: 'Przeszczep włosów',

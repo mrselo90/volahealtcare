@@ -271,6 +271,7 @@ export const ptTranslations: Translations = {
     errorTitle: 'Algo deu errado',
     errorDesc: 'Houve um erro ao carregar os serviços.',
     tryAgain: 'Tentar Novamente',
+    allServices: 'Todos os Serviços',
     category: {
       'hair-transplant': {
         title: 'Transplante Capilar',

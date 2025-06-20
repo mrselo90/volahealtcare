@@ -284,7 +284,8 @@ export const itTranslations: Translations = {
     headerDesc: 'Scopri trattamenti e procedure mediche di livello mondiale progettati per migliorare la tua salute, bellezza e fiducia. Cure esperte con tecnologia all\'avanguardia.',
     errorTitle: 'Qualcosa è andato storto',
     errorDesc: 'Si è verificato un errore durante il caricamento dei servizi.',
-    tryAgain: 'Riprova'
+    tryAgain: 'Riprova',
+    allServices: 'Tutti i Servizi'
   },
   results: {
     beforeAfter: {

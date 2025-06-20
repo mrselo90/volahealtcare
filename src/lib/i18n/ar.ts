@@ -284,7 +284,8 @@ export const arTranslations: Translations = {
     headerDesc: 'اكتشف علاجات وإجراءات طبية عالمية المستوى مصممة لتعزيز صحتك وجمالك وثقتك بنفسك. رعاية متخصصة بأحدث التقنيات.',
     errorTitle: 'حدث خطأ ما',
     errorDesc: 'حدث خطأ أثناء تحميل الخدمات.',
-    tryAgain: 'حاول مرة أخرى'
+    tryAgain: 'حاول مرة أخرى',
+    allServices: 'جميع الخدمات'
   },
   results: {
     pageTitle: 'نتائج قبل وبعد',

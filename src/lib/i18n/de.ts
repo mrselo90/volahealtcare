@@ -284,7 +284,8 @@ export const deTranslations: Translations = {
     headerDesc: 'Entdecken Sie erstklassige medizinische Behandlungen und Eingriffe, die darauf abzielen, Ihre Gesundheit, Schönheit und Ihr Selbstvertrauen zu verbessern. Fachkundige Betreuung mit modernster Technologie.',
     errorTitle: 'Etwas ist schiefgelaufen',
     errorDesc: 'Beim Laden der Dienste ist ein Fehler aufgetreten.',
-    tryAgain: 'Erneut versuchen'
+    tryAgain: 'Erneut versuchen',
+    allServices: 'Alle Dienste'
   },
   results: {
     beforeAfter: {

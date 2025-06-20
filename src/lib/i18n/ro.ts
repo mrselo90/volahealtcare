@@ -284,7 +284,8 @@ export const roTranslations: Translations = {
     headerDesc: 'Descoperă tratamente și proceduri medicale de talie mondială, concepute pentru a-ți îmbunătăți sănătatea, frumusețea și încrederea. Îngrijire de specialitate cu tehnologie de ultimă oră.',
     errorTitle: 'Ceva nu a mers bine',
     errorDesc: 'A apărut o eroare la încărcarea serviciilor.',
-    tryAgain: 'Încearcă din nou'
+    tryAgain: 'Încearcă din nou',
+    allServices: 'Toate Serviciile'
   },
   results: {
     beforeAfter: {
