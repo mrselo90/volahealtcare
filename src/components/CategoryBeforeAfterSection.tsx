@@ -80,7 +80,7 @@ export default function CategoryBeforeAfterSection({
       const isMobile = window.innerWidth < 768;
       const cardWidth = isMobile ? 312 : 392; // Mobile: 288px + 24px gap, Desktop: 368px + 24px gap
       const scrollAmount = isMobile ? cardWidth : cardWidth * 2;
-      scrollContainerRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      scrollContainerRef.current.scrollBy({ left: -scrollAmount, behavior: window.innerWidth < 768 ? 'auto' : 'smooth' });
     }
   };
 
@@ -90,7 +90,7 @@ export default function CategoryBeforeAfterSection({
       const isMobile = window.innerWidth < 768;
       const cardWidth = isMobile ? 312 : 392; // Mobile: 288px + 24px gap, Desktop: 368px + 24px gap
       const scrollAmount = isMobile ? cardWidth : cardWidth * 2;
-      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: window.innerWidth < 768 ? 'auto' : 'smooth' });
     }
   };
 
