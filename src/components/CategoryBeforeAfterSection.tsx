@@ -76,21 +76,21 @@ export default function CategoryBeforeAfterSection({
 
   const scrollToLeft = () => {
     if (scrollContainerRef.current) {
-      // Mobile: scroll 1 card, Desktop: scroll 2 cards
+      const { clientWidth } = scrollContainerRef.current;
       const isMobile = window.innerWidth < 768;
-      const cardWidth = isMobile ? 312 : 392; // Mobile: 288px + 24px gap, Desktop: 368px + 24px gap
-      const scrollAmount = isMobile ? cardWidth : cardWidth * 2;
-      scrollContainerRef.current.scrollBy({ left: -scrollAmount, behavior: window.innerWidth < 768 ? 'auto' : 'smooth' });
+      // For mobile, scroll by one card width (w-72 or 288px) + gap (24px)
+      // For desktop, scroll by the visible container width
+      const scrollAmount = isMobile ? 312 : clientWidth; 
+      scrollContainerRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     }
   };
 
   const scrollToRight = () => {
     if (scrollContainerRef.current) {
-      // Mobile: scroll 1 card, Desktop: scroll 2 cards
+      const { clientWidth } = scrollContainerRef.current;
       const isMobile = window.innerWidth < 768;
-      const cardWidth = isMobile ? 312 : 392; // Mobile: 288px + 24px gap, Desktop: 368px + 24px gap
-      const scrollAmount = isMobile ? cardWidth : cardWidth * 2;
-      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: window.innerWidth < 768 ? 'auto' : 'smooth' });
+      const scrollAmount = isMobile ? 312 : clientWidth;
+      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
@@ -319,7 +319,7 @@ export default function CategoryBeforeAfterSection({
               dragConstraints={{ left: 0, right: 0 }}
               onDragStart={() => setIsDragging(true)}
               onDragEnd={handleDragEnd}
-              dragElastic={0.1}
+              dragElastic={0.25}
             >
               {displayCases.map((caseItem, index) => (
                 <motion.div

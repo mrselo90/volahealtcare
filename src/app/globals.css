@@ -1137,8 +1137,8 @@ html {
 
 /* Swipeable Gallery Styles */
 .swipeable-gallery {
-  scroll-snap-type: x mandatory;
-  scroll-behavior: auto; /* Faster scrolling for mobile */
+  scroll-snap-type: x proximity;
+  scroll-behavior: auto;
   -webkit-overflow-scrolling: touch;
 }
 
