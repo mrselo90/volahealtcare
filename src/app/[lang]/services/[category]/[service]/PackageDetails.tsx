@@ -37,11 +37,11 @@ export const PackageDetails = ({ data, t }) => {
         {data.timeInTurkey && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <CalendarIcon className="h-5 w-5 text-blue-600" />
               </div>
-              <div>
-                <div className="text-base font-semibold text-blue-700">{t('services.packageDetails.timeInTurkey')}</div>
+              <div className="flex-1 min-w-0">
+                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.timeInTurkey')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.timeInTurkeySubtitle')}</div>
               </div>
             </div>
@@ -53,11 +53,11 @@ export const PackageDetails = ({ data, t }) => {
         {data.operationTime && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <ClockIcon className="h-5 w-5 text-blue-600" />
               </div>
-              <div>
-                <div className="text-base font-semibold text-blue-700">{t('services.packageDetails.operationTime')}</div>
+              <div className="flex-1 min-w-0">
+                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.operationTime')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.operationTimeSubtitle')}</div>
               </div>
             </div>
@@ -69,11 +69,11 @@ export const PackageDetails = ({ data, t }) => {
         {data.hospitalStay && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <BuildingOffice2Icon className="h-5 w-5 text-blue-600" />
               </div>
-              <div>
-                <div className="text-base font-semibold text-blue-700">{t('services.packageDetails.hospitalStay')}</div>
+              <div className="flex-1 min-w-0">
+                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.hospitalStay')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.hospitalStaySubtitle')}</div>
               </div>
             </div>
@@ -85,11 +85,11 @@ export const PackageDetails = ({ data, t }) => {
         {data.recovery && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <HeartIcon className="h-5 w-5 text-blue-600" />
               </div>
-              <div>
-                <div className="text-base font-semibold text-blue-700">{t('services.packageDetails.recovery')}</div>
+              <div className="flex-1 min-w-0">
+                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.recovery')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.recoverySubtitle')}</div>
               </div>
             </div>
@@ -101,11 +101,11 @@ export const PackageDetails = ({ data, t }) => {
         {data.accommodation && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <HomeIcon className="h-5 w-5 text-blue-600" />
               </div>
-              <div>
-                <div className="text-base font-semibold text-blue-700">{t('services.packageDetails.accommodation')}</div>
+              <div className="flex-1 min-w-0">
+                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.accommodation')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.accommodationSubtitle')}</div>
               </div>
             </div>
@@ -117,11 +117,11 @@ export const PackageDetails = ({ data, t }) => {
         {data.transportation && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+              <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center flex-shrink-0">
                 <TruckIcon className="h-5 w-5 text-blue-600" />
               </div>
-              <div>
-                <div className="text-base font-semibold text-blue-700">{t('services.packageDetails.transportation')}</div>
+              <div className="flex-1 min-w-0">
+                <div className="text-base font-semibold text-blue-700 break-words">{t('services.packageDetails.transportation')}</div>
                 <div className="text-xs text-gray-500">{t('services.packageDetails.transportationSubtitle')}</div>
               </div>
             </div>
