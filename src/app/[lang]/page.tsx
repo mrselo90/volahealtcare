@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useTranslation } from '@/lib/i18n/hooks';
 import dynamic from 'next/dynamic';
 
@@ -49,7 +49,10 @@ const FeaturedBeforeAfter = dynamic(() => import('@/components/FeaturedBeforeAft
   loading: () => <div className="animate-pulse bg-gray-200 rounded-lg h-64 flex items-center justify-center">Loading results...</div> 
 });
 
-export default function Home({ params }: { params: { lang: string } }) {
+export default function Home({ params }: { params: Promise<{ lang: string }> }) {
+  // Unwrap the params Promise using React.use()
+  const { lang } = use(params);
+  
   const { t } = useTranslation();
   const [isClient, setIsClient] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
@@ -488,7 +491,7 @@ export default function Home({ params }: { params: { lang: string } }) {
               {/* CTA Buttons - Mobile optimized */}
               <div className="flex flex-col gap-3 sm:gap-4 justify-center lg:justify-start pt-4 lg:pt-6">
                 <Link
-                  href={`/${params.lang}/consultation`}
+                  href={`/${lang}/consultation`}
                   className="group relative touch-manipulation px-6 lg:px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl lg:rounded-2xl text-white font-bold text-base lg:text-lg transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -503,7 +506,7 @@ export default function Home({ params }: { params: { lang: string } }) {
                   </span>
                 </Link>
                 <Link
-                  href={`/${params.lang}/gallery`}
+                  href={`/${lang}/gallery`}
                   className="group touch-manipulation px-6 lg:px-8 py-4 bg-white/80 hover:bg-white border-2 border-gray-200 hover:border-blue-300 rounded-xl lg:rounded-2xl text-gray-700 hover:text-blue-700 font-bold text-base lg:text-lg transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-xl"
                 >
                   <span className="flex items-center justify-center gap-2">
@@ -549,7 +552,7 @@ export default function Home({ params }: { params: { lang: string } }) {
               {t('home.excellenceDesc') || 'Vola Health Istanbul has established itself as a premier destination for medical tourism, combining world-class expertise with cutting-edge technology. Our comprehensive approach covers dental treatments, hair transplant procedures, and plastic surgery, delivering exceptional results in the beautiful city of Istanbul.'}
             </p>
             <Link 
-              href={`/${params.lang}/about`} 
+              href={`/${lang}/about`} 
               className="inline-block border-b-2 border-black pb-1 text-base lg:text-lg font-medium hover:opacity-80 transition-opacity"
             >
               {t('home.discoverClinic') || 'DISCOVER OUR CLINIC'}

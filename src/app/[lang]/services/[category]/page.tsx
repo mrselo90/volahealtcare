@@ -5,12 +5,13 @@ import { getCategoryName } from '@/utils/categoryUtils';
 import { getServiceImageUrl, getServiceImageAlt } from '@/utils/imageUtils';
 import { getTranslation } from '@/utils/translationUtils';
 import { translations, getTranslation as getTranslationFromKey } from '@/lib/i18n/translations';
+import { use } from 'react';
 
 interface Props {
-  params: {
+  params: Promise<{
     category: string;
     lang: string;
-  };
+  }>;
 }
 
 async function getCategoryWithServices(slug: string) {
@@ -114,9 +115,10 @@ export async function generateStaticParams() {
 }
 
 export default async function ServiceCategoryPage({ params }: Props) {
-  const category = await getCategoryWithServices(params.category);
+  const { category, lang } = use(params);
+  const categoryData = await getCategoryWithServices(category);
 
-  if (!category) {
+  if (!categoryData) {
     notFound();
   }
 
@@ -125,35 +127,35 @@ export default async function ServiceCategoryPage({ params }: Props) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-            {getCategoryTitle(category, params.lang)}
+            {getCategoryTitle(categoryData, lang)}
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
-            {getCategoryDescription(category, params.lang)}
+            {getCategoryDescription(categoryData, lang)}
           </p>
         </div>
 
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {category.services.map((service: any) => (
+          {categoryData.services.map((service: any) => (
             <Link
               key={service.slug}
-              href={`/${params.lang}/services/${category.slug}/${service.slug}`}
+              href={`/${lang}/services/${categoryData.slug}/${service.slug}`}
               className="group relative block bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
             >
               <div className="aspect-w-3 aspect-h-2">
                 <Image
                   src={getServiceImageUrl(service)}
-                  alt={getServiceImageAlt(service, getServiceTitle(service, params.lang))}
+                  alt={getServiceImageAlt(service, getServiceTitle(service, lang))}
                   fill
                   className="object-cover object-center"
                 />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-semibold text-gray-900 group-hover:text-primary">
-                  {getServiceTitle(service, params.lang)}
+                  {getServiceTitle(service, lang)}
                 </h3>
-                <p className="mt-2 text-gray-500">{getServiceDescription(service, params.lang)}</p>
+                <p className="mt-2 text-gray-500">{getServiceDescription(service, lang)}</p>
                 <div className="mt-4 flex items-center text-primary font-medium">
-                  {getTranslationFromKey(params.lang as any, 'services.learnMore') || 'Learn more'}
+                  {getTranslationFromKey(lang as any, 'services.learnMore') || 'Learn more'}
                   <svg
                     className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform"
                     fill="none"

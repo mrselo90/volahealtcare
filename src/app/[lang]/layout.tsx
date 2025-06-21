@@ -10,6 +10,7 @@ import CookieConsent from '@/components/ui/CookieConsent';
 import { Providers } from '../providers';
 import { languages, isValidLanguage, getLanguageDirection, type Language } from '@/lib/i18n/config';
 import { notFound } from 'next/navigation';
+import { use } from 'react';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -31,8 +32,8 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata based on language
-export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
-  const lang = params.lang as Language;
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = use(params);
   
   // Language-specific metadata
   const titles = {
@@ -64,8 +65,8 @@ export async function generateMetadata({ params }: { params: { lang: string } })
   };
 
   return {
-    title: titles[lang] || titles.en,
-    description: descriptions[lang] || descriptions.en,
+    title: titles[lang as Language] || titles.en,
+    description: descriptions[lang as Language] || descriptions.en,
     alternates: {
       canonical: `/${lang}`,
       languages: Object.fromEntries(
@@ -73,8 +74,8 @@ export async function generateMetadata({ params }: { params: { lang: string } })
       ),
     },
     openGraph: {
-      title: titles[lang] || titles.en,
-      description: descriptions[lang] || descriptions.en,
+      title: titles[lang as Language] || titles.en,
+      description: descriptions[lang as Language] || descriptions.en,
       url: `https://volahealthistanbul.com/${lang}`,
       siteName: 'Vola Health Istanbul',
       images: [
@@ -82,7 +83,7 @@ export async function generateMetadata({ params }: { params: { lang: string } })
           url: '/images/og-image.jpg',
           width: 1200,
           height: 630,
-          alt: titles[lang] || titles.en,
+          alt: titles[lang as Language] || titles.en,
         },
       ],
       locale: lang === 'en' ? 'en_US' : `${lang}_${lang.toUpperCase()}`,
@@ -96,19 +97,19 @@ export default function LangLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }) {
-  const lang = params.lang as Language;
+  const { lang } = use(params);
   
   // Validate language parameter
-  if (!isValidLanguage(lang)) {
+  if (!isValidLanguage(lang as Language)) {
     notFound();
   }
 
-  const direction = getLanguageDirection(lang);
+  const direction = getLanguageDirection(lang as Language);
 
   return (
-    <LanguageProvider initialLanguage={lang}>
+    <LanguageProvider initialLanguage={lang as Language}>
       <div lang={lang} dir={direction} className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-grow pt-16 sm:pt-[72px]">

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon, PlusIcon, MagnifyingGlassIcon, StarIcon, CurrencyDollarIcon, AdjustmentsHorizontalIcon, HeartIcon, CalendarDaysIcon, ChatBubbleLeftIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, use } from 'react';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { LoadingState, ServiceCardSkeleton, CategorySkeleton } from '@/components/LoadingState';
 import { getCategoryName } from '@/utils/categoryUtils';
@@ -309,7 +309,8 @@ const SearchAndFilters = ({
 };
 
 // Main Services Page Component
-export default function ServicesPage({ params }: { params: { lang: string } }) {
+export default function ServicesPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = use(params);
   const { t } = useTranslation();
   const [categories, setCategories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -616,7 +617,7 @@ export default function ServicesPage({ params }: { params: { lang: string } }) {
                                 }}
                                 isFavorited={favorites.has(service.id)}
                                 t={t}
-                                lang={params.lang}
+                                lang={lang}
                               />
                             ) : (
                               /* List View Card */
@@ -687,7 +688,7 @@ export default function ServicesPage({ params }: { params: { lang: string } }) {
                                       </div>
                                       
                                       <Link 
-                                        href={`/${params.lang}/services/${service.category?.slug || 'general'}/${service.slug}`}
+                                        href={`/${lang}/services/${service.category?.slug || 'general'}/${service.slug}`}
                                         className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 sm:px-6 py-2.5 sm:py-2 rounded-lg sm:rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm sm:text-base min-h-[44px] w-full sm:w-auto"
                                       >
                                         <span className="truncate">{t('services.learnMore') || 'Learn More'}</span>
@@ -734,7 +735,7 @@ export default function ServicesPage({ params }: { params: { lang: string } }) {
                       Clear Filters
                     </button>
                     <Link
-                      href={`/${params.lang}/contact`}
+                      href={`/${lang}/contact`}
                       className="px-6 py-3 border border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 rounded-xl font-medium transition-colors duration-200"
                     >
                       {t('nav.contact') || 'Contact Us'}

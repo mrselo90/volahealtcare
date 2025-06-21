@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, use } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -647,11 +647,11 @@ function useStickyNavigation() {
 }
 
 interface ServicePageProps {
-  params: { 
+  params: Promise<{ 
     lang: string;
     category: string; 
     service: string;
-  };
+  }>;
 }
 
 // Quick Overview Card Component
@@ -684,12 +684,13 @@ const QuickOverviewCard = ({ t }) => (
 );
 
 export default function ServicePage({ params }: ServicePageProps) {
-  const { data, loading, error } = useServiceData(params.service);
+  const { lang, category, service } = use(params);
+  const { data, loading, error } = useServiceData(service);
   const { selectedImage, selectedImageAlt, currentImageIndex, setCurrentImageIndex, openLightbox, closeLightbox } = useImageLightbox();
   const { activeSection, isScrolled, scrollToSection } = useStickyNavigation();
   const { t, language } = useTranslation();
   
-  const [lang, setLang] = useState(params.lang || language);
+  const [currentLang, setCurrentLang] = useState(lang || language);
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const [isFavorited, setIsFavorited] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
@@ -791,8 +792,8 @@ export default function ServicePage({ params }: ServicePageProps) {
   if (!data) return null;
 
   // Get localized content
-  const serviceTitle = getTranslation(data.translations, 'title', lang) || data.title;
-  const rawContent = getTranslation(data.translations, 'content', lang) || getTranslation(data.translations, 'description', lang) || data.description;
+  const serviceTitle = getTranslation(data.translations, 'title', currentLang) || data.title;
+  const rawContent = getTranslation(data.translations, 'content', currentLang) || getTranslation(data.translations, 'description', currentLang) || data.description;
   
   // Apply multiple formatting layers for better readability
   let processedContent = formatServiceContent(rawContent);
