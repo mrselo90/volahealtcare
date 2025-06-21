@@ -577,7 +577,7 @@ export default function ServicesPage({ params }: { params: { lang: string } }) {
                       </h2>
                       {category.description && (
                         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                          {getCategoryDescription(category)}
+                          {getCategoryDescription(category, lang)}
                         </p>
                       )}
                       <div className="mt-4 flex items-center justify-center">
