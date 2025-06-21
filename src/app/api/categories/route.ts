@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 
 export async function GET() {
   try {

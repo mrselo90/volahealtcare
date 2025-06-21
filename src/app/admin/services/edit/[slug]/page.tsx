@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import ImagePicker from '@/components/ui/ImagePicker';
+import { ToastProvider, useToast } from '@/components/ui/Toast';
 
 const supportedLanguages = [
   { code: 'en', name: 'English' },
@@ -27,10 +28,16 @@ const defaultTranslations = supportedLanguages.map(lang => ({
 
 // Helper function to validate and fix image URLs
 const isValidImageUrl = (url: string): boolean => {
+  if (!url) return false;
+  // Allow relative URLs that start with a forward slash
+  if (url.startsWith('/')) {
+    return true;
+  }
+  // Check for absolute URLs
   try {
-    const parsedUrl = new URL(url);
-    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
-  } catch {
+    new URL(url);
+    return true;
+  } catch (e) {
     return false;
   }
 };
@@ -51,12 +58,15 @@ const fixImageUrl = (url: string): string => {
   return url;
 };
 
-export default function EditServicePage({ params }: { params: { slug: string } }) {
+function EditServicePageContent({ params }: { params: { slug: string } }) {
   const router = useRouter();
+  const { showToast } = useToast();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
   const [categories, setCategories] = useState<{ id: string; name: string; slug: string }[]>([]);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const autoSaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const [service, setService] = useState({
     id: '',
@@ -79,6 +89,91 @@ export default function EditServicePage({ params }: { params: { slug: string } }
     accommodation: '',
     transportation: '',
   });
+
+  // Auto-save functionality
+  const autoSave = useCallback(async () => {
+    if (!hasUnsavedChanges || loading) return;
+    
+    try {
+      // Save to localStorage as backup
+      localStorage.setItem(`service-edit-${params.slug}`, JSON.stringify(service));
+      
+      // Optional: Auto-save to server (commented out to avoid too many requests)
+      // const response = await fetch('/api/admin/services', {
+      //   method: 'PUT',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ ...service }),
+      // });
+      
+      setLastSaved(new Date());
+      console.log('Auto-saved to localStorage');
+    } catch (error) {
+      console.error('Auto-save failed:', error);
+    }
+  }, [hasUnsavedChanges, loading, service, params.slug]);
+
+  // Trigger auto-save when data changes
+  useEffect(() => {
+    if (autoSaveTimeoutRef.current) {
+      clearTimeout(autoSaveTimeoutRef.current);
+    }
+    
+    if (hasUnsavedChanges) {
+      autoSaveTimeoutRef.current = setTimeout(autoSave, 3000); // Auto-save after 3 seconds of inactivity
+    }
+    
+    return () => {
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current);
+      }
+    };
+  }, [hasUnsavedChanges, autoSave]);
+
+  // Browser refresh protection
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+        return 'You have unsaved changes. Are you sure you want to leave?';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [hasUnsavedChanges]);
+
+  // Load backup from localStorage if available
+  useEffect(() => {
+    const backupKey = `service-edit-${params.slug}`;
+    const backup = localStorage.getItem(backupKey);
+    if (backup && !loading) {
+      try {
+        const backupData = JSON.parse(backup);
+        const backupTime = new Date(backupData.lastModified || 0);
+        const now = new Date();
+        const timeDiff = now.getTime() - backupTime.getTime();
+        
+        // If backup is less than 1 hour old, offer to restore
+        if (timeDiff < 3600000) {
+          const shouldRestore = window.confirm(
+            'A recent backup of this service was found. Would you like to restore your unsaved changes?'
+          );
+          if (shouldRestore) {
+            setService(backupData);
+            setHasUnsavedChanges(true);
+            showToast({
+              type: 'info',
+              title: 'Backup Restored',
+              message: 'Your unsaved changes have been restored from backup.',
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Failed to parse backup:', error);
+      }
+    }
+  }, [loading, params.slug, showToast]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -141,21 +236,21 @@ export default function EditServicePage({ params }: { params: { slug: string } }
         // Map the fetched service data to our form structure
         const mappedService = {
           id: data.id || '',
-          title: data.translations?.find((t: any) => t.language === 'en')?.title || '',
+          title: data.translations?.find((t: any) => t.language === 'en')?.title || data.title || '',
           slug: data.slug || '',
-          description: data.translations?.find((t: any) => t.language === 'en')?.description || '',
+          description: data.translations?.find((t: any) => t.language === 'en')?.description || data.description || '',
           category: data.categoryId || '',
           translations: data.translations?.length > 0 ? data.translations.map((t: any) => ({
             language: t.language,
-            title: t.title,
-            description: t.description,
+            title: t.title || '',
+            description: t.description || '',
             content: t.content || '',
           })) : defaultTranslations,
-          images: data.images?.map((img: any) => ({
+          images: Array.isArray(data.images) ? data.images.map((img: any) => ({
             id: img.id,
             url: fixImageUrl(img.url),
             alt: img.alt || '',
-          })) || [],
+          })) : [],
           featured: data.featured || false,
           availability: data.availability || 'always',
           minAge: data.minAge || 18,
@@ -201,6 +296,7 @@ export default function EditServicePage({ params }: { params: { slug: string } }
     } else {
       setService({ ...service, [name]: value });
     }
+    setHasUnsavedChanges(true);
   };
 
   const handleTranslationChange = (language: string, field: string, value: string) => {
@@ -210,86 +306,162 @@ export default function EditServicePage({ params }: { params: { slug: string } }
         t.language === language ? { ...t, [field]: value } : t
       ),
     });
+    setHasUnsavedChanges(true);
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files?.length) return;
+  const handleImageUpload = async (files: FileList): Promise<Array<{ url: string; alt: string }>> => {
+    if (!files?.length) return [];
 
-    setUploading(true);
-    try {
-      const uploadedImages = [];
-      
-      // Upload files one by one since our API expects single file uploads
-      for (const file of Array.from(files)) {
-        const formData = new FormData();
-        formData.append('file', file); // Use 'file' (singular) as expected by API
+    const uploadedImages = [];
+    const slug = service.slug;
 
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
+    if (!slug) {
+      throw new Error('Service slug is not available. Please save the service first.');
+    }
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Upload failed');
-        }
+    for (const file of Array.from(files)) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('slug', slug);
 
-        const data = await response.json();
-        uploadedImages.push({
-          url: data.url, // Use 'url' (singular) as returned by API
-          alt: '',
-        });
+      const response = await fetch('/api/admin/services/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Upload failed');
       }
 
-      setService({
-        ...service,
-        images: [
-          ...service.images,
-          ...uploadedImages,
-        ],
+      const data = await response.json();
+      uploadedImages.push({
+        url: data.url,
+        alt: '',
       });
-      
-      // Clear the error if upload was successful
-      setError('');
-    } catch (err) {
-      console.error('Upload error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to upload images');
-    } finally {
-      setUploading(false);
     }
+
+    return uploadedImages;
   };
 
-  const removeImage = (index: number) => {
+  const handleImagesChange = (newImages: Array<{ id?: string; url: string; alt: string }>) => {
     setService({
       ...service,
-      images: service.images.filter((_, i) => i !== index),
+      images: newImages,
     });
+    setHasUnsavedChanges(true);
+  };
+
+  const handleImageDelete = async (index: number) => {
+    const image = service.images[index];
+    // If the image is an uploaded file, delete from server
+    if (image.url && image.url.startsWith('/uploads/')) {
+      try {
+        await fetch(`/api/admin/services/upload?url=${encodeURIComponent(image.url)}`, {
+          method: 'DELETE',
+        });
+      } catch (err) {
+        console.error('Failed to delete image from server:', err);
+        throw err; // Re-throw to let ImagePicker handle the error
+      }
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
+    
+    // Validate required fields
+    const englishTranslation = service.translations.find(t => t.language === 'en');
+    if (!englishTranslation?.title?.trim()) {
+      setError('English title is required');
+      setLoading(false);
+      showToast({
+        type: 'error',
+        title: 'Validation Error',
+        message: 'English title is required',
+      });
+      return;
+    }
+    
+    if (!englishTranslation?.description?.trim()) {
+      setError('English description is required');
+      setLoading(false);
+      showToast({
+        type: 'error',
+        title: 'Validation Error',
+        message: 'English description is required',
+      });
+      return;
+    }
+    
+    if (!service.category) {
+      setError('Category is required');
+      setLoading(false);
+      showToast({
+        type: 'error',
+        title: 'Validation Error',
+        message: 'Please select a category',
+      });
+      return;
+    }
+    
     try {
-      const response = await fetch('/api/services', {
+      const response = await fetch('/api/admin/services', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...service, id: service.id }),
+        body: JSON.stringify({ 
+          id: service.id,
+          categoryId: service.category,
+          featured: service.featured,
+          availability: service.availability,
+          minAge: service.minAge,
+          maxAge: service.maxAge,
+          anesthesia: service.anesthesia,
+          timeInTurkey: service.timeInTurkey,
+          operationTime: service.operationTime,
+          hospitalStay: service.hospitalStay,
+          recovery: service.recovery,
+          accommodation: service.accommodation,
+          transportation: service.transportation,
+          translations: service.translations,
+          images: service.images,
+        }),
       });
       
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update service');
+        throw new Error(errorData.error || 'Failed to update service');
       }
       
-      router.push('/admin/services');
-      router.refresh();
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('Failed to update service');
+      // Clear backup and unsaved changes flag
+      localStorage.removeItem(`service-edit-${params.slug}`);
+      setHasUnsavedChanges(false);
+      setLastSaved(new Date());
+      
+      showToast({
+        type: 'success',
+        title: 'Service Updated!',
+        message: 'Service has been successfully updated.',
+      });
+      
+      setTimeout(() => {
+        router.push('/admin/services');
+        router.refresh();
+      }, 1000);
+          } catch (err) {
+        console.error('Submit error:', err);
+        const errorMessage = err instanceof Error ? err.message : 'Failed to update service';
+        setError(errorMessage);
+        showToast({
+          type: 'error',
+          title: 'Update Failed',
+          message: errorMessage,
+        });
+      } finally {
+        setLoading(false);
       }
-    }
   };
 
   if (loading) {
@@ -326,9 +498,31 @@ export default function EditServicePage({ params }: { params: { slug: string } }
     return (
     <div className="p-4 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Edit Service</h1>
+        <div className="flex items-center gap-4">
+          <h1 className="text-3xl font-bold text-gray-900">Edit Service</h1>
+          {hasUnsavedChanges && (
+            <div className="flex items-center gap-2 text-amber-600">
+              <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
+              <span className="text-sm font-medium">Unsaved changes</span>
+            </div>
+          )}
+          {lastSaved && !hasUnsavedChanges && (
+            <div className="flex items-center gap-2 text-green-600">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span className="text-sm">Saved {lastSaved.toLocaleTimeString()}</span>
+            </div>
+          )}
+        </div>
         <button
-          onClick={() => router.push('/admin/services')}
+          onClick={() => {
+            if (hasUnsavedChanges) {
+              const shouldLeave = window.confirm('You have unsaved changes. Are you sure you want to leave?');
+              if (!shouldLeave) return;
+            }
+            router.push('/admin/services');
+          }}
           className="text-gray-500 hover:text-gray-700 flex items-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -531,59 +725,16 @@ export default function EditServicePage({ params }: { params: { slug: string } }
 
         {/* Images */}
         <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Images</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            {service.images.map((image, index) => (
-              <div key={index} className="relative group">
-                <Image
-                  src={fixImageUrl(image.url)}
-                  alt={image.alt}
-                  width={200}
-                  height={200}
-                  className="rounded-lg object-cover w-full h-48"
-                  onError={(e) => {
-                    console.error('Image failed to load:', image.url);
-                    e.currentTarget.src = getFallbackImageUrl();
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={() => removeImage(index)}
-                  className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-                <input
-                  type="text"
-                  value={image.alt}
-                  onChange={(e) => {
-                    const newImages = [...service.images];
-                    newImages[index] = { ...image, alt: e.target.value };
-                    setService({ ...service, images: newImages });
-                  }}
-                  placeholder="Image description"
-                  className="mt-2 w-full text-sm px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-                />
-              </div>
-            ))}
-          </div>
-          <div>
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleImageUpload}
-              className="block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-lg file:border-0
-                file:text-sm file:font-semibold
-                file:bg-amber-50 file:text-amber-700
-                hover:file:bg-amber-100 transition-colors"
-            />
-            {uploading && <p className="mt-2 text-sm text-gray-500">Uploading images...</p>}
-          </div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Service Images</h2>
+          <ImagePicker
+            images={service.images}
+            onImagesChange={handleImagesChange}
+            onImageUpload={handleImageUpload}
+            onImageDelete={handleImageDelete}
+            multiple={true}
+            maxImages={15}
+            disabled={loading}
+          />
         </div>
 
         {/* Translations */}
@@ -647,19 +798,44 @@ export default function EditServicePage({ params }: { params: { slug: string } }
         <div className="flex gap-4 justify-end">
           <button
             type="button"
-            onClick={() => router.push('/admin/services')}
+            onClick={() => {
+              if (hasUnsavedChanges) {
+                const shouldLeave = window.confirm('You have unsaved changes. Are you sure you want to cancel?');
+                if (!shouldLeave) return;
+                // Clear backup if user confirms
+                localStorage.removeItem(`service-edit-${params.slug}`);
+              }
+              router.push('/admin/services');
+            }}
             className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors"
+            disabled={loading}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-colors"
+            disabled={loading}
+            className={`px-6 py-3 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 transition-colors flex items-center gap-2 ${
+              loading 
+                ? 'bg-amber-400 cursor-not-allowed' 
+                : 'bg-amber-600 hover:bg-amber-700'
+            }`}
           >
-            Update Service
+            {loading && (
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+            )}
+            {loading ? 'Updating...' : 'Update Service'}
           </button>
         </div>
       </form>
       </div>
     );
+}
+
+export default function EditServicePage({ params }: { params: { slug: string } }) {
+  return (
+    <ToastProvider>
+      <EditServicePageContent params={params} />
+    </ToastProvider>
+  );
 } 

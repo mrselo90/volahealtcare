@@ -111,6 +111,7 @@ export async function POST(request: Request) {
             language: translation.language,
             title: translation.title,
             description: translation.description,
+            content: translation.content || '',
           })),
         },
         images: {
@@ -170,7 +171,7 @@ export async function PUT(request: Request) {
 
     const data = await request.json();
     console.log('PUT /api/admin/services request body:', JSON.stringify(data, null, 2));
-    const { id, translations = [], images = [], faqs = [], beforeAfterImages = [], ...serviceData } = data;
+    const { id, categoryId, translations = [], images = [], faqs = [], beforeAfterImages = [], ...serviceData } = data;
 
     if (!id) {
       return NextResponse.json(
@@ -203,7 +204,7 @@ export async function PUT(request: Request) {
 
     // Look up the category by ID (categoryId from form)
     const category = await prisma.category.findUnique({
-      where: { id: serviceData.categoryId }
+      where: { id: categoryId }
     });
 
     if (!category) {
@@ -236,6 +237,7 @@ export async function PUT(request: Request) {
             language: translation.language,
             title: translation.title,
             description: translation.description,
+            content: translation.content || '',
           })),
         },
         images: {

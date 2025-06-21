@@ -17,6 +17,13 @@ async function getCategoryWithServices(slug: string) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
   const res = await fetch(`${baseUrl}/api/categories`, { cache: 'no-store' });
   if (!res.ok) return null;
+
+  const contentType = res.headers.get('content-type');
+  if (!contentType || !contentType.includes('application/json')) {
+    console.error('Received non-JSON response from API');
+    return null;
+  }
+
   const categories = await res.json();
   return categories.find((cat: any) => cat.slug === slug);
 }
