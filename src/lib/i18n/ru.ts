@@ -285,7 +285,23 @@ export const ruTranslations: Translations = {
     errorTitle: 'Что-то пошло не так',
     errorDesc: 'Произошла ошибка при загрузке услуг.',
     tryAgain: 'Попробовать снова',
-    allServices: 'Все Услуги'
+    allServices: 'Все Услуги',
+    duration: 'Продолжительность',
+    featuredOnly: 'Только Рекомендуемые Услуги',
+    anyDuration: 'Любая Продолжительность',
+    oneTwoHours: '1-2 Часа',
+    halfDay: 'Полдня',
+    fullDay: 'Полный День',
+    multipleDays: 'Несколько Дней',
+    quickFilters: 'Быстрые Фильтры',
+    mostPopular: 'Самые Популярные',
+    quickProcedures: 'Быстрые Процедуры',
+    premiumServices: 'Премиум Услуги',
+    nonInvasive: 'Неинвазивные',
+    hideFilters: 'Скрыть Фильтры',
+    moreFilters: 'Больше Фильтров',
+    grid: 'Сетка',
+    list: 'Список'
   },
   results: {
     beforeAfter: {

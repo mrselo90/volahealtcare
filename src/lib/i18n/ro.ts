@@ -285,7 +285,23 @@ export const roTranslations: Translations = {
     errorTitle: 'Ceva nu a mers bine',
     errorDesc: 'A apărut o eroare la încărcarea serviciilor.',
     tryAgain: 'Încearcă din nou',
-    allServices: 'Toate Serviciile'
+    allServices: 'Toate Serviciile',
+    duration: 'Durata',
+    featuredOnly: 'Doar Servicii Recomandate',
+    anyDuration: 'Orice Durată',
+    oneTwoHours: '1-2 Ore',
+    halfDay: 'Jumătate de Zi',
+    fullDay: 'Zi Întreagă',
+    multipleDays: 'Zile Multiple',
+    quickFilters: 'Filtre Rapide',
+    mostPopular: 'Cele Mai Populare',
+    quickProcedures: 'Proceduri Rapide',
+    premiumServices: 'Servicii Premium',
+    nonInvasive: 'Non-invaziv',
+    hideFilters: 'Ascunde Filtrele',
+    moreFilters: 'Mai Multe Filtre',
+    grid: 'Grilă',
+    list: 'Listă'
   },
   results: {
     beforeAfter: {

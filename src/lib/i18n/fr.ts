@@ -285,7 +285,23 @@ export const frTranslations: Translations = {
     errorTitle: 'Quelque chose a mal tourné',
     errorDesc: 'Une erreur est survenue lors du chargement des services.',
     tryAgain: 'Réessayer',
-    allServices: 'Tous les Services'
+    allServices: 'Tous les Services',
+    duration: 'Durée',
+    featuredOnly: 'Services en vedette uniquement',
+    anyDuration: 'Toute durée',
+    oneTwoHours: '1-2 heures',
+    halfDay: 'Demi-journée',
+    fullDay: 'Journée complète',
+    multipleDays: 'Plusieurs jours',
+    quickFilters: 'Filtres rapides',
+    mostPopular: 'Les plus populaires',
+    quickProcedures: 'Procédures rapides',
+    premiumServices: 'Services premium',
+    nonInvasive: 'Non-invasif',
+    hideFilters: 'Masquer les filtres',
+    moreFilters: 'Plus de filtres',
+    grid: 'Grille',
+    list: 'Liste'
   },
   results: {
     beforeAfter: {

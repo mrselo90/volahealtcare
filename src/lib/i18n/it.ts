@@ -285,7 +285,23 @@ export const itTranslations: Translations = {
     errorTitle: 'Qualcosa è andato storto',
     errorDesc: 'Si è verificato un errore durante il caricamento dei servizi.',
     tryAgain: 'Riprova',
-    allServices: 'Tutti i Servizi'
+    allServices: 'Tutti i Servizi',
+    duration: 'Durata',
+    featuredOnly: 'Solo Servizi in Evidenza',
+    anyDuration: 'Qualsiasi Durata',
+    oneTwoHours: '1-2 Ore',
+    halfDay: 'Mezza Giornata',
+    fullDay: 'Giornata Intera',
+    multipleDays: 'Più Giorni',
+    quickFilters: 'Filtri Rapidi',
+    mostPopular: 'Più Popolari',
+    quickProcedures: 'Procedure Rapide',
+    premiumServices: 'Servizi Premium',
+    nonInvasive: 'Non Invasivo',
+    hideFilters: 'Nascondi Filtri',
+    moreFilters: 'Altri Filtri',
+    grid: 'Griglia',
+    list: 'Lista'
   },
   results: {
     beforeAfter: {
