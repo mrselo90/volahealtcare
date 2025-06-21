@@ -313,34 +313,34 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
   const handleImageUpload = async (files: FileList): Promise<Array<{ url: string; alt: string }>> => {
     if (!files?.length) return [];
 
-    const uploadedImages = [];
+      const uploadedImages = [];
     const slug = service.slug;
 
     if (!slug) {
       throw new Error('Service slug is not available. Please save the service first.');
     }
-
-    for (const file of Array.from(files)) {
-      const formData = new FormData();
+      
+      for (const file of Array.from(files)) {
+        const formData = new FormData();
       formData.append('file', file);
       formData.append('slug', slug);
 
       const response = await fetch('/api/admin/services/upload', {
-        method: 'POST',
-        body: formData,
-      });
+          method: 'POST',
+          body: formData,
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Upload failed');
-      }
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Upload failed');
+        }
 
-      const data = await response.json();
-      uploadedImages.push({
+        const data = await response.json();
+        uploadedImages.push({
         url: data.url,
-        alt: '',
-      });
-    }
+          alt: '',
+        });
+      }
 
     return uploadedImages;
   };
@@ -360,7 +360,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
       try {
         await fetch(`/api/admin/services/upload?url=${encodeURIComponent(image.url)}`, {
           method: 'DELETE',
-        });
+    });
       } catch (err) {
         console.error('Failed to delete image from server:', err);
         throw err; // Re-throw to let ImagePicker handle the error
@@ -448,10 +448,10 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
       });
       
       setTimeout(() => {
-        router.push('/admin/services');
-        router.refresh();
+      router.push('/admin/services');
+      router.refresh();
       }, 1000);
-          } catch (err) {
+    } catch (err) {
         console.error('Submit error:', err);
         const errorMessage = err instanceof Error ? err.message : 'Failed to update service';
         setError(errorMessage);
@@ -462,7 +462,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
         });
       } finally {
         setLoading(false);
-      }
+    }
   };
 
   if (loading) {
@@ -500,7 +500,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
     <div className="p-4 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold text-gray-900">Edit Service</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Edit Service</h1>
           {hasUnsavedChanges && (
             <div className="flex items-center gap-2 text-amber-600">
               <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
@@ -839,5 +839,5 @@ export default function EditServicePage({ params }: { params: { slug: string } }
     <ToastProvider>
       <EditServicePageContent params={params} />
     </ToastProvider>
-  );
+    );
 } 

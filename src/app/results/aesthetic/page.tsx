@@ -8,7 +8,7 @@ export default function AestheticResultsPage() {
       subtitle="Our Safe and Natural Aesthetic Surgery Results"
       description="Explore our comprehensive collection of aesthetic surgery transformations. See real before and after results from our experienced surgeons."
       gradientFrom="from-purple-600"
-      gradientTo="to-purple-700"
+              gradientTo="to-purple-700"
       treatments={[
         'Rhinoplasty (Nose Job)',
         'Liposuction (Fat Removal)',

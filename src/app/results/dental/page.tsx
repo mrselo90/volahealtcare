@@ -8,7 +8,7 @@ export default function DentalResultsPage() {
       subtitle="Results of Our Treatments That Transform Your Smile"
       description="Discover the amazing transformations achieved through our advanced dental treatments. From smile design to dental implants, see real results from our patients."
       gradientFrom="from-blue-600"
-      gradientTo="to-blue-700"
+              gradientTo="to-blue-700"
       treatments={[
         'Smile Design',
         'Dental Implant',

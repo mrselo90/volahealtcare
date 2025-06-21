@@ -8,7 +8,7 @@ export default function HairResultsPage() {
       subtitle="Our Natural-Looking Hair Transplant Results"
       description="View our exceptional hair transplant transformations. From FUE to DHI techniques, see the natural-looking results achieved by our expert surgeons."
       gradientFrom="from-blue-500"
-      gradientTo="to-purple-500"
+              gradientTo="to-purple-500"
       treatments={[
         'FUE Hair Transplant',
         'DHI Hair Transplant',
