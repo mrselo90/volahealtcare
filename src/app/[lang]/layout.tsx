@@ -10,6 +10,7 @@ import CookieConsent from '@/components/ui/CookieConsent';
 import { Providers } from '../providers';
 import { languages, isValidLanguage, getLanguageDirection, type Language } from '@/lib/i18n/config';
 import { notFound } from 'next/navigation';
+import { OrganizationSchema, WebsiteSchema } from '@/components/seo/StructuredData';
 
 
 const montserrat = Montserrat({
@@ -119,6 +120,29 @@ export default function LangLayout({
         <Chatbot />
         <WhatsAppButton phoneNumber="905444749881" />
         <CookieConsent />
+        
+        {/* Schema Markup for SEO */}
+        <OrganizationSchema
+          name="Vola Health Istanbul"
+          description="Premium medical tourism services in Istanbul, Turkey. World-class dental, aesthetic, and cosmetic procedures with exceptional care."
+          url="https://volahealthistanbul.com"
+          telephone="+905444749881"
+          address={{
+            streetAddress: "Merter Mahallesi, Tekstilkent Cd.",
+            addressLocality: "Istanbul",
+            addressCountry: "Turkey",
+            postalCode: "34169"
+          }}
+          geo={{
+            latitude: 41.0082,
+            longitude: 28.9784
+          }}
+          openingHours={[
+            "Mo-Fr 09:00-18:00",
+            "Sa 09:00-16:00"
+          ]}
+        />
+        <WebsiteSchema />
       </div>
     </LanguageProvider>
   );

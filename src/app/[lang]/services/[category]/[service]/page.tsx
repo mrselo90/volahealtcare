@@ -41,6 +41,7 @@ import { formatServiceContent, extractKeyPoints, estimateReadingTime, createTabl
 import { useTranslation } from '@/lib/i18n/hooks';
 import TestimonialForm from '@/components/TestimonialForm';
 import settings from '@/data/settings.json';
+import { ServiceSchema } from '@/components/seo/StructuredData';
 
 // Enhanced Loading Component
 const LoadingSkeleton = () => (
@@ -784,10 +785,20 @@ export default function ServicePage({ params }: ServicePageProps) {
             <ArrowLeftIcon className="h-5 w-5" />
             Go Back
           </button>
-        </div>
-      </div>
-    );
-  }
+              </div>
+      
+      {/* Schema Markup for SEO */}
+      <ServiceSchema
+        name={serviceTitle}
+        description={serviceDescription?.substring(0, 160) || ''}
+        provider="Vola Health Istanbul"
+        areaServed="Istanbul, Turkey"
+        serviceType={category}
+        url={`https://volahealthistanbul.com/${lang}/services/${category}/${service}`}
+      />
+    </div>
+  );
+}
 
   if (!data) return null;
 

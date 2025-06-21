@@ -30,6 +30,19 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://volahealthistanbul.com'),
   alternates: {
     canonical: '/',
+    languages: {
+      'en': '/en',
+      'tr': '/tr',
+      'es': '/es',
+      'de': '/de',
+      'fr': '/fr',
+      'it': '/it',
+      'pt': '/pt',
+      'ru': '/ru',
+      'ro': '/ro',
+      'pl': '/pl',
+      'ar': '/ar'
+    }
   },
   icons: {
     icon: [
