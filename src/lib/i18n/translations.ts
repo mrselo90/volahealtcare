@@ -13,7 +13,7 @@ import { ruTranslations } from './ru';
 import { trTranslations } from './tr';
 
 // Translations object
-const translations: Record<Language, Translations> = {
+export const translations: Record<Language, Translations> = {
   en: enTranslations,
   ar: arTranslations,
   de: deTranslations,
