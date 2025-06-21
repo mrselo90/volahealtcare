@@ -140,15 +140,18 @@ export const trTranslations: Translations = {
     category: {
       'hair-transplant': {
         title: 'Saç Ekimi',
-        description: 'Doğal ve kalıcı sonuçlar için gelişmiş saç restorasyon teknikleri.'
+        description: 'Doğal ve kalıcı sonuçlar için gelişmiş saç restorasyon teknikleri.',
+        slug: 'sac-ekimi'
       },
       'dental-treatments': {
         title: 'Diş Tedavileri',
-        description: 'Mükemmel ve sağlıklı bir gülümseme için eksiksiz diş çözümleri.'
+        description: 'Mükemmel ve sağlıklı bir gülümseme için eksiksiz diş çözümleri.',
+        slug: 'dis-tedavileri'
       },
       'plastic-surgery': {
         title: 'Plastik Cerrahi',
-        description: 'Kapsamlı plastik cerrahi ve estetik tedaviler.'
+        description: 'Kapsamlı plastik cerrahi ve estetik tedaviler.',
+        slug: 'plastik-cerrahi'
       }
     },
     detail: {

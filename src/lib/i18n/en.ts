@@ -140,15 +140,18 @@ export const enTranslations: Translations = {
     category: {
       'hair-transplant': {
         title: 'Hair Transplant',
-        description: 'Advanced hair restoration techniques for natural and permanent results.'
+        description: 'Advanced hair restoration techniques for natural and permanent results.',
+        slug: 'hair-transplant'
       },
       'dental-treatments': {
         title: 'Dental Treatments',
-        description: 'Complete dental solutions for a perfect and healthy smile.'
+        description: 'Complete dental solutions for a perfect and healthy smile.',
+        slug: 'dental-treatments'
       },
       'plastic-surgery': {
         title: 'Plastic Surgery',
-        description: 'Comprehensive plastic surgery and aesthetic treatments.'
+        description: 'Comprehensive plastic surgery and aesthetic treatments.',
+        slug: 'plastic-surgery'
       }
     },
     detail: {

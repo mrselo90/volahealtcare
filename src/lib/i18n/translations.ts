@@ -144,14 +144,17 @@ export interface Translations {
       'hair-transplant': {
         title: string;
         description: string;
+        slug: string;
       };
       'dental-treatments': {
         title: string;
         description: string;
+        slug: string;
       };
       'plastic-surgery': {
         title: string;
         description: string;
+        slug: string;
       };
     };
     detail: {

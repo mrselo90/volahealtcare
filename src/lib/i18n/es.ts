@@ -140,15 +140,18 @@ export const esTranslations: Translations = {
     category: {
       'hair-transplant': {
         title: 'Trasplante de Cabello',
-        description: 'Técnicas avanzadas de restauración capilar para resultados naturales y permanentes.'
+        description: 'Técnicas avanzadas de restauración capilar para resultados naturales y permanentes.',
+        slug: 'trasplante-de-cabello'
       },
       'dental-treatments': {
         title: 'Tratamientos Dentales',
-        description: 'Soluciones dentales completas para una sonrisa perfecta y saludable.'
+        description: 'Soluciones dentales completas para una sonrisa perfecta y saludable.',
+        slug: 'tratamientos-dentales'
       },
       'plastic-surgery': {
         title: 'Cirugía Plástica',
-        description: 'Cirugía plástica integral y tratamientos estéticos.'
+        description: 'Cirugía plástica integral y tratamientos estéticos.',
+        slug: 'cirugia-plastica'
       }
     },
     detail: {

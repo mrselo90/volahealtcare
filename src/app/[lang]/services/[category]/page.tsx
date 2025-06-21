@@ -94,6 +94,25 @@ function getCategoryDescription(category: any, lang: string) {
   return translated || fallback;
 }
 
+export async function generateStaticParams() {
+  const allParams = [];
+
+  for (const lang of Object.keys(translations)) {
+    const langTranslations = translations[lang as keyof typeof translations];
+    if (langTranslations && langTranslations.services && langTranslations.services.category) {
+      const categories = langTranslations.services.category;
+      for (const key of Object.keys(categories)) {
+        const categoryData = categories[key as keyof typeof categories];
+        if (categoryData && typeof categoryData === 'object' && 'slug' in categoryData && typeof categoryData.slug === 'string') {
+          allParams.push({ lang: lang, category: categoryData.slug });
+        }
+      }
+    }
+  }
+
+  return allParams;
+}
+
 export default async function ServiceCategoryPage({ params }: Props) {
   const category = await getCategoryWithServices(params.category);
 
