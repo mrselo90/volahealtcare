@@ -169,12 +169,9 @@ export async function middleware(request: NextRequest) {
   // Check if pathname already has a language prefix
   const currentLanguage = getLanguageFromPathname(pathname);
   
-  // If URL has default language prefix, redirect to clean URL
-  if (currentLanguage === defaultLanguage) {
-    const url = request.nextUrl.clone();
-    url.pathname = pathname.replace(`/${defaultLanguage}`, '') || '/';
-    return NextResponse.redirect(url);
-  }
+  // If URL has default language prefix, allow it to continue normally
+  // Note: We don't redirect default language URLs to clean URLs anymore
+  // This allows /tr/services to work properly
   
   // If no language in URL, treat as default language (Turkish)
   if (!currentLanguage) {
