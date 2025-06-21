@@ -740,6 +740,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
         {/* Translations */}
         <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">Translations</h2>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {service.translations.map((translation) => {
               const language = supportedLanguages.find(lang => lang.code === translation.language);
