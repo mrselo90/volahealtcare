@@ -118,7 +118,7 @@ const ServiceCard = ({ service, onToggleFavorite, isFavorited, t, lang }: Servic
             </h3>
             {service.category && (
               <span className="ml-2 text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full whitespace-nowrap">
-                {getCategoryName(service.category)}
+                {getCategoryName(service.category, lang)}
               </span>
             )}
           </div>
@@ -573,7 +573,7 @@ export default function ServicesPage({ params }: { params: { lang: string } }) {
                     {/* Category Header */}
                     <div className="text-center mb-10">
                       <h2 className="text-3xl font-bold text-gray-900 mb-3">
-                        {getCategoryName(category)}
+                        {getCategoryName(category, lang)}
                       </h2>
                       {category.description && (
                         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -649,7 +649,7 @@ export default function ServicesPage({ params }: { params: { lang: string } }) {
                                         </h3>
                                         {service.category && (
                                           <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
-                                            {getCategoryName(service.category)}
+                                            {getCategoryName(service.category, lang)}
                                           </span>
                                         )}
                                       </div>
