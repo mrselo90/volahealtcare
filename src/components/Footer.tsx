@@ -170,17 +170,17 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 sm:space-y-3">
               <li>
-                <Link href={createLink(`/services/${t('services.category.hair-transplant.slug')}`)} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/services/hair-transplant')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('services.categories.hair') || 'Hair Transplant'}
                 </Link>
               </li>
               <li>
-                <Link href={createLink(`/services/${t('services.category.dental-treatments.slug')}`)} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/services/dental-treatments')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('services.categories.dental') || 'Dental Services'}
                 </Link>
               </li>
               <li>
-                <Link href={createLink(`/services/${t('services.category.plastic-surgery.slug')}`)} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
+                <Link href={createLink('/services/plastic-surgery')} className="text-sm sm:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 hover:translate-x-1 transform inline-block">
                   {t('services.categories.plastic') || 'Plastic Surgery'}
                 </Link>
               </li>
