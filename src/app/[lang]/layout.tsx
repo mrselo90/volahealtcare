@@ -10,7 +10,7 @@ import CookieConsent from '@/components/ui/CookieConsent';
 import { Providers } from '../providers';
 import { languages, isValidLanguage, getLanguageDirection, type Language } from '@/lib/i18n/config';
 import { notFound } from 'next/navigation';
-import { use } from 'react';
+
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -32,9 +32,8 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata based on language
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
-  // For server-side functions, we await the Promise directly instead of using React.use()
-  const { lang } = await params;
+export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
+  const { lang } = params;
   
   // Language-specific metadata
   const titles = {
@@ -98,9 +97,9 @@ export default function LangLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ lang: string }>;
+  params: { lang: string };
 }) {
-  const { lang } = use(params);
+  const { lang } = params;
   
   // Validate language parameter
   if (!isValidLanguage(lang as Language)) {

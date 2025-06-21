@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useMemo, useCallback, use } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -647,11 +647,11 @@ function useStickyNavigation() {
 }
 
 interface ServicePageProps {
-  params: Promise<{ 
+  params: { 
     lang: string;
     category: string; 
     service: string;
-  }>;
+  };
 }
 
 // Quick Overview Card Component
@@ -684,7 +684,7 @@ const QuickOverviewCard = ({ t }) => (
 );
 
 export default function ServicePage({ params }: ServicePageProps) {
-  const { lang, category, service } = use(params);
+  const { lang, category, service } = params;
   const { data, loading, error } = useServiceData(service);
   const { selectedImage, selectedImageAlt, currentImageIndex, setCurrentImageIndex, openLightbox, closeLightbox } = useImageLightbox();
   const { activeSection, isScrolled, scrollToSection } = useStickyNavigation();

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from '@/lib/i18n/hooks';
 import dynamic from 'next/dynamic';
 
@@ -49,9 +49,8 @@ const FeaturedBeforeAfter = dynamic(() => import('@/components/FeaturedBeforeAft
   loading: () => <div className="animate-pulse bg-gray-200 rounded-lg h-64 flex items-center justify-center">Loading results...</div> 
 });
 
-export default function Home({ params }: { params: Promise<{ lang: string }> }) {
-  // Unwrap the params Promise using React.use()
-  const { lang } = use(params);
+export default function Home({ params }: { params: { lang: string } }) {
+  const { lang } = params;
   
   const { t } = useTranslation();
   const [isClient, setIsClient] = useState(false);

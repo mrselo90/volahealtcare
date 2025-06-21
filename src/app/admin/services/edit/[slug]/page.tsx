@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef, use } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import ImagePicker from '@/components/ui/ImagePicker';
 import { ToastProvider, useToast } from '@/components/ui/Toast';
@@ -58,8 +58,8 @@ const fixImageUrl = (url: string): string => {
   return url;
 };
 
-function EditServicePageContent({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
+function EditServicePageContent({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const router = useRouter();
   const { showToast } = useToast();
   const [error, setError] = useState('');
@@ -834,7 +834,7 @@ function EditServicePageContent({ params }: { params: Promise<{ slug: string }> 
     );
 }
 
-export default function EditServicePage({ params }: { params: Promise<{ slug: string }> }) {
+export default function EditServicePage({ params }: { params: { slug: string } }) {
   return (
     <ToastProvider>
       <EditServicePageContent params={params} />

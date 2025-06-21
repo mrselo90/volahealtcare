@@ -7,10 +7,10 @@ import { getTranslation } from '@/utils/translationUtils';
 import { translations, getTranslation as getTranslationFromKey } from '@/lib/i18n/translations';
 
 interface Props {
-  params: Promise<{
+  params: {
     category: string;
     lang: string;
-  }>;
+  };
 }
 
 async function getCategoryWithServices(slug: string) {
@@ -114,7 +114,7 @@ export async function generateStaticParams() {
 }
 
 export default async function ServiceCategoryPage({ params }: Props) {
-  const { category, lang } = await params;
+  const { category, lang } = params;
   const categoryData = await getCategoryWithServices(category);
 
   if (!categoryData) {

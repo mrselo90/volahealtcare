@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon, PlusIcon, MagnifyingGlassIcon, StarIcon, CurrencyDollarIcon, AdjustmentsHorizontalIcon, HeartIcon, CalendarDaysIcon, ChatBubbleLeftIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
-import { useState, useEffect, useMemo, use } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { LoadingState, ServiceCardSkeleton, CategorySkeleton } from '@/components/LoadingState';
 import { getCategoryName } from '@/utils/categoryUtils';
@@ -309,8 +309,8 @@ const SearchAndFilters = ({
 };
 
 // Main Services Page Component
-export default function ServicesPage({ params }: { params: Promise<{ lang: string }> }) {
-  const { lang } = use(params);
+export default function ServicesPage({ params }: { params: { lang: string } }) {
+  const { lang } = params;
   const { t } = useTranslation();
   const [categories, setCategories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);

@@ -27,9 +27,9 @@ async function getService(id: string) {
 export default async function ServiceEditPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params;
   const service = slug === 'new' ? null : await getService(slug) as Awaited<ReturnType<typeof getService>>;
 
   return (
