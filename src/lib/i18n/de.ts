@@ -285,7 +285,23 @@ export const deTranslations: Translations = {
     errorTitle: 'Etwas ist schiefgelaufen',
     errorDesc: 'Beim Laden der Dienste ist ein Fehler aufgetreten.',
     tryAgain: 'Erneut versuchen',
-    allServices: 'Alle Dienste'
+    allServices: 'Alle Dienste',
+    duration: 'Dauer',
+    featuredOnly: 'Nur Empfohlene Dienste',
+    anyDuration: 'Beliebige Dauer',
+    oneTwoHours: '1-2 Stunden',
+    halfDay: 'Halber Tag',
+    fullDay: 'Ganzer Tag',
+    multipleDays: 'Mehrere Tage',
+    quickFilters: 'Schnellfilter',
+    mostPopular: 'Beliebteste',
+    quickProcedures: 'Schnelle Verfahren',
+    premiumServices: 'Premium-Dienste',
+    nonInvasive: 'Nicht-invasiv',
+    hideFilters: 'Filter ausblenden',
+    moreFilters: 'Weitere Filter',
+    grid: 'Raster',
+    list: 'Liste'
   },
   results: {
     beforeAfter: {

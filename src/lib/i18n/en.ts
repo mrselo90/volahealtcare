@@ -288,7 +288,23 @@ export const enTranslations: Translations = {
     errorTitle: 'Something went wrong',
     errorDesc: 'There was an error loading the services.',
     tryAgain: 'Try Again',
-    allServices: 'All Services'
+    allServices: 'All Services',
+    duration: 'Duration',
+    featuredOnly: 'Featured Services Only',
+    anyDuration: 'Any Duration',
+    oneTwoHours: '1-2 Hours',
+    halfDay: 'Half Day',
+    fullDay: 'Full Day',
+    multipleDays: 'Multiple Days',
+    quickFilters: 'Quick Filters',
+    mostPopular: 'Most Popular',
+    quickProcedures: 'Quick Procedures',
+    premiumServices: 'Premium Services',
+    nonInvasive: 'Non-Invasive',
+    hideFilters: 'Hide Filters',
+    moreFilters: 'More Filters',
+    grid: 'Grid',
+    list: 'List'
   },
   results: {
     beforeAfter: {
