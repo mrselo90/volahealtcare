@@ -32,7 +32,7 @@ export const services: ServiceCategory[] = [
         name: 'Digital Smile Design',
         slug: 'digital-smile-design',
         description: 'Digital Smile Design (DSD) is an innovative process that uses advanced technology to create a customized smile tailored to your facial features and preferences.',
-        longDescription: 'Digital Smile Design (DSD) is an innovative, high-tech approach to achieving the smile of your dreams. At Aesthetic Care Istanbul, we use cutting-edge digital tools and advanced techniques to create personalized, precise smile transformations. Whether you\'re looking to enhance the appearance of your teeth, correct alignment issues, or achieve a more youthful smile, DSD allows us to design and visualize your ideal smile before any treatment begins.',
+        longDescription: 'Digital Smile Design (DSD) is an innovative, high-tech approach to achieving the smile of your dreams. At Vola Health Istanbul, we use cutting-edge digital tools and advanced techniques to create personalized, precise smile transformations. Whether you\'re looking to enhance the appearance of your teeth, correct alignment issues, or achieve a more youthful smile, DSD allows us to design and visualize your ideal smile before any treatment begins.',
         priceRange: [1500, 3000],
         duration: '2-3 hours',
         benefits: [
@@ -64,7 +64,7 @@ export const services: ServiceCategory[] = [
         name: 'Dental Veneers',
         slug: 'dental-veneers',
         description: 'Dental veneers are thin, custom-made shells designed to enhance the appearance of teeth by covering imperfections like stains, chips, or gaps.',
-        longDescription: 'Dental veneers at Aesthetic Care Istanbul offer a transformative solution for enhancing the appearance of your smile. This minimally invasive cosmetic dental procedure involves placing custom-made porcelain shells on the front surface of teeth, effectively improving their color, shape, size, and overall aesthetic. Whether addressing stained, chipped, or misaligned teeth, dental veneers can deliver a flawless, natural-looking smile that boosts confidence.',
+        longDescription: 'Dental veneers at Vola Health Istanbul offer a transformative solution for enhancing the appearance of your smile. This minimally invasive cosmetic dental procedure involves placing custom-made porcelain shells on the front surface of teeth, effectively improving their color, shape, size, and overall aesthetic. Whether addressing stained, chipped, or misaligned teeth, dental veneers can deliver a flawless, natural-looking smile that boosts confidence.',
         priceRange: [800, 2000],
         duration: '2-4 hours per session',
         benefits: [
@@ -96,7 +96,7 @@ export const services: ServiceCategory[] = [
         name: 'Hollywood Smile',
         slug: 'hollywood-smile',
         description: 'A Hollywood smile is a cosmetic treatment designed to enhance the appearance of your teeth, giving you a bright, flawless, and symmetrical smile.',
-        longDescription: 'A Hollywood Smile is the ultimate transformation for anyone looking to achieve a perfect, radiant, and flawless smile. At Aesthetic Care Istanbul, we specialize in creating dazzling Hollywood Smiles, combining advanced dental techniques with a personalized approach to give you a smile that\'s not only beautiful but also perfectly suited to your facial features.',
+        longDescription: 'A Hollywood Smile is the ultimate transformation for anyone looking to achieve a perfect, radiant, and flawless smile. At Vola Health Istanbul, we specialize in creating dazzling Hollywood Smiles, combining advanced dental techniques with a personalized approach to give you a smile that\'s not only beautiful but also perfectly suited to your facial features.',
         priceRange: [2000, 5000],
         duration: '2-3 weeks',
         benefits: [
@@ -128,7 +128,7 @@ export const services: ServiceCategory[] = [
         name: 'Gum Aesthetics',
         slug: 'gum-aesthetics',
         description: 'Gum aesthetics, also known as gum contouring, is a cosmetic procedure designed to enhance the appearance of your gums by reshaping or removing excess gum tissue.',
-        longDescription: 'Gum aesthetics, also known as gum contouring or gum reshaping, is a cosmetic dental procedure designed to improve the appearance of the gums. At Aesthetic Care Istanbul, we specialize in creating a balanced and beautiful smile by enhancing the gum line. This procedure can address a variety of concerns, including excessive gum tissue, uneven gum lines, or a "gummy smile" where too much of the gums are visible when smiling.',
+        longDescription: 'Gum aesthetics, also known as gum contouring or gum reshaping, is a cosmetic dental procedure designed to improve the appearance of the gums. At Vola Health Istanbul, we specialize in creating a balanced and beautiful smile by enhancing the gum line. This procedure can address a variety of concerns, including excessive gum tissue, uneven gum lines, or a "gummy smile" where too much of the gums are visible when smiling.',
         priceRange: [1000, 3000],
         duration: '1-2 hours',
         benefits: [
@@ -160,7 +160,7 @@ export const services: ServiceCategory[] = [
         name: 'Teeth Whitening',
         slug: 'teeth-whitening',
         description: 'Teeth whitening is a cosmetic treatment designed to brighten and lighten stained or discolored teeth.',
-        longDescription: 'Teeth whitening is a popular and effective cosmetic treatment that brightens and rejuvenates your smile by removing stains and discoloration. At Aesthetic Care Istanbul, we specialize in professional teeth whitening services that restore your teeth to their natural, radiant whiteness, providing noticeable and long-lasting results.',
+        longDescription: 'Teeth whitening is a popular and effective cosmetic treatment that brightens and rejuvenates your smile by removing stains and discoloration. At Vola Health Istanbul, we specialize in professional teeth whitening services that restore your teeth to their natural, radiant whiteness, providing noticeable and long-lasting results.',
         priceRange: [1000, 3000],
         duration: '1-2 hours',
         benefits: [
@@ -192,7 +192,7 @@ export const services: ServiceCategory[] = [
         name: 'Dental Crowns',
         slug: 'dental-crowns',
         description: 'Dental crowns are custom-made caps that cover damaged or weakened teeth, restoring their shape, strength, and appearance.',
-        longDescription: 'Dental crowns are a versatile and durable solution for restoring damaged, decayed, or weakened teeth, offering both functional and aesthetic benefits. At Aesthetic Care Istanbul, we specialize in custom-made dental crowns that blend seamlessly with your natural teeth, ensuring a restored, beautiful smile.',
+        longDescription: 'Dental crowns are a versatile and durable solution for restoring damaged, decayed, or weakened teeth, offering both functional and aesthetic benefits. At Vola Health Istanbul, we specialize in custom-made dental crowns that blend seamlessly with your natural teeth, ensuring a restored, beautiful smile.',
         priceRange: [1500, 3000],
         duration: '2-3 hours',
         benefits: [
@@ -224,7 +224,7 @@ export const services: ServiceCategory[] = [
         name: 'Root Canal Treatment',
         slug: 'root-canal',
         description: 'Root canal treatment is a procedure designed to save an infected or damaged tooth.',
-        longDescription: 'Root canal treatment, also known as endodontic therapy, is a highly effective dental procedure designed to save teeth that are severely decayed or infected. At Aesthetic Care Istanbul, we specialize in providing advanced root canal treatments with precision and care, ensuring our patients receive top-quality dental care in a comfortable and stress-free environment.',
+        longDescription: 'Root canal treatment, also known as endodontic therapy, is a highly effective dental procedure designed to save teeth that are severely decayed or infected. At Vola Health Istanbul, we specialize in providing advanced root canal treatments with precision and care, ensuring our patients receive top-quality dental care in a comfortable and stress-free environment.',
         priceRange: [1000, 2500],
         duration: '1-2 hours',
         benefits: [
@@ -288,7 +288,7 @@ export const services: ServiceCategory[] = [
         name: 'Zirconium Crowns',
         slug: 'zirconium-crowns',
         description: 'Zirconium crowns are a premium dental solution designed to restore damaged or discolored teeth with a natural, durable, and metal-free option.',
-        longDescription: 'Dental Zirconium Crowns at Aesthetic Care Istanbul: Durable, Aesthetic, and Comfortable Solutions for Your Smile. Dental zirconium crowns are a popular choice for patients seeking durable, natural-looking, and highly aesthetic restorations. At Aesthetic Care Istanbul, we offer state-of-the-art zirconium crown solutions, designed to restore your smile while ensuring long-term durability and comfort.',
+        longDescription: 'Dental Zirconium Crowns at Vola Health Istanbul: Durable, Aesthetic, and Comfortable Solutions for Your Smile. Dental zirconium crowns are a popular choice for patients seeking durable, natural-looking, and highly aesthetic restorations. At Vola Health Istanbul, we offer state-of-the-art zirconium crown solutions, designed to restore your smile while ensuring long-term durability and comfort.',
         priceRange: [1500, 3500],
         duration: '2-3 hours',
         benefits: [
@@ -519,7 +519,7 @@ export const services: ServiceCategory[] = [
         name: 'Otoplasty',
         slug: 'otoplasty',
         description: 'Otoplasty is a surgical procedure designed to reshape and reposition protruding or misshapen ears, creating a more natural and balanced appearance.',
-        longDescription: 'Otoplasty (Ear Surgery) at Aesthetic Care Istanbul\n\nOtoplasty, also known as ear surgery, is a highly effective procedure designed to reshape, resize, or reposition the ears for a more balanced and natural appearance. This surgery is ideal for individuals who feel self-conscious about the size, shape, or prominence of their ears. At Aesthetic Care Istanbul, we specialize in providing safe and tailored otoplasty procedures to achieve harmonious facial proportions and enhance your self-confidence.\n\nWhat is Otoplasty?\nOtoplasty is a cosmetic surgery that corrects protruding, misshapen, or asymmetrical ears. Whether due to genetics or injury, this procedure can reshape the ear structure, reduce excess cartilage, and reposition the ears closer to the head. Otoplasty can be performed on both children and adults, making it an ideal solution for those seeking a more balanced and aesthetically pleasing ear appearance.\n\nThe Otoplasty Procedure at Aesthetic Care Istanbul\nYour otoplasty journey at Aesthetic Care Istanbul begins with a thorough consultation, where our expert surgeons assess your ear anatomy and discuss your goals. We take the time to understand your concerns and craft a personalized plan to ensure the best outcome.\n\nRecovery and Results\nAfter otoplasty, patients may experience some swelling, bruising, and mild discomfort, which should subside within a few days. Most individuals can return to normal activities within 5-7 days, though strenuous activities should be avoided for 3-4 weeks.\n\nThe results of otoplasty are immediately visible, but it can take several weeks for the final shape to fully settle as swelling reduces. Once healed, the ears will appear more naturally positioned, balanced, and proportionate to the face, helping you feel more confident about your appearance.\n\nWhy Choose Aesthetic Care Istanbul for Your Otoplasty?\nAt Aesthetic Care Istanbul, our surgeons have extensive experience performing otoplasty procedures, ensuring the highest level of precision and aesthetic results. We use advanced techniques and state-of-the-art equipment to achieve safe, natural-looking outcomes while minimizing scarring.',
+        longDescription: 'Otoplasty (Ear Surgery) at Vola Health Istanbul\n\nOtoplasty, also known as ear surgery, is a highly effective procedure designed to reshape, resize, or reposition the ears for a more balanced and natural appearance. This surgery is ideal for individuals who feel self-conscious about the size, shape, or prominence of their ears. At Vola Health Istanbul, we specialize in providing safe and tailored otoplasty procedures to achieve harmonious facial proportions and enhance your self-confidence.\n\nWhat is Otoplasty?\nOtoplasty is a cosmetic surgery that corrects protruding, misshapen, or asymmetrical ears. Whether due to genetics or injury, this procedure can reshape the ear structure, reduce excess cartilage, and reposition the ears closer to the head. Otoplasty can be performed on both children and adults, making it an ideal solution for those seeking a more balanced and aesthetically pleasing ear appearance.\n\nThe Otoplasty Procedure at Vola Health Istanbul\nYour otoplasty journey at Vola Health Istanbul begins with a thorough consultation, where our expert surgeons assess your ear anatomy and discuss your goals. We take the time to understand your concerns and craft a personalized plan to ensure the best outcome.\n\nRecovery and Results\nAfter otoplasty, patients may experience some swelling, bruising, and mild discomfort, which should subside within a few days. Most individuals can return to normal activities within 5-7 days, though strenuous activities should be avoided for 3-4 weeks.\n\nThe results of otoplasty are immediately visible, but it can take several weeks for the final shape to fully settle as swelling reduces. Once healed, the ears will appear more naturally positioned, balanced, and proportionate to the face, helping you feel more confident about your appearance.\n\nWhy Choose Vola Health Istanbul for Your Otoplasty?\nAt Vola Health Istanbul, our surgeons have extensive experience performing otoplasty procedures, ensuring the highest level of precision and aesthetic results. We use advanced techniques and state-of-the-art equipment to achieve safe, natural-looking outcomes while minimizing scarring.',
         priceRange: [2000, 5000],
         duration: '2-3 hours',
         benefits: [
@@ -552,9 +552,9 @@ export const services: ServiceCategory[] = [
         name: 'Fat Transfer to Face',
         slug: 'fat-transfer-to-face',
         description: 'Fat transfer to the face is a natural, long-lasting solution to restore lost volume, smooth wrinkles, and rejuvenate facial contours.',
-        longDescription: `Fat transfer to the face, also known as facial fat grafting, is a revolutionary cosmetic procedure that restores volume, smooths wrinkles, and rejuvenates the face using your body's natural fat. At Aesthetic Care Istanbul, we provide exceptional fat transfer services, combining expertise with state-of-the-art technology to achieve natural-looking, long-lasting results.
+        longDescription: `Fat transfer to the face, also known as facial fat grafting, is a revolutionary cosmetic procedure that restores volume, smooths wrinkles, and rejuvenates the face using your body's natural fat. At Vola Health Istanbul, we provide exceptional fat transfer services, combining expertise with state-of-the-art technology to achieve natural-looking, long-lasting results.
 
-The Process at Aesthetic Care Istanbul
+The Process at Vola Health Istanbul
 Fat Harvesting: The procedure begins with liposuction to remove excess fat from a donor area of the body.
 Fat Purification: The harvested fat is carefully processed to isolate healthy fat cells for re-injection.
 Fat Injection: The purified fat is strategically injected into specific facial areas, such as the cheeks, under the eyes, nasolabial folds, or lips, to enhance volume, contour, and symmetry.
@@ -837,7 +837,7 @@ Benefits:
         name: 'Arm Lift',
         slug: 'arm-lift',
         description: 'Removes excess skin and fat from the upper arms to create a more toned and sculpted appearance.',
-        longDescription: 'An arm lift, also known as brachioplasty, is a cosmetic surgery designed to remove excess skin and fat from the upper arms, creating a more toned, youthful, and sculpted appearance. At Aesthetic Care Istanbul, we specialize in delivering customized arm lift procedures that help patients achieve smoother, firmer, and more defined arms.',
+        longDescription: 'An arm lift, also known as brachioplasty, is a cosmetic surgery designed to remove excess skin and fat from the upper arms, creating a more toned, youthful, and sculpted appearance. At Vola Health Istanbul, we specialize in delivering customized arm lift procedures that help patients achieve smoother, firmer, and more defined arms.',
         priceRange: [1500, 3000],
         duration: '1-2 hours',
         benefits: [
@@ -874,7 +874,7 @@ Benefits:
         name: 'Breast Reduction',
         slug: 'breast-reduction',
         description: 'Reduces the size and weight of overly large breasts to improve both comfort and appearance.',
-        longDescription: `Breast reduction surgery is a transformative procedure designed to reduce the size and volume of excessively large breasts, providing both physical relief and enhanced aesthetic appeal. At Aesthetic Care Istanbul, we specialize in breast reduction surgeries that help restore natural proportions, improve comfort, and boost confidence.`,
+        longDescription: `Breast reduction surgery is a transformative procedure designed to reduce the size and volume of excessively large breasts, providing both physical relief and enhanced aesthetic appeal. At Vola Health Istanbul, we specialize in breast reduction surgeries that help restore natural proportions, improve comfort, and boost confidence.`,
         priceRange: [2000, 5000],
         duration: '1-2 weeks',
         benefits: [
@@ -911,7 +911,7 @@ Benefits:
         name: 'Breast Lift',
         slug: 'breast-lift',
         description: 'Lifts and reshapes sagging breasts, restoring a more youthful and firm appearance.',
-        longDescription: 'Breast lift surgery, also known as mastopexy, is a transformative procedure designed to lift and reshape sagging breasts, providing a more youthful, firm, and aesthetically pleasing appearance. At Aesthetic Care Istanbul, we specialize in delivering customized breast lift surgeries tailored to meet the individual needs of our patients.',
+        longDescription: 'Breast lift surgery, also known as mastopexy, is a transformative procedure designed to lift and reshape sagging breasts, providing a more youthful, firm, and aesthetically pleasing appearance. At Vola Health Istanbul, we specialize in delivering customized breast lift surgeries tailored to meet the individual needs of our patients.',
         priceRange: [2000, 5000],
         duration: '1-2 weeks',
         benefits: [
@@ -948,7 +948,7 @@ Benefits:
         name: 'Gynecomastia',
         slug: 'gynecomastia',
         description: 'Treats enlarged breast tissue in men, creating a flatter, more masculine chest contour.',
-        longDescription: 'Gynecomastia is a medical condition that causes the enlargement of breast tissue in men, often leading to physical discomfort and emotional distress. At Aesthetic Care Istanbul, we specialize in gynecomastia surgery, offering men a safe and effective solution to restore a more masculine chest contour and regain confidence in their appearance.',
+        longDescription: 'Gynecomastia is a medical condition that causes the enlargement of breast tissue in men, often leading to physical discomfort and emotional distress. At Vola Health Istanbul, we specialize in gynecomastia surgery, offering men a safe and effective solution to restore a more masculine chest contour and regain confidence in their appearance.',
         priceRange: [2000, 5000],
         duration: '1-2 weeks',
         benefits: [
@@ -985,7 +985,7 @@ Benefits:
         name: 'Liposuction',
         slug: 'liposuction',
         description: 'Liposuction is a cosmetic surgery that removes excess fat from specific areas of the body to enhance contour and shape.',
-        longDescription: 'Liposuction is one of the most popular cosmetic procedures for sculpting the body by removing excess fat deposits and enhancing natural contours. At Aesthetic Care Istanbul, we specialize in advanced liposuction techniques to help you achieve the toned, slim figure you\'ve always desired. Our clinic is renowned for its expertise, state-of-the-art technology, and personalized care, making us a trusted destination for liposuction in Istanbul.\n\nWhat is Liposuction?\nLiposuction, also known as lipoplasty or body contouring, is a surgical procedure designed to eliminate stubborn fat that is resistant to diet and exercise. It targets areas such as the abdomen, thighs, hips, arms, back, and neck, reshaping your body for a more proportional and attractive appearance.\n\nThe Liposuction Process at Aesthetic Care Istanbul\nAt Aesthetic Care Istanbul, we start with a detailed consultation to understand your goals and assess the areas you wish to target. Our experienced surgeons customize each liposuction procedure to ensure optimal results that enhance your natural shape.\n\nBenefits:\n- Experienced Surgeons\n- State-of-the-Art Facility\n- Comprehensive Care\n- Affordable Luxury',
+        longDescription: 'Liposuction is one of the most popular cosmetic procedures for sculpting the body by removing excess fat deposits and enhancing natural contours. At Vola Health Istanbul, we specialize in advanced liposuction techniques to help you achieve the toned, slim figure you\'ve always desired. Our clinic is renowned for its expertise, state-of-the-art technology, and personalized care, making us a trusted destination for liposuction in Istanbul.\n\nWhat is Liposuction?\nLiposuction, also known as lipoplasty or body contouring, is a surgical procedure designed to eliminate stubborn fat that is resistant to diet and exercise. It targets areas such as the abdomen, thighs, hips, arms, back, and neck, reshaping your body for a more proportional and attractive appearance.\n\nThe Liposuction Process at Vola Health Istanbul\nAt Vola Health Istanbul, we start with a detailed consultation to understand your goals and assess the areas you wish to target. Our experienced surgeons customize each liposuction procedure to ensure optimal results that enhance your natural shape.\n\nBenefits:\n- Experienced Surgeons\n- State-of-the-Art Facility\n- Comprehensive Care\n- Affordable Luxury',
         priceRange: [2000, 5000],
         duration: '1-2 hours',
         benefits: [

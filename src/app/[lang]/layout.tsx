@@ -128,10 +128,10 @@ export default function LangLayout({
           url="https://volahealthistanbul.com"
           telephone="+905444749881"
           address={{
-            streetAddress: "Merter Mahallesi, Tekstilkent Cd.",
-            addressLocality: "Istanbul",
-            addressCountry: "Turkey",
-            postalCode: "34169"
+                    streetAddress: "Veliefendi, Prof. Dr. Turan Güneş Cd. No:103",
+        addressLocality: "Zeytinburnu/Istanbul",
+        addressCountry: "Turkey",
+        postalCode: "34025"
           }}
           geo={{
             latitude: 41.0082,
