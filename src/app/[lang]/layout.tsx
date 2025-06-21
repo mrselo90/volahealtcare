@@ -33,7 +33,8 @@ export async function generateStaticParams() {
 
 // Generate metadata based on language
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
-  const { lang } = use(params);
+  // For server-side functions, we await the Promise directly instead of using React.use()
+  const { lang } = await params;
   
   // Language-specific metadata
   const titles = {

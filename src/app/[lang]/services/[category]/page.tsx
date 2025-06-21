@@ -5,7 +5,6 @@ import { getCategoryName } from '@/utils/categoryUtils';
 import { getServiceImageUrl, getServiceImageAlt } from '@/utils/imageUtils';
 import { getTranslation } from '@/utils/translationUtils';
 import { translations, getTranslation as getTranslationFromKey } from '@/lib/i18n/translations';
-import { use } from 'react';
 
 interface Props {
   params: Promise<{
@@ -115,7 +114,7 @@ export async function generateStaticParams() {
 }
 
 export default async function ServiceCategoryPage({ params }: Props) {
-  const { category, lang } = use(params);
+  const { category, lang } = await params;
   const categoryData = await getCategoryWithServices(category);
 
   if (!categoryData) {
