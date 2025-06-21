@@ -432,6 +432,7 @@ export const ptTranslations: Translations = {
       subtitle: 'Estamos aqui para ajudá-lo a começar sua jornada de turismo médico.',
       office: 'Escritório'
     },
+    button: 'Entre em Contato',
     form: {
       title: 'Reservar Sua',
       sendMessage: 'Enviar Mensagem',

@@ -433,6 +433,7 @@ export const ruTranslations: Translations = {
       subtitle: 'Мы здесь, чтобы помочь вам начать медицинское путешествие.',
       office: 'Офис'
     },
+    button: 'Связаться с Нами',
     form: {
       title: 'Забронировать',
       freeConsultation: 'Бесплатная консультация',

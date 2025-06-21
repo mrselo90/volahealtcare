@@ -433,6 +433,7 @@ export const arTranslations: Translations = {
       subtitle: 'نحن هنا لمساعدتك على بدء رحلة سياحة طبية.',
       office: 'المكتب'
     },
+    button: 'اتصل بنا',
     form: {
       title: 'احجز عملك',
       sendMessage: 'أرسل رسالة',

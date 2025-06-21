@@ -435,6 +435,7 @@ export const esTranslations: Translations = {
       subtitle: 'Estamos aquí para ayudarte a comenzar tu viaje de turismo médico.',
       office: 'Oficina'
     },
+    button: 'Contáctanos',
     form: {
       title: 'Reserva Tu',
       sendMessage: 'Enviar Mensaje',

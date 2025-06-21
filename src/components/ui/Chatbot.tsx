@@ -200,7 +200,7 @@ export default function Chatbot() {
     } catch (error) {
       console.error('AI chat error:', error);
       setIsAiTyping(false);
-      
+    
       // Fallback to basic response
       const fallbackMessage: Message = {
         id: uuidv4(),
@@ -344,33 +344,33 @@ export default function Chatbot() {
               {/* Header - Mobile optimized */}
               <div className="border-b bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex-shrink-0">
                 <div className="flex items-center justify-between p-3 sm:p-4 md:rounded-t-2xl">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></div>
                     <div>
                       <h3 className="text-base sm:text-lg font-semibold truncate">{t('chatbot.title') || 'Vola Health AI Assistant'}</h3>
                       <p className="text-xs text-white/70">Powered by AI • Multilingual Support</p>
                     </div>
-                  </div>
+                </div>
                   <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setIsOpen(false)}
-                      className="text-white hover:text-white transition-all p-2 hover:bg-white/20 rounded-full min-w-[48px] min-h-[48px] flex items-center justify-center bg-white/10 hover:scale-105 active:scale-95 shadow-lg"
-                      aria-label={t('chatbot.closeChat') || 'Close chat'}
-                    >
-                      <svg
-                        className="h-6 w-6 sm:h-7 sm:w-7 stroke-[3]"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={3}
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="text-white hover:text-white transition-all p-2 hover:bg-white/20 rounded-full min-w-[48px] min-h-[48px] flex items-center justify-center bg-white/10 hover:scale-105 active:scale-95 shadow-lg"
+                  aria-label={t('chatbot.closeChat') || 'Close chat'}
+                >
+                  <svg
+                    className="h-6 w-6 sm:h-7 sm:w-7 stroke-[3]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={3}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
                   </div>
                 </div>
               </div>
@@ -412,7 +412,7 @@ export default function Chatbot() {
                         }`}
                       >
                         {message.sender === 'user' ? (
-                          <div className="whitespace-pre-wrap text-sm sm:text-base break-words leading-relaxed">{message.text}</div>
+                        <div className="whitespace-pre-wrap text-sm sm:text-base break-words leading-relaxed">{message.text}</div>
                         ) : (
                           <div className="whitespace-pre-wrap text-sm sm:text-base break-words leading-relaxed" dangerouslySetInnerHTML={{ __html: message.text }} />
                         )}
@@ -430,67 +430,67 @@ export default function Chatbot() {
                     </div>
                   </motion.div>
                 ))}
-
+                
                 {/* AI Typing Indicator */}
                 {isAiTyping && (
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     className="mb-3 sm:mb-4 flex justify-start"
-                  >
+                >
                     <div className="flex items-start gap-2 max-w-[85%] sm:max-w-[80%]">
                       <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white">
                         🤖
-                      </div>
+                  </div>
                       <div className="rounded-2xl px-3 py-2 sm:px-4 sm:py-3 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-gray-900 rounded-bl-md">
                         <div className="flex items-center space-x-1">
                           <div className="flex space-x-1">
                             <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce"></div>
                             <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
                             <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                          </div>
+                    </div>
                           <span className="text-sm text-amber-600 ml-2">AI is thinking...</span>
-                        </div>
-                      </div>
+                    </div>
+                  </div>
                     </div>
                   </motion.div>
                 )}
                 
                 {/* Spacing */}
                 <div className="h-4"></div>
-              </div>
+                  </div>
 
               {/* Message input - Mobile responsive */}
-              <form onSubmit={handleSubmit} className="border-t p-3 sm:p-4 bg-white flex-shrink-0">
-                <div className="flex gap-2 sm:gap-3 items-end">
-                  <div className="flex-1">
-                    <input
-                      type="text"
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      placeholder="Type your message..."
-                      className="w-full rounded-2xl border border-gray-300 px-4 py-3 sm:px-4 sm:py-3 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-sm sm:text-base min-h-[44px] transition-all resize-none"
-                      autoComplete="off"
-                      autoFocus={false}
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={!inputValue.trim()}
-                    className={`rounded-full px-3 py-3 sm:px-4 sm:py-3 text-white transition-all duration-300 transform min-h-[44px] min-w-[44px] flex items-center justify-center shadow-lg ${
-                      inputValue.trim()
-                        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 hover:scale-105 active:scale-95 hover:shadow-xl'
-                        : 'bg-gray-300 cursor-not-allowed'
-                    }`}
-                    aria-label="Send message"
-                  >
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                    </svg>
-                  </button>
-                </div>
-                
+                  <form onSubmit={handleSubmit} className="border-t p-3 sm:p-4 bg-white flex-shrink-0">
+                    <div className="flex gap-2 sm:gap-3 items-end">
+                      <div className="flex-1">
+                        <input
+                          type="text"
+                          value={inputValue}
+                          onChange={(e) => setInputValue(e.target.value)}
+                          placeholder="Type your message..."
+                          className="w-full rounded-2xl border border-gray-300 px-4 py-3 sm:px-4 sm:py-3 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-sm sm:text-base min-h-[44px] transition-all resize-none"
+                          autoComplete="off"
+                          autoFocus={false}
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={!inputValue.trim()}
+                        className={`rounded-full px-3 py-3 sm:px-4 sm:py-3 text-white transition-all duration-300 transform min-h-[44px] min-w-[44px] flex items-center justify-center shadow-lg ${
+                          inputValue.trim()
+                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 hover:scale-105 active:scale-95 hover:shadow-xl'
+                            : 'bg-gray-300 cursor-not-allowed'
+                        }`}
+                        aria-label="Send message"
+                      >
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                      </button>
+                    </div>
+                    
                 {/* Smart AI-Powered Quick Suggestions */}
                 <div className="mt-3 space-y-2">
                   <div className="grid grid-cols-2 gap-2">
@@ -515,13 +515,13 @@ export default function Chatbot() {
                     >
                       💇‍♂️ Hair Transplant
                     </button>
-                    <button
-                      type="button"
+                        <button
+                          type="button"
                       onClick={() => setInputValue('I want to combine surgery with vacation. What do you recommend?')}
                       className="text-left bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg px-3 py-2 text-xs hover:from-amber-100 hover:to-orange-100 transition-all duration-300 text-gray-700 font-medium"
-                    >
+                        >
                       🏖️ Medical Tourism
-                    </button>
+                        </button>
                   </div>
                   
                   {/* AI Info Badge */}
@@ -532,21 +532,21 @@ export default function Chatbot() {
                       <span className="text-xs text-amber-700">• Multilingual • Medical Expert</span>
                     </div>
                   </div>
-                </div>
-                
-                {/* Mobile close button */}
-                <div className="mt-3 md:hidden">
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="w-full py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
-                    Close Chat
-                  </button>
-                </div>
-              </form>
+                    </div>
+                    
+                    {/* Mobile close button */}
+                    <div className="mt-3 md:hidden">
+                      <button
+                        onClick={() => setIsOpen(false)}
+                        className="w-full py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                        Close Chat
+                      </button>
+                    </div>
+                  </form>
             </motion.div>
           </>
         )}

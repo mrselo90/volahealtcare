@@ -20,9 +20,10 @@ async function getAppointment(id: string) {
 export default async function AppointmentPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const appointment = await getAppointment(params.id);
+  const { id } = await params;
+  const appointment = await getAppointment(id);
 
   return (
     <div className="space-y-6">

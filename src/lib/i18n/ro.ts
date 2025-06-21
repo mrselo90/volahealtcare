@@ -432,6 +432,7 @@ export const roTranslations: Translations = {
       subtitle: 'Suntem aici să te ajutăm să începi călătoria ta de turism medical.',
       office: 'Birou'
     },
+    button: 'Contactează-ne',
     form: {
       title: 'Rezervă-ți',
       freeConsultation: 'Consultație Gratuită',

@@ -3,6 +3,68 @@ import { NextRequest, NextResponse } from 'next/server';
 import { languages, defaultLanguage, isValidLanguage } from './lib/i18n/config';
 import { detectLanguage } from './lib/i18n/geolocation';
 
+// Multi-language category slug mapping to English slugs
+const categorySlugMapping: Record<string, string> = {
+  // Turkish slugs
+  'sac-ekimi': 'hair-transplant',
+  'dis-tedavileri': 'dental-treatments',
+  'plastik-cerrahi': 'plastic-surgery',
+  
+  // Spanish slugs (corrected)
+  'trasplante-de-cabello': 'hair-transplant',
+  'tratamientos-dentales': 'dental-treatments',
+  'cirugia-plastica': 'plastic-surgery',
+  
+  // Portuguese slugs
+  'transplante-capilar': 'hair-transplant',
+  'tratamentos-dentarios': 'dental-treatments',
+  'cirurgia-plastica': 'plastic-surgery',
+  
+  // German slugs
+  'haartransplantation': 'hair-transplant',
+  'zahnbehandlungen': 'dental-treatments',
+  'plastische-chirurgie': 'plastic-surgery',
+  
+  // French slugs
+  'greffe-de-cheveux': 'hair-transplant',
+  'traitements-dentaires': 'dental-treatments',
+  'chirurgie-plastique': 'plastic-surgery',
+  
+  // Italian slugs
+  'trapianto-capelli': 'hair-transplant',
+  'trattamenti-dentali': 'dental-treatments',
+  'chirurgia-plastica': 'plastic-surgery',
+  
+  // Russian slugs
+  'peresadka-volos': 'hair-transplant',
+  'stomatologicheskie-uslugi': 'dental-treatments',
+  'plasticheskaya-khirurgiya': 'plastic-surgery',
+  
+  // Romanian slugs
+  'transplant-par': 'hair-transplant',
+  'tratamente-dentare': 'dental-treatments',
+  'chirurgie-plastica': 'plastic-surgery',
+  
+  // Polish slugs
+  'przeszczep-wlosow': 'hair-transplant',
+  'zabiegi-stomatologiczne': 'dental-treatments',
+  'chirurgia-plastyczna': 'plastic-surgery',
+  
+  // Arabic slugs
+  'zraaat-alshaar': 'hair-transplant',
+  'eelajat-alasnan': 'dental-treatments',
+  'jerahat-altajmeel': 'plastic-surgery',
+  
+  // Alternative English slugs
+  'aesthetic': 'plastic-surgery',
+  'aesthetics': 'plastic-surgery',
+  'cosmetic': 'plastic-surgery',
+  'cosmetic-surgery': 'plastic-surgery',
+  'hair': 'hair-transplant',
+  'dental': 'dental-treatments',
+  'plastic': 'plastic-surgery'
+};
+
 // Helper function to get language from pathname
 function getLanguageFromPathname(pathname: string): string | null {
   const segments = pathname.split('/');
@@ -26,6 +88,39 @@ function getClientIP(request: NextRequest): string {
   if (forwarded) return forwarded.split(',')[0].trim();
   
   return request.ip || '127.0.0.1';
+}
+
+// Helper function to handle category slug redirects
+function handleCategorySlugs(pathname: string): string | null {
+  // Check for category slugs in /services/ path (without language prefix)
+  const servicesMatch = pathname.match(/^\/services\/([^\/]+)(?:\/(.+))?$/);
+  if (servicesMatch) {
+    const [, categorySlug, serviceSlug] = servicesMatch;
+    const englishCategorySlug = categorySlugMapping[categorySlug];
+    
+    if (englishCategorySlug) {
+      // Redirect category slug to English equivalent
+      return serviceSlug 
+        ? `/services/${englishCategorySlug}/${serviceSlug}`
+        : `/services/${englishCategorySlug}`;
+    }
+  }
+  
+  // Check for category slugs in /{lang}/services/ path (with language prefix)
+  const langServicesMatch = pathname.match(/^\/([a-z]{2})\/services\/([^\/]+)(?:\/(.+))?$/);
+  if (langServicesMatch) {
+    const [, lang, categorySlug, serviceSlug] = langServicesMatch;
+    const englishCategorySlug = categorySlugMapping[categorySlug];
+    
+    if (englishCategorySlug && isValidLanguage(lang)) {
+      // Redirect category slug to English equivalent with language prefix
+      return serviceSlug 
+        ? `/${lang}/services/${englishCategorySlug}/${serviceSlug}`
+        : `/${lang}/services/${englishCategorySlug}`;
+    }
+  }
+  
+  return null;
 }
 
 // Main middleware function
@@ -61,6 +156,14 @@ export async function middleware(request: NextRequest) {
     pathname.includes('.')
   ) {
     return NextResponse.next();
+  }
+
+  // Handle category slug redirects first
+  const redirectPath = handleCategorySlugs(pathname);
+  if (redirectPath) {
+    const url = request.nextUrl.clone();
+    url.pathname = redirectPath;
+    return NextResponse.redirect(url);
   }
   
   // Check if pathname already has a language prefix

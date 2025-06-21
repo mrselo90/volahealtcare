@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -12,8 +12,9 @@ import { Loader2, Trash2, Upload } from 'lucide-react';
 export default function ServiceImagesPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = use(params);
   const [activeTab, setActiveTab] = useState<'gallery' | 'before-after' | 'featured'>('gallery');
   const [isUploading, setIsUploading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,12 +28,12 @@ export default function ServiceImagesPage({
 
   useEffect(() => {
     fetchImages();
-  }, [params.slug]);
+  }, [slug]);
 
   const fetchImages = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/admin/services/${params.slug}/images`);
+      const response = await fetch(`/api/admin/services/${slug}/images`);
       if (!response.ok) throw new Error('Failed to fetch images');
       const data = await response.json();
       setImages(data);
@@ -55,7 +56,7 @@ export default function ServiceImagesPage({
 
     try {
       setIsUploading(true);
-      const response = await fetch(`/api/admin/services/${params.slug}/images`, {
+      const response = await fetch(`/api/admin/services/${slug}/images`, {
         method: 'POST',
         body: formData,
       });

@@ -441,6 +441,7 @@ export const plTranslations: Translations = {
       subtitle: 'We\'re here to help you start your medical tourism journey.',
       office: 'Office'
     },
+    button: 'Skontaktuj się z Nami',
     form: {
       title: 'Zarezerwuj Swoją',
       sendMessage: 'Wyślij Wiadomość',

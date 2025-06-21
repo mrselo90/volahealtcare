@@ -27,9 +27,10 @@ async function getService(id: string) {
 export default async function ServiceEditPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const service = params.slug === 'new' ? null : await getService(params.slug) as Awaited<ReturnType<typeof getService>>;
+  const { slug } = await params;
+  const service = slug === 'new' ? null : await getService(slug) as Awaited<ReturnType<typeof getService>>;
 
   return (
     <div className="space-y-6">

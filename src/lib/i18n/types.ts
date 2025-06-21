@@ -498,6 +498,7 @@ export interface Translations {
       subtitle: string;
       office: string;
     };
+    button: string;
     form: {
       title: string;
       freeConsultation: string;

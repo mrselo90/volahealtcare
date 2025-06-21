@@ -433,6 +433,7 @@ export const frTranslations: Translations = {
       subtitle: 'Nous sommes là pour vous aider à démarrer votre parcours de tourisme médical.',
       office: 'Bureau'
     },
+    button: 'Nous Contacter',
     form: {
       title: 'Réservez votre',
       sendMessage: 'Envoyer un message',

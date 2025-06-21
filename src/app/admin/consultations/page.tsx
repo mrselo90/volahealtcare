@@ -61,9 +61,21 @@ export default function ConsultationsPage() {
         // Parse interestedServices JSON strings to arrays
         const parsedData = data.map((consultation: any) => ({
           ...consultation,
-          interestedServices: typeof consultation.interestedServices === 'string' 
-            ? JSON.parse(consultation.interestedServices) 
-            : consultation.interestedServices || []
+          interestedServices: (() => {
+            if (Array.isArray(consultation.interestedServices)) {
+              return consultation.interestedServices;
+            }
+            if (typeof consultation.interestedServices === 'string') {
+              try {
+                // Try to parse as JSON first
+                return JSON.parse(consultation.interestedServices);
+              } catch {
+                // If JSON.parse fails, treat it as a single service string
+                return consultation.interestedServices.trim() ? [consultation.interestedServices.trim()] : [];
+              }
+            }
+            return [];
+          })()
         }));
         setConsultations(parsedData);
       } else {

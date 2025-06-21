@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, use } from 'react';
 import { useRouter } from 'next/navigation';
 import ImagePicker from '@/components/ui/ImagePicker';
 import { ToastProvider, useToast } from '@/components/ui/Toast';
@@ -58,7 +58,8 @@ const fixImageUrl = (url: string): string => {
   return url;
 };
 
-function EditServicePageContent({ params }: { params: { slug: string } }) {
+function EditServicePageContent({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params);
   const router = useRouter();
   const { showToast } = useToast();
   const [error, setError] = useState('');
@@ -96,7 +97,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
     
     try {
       // Save to localStorage as backup
-      localStorage.setItem(`service-edit-${params.slug}`, JSON.stringify(service));
+      localStorage.setItem(`service-edit-${slug}`, JSON.stringify(service));
       
       // Optional: Auto-save to server (commented out to avoid too many requests)
       // const response = await fetch('/api/admin/services', {
@@ -110,7 +111,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
     } catch (error) {
       console.error('Auto-save failed:', error);
     }
-  }, [hasUnsavedChanges, loading, service, params.slug]);
+  }, [hasUnsavedChanges, loading, service, slug]);
 
   // Trigger auto-save when data changes
   useEffect(() => {
@@ -145,7 +146,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
 
   // Load backup from localStorage if available
   useEffect(() => {
-    const backupKey = `service-edit-${params.slug}`;
+    const backupKey = `service-edit-${slug}`;
     const backup = localStorage.getItem(backupKey);
     if (backup && !loading) {
       try {
@@ -173,7 +174,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
         console.error('Failed to parse backup:', error);
       }
     }
-  }, [loading, params.slug, showToast]);
+  }, [loading, slug, showToast]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -218,7 +219,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
 
     const fetchService = async () => {
       try {
-        const response = await fetch(`/api/admin/services/${params.slug}`);
+        const response = await fetch(`/api/admin/services/${slug}`);
         
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
@@ -281,7 +282,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
 
     fetchCategories();
     fetchService();
-  }, [params.slug]);
+  }, [slug]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -804,7 +805,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
                 const shouldLeave = window.confirm('You have unsaved changes. Are you sure you want to cancel?');
                 if (!shouldLeave) return;
                 // Clear backup if user confirms
-                localStorage.removeItem(`service-edit-${params.slug}`);
+                localStorage.removeItem(`service-edit-${slug}`);
               }
               router.push('/admin/services');
             }}
@@ -833,7 +834,7 @@ function EditServicePageContent({ params }: { params: { slug: string } }) {
     );
 }
 
-export default function EditServicePage({ params }: { params: { slug: string } }) {
+export default function EditServicePage({ params }: { params: Promise<{ slug: string }> }) {
   return (
     <ToastProvider>
       <EditServicePageContent params={params} />
