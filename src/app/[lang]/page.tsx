@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from '@/lib/i18n/hooks';
 import dynamic from 'next/dynamic';
 
@@ -36,17 +36,28 @@ interface ContentBlock {
   orderIndex: number;
 }
 
+// Optimized dynamic imports with better loading states
 const Chatbot = dynamic(() => import('@/components/ui/Chatbot'), { 
   ssr: false, 
   loading: () => null
 });
+
 const HeroSlider = dynamic(() => import('@/components/HeroSlider'), { 
   ssr: false,
-  loading: () => <div className="animate-pulse bg-gray-200 rounded-lg h-full flex items-center justify-center">Loading gallery...</div> 
+  loading: () => (
+    <div className="animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded-lg h-full flex items-center justify-center min-h-[400px]">
+      <div className="text-gray-500">Loading...</div>
+    </div>
+  )
 });
+
 const FeaturedBeforeAfter = dynamic(() => import('@/components/FeaturedBeforeAfter'), { 
   ssr: false,
-  loading: () => <div className="animate-pulse bg-gray-200 rounded-lg h-64 flex items-center justify-center">Loading results...</div> 
+  loading: () => (
+    <div className="animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 rounded-lg h-64 flex items-center justify-center">
+      <div className="text-gray-500">Loading results...</div>
+    </div>
+  )
 });
 
 export default function Home({ params }: { params: { lang: string } }) {
@@ -83,6 +94,7 @@ export default function Home({ params }: { params: { lang: string } }) {
     };
   }, []);
 
+  // Optimized data loading with parallel API calls
   useEffect(() => {
     if (!isClient) return;
     
@@ -94,41 +106,78 @@ export default function Home({ params }: { params: { lang: string } }) {
       setIsLoading(true);
       
       try {
-        // Use Promise.allSettled to ensure all requests complete, even if some fail
-        const results = await Promise.allSettled([
-          fetchSocialUrls(isCancelled), 
-          fetchTestimonials(isCancelled), 
-          fetchContentBlocks(isCancelled)
+        // Parallel API calls for better performance
+        const [testimonialsResult, socialUrlsResult, contentBlocksResult] = await Promise.allSettled([
+          fetch('/api/testimonials', {
+            headers: { 'Cache-Control': 'max-age=300' }
+          }).then(res => res.ok ? res.json() : Promise.reject(res)),
+          fetch('/api/settings', {
+            headers: { 'Cache-Control': 'max-age=600' }
+          }).then(res => res.ok ? res.json() : Promise.reject(res)),
+          fetch('/api/content-blocks', {
+            headers: { 'Cache-Control': 'max-age=300' }
+          }).then(res => res.ok ? res.json() : Promise.reject(res))
         ]);
         
-        // Check if any requests failed and log them
-        results.forEach((result, index) => {
-          if (result.status === 'rejected') {
-            console.error(`API request ${index} failed:`, result.reason);
+        if (!isCancelled) {
+          // Handle testimonials
+          if (testimonialsResult.status === 'fulfilled') {
+            const homeTestimonials = testimonialsResult.value.slice(0, 3);
+            setTestimonials(homeTestimonials);
           }
-        });
+          
+          // Handle social URLs
+          if (socialUrlsResult.status === 'fulfilled') {
+            const data = socialUrlsResult.value;
+            setSocialUrls({
+              social_instagram: data.socialMedia?.instagram || '',
+              social_facebook: data.socialMedia?.facebook || '',
+              social_trustpilot: data.socialMedia?.trustpilot || '',
+              social_googlemaps: data.socialMedia?.googlemaps || '',
+              social_linkedin: data.socialMedia?.linkedin || '',
+              social_youtube: data.socialMedia?.youtube || '',
+              social_pinterest: data.socialMedia?.pinterest || '',
+              social_twitter: data.socialMedia?.twitter || '',
+            });
+          }
+          
+          // Handle content blocks
+          if (contentBlocksResult.status === 'fulfilled') {
+            setContentBlocks(contentBlocksResult.value);
+          }
+        }
+        
       } catch (error) {
         console.error('Error loading data:', error);
+        if (!isCancelled) {
+          setError('Failed to load page data');
+        }
       } finally {
-        // Always set loading to false
         if (!isCancelled) {
           setIsLoading(false);
         }
       }
     };
     
-    // Add a small delay to ensure component is mounted
+    // Small delay to ensure component is mounted
     const timer = setTimeout(() => {
       if (!isCancelled) {
         loadData();
       }
-    }, 100);
+    }, 50); // Reduced from 100ms to 50ms
     
     return () => {
       isCancelled = true;
       clearTimeout(timer);
     };
   }, [isClient]);
+
+  // Memoize media content blocks for better performance
+  const mediaContentBlocks = useMemo(() => {
+    return contentBlocks
+      .filter(block => block.isActive && block.mediaUrl)
+      .sort((a, b) => a.orderIndex - b.orderIndex);
+  }, [contentBlocks]);
 
   // Auto-rotate testimonials every 5 seconds
   useEffect(() => {
@@ -147,93 +196,28 @@ export default function Home({ params }: { params: { lang: string } }) {
 
   // Auto-rotate media content every 6 seconds
   useEffect(() => {
-    if (!isClient || !isMounted) return;
+    if (!isClient || !isMounted || mediaContentBlocks.length <= 1) return;
     
-    const mediaBlocks = getMediaContentBlocks();
-    if (mediaBlocks.length > 1) {
-      const interval = setInterval(() => {
-        if (isMounted) {
-          setCurrentMediaIndex((prev) => 
-            prev === mediaBlocks.length - 1 ? 0 : prev + 1
-          );
-        }
-      }, 6000);
-      
-      return () => clearInterval(interval);
-    }
-  }, [contentBlocks, isClient, isMounted]);
+    const interval = setInterval(() => {
+      if (isMounted) {
+        setCurrentMediaIndex((prev) => 
+          prev === mediaContentBlocks.length - 1 ? 0 : prev + 1
+        );
+      }
+    }, 6000);
+    
+    return () => clearInterval(interval);
+  }, [mediaContentBlocks.length, isClient, isMounted]);
 
-  const fetchTestimonials = async (isCancelled?: boolean) => {
-    try {
-      const response = await fetch('/api/testimonials');
-      if (response.ok && !isCancelled) {
-        const data = await response.json();
-        const homeTestimonials = data.slice(0, 3);
-        setTestimonials(homeTestimonials);
-      }
-    } catch (error) {
-      if (!isCancelled) {
-        console.error('Error fetching testimonials:', error);
-        // Set empty array as fallback
-        setTestimonials([]);
-      }
-    }
-  };
-
-  const fetchSocialUrls = async (isCancelled?: boolean) => {
-    try {
-      const response = await fetch('/api/settings');
-      if (response.ok && !isCancelled) {
-        const data = await response.json();
-        setSocialUrls({
-          social_instagram: data.socialMedia?.instagram || '',
-          social_facebook: data.socialMedia?.facebook || '',
-          social_trustpilot: data.socialMedia?.trustpilot || '',
-          social_googlemaps: data.socialMedia?.googlemaps || '',
-          social_linkedin: data.socialMedia?.linkedin || '',
-          social_youtube: data.socialMedia?.youtube || '',
-          social_pinterest: data.socialMedia?.pinterest || '',
-          social_twitter: data.socialMedia?.twitter || '',
-        });
-      }
-    } catch (error) {
-      if (!isCancelled) {
-        console.error('Error fetching social media URLs:', error);
-        // Keep default empty values as fallback
-      }
-    }
-  };
-
-  const fetchContentBlocks = async (isCancelled?: boolean) => {
-    try {
-      const response = await fetch('/api/content-blocks');
-      if (response.ok && !isCancelled) {
-        const data = await response.json();
-        setContentBlocks(data);
-      }
-    } catch (error) {
-      if (!isCancelled) {
-        console.error('Error fetching content blocks:', error);
-        // Set empty array as fallback
-        setContentBlocks([]);
-      }
-    }
-  };
-
+  // Remove individual fetch functions since we're using parallel calls above
   const getContentBlock = (key: string) => {
-    const block = contentBlocks.find(block => block.key === key && block.isActive);
-    return block;
+    return contentBlocks.find(block => block.key === key && block.isActive);
   };
 
   const getMediaContentBlocks = () => {
-    return contentBlocks.filter(block => 
-      block.isActive && 
-      block.mediaUrl && 
-      (block.mediaType === 'image' || block.mediaType === 'video')
-    ).sort((a, b) => a.orderIndex - b.orderIndex);
+    return mediaContentBlocks;
   };
 
-  // Touch gesture handling for mobile swipe
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
@@ -249,16 +233,18 @@ export default function Home({ params }: { params: { lang: string } }) {
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
-    const mediaBlocks = getMediaContentBlocks();
-
-    if (isLeftSwipe && mediaBlocks.length > 1) {
-      setCurrentMediaIndex(prev => 
-        prev === mediaBlocks.length - 1 ? 0 : prev + 1
+    
+    if (isLeftSwipe) {
+      // Next testimonial
+      setCurrentTestimonial((prev) => 
+        prev === testimonials.length - 1 ? 0 : prev + 1
       );
     }
-    if (isRightSwipe && mediaBlocks.length > 1) {
-      setCurrentMediaIndex(prev => 
-        prev === 0 ? mediaBlocks.length - 1 : prev - 1
+    
+    if (isRightSwipe) {
+      // Previous testimonial
+      setCurrentTestimonial((prev) => 
+        prev === 0 ? testimonials.length - 1 : prev - 1
       );
     }
   };

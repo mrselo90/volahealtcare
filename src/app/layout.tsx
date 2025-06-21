@@ -7,12 +7,14 @@ const montserrat = Montserrat({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-montserrat',
+  preload: true,
 });
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-playfair-display',
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -101,7 +103,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Preload critical resources */}
+        <link rel="preload" href="/images/grid-pattern.svg" as="image" />
+        <link rel="preload" href="/images/medical-pattern.svg" as="image" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://volahealthistanbul.com" />
+        <link rel="dns-prefetch" href="https://vola-health-istanbul.s3.eu-west-3.amazonaws.com" />
+        
+        {/* Performance hints */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      </head>
       <body 
         className={`${montserrat.variable} ${playfairDisplay.variable} font-sans antialiased`}
         suppressHydrationWarning
