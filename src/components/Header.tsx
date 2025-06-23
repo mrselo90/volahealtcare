@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import { Bars3Icon, XMarkIcon, ChatBubbleLeftRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { FaWhatsapp } from 'react-icons/fa';
 import { LanguageSelector } from './LanguageSelector';
 import { useTranslation } from '@/lib/i18n/hooks';
 import { languages } from '@/lib/i18n/config';
@@ -123,16 +124,16 @@ export function Header() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-3 md:px-4 lg:px-5 xl:px-6 py-2 md:py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs lg:text-xs xl:text-sm font-medium rounded-md lg:rounded-lg transition-colors duration-200 shadow-sm hover:shadow whitespace-nowrap"
+                className="inline-flex items-center px-3 md:px-4 lg:px-5 xl:px-6 py-2 md:py-2.5 bg-green-500 hover:bg-green-600 text-white text-xs lg:text-xs xl:text-sm font-medium rounded-md lg:rounded-lg transition-colors duration-200 shadow-sm hover:shadow whitespace-nowrap"
                 aria-label="Contact us via WhatsApp"
               >
-                <ChatBubbleLeftRightIcon className="w-4 h-4 mr-1 lg:mr-1.5" aria-hidden="true" />
+                <FaWhatsapp className="w-4 h-4 mr-1 lg:mr-1.5" aria-hidden="true" />
                 <span className="hidden lg:inline">{isClient ? (t('common.messageNow') || 'Message Now') : 'Message Now'}</span>
                 <span className="lg:hidden">{isClient ? (t('common.messageNow') || 'Message') : 'Message'}</span>
               </a>
               <Link
                 href={createLink('/consultation')}
-                className="inline-flex items-center px-3 md:px-4 lg:px-5 xl:px-6 py-2 md:py-2.5 bg-green-600 hover:bg-green-700 text-white text-xs lg:text-xs xl:text-sm font-medium rounded-md lg:rounded-lg transition-colors duration-200 shadow-sm hover:shadow whitespace-nowrap"
+                className="inline-flex items-center px-3 md:px-4 lg:px-5 xl:px-6 py-2 md:py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs lg:text-xs xl:text-sm font-medium rounded-md lg:rounded-lg transition-colors duration-200 shadow-sm hover:shadow whitespace-nowrap"
               >
                 <SparklesIcon className="w-4 h-4 mr-1 lg:mr-1.5" aria-hidden="true" />
                 <span className="hidden lg:inline">{isClient ? (t('nav.consultation') || 'Free Consultation') : 'Free Consultation'}</span>
@@ -151,15 +152,15 @@ export function Header() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 sm:p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg sm:rounded-xl transition-colors duration-200 flex-shrink-0"
+                className="p-3 sm:p-4 bg-green-500 hover:bg-green-600 text-white rounded-lg sm:rounded-xl transition-colors duration-200 flex-shrink-0"
                 aria-label="Contact us via WhatsApp"
               >
-                <ChatBubbleLeftRightIcon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
+                <FaWhatsapp className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
               </a>
               
               <Link
                 href={createLink('/consultation')}
-                className="p-3 sm:p-4 bg-green-600 hover:bg-green-700 text-white rounded-lg sm:rounded-xl transition-colors duration-200 flex-shrink-0"
+                className="p-3 sm:p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg sm:rounded-xl transition-colors duration-200 flex-shrink-0"
                 aria-label="Free Consultation"
               >
                 <SparklesIcon className="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true" />
@@ -215,15 +216,15 @@ export function Header() {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium rounded-md sm:rounded-lg transition-colors duration-200"
+                  className="flex items-center justify-center w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm font-medium rounded-md sm:rounded-lg transition-colors duration-200"
                   aria-label="Contact us via WhatsApp"
                 >
-                  <ChatBubbleLeftRightIcon className="w-4 h-4 mr-1.5 sm:mr-2" aria-hidden="true" />
+                  <FaWhatsapp className="w-4 h-4 mr-1.5 sm:mr-2" aria-hidden="true" />
                   {isClient ? (t('common.messageNow') || 'Message Now') : 'Message Now'}
                 </a>
                 <Link
                   href={createLink('/consultation')}
-                  className="flex items-center justify-center w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-green-600 hover:bg-green-700 text-white text-xs sm:text-sm font-medium rounded-md sm:rounded-lg transition-colors duration-200"
+                  className="flex items-center justify-center w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium rounded-md sm:rounded-lg transition-colors duration-200"
                   onClick={closeMobileMenu}
                 >
                   <SparklesIcon className="w-4 h-4 mr-1.5 sm:mr-2" aria-hidden="true" />

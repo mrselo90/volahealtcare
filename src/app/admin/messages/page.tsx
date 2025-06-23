@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { RiMailLine, RiSearchLine, RiReplyLine, RiDeleteBinLine, RiMailOpenLine, RiMailUnreadLine } from 'react-icons/ri';
+import { RiMailLine, RiSearchLine, RiReplyLine, RiDeleteBinLine, RiMailOpenLine, RiMailUnreadLine, RiCheckboxBlankLine, RiCheckboxLine } from 'react-icons/ri';
 import { formatDistanceToNow } from 'date-fns';
 
 interface Message {
@@ -24,6 +24,8 @@ export default function MessagesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<'all' | 'unread'>('all');
   const [loading, setLoading] = useState(true);
+  const [selectedMessages, setSelectedMessages] = useState<Set<string>>(new Set());
+  const [bulkDeleteLoading, setBulkDeleteLoading] = useState(false);
 
   useEffect(() => {
     fetch('/api/admin/messages')
@@ -114,6 +116,55 @@ export default function MessagesPage() {
     }
   };
 
+  const handleBulkSelect = (messageId: string, checked: boolean) => {
+    const newSelected = new Set(selectedMessages);
+    if (checked) {
+      newSelected.add(messageId);
+    } else {
+      newSelected.delete(messageId);
+    }
+    setSelectedMessages(newSelected);
+  };
+
+  const handleSelectAll = () => {
+    if (selectedMessages.size === filteredMessages.length) {
+      setSelectedMessages(new Set());
+    } else {
+      setSelectedMessages(new Set(filteredMessages.map(msg => msg.id)));
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedMessages.size === 0) return;
+    
+    if (!confirm(`Are you sure you want to delete ${selectedMessages.size} message(s)?`)) return;
+    
+    setBulkDeleteLoading(true);
+    try {
+      // Delete messages one by one
+      const deletePromises = Array.from(selectedMessages).map(id =>
+        fetch(`/api/admin/messages/${id}`, { method: 'DELETE' })
+      );
+      
+      await Promise.all(deletePromises);
+      
+      // Update local state
+      setMessages(messages.filter(msg => !selectedMessages.has(msg.id)));
+      setSelectedMessages(new Set());
+      
+      // Update selected message if it was deleted
+      if (selectedMessage && selectedMessages.has(selectedMessage.id)) {
+        const remainingMessages = filteredMessages.filter(msg => !selectedMessages.has(msg.id));
+        setSelectedMessage(remainingMessages[0] || null);
+      }
+    } catch (error) {
+      console.error('Failed to delete messages:', error);
+      alert('Some messages could not be deleted. Please try again.');
+    } finally {
+      setBulkDeleteLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-8rem)] bg-gray-50 rounded-2xl overflow-hidden">
       <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white">
@@ -121,20 +172,38 @@ export default function MessagesPage() {
           <h1 className="text-2xl font-bold text-gray-900">Messages</h1>
           <p className="text-sm text-gray-500">
             {filteredMessages.length} message{filteredMessages.length !== 1 ? 's' : ''}
+            {selectedMessages.size > 0 && (
+              <span className="ml-2 text-blue-600">
+                ({selectedMessages.size} selected)
+              </span>
+            )}
           </p>
         </div>
         
-        <div className="relative w-64">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <RiSearchLine className="h-5 w-5 text-gray-400" />
+        <div className="flex items-center gap-4">
+          {selectedMessages.size > 0 && (
+            <button
+              onClick={handleBulkDelete}
+              disabled={bulkDeleteLoading}
+              className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white text-sm font-medium rounded-lg transition-colors"
+            >
+              <RiDeleteBinLine className="w-4 h-4 mr-2" />
+              {bulkDeleteLoading ? 'Deleting...' : `Delete ${selectedMessages.size}`}
+            </button>
+          )}
+          
+          <div className="relative w-64">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <RiSearchLine className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+              placeholder="Search messages..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
-          <input
-            type="text"
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-            placeholder="Search messages..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
         </div>
       </div>
 
@@ -168,31 +237,66 @@ export default function MessagesPage() {
                 Unread
               </button>
             </div>
+
+            {/* Bulk Select Header */}
+            <div className="flex items-center p-4 border-b border-gray-200 bg-gray-50">
+              <button
+                onClick={handleSelectAll}
+                className="flex items-center text-sm font-medium text-gray-600 hover:text-gray-900"
+              >
+                {selectedMessages.size === filteredMessages.length && filteredMessages.length > 0 ? (
+                  <RiCheckboxLine className="w-5 h-5 mr-2 text-blue-600" />
+                ) : (
+                  <RiCheckboxBlankLine className="w-5 h-5 mr-2" />
+                )}
+                {selectedMessages.size === filteredMessages.length && filteredMessages.length > 0 ? 'Deselect All' : 'Select All'}
+              </button>
+            </div>
             
             <ul className="divide-y divide-gray-200">
               {filteredMessages.map((message) => (
                 <li 
                   key={message.id}
-                  onClick={() => {
-                    setSelectedMessage(message);
-                    if (!message.isRead) markAsRead(message.id);
-                  }}
-                  className={`p-4 hover:bg-gray-50 cursor-pointer transition-colors ${!message.isRead ? 'bg-blue-50' : ''} ${
+                  className={`p-4 hover:bg-gray-50 transition-colors ${!message.isRead ? 'bg-blue-50' : ''} ${
                     selectedMessage?.id === message.id ? 'bg-amber-50 border-r-4 border-amber-500' : ''
-                  }`}
+                  } ${selectedMessages.has(message.id) ? 'bg-blue-100' : ''}`}
                 >
-                  <div className="flex items-center justify-between mb-1">
-                    <h3 className={`text-sm font-medium truncate ${!message.isRead ? 'text-gray-900' : 'text-gray-600'}`}>
-                      {message.user?.name || 'Unknown User'}
-                    </h3>
-                    <span className="text-xs text-gray-400">
-                      {formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}
-                    </span>
+                  <div className="flex items-start gap-3">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleBulkSelect(message.id, !selectedMessages.has(message.id));
+                      }}
+                      className="mt-1 text-gray-400 hover:text-blue-600"
+                    >
+                      {selectedMessages.has(message.id) ? (
+                        <RiCheckboxLine className="w-5 h-5 text-blue-600" />
+                      ) : (
+                        <RiCheckboxBlankLine className="w-5 h-5" />
+                      )}
+                    </button>
+                    
+                    <div 
+                      className="flex-1 cursor-pointer min-w-0"
+                      onClick={() => {
+                        setSelectedMessage(message);
+                        if (!message.isRead) markAsRead(message.id);
+                      }}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <h3 className={`text-sm font-medium truncate ${!message.isRead ? 'text-gray-900' : 'text-gray-600'}`}>
+                          {message.user?.name || 'Unknown User'}
+                        </h3>
+                        <span className="text-xs text-gray-400 ml-2 flex-shrink-0">
+                          {formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-500 truncate">{message.user?.email || 'No email'}</p>
+                      <p className="mt-1 text-sm text-gray-600 line-clamp-2">
+                        {message.content}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-500 truncate">{message.user?.email || 'No email'}</p>
-                  <p className="mt-1 text-sm text-gray-600 line-clamp-2">
-                    {message.content}
-                  </p>
                 </li>
               ))}
             </ul>
@@ -276,21 +380,10 @@ export default function MessagesPage() {
                                 content: content,
                               }),
                             });
-                            
+
                             if (response.ok) {
                               const newMessage = await response.json();
-                              setMessages([...messages, newMessage]);
-                              
-                              // Update the selected message to show the new message
-                              const updatedSessionMessages = [
-                                ...(groupedMessages[selectedMessage.sessionId] || []),
-                                newMessage
-                              ];
-                              const latestMessage = updatedSessionMessages.sort((a, b) => 
-                                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-                              )[0];
-                              
-                              setSelectedMessage(latestMessage);
+                              setMessages(prev => [...prev, newMessage]);
                             }
                           } catch (error) {
                             console.error('Failed to send message:', error);
@@ -298,11 +391,11 @@ export default function MessagesPage() {
                         }
                       }}
                     />
-                    <button 
-                      className="px-4 py-2 bg-amber-600 text-white font-medium rounded-lg hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+                    <button
+                      className="px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
                       onClick={async (e) => {
                         const input = e.currentTarget.previousElementSibling as HTMLInputElement;
-                        if (selectedMessage && input.value.trim()) {
+                        if (selectedMessage && input?.value.trim()) {
                           const content = input.value.trim();
                           input.value = '';
                           
@@ -317,21 +410,10 @@ export default function MessagesPage() {
                                 content: content,
                               }),
                             });
-                            
+
                             if (response.ok) {
                               const newMessage = await response.json();
-                              setMessages([...messages, newMessage]);
-                              
-                              // Update the selected message to show the new message
-                              const updatedSessionMessages = [
-                                ...(groupedMessages[selectedMessage.sessionId] || []),
-                                newMessage
-                              ];
-                              const latestMessage = updatedSessionMessages.sort((a, b) => 
-                                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-                              )[0];
-                              
-                              setSelectedMessage(latestMessage);
+                              setMessages(prev => [...prev, newMessage]);
                             }
                           } catch (error) {
                             console.error('Failed to send message:', error);
