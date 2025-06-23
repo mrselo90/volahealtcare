@@ -9,7 +9,8 @@ export async function GET() {
     
     if (!session?.user?.email || 
         (session.user.email !== 'admin@volahealthistanbul.com' && 
-         session.user.email !== 'admin@example.com')) {
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -30,7 +31,8 @@ export async function POST(request: NextRequest) {
     
     if (!session?.user?.email || 
         (session.user.email !== 'admin@volahealthistanbul.com' && 
-         session.user.email !== 'admin@example.com')) {
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -62,7 +64,8 @@ export async function PUT(request: NextRequest) {
     
     if (!session?.user?.email || 
         (session.user.email !== 'admin@volahealthistanbul.com' && 
-         session.user.email !== 'admin@example.com')) {
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -99,7 +102,8 @@ export async function DELETE(request: NextRequest) {
     
     if (!session?.user?.email || 
         (session.user.email !== 'admin@volahealthistanbul.com' && 
-         session.user.email !== 'admin@example.com')) {
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
