@@ -103,16 +103,33 @@ export default function MessagesPage() {
     if (!confirm('Are you sure you want to delete this message?')) return;
     
     try {
-      await fetch(`/api/admin/messages/${id}`, {
+      console.log('Attempting to delete message:', id);
+      const response = await fetch(`/api/admin/messages/${id}`, {
         method: 'DELETE',
       });
       
+      console.log('Delete response status:', response.status);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Delete failed:', errorData);
+        alert(`Failed to delete message: ${errorData.error || 'Unknown error'}`);
+        return;
+      }
+      
+      const result = await response.json();
+      console.log('Delete successful:', result);
+      
+      // Update local state only if delete was successful
       setMessages(messages.filter(msg => msg.id !== id));
       if (selectedMessage?.id === id) {
         setSelectedMessage(filteredMessages[0] || null);
       }
+      
+      alert('Message deleted successfully!');
     } catch (error) {
       console.error('Failed to delete message:', error);
+      alert('Failed to delete message. Please try again.');
     }
   };
 

@@ -7,22 +7,30 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    console.log('DELETE request received for message ID:', params.id);
+    
     const session = await getServerSession();
+    console.log('Session:', session?.user?.email);
+    
     if (!session || 
         (session.user.email !== 'admin@volahealthistanbul.com' &&
          session.user.email !== 'admin@example.com' &&
          session.user.email !== 'admin@volahealth.com')) {
+      console.log('Unauthorized access attempt');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { id } = params;
+    console.log('Attempting to delete message with ID:', id);
 
     // Check if message exists
     const message = await prisma.chatMessage.findUnique({
       where: { id }
     });
+    console.log('Message found:', !!message);
 
     if (!message) {
+      console.log('Message not found in database');
       return NextResponse.json(
         { error: 'Message not found' },
         { status: 404 }
@@ -33,6 +41,7 @@ export async function DELETE(
     await prisma.chatMessage.delete({
       where: { id }
     });
+    console.log('Message deleted successfully');
 
     return NextResponse.json({ success: true });
   } catch (error) {
