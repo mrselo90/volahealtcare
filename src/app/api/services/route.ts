@@ -32,14 +32,35 @@ export async function GET(request: Request) {
       where,
       include: {
         translations: true,
-        images: true,
-        category: true,
+        images: {
+          select: {
+            id: true,
+            url: true,
+            alt: true,
+            type: true,
+          }
+        },
+        category: {
+          select: {
+            id: true,
+            slug: true,
+            name: true,
+          }
+        },
       },
       orderBy: { createdAt: 'desc' },
       ...(limit ? { take: parseInt(limit) } : {}),
     });
     
-    return NextResponse.json(services);
+    // Create response with caching headers
+    const response = NextResponse.json(services);
+    
+    // Add caching headers for better performance
+    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+    response.headers.set('CDN-Cache-Control', 'public, s-maxage=300');
+    response.headers.set('Vary', 'Accept-Encoding');
+    
+    return response;
   } catch (error) {
     console.error('Failed to fetch services:', error);
     return NextResponse.json(

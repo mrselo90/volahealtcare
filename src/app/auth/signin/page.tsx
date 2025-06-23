@@ -20,7 +20,7 @@ function SignInForm() {
 
     try {
       const result = await signIn('credentials', {
-        email,
+        email: email.trim(),
         password,
         redirect: false,
         callbackUrl,
@@ -28,13 +28,17 @@ function SignInForm() {
 
       if (result?.error) {
         setError(result.error);
+        setIsLoading(false);
+      } else if (result?.ok) {
+        // Successful login - redirect manually
+        window.location.href = callbackUrl;
       } else {
-        router.push(callbackUrl);
-        router.refresh();
+        setError('An unexpected error occurred. Please try again.');
+        setIsLoading(false);
       }
     } catch (error) {
-      setError('An unexpected error occurred. Please try again.');
-    } finally {
+      console.error('Sign in error:', error);
+      setError('Network error. Please check your connection and try again.');
       setIsLoading(false);
     }
   };
@@ -47,8 +51,13 @@ function SignInForm() {
         </h2>
 
         {error && (
-          <div className="mb-4 rounded-lg bg-red-50 p-4 text-sm text-red-700">
-            {error}
+          <div className="mb-4 rounded-lg bg-red-50 border border-red-200 p-4 text-sm text-red-700">
+            <div className="flex items-center">
+              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              {error}
+            </div>
           </div>
         )}
 
@@ -68,6 +77,7 @@ function SignInForm() {
               className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
               required
               disabled={isLoading}
+              autoComplete="email"
             />
           </div>
 
@@ -86,24 +96,27 @@ function SignInForm() {
               className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
               required
               disabled={isLoading}
+              autoComplete="current-password"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+            className="w-full rounded-lg bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isLoading}
           >
-            {isLoading ? 'Signing in...' : 'Sign In'}
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Signing in...
+              </div>
+            ) : (
+              'Sign In'
+            )}
           </button>
-
-          {process.env.NODE_ENV === 'development' && (
-            <div className="mt-4 text-center text-sm text-gray-600">
-              <p>Development credentials:</p>
-              <p>Email: admin@example.com</p>
-              <p>Password: admin123</p>
-            </div>
-          )}
         </form>
       </div>
     </div>

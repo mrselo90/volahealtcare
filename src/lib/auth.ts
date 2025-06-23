@@ -36,58 +36,54 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Please provide both email and password');
         }
 
-        // For testing purposes, allow admin login with test credentials
-        if (process.env.NODE_ENV === 'development' && 
-            credentials.email === 'admin@example.com' && 
-            credentials.password === 'admin123') {
+        try {
+          // Check against database
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+          });
+
+          if (!user) {
+            throw new Error('Invalid email or password');
+          }
+
+          // Compare the provided password with stored hashedPassword using bcrypt
+          if (!user.hashedPassword) {
+            throw new Error('User account is not properly configured');
+          }
+
+          const isPasswordValid = await compare(credentials.password, user.hashedPassword);
+          if (!isPasswordValid) {
+            throw new Error('Invalid email or password');
+          }
+
           return {
-            id: '1',
-            email: 'admin@example.com',
-            name: 'Admin',
-            role: 'admin',
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
           };
+        } catch (error) {
+          console.error('Auth error:', error);
+          throw new Error('Authentication failed. Please try again.');
         }
-
-        // In production, check against database
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
-
-        if (!user) {
-          throw new Error('No user found with this email');
-        }
-
-        // Compare the provided password with stored hashedPassword using bcrypt
-        if (!user.hashedPassword) {
-          throw new Error('User has no password configured');
-        }
-
-        const isPasswordValid = await compare(credentials.password, user.hashedPassword);
-        if (!isPasswordValid) {
-          throw new Error('Invalid password');
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        };
       },
     }),
   ],
   session: {
     strategy: 'jwt',
+    maxAge: 24 * 60 * 60, // 24 hours
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        token.id = user.id;
         token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
+      if (session.user && token) {
+        session.user.id = token.id;
         (session.user as any).role = token.role;
       }
       return session;
@@ -97,4 +93,6 @@ export const authOptions: NextAuthOptions = {
     signIn: '/auth/signin',
     error: '/auth/signin',
   },
+  secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === 'development',
 }; 
