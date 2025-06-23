@@ -16,7 +16,12 @@ export async function GET() {
       }
     });
 
-    return NextResponse.json(slides);
+    const response = NextResponse.json(slides);
+    
+    // Cache for 5 minutes
+    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+    
+    return response;
   } catch (error) {
     console.error('Error fetching hero slides:', error);
     return NextResponse.json(

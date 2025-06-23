@@ -319,7 +319,7 @@ export default function HeroSlider() {
                     muted={isMuted}
                     loop
                     playsInline
-                    preload="metadata"
+                    preload="none"
                     onError={(e) => {
                       console.error('Video error for slide:', slide.id, e);
                     }}
@@ -337,7 +337,11 @@ export default function HeroSlider() {
                   fill
                   className="object-cover"
                   priority={index === 0}
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, 50vw"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  quality={index === 0 ? 90 : 75}
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1920px"
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                   onError={(e) => {
                     console.error('Image error for slide:', slide.id, slide.imageUrl);
                   }}

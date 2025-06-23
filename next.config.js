@@ -49,6 +49,8 @@ const nextConfig = {
     // Add image optimization settings
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 3600,
+    quality: 75,
+    loader: 'default',
   },
   
   // Headers for better caching
