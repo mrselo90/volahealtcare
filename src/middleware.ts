@@ -173,9 +173,9 @@ export async function middleware(request: NextRequest) {
   // Note: We don't redirect default language URLs to clean URLs anymore
   // This allows /tr/services to work properly
   
-  // If no language in URL, treat as default language (Turkish)
+  // If no language in URL, treat as default language (English)
   if (!currentLanguage) {
-    // For non-default languages, detect and redirect
+    // Detect user's preferred language
     try {
       const clientIP = getClientIP(request);
       const acceptLanguage = request.headers.get('accept-language') || '';
@@ -190,19 +190,18 @@ export async function middleware(request: NextRequest) {
         
         const response = NextResponse.redirect(url);
         response.headers.set('X-Detected-Language', detectedLanguage);
-        response.headers.set('X-Client-IP', clientIP);
         
         return response;
       }
       
-      // If detected language is default, rewrite to default language folder
+      // If detected language is default (English), rewrite to default language folder
       const url = request.nextUrl.clone();
       url.pathname = `/${defaultLanguage}${pathname}`;
       return NextResponse.rewrite(url);
       
     } catch (error) {
       console.error('Language detection failed:', error);
-      // Fallback: rewrite to default language
+      // Fallback: rewrite to default language (English)
       const url = request.nextUrl.clone();
       url.pathname = `/${defaultLanguage}${pathname}`;
       return NextResponse.rewrite(url);

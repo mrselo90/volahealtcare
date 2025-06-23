@@ -65,15 +65,18 @@ export async function generateMetadata({ params }: { params: { lang: string } })
     ar: 'اختبر العلاجات الطبية عالمية المستوى في اسطنبول، تركيا. خدمات السياحة الطبية المتميزة التي تقدم إجراءات الأسنان والتجميل والجراحة التجميلية.'
   };
 
-  return {
-    title: titles[lang as Language] || titles.en,
-    description: descriptions[lang as Language] || descriptions.en,
-    alternates: {
-      canonical: `/${lang}`,
-      languages: Object.fromEntries(
-        languages.map(language => [language.code, `/${language.code}`])
-      ),
-    },
+      return {
+      title: titles[lang as Language] || titles.en,
+      description: descriptions[lang as Language] || descriptions.en,
+      alternates: {
+        canonical: lang === 'en' ? '/' : `/${lang}`,
+        languages: Object.fromEntries(
+          languages.map(language => [
+            language.code, 
+            language.code === 'en' ? '/' : `/${language.code}`
+          ])
+        ),
+      },
     openGraph: {
       title: titles[lang as Language] || titles.en,
       description: descriptions[lang as Language] || descriptions.en,
