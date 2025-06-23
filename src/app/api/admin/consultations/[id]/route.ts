@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { getServerSession } from 'next-auth';
 
 const prisma = new PrismaClient();
 
@@ -8,6 +9,14 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { status, notes } = await request.json();
     const { id } = params;
 
@@ -35,6 +44,14 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { id } = params;
 
     const consultation = await prisma.consultation.findUnique({

@@ -8,7 +8,10 @@ export async function PATCH(
 ) {
   try {
     const session = await getServerSession();
-    if (!session) {
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -31,7 +34,10 @@ export async function DELETE(
 ) {
   try {
     const session = await getServerSession();
-    if (!session) {
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 

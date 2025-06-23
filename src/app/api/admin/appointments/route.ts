@@ -5,12 +5,22 @@ import { prisma } from '@/lib/prisma';
 export async function GET() {
   try {
     const session = await getServerSession();
-    if (!session) {
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
     const appointments = await prisma.appointment.findMany({
       orderBy: { createdAt: 'desc' },
+      include: {
+        service: {
+          select: {
+            title: true
+          }
+        }
+      }
     });
 
     return NextResponse.json(appointments);
@@ -23,7 +33,10 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const session = await getServerSession();
-    if (!session) {
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
