@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
@@ -14,6 +15,14 @@ const SOCIAL_MEDIA_KEYS = [
 
 export async function GET() {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const configs = await prisma.siteConfig.findMany({
       where: {
         key: {
@@ -40,6 +49,14 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const data = await request.json();
     
     const updates = [];

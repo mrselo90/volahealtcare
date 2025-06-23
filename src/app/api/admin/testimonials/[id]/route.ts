@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/db';
 
 // GET /api/admin/testimonials/[id] - Get single testimonial
@@ -7,6 +8,14 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const testimonial = await prisma.testimonial.findUnique({
       where: { id: params.id },
       include: {
@@ -50,6 +59,14 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const data = await req.json();
     const {
       name,
@@ -138,6 +155,14 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     // Delete testimonial and its translations (cascade)
     await prisma.testimonial.delete({
       where: { id: params.id }

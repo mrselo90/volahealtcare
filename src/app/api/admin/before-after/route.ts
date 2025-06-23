@@ -6,6 +6,14 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const cases = await prisma.beforeAfterCase.findMany({
       include: {
         category: true,
@@ -29,6 +37,14 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const data = await request.json();
     
     const beforeAfterCase = await prisma.beforeAfterCase.create({
@@ -70,6 +86,14 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const data = await request.json();
     const { id, ...updateData } = data;
     
@@ -120,6 +144,14 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 

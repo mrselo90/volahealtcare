@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
 import { prisma } from '@/lib/db';
 
 // GET /api/admin/testimonials - Get all testimonials for admin
 export async function GET(req: NextRequest) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(req.url);
     const serviceId = searchParams.get('serviceId');
     const status = searchParams.get('status'); // pending, approved, rejected
@@ -72,6 +81,14 @@ export async function GET(req: NextRequest) {
 // POST /api/admin/testimonials - Create testimonial from admin
 export async function POST(req: NextRequest) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const data = await req.json();
     const {
       name,
@@ -142,6 +159,14 @@ export async function POST(req: NextRequest) {
 // PUT - Update testimonial
 export async function PUT(request: NextRequest) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const {
       id,
@@ -208,9 +233,17 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE - Delete testimonial
+// DELETE testimonial
 export async function DELETE(request: NextRequest) {
   try {
+    const session = await getServerSession();
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
