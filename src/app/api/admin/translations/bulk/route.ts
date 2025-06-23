@@ -7,7 +7,10 @@ import { languages } from '@/lib/i18n/config';
 export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user) {
+    if (!session || 
+        (session.user.email !== 'admin@volahealthistanbul.com' &&
+         session.user.email !== 'admin@example.com' &&
+         session.user.email !== 'admin@volahealth.com')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
