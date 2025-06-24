@@ -12,11 +12,7 @@
     "perf-check": "node scripts/performance-check.js",
     "analyze": "npm run build && npm run perf-check",
     "optimize-images": "node scripts/optimize-images.js",
-    "build:analyze": "ANALYZE=true npm run build",
-    "db:optimize": "node scripts/database-optimization.js",
-    "db:optimize:safe": "node scripts/database-optimization.js --skip-vacuum",
-    "db:optimize:indexes-only": "node scripts/database-optimization.js --skip-vacuum --skip-backup",
-    "perf:test": "npm run build && npm run db:optimize:safe && npm run start"
+    "build:analyze": "ANALYZE=true npm run build"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.821.0",
