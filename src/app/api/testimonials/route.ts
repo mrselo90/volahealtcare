@@ -51,7 +51,12 @@ export async function GET(req: NextRequest) {
       ]
     });
 
-    return NextResponse.json(testimonials);
+    const response = NextResponse.json(testimonials);
+    
+    // Cache for 5 minutes with longer stale-while-revalidate
+    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=900');
+    
+    return response;
   } catch (error) {
     console.error('Error fetching testimonials:', error);
     return NextResponse.json(

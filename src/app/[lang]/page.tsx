@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useTranslation } from '@/lib/i18n/hooks';
 import dynamic from 'next/dynamic';
 
@@ -36,7 +36,7 @@ interface ContentBlock {
   orderIndex: number;
 }
 
-// Optimized dynamic imports with better loading states
+// Optimized dynamic imports with better loading states and no SSR for heavy components
 const Chatbot = dynamic(() => import('@/components/ui/Chatbot'), { 
   ssr: false, 
   loading: () => null
@@ -94,83 +94,86 @@ export default function Home({ params }: { params: { lang: string } }) {
     };
   }, []);
 
-  // Optimized data loading with parallel API calls
+  // Optimized data loading with parallel API calls and better caching
+  const loadData = useCallback(async () => {
+    if (!isClient) return;
+    
+    setIsLoading(true);
+    
+    try {
+      // Parallel API calls for better performance with explicit caching
+      const [testimonialsResult, socialUrlsResult, contentBlocksResult] = await Promise.allSettled([
+        fetch('/api/testimonials?approved=true&featured=true&limit=3', {
+          headers: { 
+            'Cache-Control': 'max-age=300',
+            'Accept': 'application/json'
+          }
+        }).then(res => res.ok ? res.json() : Promise.reject(res)),
+        fetch('/api/settings', {
+          headers: { 
+            'Cache-Control': 'max-age=600',
+            'Accept': 'application/json'
+          }
+        }).then(res => res.ok ? res.json() : Promise.reject(res)),
+        fetch('/api/content-blocks', {
+          headers: { 
+            'Cache-Control': 'max-age=300',
+            'Accept': 'application/json'
+          }
+        }).then(res => res.ok ? res.json() : Promise.reject(res))
+      ]);
+      
+      // Handle testimonials
+      if (testimonialsResult.status === 'fulfilled') {
+        const homeTestimonials = testimonialsResult.value.slice(0, 3);
+        setTestimonials(homeTestimonials);
+      }
+      
+      // Handle social URLs
+      if (socialUrlsResult.status === 'fulfilled') {
+        const data = socialUrlsResult.value;
+        setSocialUrls({
+          social_instagram: data.socialMedia?.instagram || '',
+          social_facebook: data.socialMedia?.facebook || '',
+          social_trustpilot: data.socialMedia?.trustpilot || '',
+          social_googlemaps: data.socialMedia?.googlemaps || '',
+          social_linkedin: data.socialMedia?.linkedin || '',
+          social_youtube: data.socialMedia?.youtube || '',
+          social_pinterest: data.socialMedia?.pinterest || '',
+          social_twitter: data.socialMedia?.twitter || '',
+        });
+      }
+      
+      // Handle content blocks
+      if (contentBlocksResult.status === 'fulfilled') {
+        setContentBlocks(contentBlocksResult.value);
+      }
+      
+    } catch (error) {
+      console.error('Error loading data:', error);
+      setError('Failed to load page data');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isClient]);
+
   useEffect(() => {
     if (!isClient) return;
     
     let isCancelled = false;
     
-    const loadData = async () => {
-      if (isCancelled) return;
-      
-      setIsLoading(true);
-      
-      try {
-        // Parallel API calls for better performance
-        const [testimonialsResult, socialUrlsResult, contentBlocksResult] = await Promise.allSettled([
-          fetch('/api/testimonials', {
-            headers: { 'Cache-Control': 'max-age=300' }
-          }).then(res => res.ok ? res.json() : Promise.reject(res)),
-          fetch('/api/settings', {
-            headers: { 'Cache-Control': 'max-age=600' }
-          }).then(res => res.ok ? res.json() : Promise.reject(res)),
-          fetch('/api/content-blocks', {
-            headers: { 'Cache-Control': 'max-age=300' }
-          }).then(res => res.ok ? res.json() : Promise.reject(res))
-        ]);
-        
-        if (!isCancelled) {
-          // Handle testimonials
-          if (testimonialsResult.status === 'fulfilled') {
-            const homeTestimonials = testimonialsResult.value.slice(0, 3);
-            setTestimonials(homeTestimonials);
-          }
-          
-          // Handle social URLs
-          if (socialUrlsResult.status === 'fulfilled') {
-            const data = socialUrlsResult.value;
-            setSocialUrls({
-              social_instagram: data.socialMedia?.instagram || '',
-              social_facebook: data.socialMedia?.facebook || '',
-              social_trustpilot: data.socialMedia?.trustpilot || '',
-              social_googlemaps: data.socialMedia?.googlemaps || '',
-              social_linkedin: data.socialMedia?.linkedin || '',
-              social_youtube: data.socialMedia?.youtube || '',
-              social_pinterest: data.socialMedia?.pinterest || '',
-              social_twitter: data.socialMedia?.twitter || '',
-            });
-          }
-          
-          // Handle content blocks
-          if (contentBlocksResult.status === 'fulfilled') {
-            setContentBlocks(contentBlocksResult.value);
-          }
-        }
-        
-      } catch (error) {
-        console.error('Error loading data:', error);
-        if (!isCancelled) {
-          setError('Failed to load page data');
-        }
-      } finally {
-        if (!isCancelled) {
-          setIsLoading(false);
-        }
-      }
-    };
-    
-    // Small delay to ensure component is mounted
+    // Reduced delay for faster initial load
     const timer = setTimeout(() => {
       if (!isCancelled) {
         loadData();
       }
-    }, 50); // Reduced from 100ms to 50ms
+    }, 10); // Reduced from 50ms to 10ms
     
     return () => {
       isCancelled = true;
       clearTimeout(timer);
     };
-  }, [isClient]);
+  }, [isClient, loadData]);
 
   // Memoize media content blocks for better performance
   const mediaContentBlocks = useMemo(() => {

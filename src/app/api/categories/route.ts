@@ -38,8 +38,15 @@ export async function GET() {
         },
       },
     });
-    return NextResponse.json(categories);
+    
+    const response = NextResponse.json(categories);
+    
+    // Cache categories for 5 minutes with stale-while-revalidate
+    response.headers.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=900');
+    
+    return response;
   } catch (error) {
+    console.error('Error fetching categories:', error);
     return NextResponse.json(
       { error: 'Failed to fetch categories' },
       { status: 500 }

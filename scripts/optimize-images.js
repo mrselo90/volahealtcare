@@ -1,78 +1,149 @@
+const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
-const sharp = require('sharp');
 
-const inputDir = path.join(__dirname, '../public/service-images');
-const outputDir = path.join(__dirname, '../public/optimized-images');
+// Configuration
+const config = {
+  quality: {
+    webp: 80,
+    avif: 75,
+    jpeg: 85
+  },
+  maxWidth: 1920,
+  directories: [
+    'public/uploads',
+    'public/service-images',
+    'public/images/before-after',
+    'public/images/services'
+  ]
+};
 
-// Create output directory if it doesn't exist
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, { recursive: true });
+async function optimizeImage(inputPath, outputDir) {
+  try {
+    const filename = path.basename(inputPath, path.extname(inputPath));
+    const ext = path.extname(inputPath).toLowerCase();
+    
+    // Skip if not an image
+    if (!['.jpg', '.jpeg', '.png'].includes(ext)) {
+      return;
+    }
+    
+    // Read image metadata
+    const metadata = await sharp(inputPath).metadata();
+    console.log(`Processing: ${filename}${ext} (${metadata.width}x${metadata.height}, ${(metadata.size / 1024).toFixed(1)}KB)`);
+    
+    // Resize if too large
+    let pipeline = sharp(inputPath);
+    if (metadata.width > config.maxWidth) {
+      pipeline = pipeline.resize(config.maxWidth, null, { 
+        withoutEnlargement: true,
+        fit: 'inside'
+      });
+    }
+    
+    // Generate WebP version
+    const webpPath = path.join(outputDir, `${filename}.webp`);
+    await pipeline
+      .clone()
+      .webp({ quality: config.quality.webp })
+      .toFile(webpPath);
+    
+    // Generate AVIF version
+    const avifPath = path.join(outputDir, `${filename}.avif`);
+    await pipeline
+      .clone()
+      .avif({ quality: config.quality.avif })
+      .toFile(avifPath);
+    
+    // Generate optimized JPEG/PNG fallback
+    const optimizedPath = path.join(outputDir, `${filename}_optimized${ext}`);
+    if (ext === '.png') {
+      await pipeline
+        .clone()
+        .png({ compressionLevel: 9 })
+        .toFile(optimizedPath);
+    } else {
+      await pipeline  
+        .clone()
+        .jpeg({ quality: config.quality.jpeg, progressive: true })
+        .toFile(optimizedPath);
+    }
+    
+    // Get file sizes for comparison
+    const originalSize = (await fs.promises.stat(inputPath)).size;
+    const webpSize = (await fs.promises.stat(webpPath)).size;
+    const avifSize = (await fs.promises.stat(avifPath)).size;
+    const optimizedSize = (await fs.promises.stat(optimizedPath)).size;
+    
+    console.log(`  ✓ Original: ${(originalSize / 1024).toFixed(1)}KB`);
+    console.log(`  ✓ WebP: ${(webpSize / 1024).toFixed(1)}KB (${((1 - webpSize/originalSize) * 100).toFixed(1)}% smaller)`);
+    console.log(`  ✓ AVIF: ${(avifSize / 1024).toFixed(1)}KB (${((1 - avifSize/originalSize) * 100).toFixed(1)}% smaller)`);
+    console.log(`  ✓ Optimized: ${(optimizedSize / 1024).toFixed(1)}KB (${((1 - optimizedSize/originalSize) * 100).toFixed(1)}% smaller)`);
+    
+  } catch (error) {
+    console.error(`Error processing ${inputPath}:`, error);
+  }
 }
 
-const optimizeImage = async (inputPath, outputPath, filename) => {
+async function processDirectory(dirPath) {
   try {
-    const extension = path.extname(filename).toLowerCase();
-    const nameWithoutExt = path.basename(filename, extension);
+    const files = await fs.promises.readdir(dirPath);
     
-    // WebP version (smaller file size)
-    await sharp(inputPath)
-      .resize(1920, 1080, { 
-        fit: 'cover',
-        withoutEnlargement: true 
-      })
-      .webp({ 
-        quality: 85,
-        effort: 6 
-      })
-      .toFile(path.join(outputDir, `${nameWithoutExt}.webp`));
+    // Create optimized subdirectory
+    const optimizedDir = path.join(dirPath, 'optimized');
+    if (!fs.existsSync(optimizedDir)) {
+      fs.mkdirSync(optimizedDir, { recursive: true });
+    }
     
-    // AVIF version (even smaller, modern browsers)
-    await sharp(inputPath)
-      .resize(1920, 1080, { 
-        fit: 'cover',
-        withoutEnlargement: true 
-      })
-      .avif({ 
-        quality: 80,
-        effort: 6 
-      })
-      .toFile(path.join(outputDir, `${nameWithoutExt}.avif`));
-    
-    // Fallback JPEG/PNG (optimized)
-    const outputFormat = extension === '.png' ? 'png' : 'jpeg';
-    await sharp(inputPath)
-      .resize(1920, 1080, { 
-        fit: 'cover',
-        withoutEnlargement: true 
-      })
-      [outputFormat]({ 
-        quality: outputFormat === 'jpeg' ? 85 : undefined,
-        compressionLevel: outputFormat === 'png' ? 9 : undefined
-      })
-      .toFile(path.join(outputDir, `${nameWithoutExt}_optimized${extension}`));
-    
-    console.log(`✅ Optimized: ${filename}`);
+    for (const file of files) {
+      const filePath = path.join(dirPath, file);
+      const stat = await fs.promises.stat(filePath);
+      
+      if (stat.isDirectory() && file !== 'optimized') {
+        // Recursively process subdirectories
+        await processDirectory(filePath);
+      } else if (stat.isFile()) {
+        await optimizeImage(filePath, optimizedDir);
+      }
+    }
   } catch (error) {
-    console.error(`❌ Error optimizing ${filename}:`, error.message);
+    console.error(`Error processing directory ${dirPath}:`, error);
   }
-};
+}
 
-const processImages = async () => {
-  console.log('🚀 Starting image optimization...');
+async function main() {
+  console.log('🖼️  Starting image optimization...\n');
   
-  const files = fs.readdirSync(inputDir);
-  const imageFiles = files.filter(file => 
-    /\.(jpg|jpeg|png|webp)$/i.test(file)
-  );
-  
-  for (const file of imageFiles) {
-    const inputPath = path.join(inputDir, file);
-    await optimizeImage(inputPath, outputDir, file);
+  // Install Sharp if not available
+  try {
+    require('sharp');
+  } catch (error) {
+    console.log('Installing Sharp...');
+    const { execSync } = require('child_process');
+    execSync('npm install sharp', { stdio: 'inherit' });
+    console.log('Sharp installed successfully!\n');
   }
   
-  console.log(`✨ Optimization complete! Processed ${imageFiles.length} images`);
-  console.log(`📁 Optimized images saved to: ${outputDir}`);
-};
+  for (const dir of config.directories) {
+    if (fs.existsSync(dir)) {
+      console.log(`\n📁 Processing directory: ${dir}`);
+      await processDirectory(dir);
+    } else {
+      console.log(`⚠️  Directory not found: ${dir}`);
+    }
+  }
+  
+  console.log('\n✅ Image optimization complete!');
+  console.log('\n💡 Usage recommendations:');
+  console.log('   - Use WebP images for modern browsers');
+  console.log('   - Use AVIF for even better compression');
+  console.log('   - Keep optimized versions as fallbacks');
+  console.log('   - Update your Next.js Image components to use the optimized versions');
+}
 
-processImages().catch(console.error); 
+// Run if called directly
+if (require.main === module) {
+  main().catch(console.error);
+}
+
+module.exports = { optimizeImage, processDirectory }; 

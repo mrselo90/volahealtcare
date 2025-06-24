@@ -8,7 +8,12 @@ export async function GET() {
       orderBy: { orderIndex: 'asc' }
     });
 
-    return NextResponse.json(contentBlocks);
+    const response = NextResponse.json(contentBlocks);
+    
+    // Cache for 10 minutes with stale-while-revalidate
+    response.headers.set('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
+    
+    return response;
   } catch (error) {
     console.error('Error fetching content blocks:', error);
     return NextResponse.json({ error: 'Failed to fetch content blocks' }, { status: 500 });
