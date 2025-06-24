@@ -101,8 +101,8 @@ export default function HeroSlider() {
         
         if (Array.isArray(data) && data.length > 0) {
           const activeSlides = data
-            .filter(slide => slide.active)
-            .sort((a, b) => (a.order || 0) - (b.order || 0));
+            .filter(slide => slide.isActive)
+            .sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
           
           setSlides(activeSlides);
           
