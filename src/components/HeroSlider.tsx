@@ -2,9 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { SpeakerWaveIcon, SpeakerXMarkIcon } from '@heroicons/react/24/solid';
-import { useTranslation } from '@/lib/i18n/hooks';
+import { ChevronLeftIcon, ChevronRightIcon, SpeakerWaveIcon, SpeakerXMarkIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 interface SlideData {
   id: string;
@@ -28,129 +27,103 @@ interface SlideData {
 
 export default function HeroSlider() {
   const { t, language } = useTranslation();
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [slides, setSlides] = useState<SlideData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(true);
-  const [isClient, setIsClient] = useState(false);
-  const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
-  const autoPlayIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [preloadedImages, setPreloadedImages] = useState<Set<string>>(new Set());
+  
   const sliderRef = useRef<HTMLDivElement>(null);
-  const [isSliderVisible, setIsSliderVisible] = useState(false);
+  const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+  const imagePreloadRef = useRef<Map<string, HTMLImageElement>>(new Map());
 
-  // Client-side hydration protection
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  // Preload critical images
+  const preloadImage = useCallback((src: string, priority: boolean = false) => {
+    if (preloadedImages.has(src) || imagePreloadRef.current.has(src)) return;
+
+    const img = new window.Image();
+    img.onload = () => {
+      setPreloadedImages(prev => new Set([...prev, src]));
+      imagePreloadRef.current.set(src, img);
+    };
+    img.onerror = () => {
+      console.warn('Failed to preload image:', src);
+    };
+    
+    if (priority) {
+      img.loading = 'eager';
+    }
+    img.src = src;
+  }, [preloadedImages]);
+
+  // Enhanced image preloading strategy
+  const preloadSlideImages = useCallback(() => {
+    if (slides.length === 0) return;
+
+    // Always preload current slide
+    const currentSlideData = slides[currentSlide];
+    if (currentSlideData?.imageUrl) {
+      preloadImage(currentSlideData.imageUrl, true);
+    }
+
+    // Preload next and previous slides
+    const nextIndex = (currentSlide + 1) % slides.length;
+    const prevIndex = currentSlide === 0 ? slides.length - 1 : currentSlide - 1;
+    
+    [nextIndex, prevIndex].forEach(index => {
+      const slide = slides[index];
+      if (slide?.imageUrl) {
+        preloadImage(slide.imageUrl, false);
+      }
+    });
+  }, [slides, currentSlide, preloadImage]);
 
   // Fetch slides from database
   useEffect(() => {
-    if (!isClient) return;
-    
     const fetchSlides = async () => {
       try {
-        const response = await fetch('/api/hero-slides');
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Fetched slides:', data);
+        setIsLoading(true);
+        const response = await fetch('/api/hero-slides', {
+          headers: {
+            'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (Array.isArray(data) && data.length > 0) {
+          const activeSlides = data
+            .filter(slide => slide.active)
+            .sort((a, b) => (a.order || 0) - (b.order || 0));
           
-          // Log video URLs for debugging
-          data.forEach((slide: any, index: number) => {
-            if (slide.mediaType === 'video') {
-              console.log(`Video slide ${index}:`, {
-                id: slide.id,
-                videoUrl: slide.videoUrl,
-                imageUrl: slide.imageUrl,
-                mediaType: slide.mediaType
-              });
-            }
-          });
+          setSlides(activeSlides);
           
-          setSlides(data);
+          // Start preloading first slide immediately
+          if (activeSlides[0]?.imageUrl) {
+            preloadImage(activeSlides[0].imageUrl, true);
+          }
         } else {
-          // Fallback to default slides if API fails
-          setSlides([
-            {
-              id: '1',
-              imageUrl: "/service-images/Before-After (9).jpg",
-              mediaType: 'image' as const,
-              title: t('heroSlider.slides.hair.title'),
-              subtitle: t('heroSlider.slides.hair.subtitle'),
-              category: t('heroSlider.slides.hair.category'),
-              orderIndex: 0,
-              isActive: true,
-              translations: []
-            },
-            {
-              id: '2',
-              imageUrl: "/service-images/4_edited.jpg",
-              mediaType: 'image' as const,
-              title: t('heroSlider.slides.aesthetic.title'),
-              subtitle: t('heroSlider.slides.aesthetic.subtitle'),
-              category: t('heroSlider.slides.aesthetic.category'),
-              orderIndex: 1,
-              isActive: true,
-              translations: []
-            },
-            {
-              id: '3',
-              imageUrl: "/service-images/DSD-digital-smile-design-in-istanbul-768x429.png",
-              mediaType: 'image' as const,
-              title: t('heroSlider.slides.dental.title'),
-              subtitle: t('heroSlider.slides.dental.subtitle'),
-              category: t('heroSlider.slides.dental.category'),
-              orderIndex: 2,
-              isActive: true,
-              translations: []
-            }
-          ]);
+          setSlides([]);
         }
       } catch (error) {
-        console.error('Error fetching hero slides:', error);
-        // Fallback to default slides
-        setSlides([
-          {
-            id: '1',
-            imageUrl: "/service-images/Before-After (9).jpg",
-            mediaType: 'image' as const,
-            title: t('heroSlider.slides.hair.title'),
-            subtitle: t('heroSlider.slides.hair.subtitle'),
-            category: t('heroSlider.slides.hair.category'),
-            orderIndex: 0,
-            isActive: true,
-            translations: []
-          },
-          {
-            id: '2',
-            imageUrl: "/service-images/4_edited.jpg",
-            mediaType: 'image' as const,
-            title: t('heroSlider.slides.aesthetic.title'),
-            subtitle: t('heroSlider.slides.aesthetic.subtitle'),
-            category: t('heroSlider.slides.aesthetic.category'),
-            orderIndex: 1,
-            isActive: true,
-            translations: []
-          },
-          {
-            id: '3',
-            imageUrl: "/service-images/DSD-digital-smile-design-in-istanbul-768x429.png",
-            mediaType: 'image' as const,
-            title: t('heroSlider.slides.dental.title'),
-            subtitle: t('heroSlider.slides.dental.subtitle'),
-            category: t('heroSlider.slides.dental.category'),
-            orderIndex: 2,
-            isActive: true,
-            translations: []
-          }
-        ]);
+        console.error('Error fetching slides:', error);
+        setError('Failed to load slides');
+        setSlides([]);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchSlides();
-  }, [t, isClient]);
+  }, [preloadImage]);
 
   // Helper function to get localized content
   const getLocalizedContent = useCallback((slide: SlideData, field: 'title' | 'subtitle' | 'category') => {
@@ -191,28 +164,25 @@ export default function HeroSlider() {
 
   // Auto-play functionality
   useEffect(() => {
-    if (isAutoPlaying && slides.length > 1) {
-      autoPlayIntervalRef.current = setInterval(() => {
+    if (autoPlayRef.current && slides.length > 1) {
+      autoPlayRef.current = setInterval(() => {
         setCurrentSlide(prev => (prev + 1) % slides.length);
       }, 6000); // Change slide every 6 seconds
 
       return () => {
-        if (autoPlayIntervalRef.current) {
-          clearInterval(autoPlayIntervalRef.current);
+        if (autoPlayRef.current) {
+          clearInterval(autoPlayRef.current);
         }
       };
     }
-  }, [isAutoPlaying, slides.length]);
+  }, [slides.length]);
 
   // Intersection Observer for auto-play
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsSliderVisible(entry.isIntersecting);
         if (!entry.isIntersecting) {
-          setIsAutoPlaying(false);
-        } else {
-          setIsAutoPlaying(true);
+          autoPlayRef.current = null;
         }
       },
       { threshold: 0.5 }
@@ -239,9 +209,6 @@ export default function HeroSlider() {
   }, []);
 
   // Touch handling for mobile
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
@@ -265,7 +232,64 @@ export default function HeroSlider() {
     }
   };
 
-  if (!isClient || loading) {
+  // Enhanced preloading effect
+  useEffect(() => {
+    preloadSlideImages();
+  }, [preloadSlideImages]);
+
+  // Enhanced Image Component with better loading states
+  const OptimizedSlideImage = ({ slide, index, isActive }: { 
+    slide: SlideData; 
+    index: number; 
+    isActive: boolean;
+  }) => {
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const [hasError, setHasError] = useState(false);
+    
+    const shouldLoad = isActive || Math.abs(index - currentSlide) <= 1;
+    const isPreloaded = preloadedImages.has(slide.imageUrl);
+
+    return (
+      <div className="relative w-full h-full">
+        {/* Loading placeholder */}
+        {!imageLoaded && !hasError && (
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-50" />
+          </div>
+        )}
+        
+        {shouldLoad && slide.imageUrl && (
+          <Image
+            src={slide.imageUrl}
+            alt={getLocalizedContent(slide, 'title') || 'Slide image'}
+            fill
+            className={`object-cover transition-opacity duration-500 ${
+              imageLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            priority={index === 0}
+            loading={index === 0 ? 'eager' : 'lazy'}
+            quality={index === 0 ? 90 : 75}
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1920px"
+            placeholder={isPreloaded ? undefined : "blur"}
+            blurDataURL={isPreloaded ? undefined : "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="}
+            onLoad={() => setImageLoaded(true)}
+            onError={() => {
+              console.error('Image error for slide:', slide.id, slide.imageUrl);
+              setHasError(true);
+            }}
+          />
+        )}
+        
+        {hasError && (
+          <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+            <p className="text-gray-500">Image unavailable</p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  if (isLoading) {
     return (
       <div className="relative w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse rounded-2xl overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center">
@@ -315,11 +339,11 @@ export default function HeroSlider() {
                     poster={slide.videoPoster || slide.imageUrl}
                     data-slide-id={slide.id}
                     data-video-url={slide.videoUrl}
-                    autoPlay
+                    autoPlay={index === currentSlide}
                     muted={isMuted}
                     loop
                     playsInline
-                    preload="none"
+                    preload={index === currentSlide ? "metadata" : "none"}
                     onError={(e) => {
                       console.error('Video error for slide:', slide.id, e);
                     }}
@@ -330,83 +354,53 @@ export default function HeroSlider() {
                     Your browser does not support the video tag.
                   </video>
                 </div>
-              ) : slide.imageUrl && slide.imageUrl.trim() !== '' ? (
-                <Image
-                  src={slide.imageUrl}
-                  alt={getLocalizedContent(slide, 'title') || 'Slide image'}
-                  fill
-                  className="object-cover"
-                  priority={index === 0}
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                  quality={index === 0 ? 90 : 75}
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1920px"
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                  onError={(e) => {
-                    console.error('Image error for slide:', slide.id, slide.imageUrl);
-                  }}
-                />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                  <p className="text-gray-500">No image available</p>
-                </div>
-              )}
-              
-              {/* Fallback image for videos that fail to load */}
-              {slide.mediaType === 'video' && slide.videoUrl && slide.imageUrl && slide.imageUrl.trim() !== '' && (
-                <Image
-                  src={slide.imageUrl}
-                  alt={getLocalizedContent(slide, 'title') || 'Video poster'}
-                  fill
-                  className="object-cover"
-                  priority={index === 0}
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, 50vw"
-                  style={{ display: 'none' }}
-                  onError={() => {
-                    // If video fails, show this image
-                    const img = document.querySelector(`[data-slide-id="${slide.id}"] img`) as HTMLImageElement;
-                    if (img) img.style.display = 'block';
-                  }}
+                <OptimizedSlideImage 
+                  slide={slide} 
+                  index={index} 
+                  isActive={index === currentSlide}
                 />
               )}
               
-              {/* Gradient Overlay - Enhanced for mobile readability */}
+              {/* Enhanced Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-black/80 sm:from-black/60 sm:via-black/40 sm:to-black/70"></div>
               
-              {/* Content Overlay - Mobile optimized */}
-              <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-6 lg:p-8">
-                <div className="text-center text-white space-y-2 sm:space-y-4 max-w-xs sm:max-w-lg">
-                  {/* Category Badge - Mobile responsive */}
-                  {getLocalizedContent(slide, 'category') && (
-                    <div className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
-                      <span className="text-xs sm:text-sm font-semibold tracking-wide">
-                        {getLocalizedContent(slide, 'category')}
-                      </span>
-                    </div>
-                  )}
-                  
-                  {/* Title - Mobile responsive typography */}
-                  {getLocalizedContent(slide, 'title') && (
-                    <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-serif font-bold leading-tight">
-                      {getLocalizedContent(slide, 'title')}
-                    </h3>
-                  )}
-                  
-                  {/* Subtitle - Mobile responsive */}
-                  {getLocalizedContent(slide, 'subtitle') && (
-                    <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-200 leading-relaxed hidden sm:block">
-                      {getLocalizedContent(slide, 'subtitle')}
-                    </p>
-                  )}
-                  
-                  {/* Mobile subtitle - shorter version */}
-                  {getLocalizedContent(slide, 'subtitle') && (
-                    <p className="text-sm text-gray-200 leading-relaxed sm:hidden">
-                      {getLocalizedContent(slide, 'subtitle').split(' ').slice(0, 4).join(' ')}...
-                    </p>
-                  )}
+              {/* Content Overlay - Only render for active and adjacent slides */}
+              {Math.abs(index - currentSlide) <= 1 && (
+                <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-6 lg:p-8">
+                  <div className="text-center text-white space-y-2 sm:space-y-4 max-w-xs sm:max-w-lg">
+                    {/* Category Badge */}
+                    {getLocalizedContent(slide, 'category') && (
+                      <div className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30">
+                        <span className="text-xs sm:text-sm font-semibold tracking-wide">
+                          {getLocalizedContent(slide, 'category')}
+                        </span>
+                      </div>
+                    )}
+                    
+                    {/* Title */}
+                    {getLocalizedContent(slide, 'title') && (
+                      <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-serif font-bold leading-tight">
+                        {getLocalizedContent(slide, 'title')}
+                      </h3>
+                    )}
+                    
+                    {/* Subtitle - Desktop */}
+                    {getLocalizedContent(slide, 'subtitle') && (
+                      <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-200 leading-relaxed hidden sm:block">
+                        {getLocalizedContent(slide, 'subtitle')}
+                      </p>
+                    )}
+                    
+                    {/* Subtitle - Mobile (truncated) */}
+                    {getLocalizedContent(slide, 'subtitle') && (
+                      <p className="text-sm text-gray-200 leading-relaxed sm:hidden">
+                        {getLocalizedContent(slide, 'subtitle').split(' ').slice(0, 4).join(' ')}...
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         ))}
@@ -468,6 +462,13 @@ export default function HeroSlider() {
             <SpeakerWaveIcon className="w-5 h-5" />
           )}
         </button>
+      )}
+
+      {/* Performance indicator (only in development) */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="absolute top-4 left-4 bg-black/50 text-white text-xs p-2 rounded">
+          Preloaded: {preloadedImages.size}/{slides.length}
+        </div>
       )}
     </div>
   );

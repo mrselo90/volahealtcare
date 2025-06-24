@@ -47,7 +47,10 @@ export async function GET(request: Request) {
           where.categoryId = categoryRecord.id;
         } else {
           // If no category found, return empty results
-          return NextResponse.json([]);
+          const response = NextResponse.json([]);
+          // Cache empty results for shorter time
+          response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
+          return response;
         }
       }
     }
@@ -106,7 +109,15 @@ export async function GET(request: Request) {
       } : null,
     }));
 
-    return NextResponse.json(casesWithParsedData);
+    // Create response with optimized caching
+    const response = NextResponse.json(casesWithParsedData);
+    
+    // Cache before/after cases for 10 minutes (longer than other APIs since they change less frequently)
+    response.headers.set('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
+    response.headers.set('CDN-Cache-Control', 'public, s-maxage=600');
+    response.headers.set('Vary', 'Accept-Encoding');
+    
+    return response;
   } catch (error) {
     console.error('Failed to fetch before/after cases:', error);
     return NextResponse.json(
