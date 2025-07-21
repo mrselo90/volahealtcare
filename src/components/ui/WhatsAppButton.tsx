@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useTranslation } from '@/lib/i18n/hooks';
+import { useSettings } from '@/app/providers';
 
 interface WhatsAppButtonProps {
   phoneNumber: string;
@@ -11,9 +12,10 @@ interface WhatsAppButtonProps {
 
 export default function WhatsAppButton({ phoneNumber, message }: WhatsAppButtonProps) {
   const { t } = useTranslation();
+  const settings = useSettings();
   const defaultMessage = t('whatsapp.defaultMessage') || 'Hello! I\'m interested in your medical tourism services at Vola Health Istanbul.';
   const encodedMessage = encodeURIComponent(message || defaultMessage);
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  const whatsappUrl = `https://wa.me/${settings.contactPhone.replace(/[^\d]/g, '')}?text=${encodedMessage}`;
 
   return (
     <motion.div

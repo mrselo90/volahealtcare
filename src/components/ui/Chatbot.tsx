@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from '@/lib/i18n/hooks';
+import { useSettings } from '@/app/providers';
 
 interface Message {
   id: string;
@@ -13,22 +14,30 @@ interface Message {
   isTyping?: boolean;
 }
 
-const WHATSAPP_URL = 'https://wa.me/905444749881';
-const APPOINTMENT_URL = '/consultation';
-const redirectMessage = `For detailed information and prices, please contact us on WhatsApp or request a free consultation appointment.\n\n👉 <a href="${WHATSAPP_URL}" target="_blank" rel="noopener">Contact on WhatsApp</a>\n👉 <a href="${APPOINTMENT_URL}" target="_blank" rel="noopener">Request Appointment</a>`;
-
 export default function Chatbot() {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [sessionId, setSessionId] = useState('');
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: uuidv4(),
-      text: redirectMessage,
-      sender: 'bot',
-      timestamp: new Date(),
-    },
-  ]);
+  const settings = useSettings();
+  const [messages, setMessages] = useState<Message[]>([]);
+  const WHATSAPP_URL = `https://wa.me/${settings?.contactPhone.replace(/[^\d]/g, '')}`;
+  const APPOINTMENT_URL = '/consultation';
+  const redirectMessage = `For detailed information and prices, please contact us on WhatsApp or request a free consultation appointment.\n\n👉 <a href="${WHATSAPP_URL}" target="_blank" rel="noopener">Contact on WhatsApp</a>\n👉 <a href="${APPOINTMENT_URL}" target="_blank" rel="noopener">Request Appointment</a>`;
+
+  useEffect(() => {
+    if (!settings) return;
+    const WHATSAPP_URL = `https://wa.me/${settings.contactPhone.replace(/[^\d]/g, '')}`;
+    const APPOINTMENT_URL = '/consultation';
+    const redirectMessage = `For detailed information and prices, please contact us on WhatsApp or request a free consultation appointment.\n\n👉 <a href="${WHATSAPP_URL}" target="_blank" rel="noopener">Contact on WhatsApp</a>\n👉 <a href="${APPOINTMENT_URL}" target="_blank" rel="noopener">Request Appointment</a>`;
+    setMessages([
+      {
+        id: uuidv4(),
+        text: redirectMessage,
+        sender: 'bot',
+        timestamp: new Date(),
+      },
+    ]);
+  }, [settings]);
   const [inputValue, setInputValue] = useState('');
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');

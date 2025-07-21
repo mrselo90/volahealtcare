@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { useSettings } from '@/app/providers';
 
 export default function SuccessPage() {
+  const settings = useSettings();
   return (
     <div className="min-h-screen bg-white px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
       <div className="mx-auto max-w-max">
@@ -25,8 +27,8 @@ export default function SuccessPage() {
                 </p>
                 <ul className="mt-4 space-y-2 text-base text-gray-600">
                   <li>
-                    <a href="tel:+905444749881" className="text-primary hover:text-primary-600">
-                                              +90 544 474 98 81
+                    <a href={`tel:${settings.contactPhone.replace(/[^\d+]/g, '')}`} className="text-primary hover:text-primary-600">
+                      {settings.contactPhone}
                     </a>
                   </li>
                   <li>

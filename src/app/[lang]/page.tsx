@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useTranslation } from '@/lib/i18n/hooks';
 import dynamic from 'next/dynamic';
+import { useSettings } from '@/app/providers';
 
 interface SocialMediaUrls {
   social_instagram: string;
@@ -85,6 +86,7 @@ export default function Home({ params }: { params: { lang: string } }) {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isMuted, setIsMuted] = useState(true);
+  const settings = useSettings();
 
   // Handle hydration
   useEffect(() => {
@@ -828,10 +830,10 @@ export default function Home({ params }: { params: { lang: string } }) {
             {testimonials.length > 0 ? (
               <>
                 <p className="text-lg sm:text-xl lg:text-2xl leading-relaxed mb-6 lg:mb-8 italic font-serif">
-                  {testimonials[currentTestimonial]?.content}
+                  {testimonials[currentTestimonial]?.review}
                 </p>
                 <p className="font-medium">
-                  {testimonials[currentTestimonial]?.author}
+                  {testimonials[currentTestimonial]?.name}
                 </p>
                 <p className="text-gray-600">{testimonials[currentTestimonial]?.country}</p>
                 
@@ -893,7 +895,7 @@ export default function Home({ params }: { params: { lang: string } }) {
                 <strong>{t('home.contactAddress') || 'Address:'}</strong> Veliefendi, Prof. Dr. Turan Güneş Cd. No:103 Zeytinburnu/Istanbul
               </p>
               <p className="mb-6 leading-relaxed">
-                <strong>{t('home.contactPhone') || 'Phone:'}</strong> +90 544 474 98 81<br />
+                <strong>{t('home.contactPhone') || 'Phone:'}</strong> {settings.contactPhone}<br />
                 <strong>{t('home.contactEmail') || 'Email:'}</strong> info@volahealthistanbul.com
               </p>
               <p className="leading-relaxed">

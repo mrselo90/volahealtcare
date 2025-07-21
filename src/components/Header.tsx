@@ -9,6 +9,7 @@ import { FaWhatsapp } from 'react-icons/fa';
 import { LanguageSelector } from './LanguageSelector';
 import { useTranslation } from '@/lib/i18n/hooks';
 import { languages } from '@/lib/i18n/config';
+import { useSettings } from '@/app/providers';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -16,6 +17,7 @@ export function Header() {
   const [isClient, setIsClient] = useState(false);
   const { t, language } = useTranslation();
   const pathname = usePathname();
+  const settings = useSettings();
   
   // Client-side hydration protection
   useEffect(() => {
@@ -67,8 +69,14 @@ export function Header() {
     { name: isClient ? (t('nav.contact') || 'Contact') : 'Contact', href: createLink('/contact') },
   ];
 
+  const whatsappNumber = settings.contactPhone.replace(/[^\d]/g, '');
   const whatsappMessage = encodeURIComponent(isClient ? (t('whatsapp.defaultMessage') || 'Hello! I am interested in your services.') : 'Hello! I am interested in your services.');
-  const whatsappUrl = `https://wa.me/905444749881?text=${whatsappMessage}`;
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+  if (!isClient) {
+    // SSR ve ilk client renderda boş bir header döndür
+    return <header style={{ minHeight: 80 }} />;
+  }
 
   return (
         <header className={`fixed w-full top-0 z-50 transition-all duration-300 ${

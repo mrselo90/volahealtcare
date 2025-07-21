@@ -267,7 +267,7 @@ export default function Testimonials() {
 
             <div className="relative max-w-4xl mx-auto">
               <div className="bg-white rounded-3xl shadow-2xl p-8 lg:p-12">
-                <div className="grid lg:grid-cols-2 gap-8 items-center">
+                <div className={`grid ${filteredTestimonials[currentTestimonial]?.image ? 'lg:grid-cols-2' : 'lg:grid-cols-1'} gap-8 items-center`}>
                   <div className="space-y-6">
                     <div className="flex items-center space-x-2">
                       {[...Array(filteredTestimonials[currentTestimonial]?.rating || 5)].map((_, i) => (
@@ -305,39 +305,41 @@ export default function Testimonials() {
                     </div>
                   </div>
 
-                  <div className="relative">
-                    <div className="aspect-square bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center overflow-hidden">
-                      {filteredTestimonials[currentTestimonial]?.videoUrl ? (
-                        <div className="relative w-full h-full flex items-center justify-center">
+                  {filteredTestimonials[currentTestimonial]?.image && (
+                    <div className="relative">
+                      <div className="aspect-square bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center overflow-hidden">
+                        {filteredTestimonials[currentTestimonial]?.videoUrl ? (
+                          <div className="relative w-full h-full flex items-center justify-center">
+                            <Image
+                              src={filteredTestimonials[currentTestimonial]?.image}
+                              alt={filteredTestimonials[currentTestimonial]?.author || 'Patient'}
+                              width={200}
+                              height={200}
+                              className="rounded-full object-cover"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                                <PlayIcon className="w-8 h-8 text-white ml-1" />
+                              </div>
+                            </div>
+                            <div className="absolute top-4 left-4">
+                              <span className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-medium">
+                                {t('testimonials.page.featured.videoTestimonial')}
+                              </span>
+                            </div>
+                          </div>
+                        ) : (
                           <Image
-                            src={filteredTestimonials[currentTestimonial]?.image || '/images/testimonials/testimonial-1.svg'}
+                            src={filteredTestimonials[currentTestimonial]?.image}
                             alt={filteredTestimonials[currentTestimonial]?.author || 'Patient'}
                             width={200}
                             height={200}
                             className="rounded-full object-cover"
                           />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                              <PlayIcon className="w-8 h-8 text-white ml-1" />
-                            </div>
-                          </div>
-                          <div className="absolute top-4 left-4">
-                            <span className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-medium">
-                              {t('testimonials.page.featured.videoTestimonial')}
-                            </span>
-                          </div>
-                        </div>
-                      ) : (
-                        <Image
-                          src={filteredTestimonials[currentTestimonial]?.image || '/images/testimonials/testimonial-1.svg'}
-                          alt={filteredTestimonials[currentTestimonial]?.author || 'Patient'}
-                          width={200}
-                          height={200}
-                          className="rounded-full object-cover"
-                        />
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-between mt-8">
@@ -418,20 +420,22 @@ export default function Testimonials() {
                   className="p-6 lg:p-8 bg-white shadow-professional card-hover"
                 >
                   <div className="flex items-center space-x-4 mb-6">
-                    <div className="relative">
-                      <Image
-                        src={testimonial.image || '/images/testimonials/testimonial-1.svg'}
-                        alt={testimonial.author || 'Patient'}
-                        width={60}
-                        height={60}
-                        className="rounded-full object-cover"
-                      />
-                      {testimonial.videoUrl && (
-                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
-                          <PlayIcon className="w-3 h-3 text-white" />
-                        </div>
-                      )}
-                    </div>
+                    {testimonial.image && (
+                      <div className="relative">
+                        <Image
+                          src={testimonial.image}
+                          alt={testimonial.author || 'Patient'}
+                          width={60}
+                          height={60}
+                          className="rounded-full object-cover"
+                        />
+                        {testimonial.videoUrl && (
+                          <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                            <PlayIcon className="w-3 h-3 text-white" />
+                          </div>
+                        )}
+                      </div>
+                    )}
                     <div className="flex-1">
                       <h3 className="text-lg font-serif font-light text-gray-900 heading-professional">{testimonial.author}</h3>
                       <p className="text-sm text-blue-600 font-medium">{testimonial.procedure}</p>

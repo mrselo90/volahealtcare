@@ -4,15 +4,7 @@ import { useState } from 'react';
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/lib/i18n/hooks';
-
-const offices = [
-  {
-    city: 'Istanbul',
-    address: ['Veliefendi, Prof. Dr. Turan Güneş Cd. No:103 Zeytinburnu/Istanbul'],
-    phone: '+90 544 474 98 81',
-    email: 'info@volahealthistanbul.com',
-  },
-];
+import { useSettings } from '@/app/providers';
 
 export default function ContactPage() {
   const router = useRouter();
@@ -29,6 +21,16 @@ export default function ContactPage() {
 
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const settings = useSettings();
+
+  const offices = [
+    {
+      city: 'Istanbul',
+      address: ['Veliefendi, Prof. Dr. Turan Güneş Cd. No:103 Zeytinburnu/Istanbul'],
+      phone: settings.contactPhone,
+      email: 'info@volahealthistanbul.com',
+    },
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

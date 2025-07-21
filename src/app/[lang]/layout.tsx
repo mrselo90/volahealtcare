@@ -121,7 +121,7 @@ export default function LangLayout({
         </main>
         <Footer />
         <Chatbot />
-        <WhatsAppButton phoneNumber="905444749881" />
+        <WhatsAppButton phoneNumber="00905311111111" />
         <CookieConsent />
         
         {/* Schema Markup for SEO */}
@@ -129,7 +129,7 @@ export default function LangLayout({
           name="Vola Health Istanbul"
           description="Premium medical tourism services in Istanbul, Turkey. World-class dental, aesthetic, and cosmetic procedures with exceptional care."
           url="https://volahealthistanbul.com"
-          telephone="+905444749881"
+          telephone="00905311111111"
           address={{
                     streetAddress: "Veliefendi, Prof. Dr. Turan Güneş Cd. No:103",
         addressLocality: "Zeytinburnu/Istanbul",

@@ -8,6 +8,7 @@ import { XMarkIcon, PhoneIcon, CalendarDaysIcon } from '@heroicons/react/24/outl
 import Image from 'next/image';
 import { useTranslation } from '@/lib/i18n/hooks';
 import { languages } from '@/lib/i18n/config';
+import { useSettings } from '@/app/providers';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -17,6 +18,7 @@ interface MobileMenuProps {
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { t, language } = useTranslation();
   const pathname = usePathname();
+  const settings = useSettings();
   
   // Get current language from URL
   const pathSegments = pathname.split('/');
@@ -49,8 +51,8 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       primary: true
     },
     {
-      href: 'tel:+905444749881',
-      label: '+90 544 474 98 81',
+      href: `tel:${settings.contactPhone.replace(/[^\d+]/g, '')}`,
+      label: settings.contactPhone,
       icon: PhoneIcon,
       primary: false
     }
